@@ -121,7 +121,7 @@
             $result = $this->select($whereClause);
             if ($result)
             {
-                return $this->_db->RecordCount();
+                return $result->recordCount();
             }            
             return false;
         }
