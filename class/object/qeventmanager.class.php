@@ -85,10 +85,12 @@
                 }
             }
 
-
-            foreach ($this->_events[$event] as $eventHandler)
+            if (is_array($this->_events[$event]))
             {
-                $eventHandler->perform($sender, $eventArgs);
+                foreach ($this->_events[$event] as $eventHandler)
+                {
+                    $eventHandler->perform($sender, $eventArgs);
+                }
             }
 
             return true;
