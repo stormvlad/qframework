@@ -6,8 +6,6 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qclient.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qexecutionfilter.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qfilterschain.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/quser.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/qusersessionstorage.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qdate.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/log/qlogmanager.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qredirectview.class.php");
@@ -56,7 +54,7 @@
         var $_sessionEnabled;
 
         /**
-         * Constructor    
+         * Constructor
          */
         function qController()
         {
@@ -159,7 +157,7 @@
         }
 
         /**
-         * Establece el nombre de la acción que se ejecuta por defecto. 
+         * Establece el nombre de la acción que se ejecuta por defecto.
          * Por defecto "default"
          *
          * @param actionClassName string
@@ -190,9 +188,9 @@
         }
 
         /**
-         * Devuelve el nombre de la sesión actual. 
+         * Devuelve el nombre de la sesión actual.
          *
-         * El nombre de la sesión hace referencia al session id utilizado en las cookies y en las URLs. 
+         * El nombre de la sesión hace referencia al session id utilizado en las cookies y en las URLs.
          *
          * @return string
          */
@@ -203,11 +201,11 @@
 
         /**
          * Establece el nombre de la sesión actual.
-         * 
-         * Debería contener únicamente caracteres alfanuméricos; también debería ser corto y descriptivo 
-         * (p.ej. para usuarios con los avisos de las cookies activados). El nombre de la sesión se restaura 
-         * al valor guardado por defecto en session.name al comenzar la petición. 
-         * Así, pues, es necesario llamar a session_name() en cada petición (y antes de llamar a session_start() o a session_register()). 
+         *
+         * Debería contener únicamente caracteres alfanuméricos; también debería ser corto y descriptivo
+         * (p.ej. para usuarios con los avisos de las cookies activados). El nombre de la sesión se restaura
+         * al valor guardado por defecto en session.name al comenzar la petición.
+         * Así, pues, es necesario llamar a session_name() en cada petición (y antes de llamar a session_start() o a session_register()).
          *
          * @param name string
          */
@@ -219,7 +217,7 @@
         /**
          * Devuelve la ruta donde se guardan los datos de la sesión actual
          *
-         * Devuelve la ruta del directorio usado actualmente para guardar los datos de la sesión. 
+         * Devuelve la ruta del directorio usado actualmente para guardar los datos de la sesión.
          *
          * @return string
          */
@@ -231,7 +229,7 @@
         /**
          * Cambia la ruta donde se guardan los datos de la sesión actual
          *
-         * Nota: En algunos sistemas operativos, puede que quiera especificar una ruta en un sistema de archivos que maneja muchos archivos pequeños de forma eficiente. Por ejemplo, en Linux, reiserfs puede dar un rendimiento mejor que ext2fs. 
+         * Nota: En algunos sistemas operativos, puede que quiera especificar una ruta en un sistema de archivos que maneja muchos archivos pequeños de forma eficiente. Por ejemplo, en Linux, reiserfs puede dar un rendimiento mejor que ext2fs.
          *
          * @param path string
          */
@@ -255,7 +253,7 @@
          * tal como el ejemplo siguiente:
          *
          * @verbatim
-           $actions = Array(   
+           $actions = Array(
              "default" => "DefaultAction",
              "login"   => "LoginAction",
              "error"   => "ErrorAction",
@@ -309,7 +307,7 @@
 
         /**
          * Devuelve el nombre de la classe de la acción associada a un nombre
-         * 
+         *
          * Si no se especifica ningún nombre se devuelve la acción por defecto.
          * Si tenemos acciones registradas se consulta el mapa de acciones y se devuelve
          * el nombre de la classe associado a este nombre.
@@ -348,7 +346,7 @@
         }
 
         /**
-         * Carga el fichero associado al nombre de la classe de acción. Se busca el archivo en el 
+         * Carga el fichero associado al nombre de la classe de acción. Se busca el archivo en el
          * directorio especificado con setActionsClassPath
          *
          * @param actionClassName string Nombre de la classe de la acción
@@ -394,7 +392,7 @@
         {
             if ($this->_sessionEnabled)
             {
-                $user = &qUser::getInstance();
+                $user = &User::getInstance();
                 $user->store();
             }
 
@@ -420,6 +418,11 @@
 
             $this->sendEvent(1, $params);
 
+            if ($this->_sessionEnabled)
+            {
+                $user = &User::getInstance();
+            }
+
             if (empty($httpRequest))
             {
                 $httpRequest = &qHttp::getRequestVars();
@@ -429,9 +432,7 @@
 
             if ($this->_sessionEnabled)
             {
-                $user = &qUser::getInstance();
-                $d    = new qDate();
-                
+                $d = new qDate();
                 $user->setLastActionTime($d->getDate(DATE_FORMAT_TIMESTAMP));
                 $user->store();
             }

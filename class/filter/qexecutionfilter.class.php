@@ -6,13 +6,13 @@
     /**
      * @brief Filtro de ejecución
      *
-     * Implemente el mecanismo de autentificación propio, valida la petición, 
+     * Implemente el mecanismo de autentificación propio, valida la petición,
      * ejecuta la acción principal y muestra el resultado.
      *
      * @author  qDevel - info@qdevel.com
      * @date    08/03/2005 00:30
      * @version 1.0
-     * @ingroup filter     
+     * @ingroup filter
      * @see     qUser
      * @see     qAction
      */
@@ -43,7 +43,7 @@
         function checkSecurityAction(&$action)
         {
             $result = true;
-            $user   = &qUser::getInstance();
+            $user   = &User::getInstance();
 
             if ($action->isSecure())
             {

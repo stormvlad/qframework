@@ -3,9 +3,9 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-     * @brief Classe abstracta que representa una acción. 
+     * @brief Classe abstracta que representa una acción.
      *
-     * qAction permite separar la aplicación y la lógica de negocio de 
+     * qAction permite separar la aplicación y la lógica de negocio de
      * la presentación (base de datos generalmente).
      * Proveendo de un conjunto de métodos núcleo usados por el framework y
      * automatización en los formularios en seguridad y validación.
@@ -124,14 +124,14 @@
          * @brief Registra una lista de validadores para los parámetros de la petición
          *
          * Añadir a la lista de validadores qValidator o qRule
-         * 
+         *
          * @param validationsList qValidationsList Referencia a la lista de validadores
          */
         function registerValidations(&$validationsList)
         {
         }
 
-        /**         
+        /**
          * Add function info here
          *
          * @param filtersChain <code>array</code>
@@ -202,7 +202,7 @@
          */
         function formValueExists($name, $step = null)
         {
-            $user     = &$this->_controllerParams->getUser();
+            $user     = &User::getInstance();
             $formName = $this->getFormName();
 
             return $user->formValueExists($formName, $name, $step);
@@ -213,11 +213,11 @@
          *
          * @param name <code>string</code> Nombre del valor
          * @param [step] <code>integer</code>Número de paso en formulario, en caso de que sea un formulario por pasos
-         * @return object 
+         * @return object
          */
         function getFormValue($name, $step = null)
         {
-            $user     = &qUser::getInstance();
+            $user     = &User::getInstance();
             $formName = $this->getFormName();
 
             return $user->getFormValue($formName, $name, $step);
@@ -231,7 +231,7 @@
          */
         function &getFormValues($step = null)
         {
-            $user     = &qUser::getInstance();
+            $user     = &User::getInstance();
             $formName = $this->getFormName();
 
             return $user->getFormValues($formName, $step);
@@ -246,7 +246,7 @@
          */
         function setFormValue($name, $value, $step = null)
         {
-            $user     = &qUser::getInstance();
+            $user     = &User::getInstance();
             $formName = $this->getFormName();
 
             $user->setFormValue($formName, $name, $value, $step);
@@ -260,7 +260,7 @@
          */
         function setFormValues($values, $step = null)
         {
-            $user     = &qUser::getInstance();
+            $user     = &User::getInstance();
             $formName = $this->getFormName();
 
             $user->setFormValues($formName, $values, $step);
@@ -274,7 +274,7 @@
          */
         function removeFormValue($name, $step = null)
         {
-            $user     = &qUser::getInstance();
+            $user     = &User::getInstance();
             $formName = $this->getFormName();
 
             $user->removeFormValue($formName, $name, $step);
@@ -285,7 +285,7 @@
          */
         function resetFormValues()
         {
-            $user     = &qUser::getInstance();
+            $user     = &User::getInstance();
             $formName = $this->getFormName();
 
             $user->resetFormValues($formName);
@@ -318,7 +318,7 @@
                 $varsObj = &qHttp::getRequestVars();
             }
 
-            $user     = &qUser::getInstance();
+            $user     = &User::getInstance();
             $formName = $this->getFormName();
             $step     = $user->getNextStep($formName);
             $vars     = $varsObj->getAsArray();
