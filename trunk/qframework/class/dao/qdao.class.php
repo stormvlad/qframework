@@ -1,6 +1,7 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/database/qdb.class.php");
 
     /**
     *  Base class for data access objects
@@ -126,6 +127,8 @@
 
             foreach ($fields as $field => $value)
             {
+                $value = qDb::qstr($value);
+
                 if (!empty($value))
                 {
                     $sql .= "'" . $value . "', ";
@@ -168,6 +171,8 @@
 
             foreach ($fields as $field => $value)
             {
+                $value = qDb::qstr($value);
+
                 if (!empty($value))
                 {
                     $sql .= $field . "='" . $value . "', ";
