@@ -232,8 +232,21 @@
         /**
         * Add function info here
         */
+        function _printSqlQueryDebug($sql)
+        {
+            print "<pre>"; print $sql; print "</pre>";
+        }
+
+        /**
+        * Add function info here
+        */
         function _retrieve($sql, $offset = null, $numRows = null)
         {
+            if ($this->isDebug())
+            {
+                $this->_printSqlQueryDebug($sql);
+            }
+
             if (empty($offset))
             {
                 $offset = -1;
@@ -259,14 +272,12 @@
         */
         function _update($sql)
         {
-            return $result = $this->_db->Execute($sql);
-
-            if (!$result)
+            if ($this->isDebug())
             {
-                return false;
+                $this->_printSqlQueryDebug($sql);
             }
 
-            return true;
+            return $result = $this->_db->Execute($sql);
         }
 
         /**
@@ -274,6 +285,11 @@
         */
         function execute($sql)
         {
+            if ($this->isDebug())
+            {
+                $this->_printSqlQueryDebug($sql);
+            }
+
             return $this->_db->Execute($sql);
         }
     }
