@@ -1,6 +1,6 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
      * Alternative implementation of the glob() function, since the latter is only
@@ -12,8 +12,8 @@
      * The class is capable of detecting the version of php and using the native (and probably
      * faster) version instead of the custom one.
      */
-    class qGlob extends qObject {
-
+    class qGlob extends qObject
+    {
         /**
          * This function checks wether we're running a version of php at least or newer than
          * 4.3. If its newer, then we will use the native version of glob otherwise we will use

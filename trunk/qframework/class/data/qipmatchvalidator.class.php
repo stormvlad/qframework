@@ -1,6 +1,6 @@
 <?php
 
-    include_once("qframework/class/data/qvalidator.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidator.class.php");
 
     /**
      * Matches ip address with masks. Returns true wether
@@ -8,10 +8,12 @@
      */
     class qIpMatchValidator extends qValidator
     {
-
         var $_ip;
         var $_csiext;
 
+        /**
+        * Add function info here
+        */
         function qIpMatchValidator($ip, $csiext)
         {
             $this->qValidator();
@@ -19,12 +21,18 @@
             $this->_csiext = $csiext;
         }
 
+        /**
+        * Add function info here
+        */
         function validate()
         {
-            return $this->checkip($this->_ip, $this->_csiext);
+            return $this->checkIp($this->_ip, $this->_csiext);
         }
 
-        function checkip($ip , $csiext)
+        /**
+        * Add function info here
+        */
+        function checkIp($ip , $csiext)
         {
             $counter = 0;
             $range   = explode("/", $csiext);

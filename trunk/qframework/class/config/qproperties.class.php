@@ -1,11 +1,12 @@
 <?php
-    include_once("qframework/class/object/qobject.class.php" );
+
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
      * Class inspired by the java class Properties
      */
-    class qProperties extends qObject {
-
+    class qProperties extends qObject
+    {
         var $_props;
 
         /**
@@ -45,7 +46,7 @@
          * @param key Name of the value in the hash table
          * @param value Value that we want to assign to the key '$key'
          */
-        function setValue( $key, $value )
+        function setValue($key, $value)
         {
             $this->_props[$key] = $value;
         }
@@ -57,7 +58,7 @@
          */
         function keyExists($key)
         {
-            return isset($this->_props[$key]);
+            return array_key_exists($key, $this->_props);
         }
 
         /**
@@ -66,7 +67,7 @@
          * @param key Key whose value we want to fetch
          * @return Value associated to that key
          */
-        function getValue( $key )
+        function getValue($key)
         {
             if (isset($this->_props[$key]))
             {
@@ -84,7 +85,7 @@
          */
         function toString()
         {
-            print_r( $this->_props );
+            print_r($this->_props);
         }
 
         /**
@@ -103,7 +104,7 @@
          */
         function getKeys()
         {
-            return array_keys( $this->_props );
+            return array_keys($this->_props);
         }
 
         /**
@@ -113,9 +114,14 @@
          */
         function getValues()
         {
-            return array_values( $this->_props );
+            return array_values($this->_props);
         }
 
+        /**
+         *
+         * Add function info here
+         *
+         */
         function count()
         {
             return count($this->_props);

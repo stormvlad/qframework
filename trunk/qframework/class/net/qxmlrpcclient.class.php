@@ -1,14 +1,14 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/net/xmlrpc/IXR_Library.lib.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/xmlrpc/IXR_Library.lib.php");
 
     /**
      * Implements a very basic XMLRPC client, which offers methods such as
      * ping, implementing the weblogUpdates.ping methods.
      */
-    class qXmlRpcClient extends IXR_Client {
-
+    class qXmlRpcClient extends IXR_Client
+    {
         var $_url;
 
         /**

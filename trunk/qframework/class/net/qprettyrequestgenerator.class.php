@@ -1,11 +1,12 @@
 <?php
 
-    include_once("qframework/class/net/qrequestgenerator.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qrequestgenerator.class.php");
 
     /**
      * Generates 'pretty' URLs
      */
-    class qPrettyRequestGenerator extends qRequestGenerator {
+    class qPrettyRequestGenerator extends qRequestGenerator
+    {
 
         /*
          * Constructor.

@@ -1,6 +1,6 @@
 <?php
 
-    include_once("qframework/class/net/qrequestgenerator.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qrequestgenerator.class.php");
 
     define(DEFAULT_INDEX_FILE, "index.php");
 
@@ -15,8 +15,8 @@
      * </i><br>
      * Doing so we can easily change the format of the urls in the future if necessary.
      */
-    class qRawRequestGenerator extends qRequestGenerator {
-
+    class qRawRequestGenerator extends qRequestGenerator
+    {
         /**
          * Constructor.
          */

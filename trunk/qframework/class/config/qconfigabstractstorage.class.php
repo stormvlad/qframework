@@ -1,20 +1,20 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
-    define( TYPE_INTEGER, 1 );
-    define( TYPE_BOOLEAN, 2 );
-    define( TYPE_STRING,  3 );
-    define( TYPE_OBJECT,  4 );
-    define( TYPE_ARRAY,   5 );
-    define( TYPE_FLOAT,   6 );
+    define(TYPE_INTEGER, 1);
+    define(TYPE_BOOLEAN, 2);
+    define(TYPE_STRING,  3);
+    define(TYPE_OBJECT,  4);
+    define(TYPE_ARRAY,   5);
+    define(TYPE_FLOAT,   6);
 
     /**
      * Interface class that defines the methods that should be implemented
      * by child classes wishing to implement a configuratino settings storage backend.
      */
-    class qConfigAbstractStorage extends qObject {
-
+    class qConfigAbstractStorage extends qObject
+    {
         function qConfigAbstractStorage()
         {
             $this->qObject();

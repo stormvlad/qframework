@@ -1,11 +1,13 @@
 <?php
 
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+
     /**
      * Object representation of a file upload.
      * Wraps around the values in the $_FILES or $HTTP_POST_FILES array.
      */
-    class qFileUpload extends qObject {
-
+    class qFileUpload extends qObject
+    {
         var $_name;
         var $_mimeType;
         var $_tmpName;

@@ -1,6 +1,6 @@
 <?php
 
-    include_once("qframework/class/data/qvalidator.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidator.class.php");
 
     define("DEFAULT_CASE_SENSITIVE", true);
 

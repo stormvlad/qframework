@@ -1,14 +1,14 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
      * this object is passed from pipeline filters to the pipeline, and
      * carries some information about what the outcome of the processing
      *
      */
-    class qPipelineResult extends qObject {
-
+    class qPipelineResult extends qObject
+    {
         var $_valid;
         var $_errorCode;
         var $_errorMessage;

@@ -1,9 +1,9 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/file/qbaseunpacker.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qbaseunpacker.class.php");
 
-    define( "DEFAULT_UNZIP_PATH", "/usr/bin/unzip" );
+    define(DEFAULT_UNZIP_PATH, "/usr/bin/unzip");
 
     class qZipUnpacker extends qBaseUnpacker {
 

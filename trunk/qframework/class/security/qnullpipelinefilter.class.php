@@ -1,6 +1,6 @@
 <?php
 
-    include_once("qframework/class/security/qpipelinefilter.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/security/qpipelinefilter.class.php");
 
     /**
      * This is the simplest and fastest filter ever: it does nothing :)

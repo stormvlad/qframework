@@ -1,14 +1,14 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/net/qhttp.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
 
     /**
      * Very basic functions related to client-side information such as
      * retrieving the "real" ip, user-agent or accepted content type...
      */
-    class qClient extends qObject {
-
+    class qClient extends qObject
+    {
     /**
      * Gets the "true" IP address of the current user
      *

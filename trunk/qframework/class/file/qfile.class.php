@@ -1,21 +1,21 @@
 <?php
 
-     include_once("qframework/class/object/qobject.class.php" );
+     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
-     define( "FILE_DEFAULT_DIRECTORY_CREATION_MODE", 0700 );
+     define(FILE_DEFAULT_DIRECTORY_CREATION_MODE, 0700);
 
     /**
      * Encapsulation of a class to manage files. It is basically a wrapper
      * to some of the php functions.
      * http://www.php.net/manual/en/ref.filesystem.php
      */
-     class qFile extends qObject {
-
+     class qFile extends qObject
+     {
         var $_fileName;
         var $_handler;
         var $_mode;
 
-        function qFile( $fileName )
+        function qFile($fileName)
         {
             $this->qObject();
 
@@ -28,11 +28,10 @@
          * Mode by default is 'r' (read only)
          * Returns 'false' if operation failed
          */
-        function open( $mode = "r" )
+        function open($mode = "r")
         {
-            $this->_handler = fopen( $this->_fileName, $mode );
-
-            $this->_mode = $mode;
+            $this->_handler = fopen($this->_fileName, $mode);
+            $this->_mode    = $mode;
 
             return $this->_handler;
         }
@@ -42,7 +41,7 @@
          */
         function close()
         {
-            fclose( $this->_handler );
+            fclose($this->_handler);
         }
 
         /**
@@ -52,11 +51,12 @@
         function readFile()
         {
             $contents = Array();
+            $contents = file($this->_fileName);
 
-            $contents = file( $this->_fileName );
-
-            for( $i = 0; $i < count( $contents ); $i++ )
-                $contents[$i] = trim( $contents[$i] );
+            for($i = 0; $i < count($contents); $i++)
+            {
+                $contents[$i] = trim($contents[$i]);
+            }
 
             return $contents;
         }
@@ -67,9 +67,9 @@
          * @param size Amount of bytes we'd like to read from the file. It is set
          * to 4096 by default.
          */
-        function read( $size = 4096 )
+        function read($size = 4096)
         {
-            return( fread( $this->_handler, $size ));
+            return fread($this->_handler, $size);
         }
 
         /**
@@ -77,20 +77,20 @@
          */
         function eof()
         {
-            return feof( $this->_handler );
+            return feof($this->_handler);
         }
 
         /**
          * Writes data to disk
          */
-        function write( $data )
+        function write($data)
         {
-            return fwrite( $this->_handler, $data );
+            return fwrite($this->_handler, $data);
         }
 
-        function truncate( $length = 0 )
+        function truncate($length = 0)
         {
-            return ftruncate( $this->_handler, $length );
+            return ftruncate($this->_handler, $length);
         }
 
         /**
@@ -99,18 +99,17 @@
          * @param lines The array with the text.
          * @return Returns true if successful or false otherwise.
          */
-        function writeLines( $lines )
+        function writeLines($lines)
         {
             // truncate the file to remove the old contents
             $this->truncate();
 
-            foreach( $lines as $line ) {
-                //print("read: \"".htmlentities($line)."\"<br/>");
-                if( !$this->write( $line, strlen($line))) {
+            foreach($lines as $line)
+            {
+                if (!$this->write($line, strlen($line)))
+                {
                     return false;
                 }
-                /*else
-                    print("written: \"".htmlentities($line)."\"<br/>");*/
             }
 
             return true;
@@ -125,12 +124,14 @@
          * file parameter is provided)
          * @return Returns true if the file is a directory.
          */
-        function isDir( $file = null )
+        function isDir($file = null)
         {
-            if( $file == null )
+            if ($file == null)
+            {
                 $file = $this->_fileName;
+            }
 
-            return is_dir( $file );
+            return is_dir($file);
         }
 
         /**
@@ -142,31 +143,41 @@
          * file parameter is provided)
          * @return Returns true if the file is writable, or false otherwise.
          */
-        function isWritable( $file = null )
+        function isWritable($file = null)
         {
-            if( $file == null )
+            if ($file == null)
+            {
                 $file = $this->_fileName;
+            }
 
-            return is_writable( $file );
+            return is_writable($file);
         }
 
-        function isReadable( $file = null )
+        function isReadable($file = null)
         {
-            if( $file == null )
+            if ($file == null)
+            {
                 $file = $this->_fileName;
+            }
 
-            return is_readable( $file );
+            return is_readable($file);
         }
 
-        function delete( $file = null )
+        function delete($file = null)
         {
-            if( $file == null )
+            if ($file == null)
+            {
                 $file = $this->_fileName;
+            }
 
-            if( File::isDir( $file ))
-                $result = rmdir( $file );
+            if (File::isDir($file))
+            {
+                $result = rmdir($file);
+            }
             else
-                $result = unlink( $file );
+            {
+                $result = unlink($file);
+            }
 
             return $result;
         }
@@ -178,9 +189,9 @@
          * @param dirName The name of the new folder
          * @return Returns true if no problem or false otherwise.
          */
-        function createDir( $dirName, $mode = FILE_DEFAULT_DIRECTORY_CREATION_MODE )
+        function createDir($dirName, $mode = FILE_DEFAULT_DIRECTORY_CREATION_MODE)
         {
-            return mkdir( $dirName, $mode );
+            return mkdir($dirName, $mode);
         }
 
         /**
@@ -200,16 +211,14 @@
          * be used as static if a file name is specified.
          * @return An integer specifying the size of the file.
          */
-        function getSize( $fileName = null )
+        function getSize($fileName = null)
         {
-            if( $fileName == null )
-                $fileName = $this->_fileName;
+            if ($file == null)
+            {
+                $file = $this->_fileName;
+            }
 
-            $size = filesize( $fileName );
-            if( !$size )
-                return -1;
-            else
-                return $size;
+            return filesize($fileName);
         }
 
         /**
@@ -226,16 +235,17 @@
          * @param outFile Destination file.
          * @return Returns true if file was renamed ok or false otherwise.
          */
-        function rename( $inFile, $outFile = null )
+        function rename($inFile, $outFile = null)
         {
             // check how many parameters we have
-            if( $outFile == null ) {
+            if ($outFile == null)
+            {
                 $outFile = $inFile;
                 $inFile  = $this->_fileName;
             }
 
             // and rename everything
-            return rename( $inFile, $outFile );
+            return rename($inFile, $outFile);
         }
 
         function getExtension($fileName)

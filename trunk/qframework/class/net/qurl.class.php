@@ -1,6 +1,6 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
      * Encapsulates a definition of an object representing a URL
@@ -21,8 +21,8 @@
      * url string is recalculated so that any call to getUrl
      * will return the right one.
      */
-    class qUrl extends qObject {
-
+    class qUrl extends qObject
+    {
         var $_url;
         var $_scheme;
         var $_host;

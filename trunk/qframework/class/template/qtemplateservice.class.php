@@ -1,7 +1,7 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/template/qtemplate.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/template/qtemplate.class.php");
 
     /**
      * Generic template rendering service that takes care of providing the Template objects
@@ -20,8 +20,8 @@
      * </ul>
      *
      */
-    class qTemplateService extends qObject {
-
+    class qTemplateService extends qObject
+    {
         /**
          * Constructor
          */

@@ -1,8 +1,8 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/config/qconfigabstractstorage.class.php");
-    include_once("qframework/class/database/qdb.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfigabstractstorage.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/database/qdb.class.php");
 
     /**
      * Storage backend that stores/retrieves the data from the plog_config
@@ -25,8 +25,8 @@
      * Type detection is provided via the built-in mechanisms that PHP offers.
      * </ul>
      */
-    class qConfigDbStorage extends qConfigAbstractStorage {
-
+    class qConfigDbStorage extends qConfigAbstractStorage
+    {
         var $_db;
         var $_data;
         var $_tableName;

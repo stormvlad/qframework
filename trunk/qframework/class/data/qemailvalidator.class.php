@@ -1,7 +1,7 @@
 <?php
 
-    include_once("qframework/class/data/qvalidator.class.php" );
-    include_once("qframework/class/net/qdns.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidator.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qdns.class.php");
 
     define(DEFAULT_CHECK_EMAIL_ADDRESS, false);
     define(EMAIL_REG_EXP, "^[a-z0-9]+([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,4}");
@@ -9,8 +9,8 @@
     /**
      * Extends the validator class to determine wether an email address is valid or not.
      */
-    class qEmailValidator extends qValidator {
-
+    class qEmailValidator extends qValidator
+    {
         var $_checkEmailAddress;
 
         function qEmailValidator($email, $checkEmailAddress = DEFAULT_CHECK_EMAIL_ADDRESS)

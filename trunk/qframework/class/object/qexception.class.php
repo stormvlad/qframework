@@ -1,11 +1,12 @@
 <?php
-    include_once("qframework/class/object/qobject.class.php" );
+
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
      * PHP Java-style definition of an Exception object-
      */
-    class qException extends qObject {
-
+    class qException extends qObject
+    {
         var $_exceptionString;
         var $_exceptionCode;
 

@@ -1,9 +1,9 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
-    class qBaseUnpacker extends qObject {
-
+    class qBaseUnpacker extends qObject
+    {
         function qBaseUnpacker()
         {
             $this->qObject();

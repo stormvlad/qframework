@@ -1,14 +1,14 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/object/qexception.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qexception.class.php");
 
     /**
      * <b>Very</b> modest attempt to recreate some kind of Reflection API
      * "a la" Java.
      */
-    class qReflection extends qObject {
-
+    class qReflection extends qObject
+    {
         /**
          * Constructor. Does nothing.
          */

@@ -1,14 +1,15 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
-    define( MAX_LINE_LENGTH, 998 );
+    define(MAX_LINE_LENGTH, 998);
+    define(DEFAULT_EMAIL_MESSAGE_MIME_TYPE, "text/plain");
 
     /**
      * Represents an email message.
      */
-    class qEmailMessage extends qObject {
-
+    class qEmailMessage extends qObject
+    {
         var $_toAddrs;
         var $_ccAddrs;
         var $_bccAddrs;
@@ -24,13 +25,11 @@
         {
             $this->qObject();
 
-            $this->_toAddrs = array();
-            $this->_ccAddrs = array();
-            $this->_bccAddrs = array();
-
+            $this->_toAddrs     = array();
+            $this->_ccAddrs     = array();
+            $this->_bccAddrs    = array();
             $this->_attachments = array();
-
-            $this->_mimeType = "text/plain";
+            $this->_mimeType    = DEFAULT_EMAIL_MESSAGE_MIME_TYPE;
         }
 
         function addAttachment($attachment)
@@ -43,9 +42,9 @@
          *
          * @param to Destination address.
          */
-        function addTo( $to )
+        function addTo($to)
         {
-            array_push( $this->_toAddrs, rtrim($to) );
+            array_push($this->_toAddrs, rtrim($to));
         }
 
         /**
@@ -53,9 +52,9 @@
          *
          * @param cc The address where we want to Cc this message
          */
-        function addCc( $cc )
+        function addCc($cc)
         {
-            array_push( $this->_ccAddrs, rtrim($cc) );
+            array_push($this->_ccAddrs, rtrim($cc));
         }
 
         /**
@@ -63,9 +62,9 @@
          *
          * @param bcc The adddress where we want to Bcc
          */
-        function addBcc( $bcc )
+        function addBcc($bcc)
         {
-            array_push( $this->_bccAddrs, rtrim($bcc) );
+            array_push($this->_bccAddrs, rtrim($bcc));
         }
 
         /**
@@ -73,7 +72,7 @@
          *
          * @param from The originatory address
          */
-        function setFrom( $from )
+        function setFrom($from)
         {
             $this->_from = $from;
         }
@@ -83,7 +82,7 @@
          *
          * @param subject Subject of the message
          */
-        function setSubject( $subject )
+        function setSubject($subject)
         {
             $this->_subject = $subject;
         }
@@ -93,7 +92,7 @@
          *
          * @param body The text for the body of the message
          */
-        function setBody( $body )
+        function setBody($body)
         {
             $this->_body = $body;
         }
@@ -103,7 +102,7 @@
          *
          * @param type The MIME type
          */
-        function setMimeType( $type )
+        function setMimeType($type)
         {
             $this->_mimeType = $type;
         }
@@ -180,7 +179,7 @@
          */
         function getMimeType()
         {
-            return $this->_MimeType;
+            return $this->_mimeType;
         }
     }
 ?>

@@ -1,10 +1,10 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/action/qaction.class.php" );
-    include_once("qframework/class/object/qexception.class.php" );
-    include_once("qframework/class/net/qhttp.class.php");
-    include_once("qframework/class/security/qpipeline.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/action/qaction.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qexception.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/security/qpipeline.class.php");
 
 
     define("DEFAULT_ACTION_PARAM", "op");
@@ -35,8 +35,8 @@
      * validate method should also generate a valid view containing probably the error message.
      */
 
-    class qController extends qObject {
-
+    class qController extends qObject
+    {
         var $_actionMap;
         var $_actionParam;
 
@@ -105,7 +105,7 @@
             }
             else
             {
-                $left = array_slice($this->_actionsChain, 0, count($this->_actionsChain) - $this->_forwarded);
+                $left  = array_slice($this->_actionsChain, 0, count($this->_actionsChain) - $this->_forwarded);
                 $right = array_slice($this->_actionsChain, count($this->_actionsChain) - $this->_forwarded, $this->_forwarded);
                 $this->_actionsChain = array_merge($left, array($actionClassName), $right);
             }

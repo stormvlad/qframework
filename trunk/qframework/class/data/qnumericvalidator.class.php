@@ -1,6 +1,6 @@
 <?php
 
-    include_once("qframework/class/data/qvalidator.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidator.class.php");
 
     define(NUMERIC_REG_EXP, "[0-9]+");
 
@@ -11,8 +11,8 @@
      *
      * Classes can extend this one to provide a custom error message.
      */
-    class qNumericValidator extends qValidator {
-
+    class qNumericValidator extends qValidator
+    {
         function qNumericValidator($value)
         {
             $this->qValidator($value);

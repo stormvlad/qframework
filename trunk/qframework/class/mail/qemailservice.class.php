@@ -1,8 +1,8 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/mail/qemailmessage.class.php" );
-    include_once("qframework/class/mail/phpmailer/class.phpmailer.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/mail/qemailmessage.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/mail/phpmailer/class.phpmailer.php");
 
     define(DEFAULT_EMAIL_SERVICE_TYPE, "php");
 
@@ -13,8 +13,8 @@
      * the configuration file. It also requires PHP to be built with the smtp handling
      * libraries and those must be enabled.
      */
-    class qEmailService extends qObject {
-
+    class qEmailService extends qObject
+    {
         var $_serviceType;
 
         var $_smtpHost;
