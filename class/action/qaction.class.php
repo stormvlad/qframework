@@ -316,6 +316,7 @@
             $step = count($formValues[$formName]);
             $formValues[$formName][$step] = array();
 
+
             if ($this->getValidationMethod() == REQUEST_METHOD_GET)
             {
                 $varsObj = &qHttp::getGetVars();
@@ -323,6 +324,10 @@
             else if ($this->getValidationMethod() == REQUEST_METHOD_POST)
             {
                 $varsObj = &qHttp::getPostVars();
+            }
+            else if ($this->getValidationMethod() == REQUEST_METHOD_ANY)
+            {
+                $varsObj = &qHttp::getRequestVars();
             }
 
             $vars = $varsObj->getAsArray();
