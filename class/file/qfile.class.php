@@ -15,6 +15,9 @@
         var $_handler;
         var $_mode;
 
+        /**
+        *    Add function info here
+        */
         function qFile($fileName)
         {
             $this->qObject();
@@ -53,7 +56,7 @@
             $contents = Array();
             $contents = file($this->_fileName);
 
-            for($i = 0; $i < count($contents); $i++)
+            for ($i = 0; $i < count($contents); $i++)
             {
                 $contents[$i] = trim($contents[$i]);
             }
@@ -88,6 +91,9 @@
             return fwrite($this->_handler, $data);
         }
 
+        /**
+        *    Add function info here
+        */
         function truncate($length = 0)
         {
             return ftruncate($this->_handler, $length);
@@ -104,7 +110,7 @@
             // truncate the file to remove the old contents
             $this->truncate();
 
-            foreach($lines as $line)
+            foreach ($lines as $line)
             {
                 if (!$this->write($line, strlen($line)))
                 {
@@ -126,7 +132,7 @@
          */
         function isDir($file = null)
         {
-            if ($file == null)
+            if (empty($file))
             {
                 $file = $this->_fileName;
             }
@@ -145,7 +151,7 @@
          */
         function isWritable($file = null)
         {
-            if ($file == null)
+            if (empty($file))
             {
                 $file = $this->_fileName;
             }
@@ -153,9 +159,12 @@
             return is_writable($file);
         }
 
+        /**
+        *    Add function info here
+        */
         function isReadable($file = null)
         {
-            if ($file == null)
+            if (empty($file))
             {
                 $file = $this->_fileName;
             }
@@ -163,9 +172,12 @@
             return is_readable($file);
         }
 
+        /**
+        *    Add function info here
+        */
         function delete($file = null)
         {
-            if ($file == null)
+            if (empty($file))
             {
                 $file = $this->_fileName;
             }
@@ -211,14 +223,14 @@
          * be used as static if a file name is specified.
          * @return An integer specifying the size of the file.
          */
-        function getSize($fileName = null)
+        function getSize($file = null)
         {
-            if ($file == null)
+            if (empty($file))
             {
                 $file = $this->_fileName;
             }
 
-            return filesize($fileName);
+            return filesize($file);
         }
 
         /**
@@ -237,17 +249,18 @@
          */
         function rename($inFile, $outFile = null)
         {
-            // check how many parameters we have
-            if ($outFile == null)
+            if (empty($outFile))
             {
                 $outFile = $inFile;
                 $inFile  = $this->_fileName;
             }
 
-            // and rename everything
             return rename($inFile, $outFile);
         }
 
+        /**
+        *    Add function info here
+        */
         function getExtension($fileName)
         {
             if (($pos = strrpos($fileName, ".")) !== false)
