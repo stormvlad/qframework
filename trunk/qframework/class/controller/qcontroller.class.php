@@ -214,13 +214,15 @@
                 $actionObject     = new $actionClassName();
                 $this->_forwarded = 0;
 
-                if ($actionObject->validate())
+                if ($actionObject->validate($this, $httpRequest))
                 {
-                    $actionObject->perform($this, $httpRequest);
+                    $view = $actionObject->perform($this, $httpRequest);
+                }
+                else
+                {
+                    $view = $actionObject->handleValidateError($this, $httpRequest);
                 }
             }
-
-            $view = $actionObject->getView();
 
             if ($this->_sessionEnabled)
             {

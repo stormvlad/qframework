@@ -1,6 +1,7 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidationslist.class.php");
 
     /**
      * Abstract class representing an qAction.
@@ -8,7 +9,7 @@
     class qAction extends qObject
     {
         // this is the pointer to the view associated with this action
-        var $_view;
+        var $_validationsList;
 
         /**
          * Constructor.
@@ -19,7 +20,55 @@
         function qAction()
         {
             $this->qObject();
-            $this->_view = null;
+            $this->_validationsList = null;
+        }
+
+        /**
+        *    Add function info here
+        **/
+        function addValidation($name, &$validation)
+        {
+            if  (!is_object($this->_validationsList))
+            {
+                $this->_validationsList = new qValidationsList();
+            }
+
+            $this->_validationsList->addValidation($name, $validation);
+        }
+
+        /**
+        *    Add function info here
+        **/
+        function getErrors()
+        {
+            if  (!is_object($this->_validationsList))
+            {
+                $this->_validationsList = new qValidationsList();
+            }
+
+            return $this->_validationsList->getErrors();
+        }
+
+        /**
+         * Add function info here
+         */
+        function validate(&$controller, &$httpRequest)
+        {
+            if (is_object($this->_validationsList))
+            {
+                return $this->_validationsList->validate($httpRequest->getAsArray());
+            }
+
+            return true;
+        }
+
+        /**
+         * Add function info here
+         */
+        function handleValidateError(&$controller, &$httpRequest)
+        {
+            throw(new qException("qAction::handleValidateError: This method must be implemented by child classes."));
+            die();
         }
 
         /**
@@ -37,32 +86,6 @@
         {
             throw(new qException("qAction::perform: This method must be implemented by child classes."));
             die();
-        }
-
-        /**
-        /**
-         * This function does not need to be reimplemented by the childs of this class.
-         * It just returns the resulting view of the operation.
-         */
-        function &getView()
-        {
-            return $this->_view;
-        }
-
-        /**
-         * Add function info here
-         */
-        function setView(&$view)
-        {
-            $this->_view = &$view;
-        }
-
-        /**
-         * Add function info here
-         */
-        function validate()
-        {
-            return true;
         }
     }
 ?>
