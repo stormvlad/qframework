@@ -82,13 +82,13 @@
         {
             $sql = "SELECT " . $this->getClause("SELECT") . " FROM " . $this->getClause("FROM");
 
-            if (empty($whereClause))
-            {
-                $sql .= " WHERE " . $this->getClause("WHERE");
-            }
-            else
+            if (!empty($whereClause))
             {
                 $sql .= " WHERE " . $whereClause;
+            }
+            else if ($this->getClause("WHERE"))
+            {
+                $sql .= " WHERE " . $this->getClause("WHERE");
             }
 
             if ($this->getClause("GROUP BY"))
@@ -101,13 +101,13 @@
                 $sql .= " HAVING " . $this->getClause("HAVING");
             }
 
-            if (empty($orderClause))
-            {
-                $sql .= " ORDER BY " . $this->getClause("ORDER BY");
-            }
-            else
+            if (!empty($orderClause))
             {
                 $sql .= " ORDER BY " . $orderClause;
+            }
+            else if ($this->getClause("ORDER BY"))
+            {
+                $sql .= " ORDER BY " . $this->getClause("ORDER BY");
             }
 
             return $this->_retrieve($sql, $offset, $numRows);
