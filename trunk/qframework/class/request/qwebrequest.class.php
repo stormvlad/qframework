@@ -321,7 +321,7 @@
          */
         function loadParameters ()
         {        
-            $this->_parser->parse(&$this);
+            $this->_parser->parse($this);
         }
     }
 
