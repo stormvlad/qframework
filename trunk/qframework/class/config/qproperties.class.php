@@ -56,6 +56,16 @@
          * Add function info here
          *
          */
+        function removeValue($key)
+        {
+            unset($this->_props[$key]);
+        }
+
+        /**
+         *
+         * Add function info here
+         *
+         */
         function keyExists($key)
         {
             return array_key_exists($key, $this->_props);

@@ -126,7 +126,25 @@
 
             foreach ($fields as $field => $value)
             {
-                $sql .= "'" . $value . "', ";
+                if (!empty($value))
+                {
+                    $sql .= "'" . $value . "', ";
+                }
+                else
+                {
+                    if ($value === 0)
+                    {
+                        $sql .= "'0', ";
+                    }
+                    else if ($value === "")
+                    {
+                        $sql .= "'', ";
+                    }
+                    else if ($value === null)
+                    {
+                        $sql .= "NULL, ";
+                    }
+                }
             }
 
             $sql = substr($sql, 0, -2) . ")";
@@ -150,7 +168,25 @@
 
             foreach ($fields as $field => $value)
             {
-                $sql .= $field . "='" . $value . "', ";
+                if (!empty($value))
+                {
+                    $sql .= $field . "='" . $value . "', ";
+                }
+                else if ($obj->hasNullValue($field))
+                {
+                    if ($value === 0)
+                    {
+                        $sql .= $field . "='0', ";
+                    }
+                    else if ($value === "")
+                    {
+                        $sql .= $field . "='', ";
+                    }
+                    else if ($value === null)
+                    {
+                        $sql .= $field . "=NULL, ";
+                    }
+                }
             }
 
             $sql = substr($sql, 0, -2) . " WHERE " . $this->_getWhereClause($obj);
@@ -214,7 +250,7 @@
         */
         function _update($sql)
         {
-            $result = $this->_db->Execute($sql);
+            return $result = $this->_db->Execute($sql);
 
             if (!$result)
             {
@@ -222,6 +258,14 @@
             }
 
             return true;
+        }
+
+        /**
+        * Add function info here
+        */
+        function execute($sql)
+        {
+            return $this->_db->Execute($sql);
         }
     }
 
