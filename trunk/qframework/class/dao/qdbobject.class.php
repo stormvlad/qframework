@@ -204,6 +204,11 @@
         */
         function map($row)
         {
+            if (is_object($row))
+            {
+                $row = get_object_vars($row);
+            }
+
             foreach ($row as $key => $value)
             {
                 if ($this->fieldExists($key))
