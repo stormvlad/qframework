@@ -23,6 +23,8 @@
         {
             $httpVars  = &qHttp::getRequestVars();
             $path_info = $httpVars->getValue(FRIENDLY_PATHINFO_PARAM);           
+            $request->setValuesByRef($httpVars->getAsArray());
+            
             $file      = APP_ROOT_PATH . "config/controllermap.properties.php";
 
             if (!is_file($file) || !is_readable($file))
@@ -55,7 +57,10 @@
 
             if ($count == 0)
             {
-                $request->setValue("op", $path_info);
+                if (!$request->keyExists("op"))
+                {
+                    $request->setValue("op", $path_info);
+                }
                 return;
             }
             
