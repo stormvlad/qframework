@@ -3,6 +3,9 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/misc/qosdetect.class.php");
 
+    define(DEFAULT_DNSRR_COMMAND, "nslookup -type=%type %host");
+    define(DEFAULT_MXRR_REG_EXP, "^%host\tMX preference = ([0-9]+), mail exchanger = (.*)$");
+
     /**
      * Implementation of an alternative version of the checkdnsrr and getmxrr functions which
      * are not available in the windows version of the php. The class detects wether we're
@@ -22,15 +25,15 @@
          * @return Returns TRUE if any records are found; returns FALSE if no records were found or if an error occurred.
          * @static
          */
-        function checkdnsrr( $host, $type = "MX" )
+        function checkdnsrr($host, $type = "MX")
         {
-            if( OsDetect::isWindows()) {
-                // call the alternative version
-                return Dns::checkdnsrr_windows( $host, $type );
+            if (qOsDetect::isWindows())
+            {
+                return Dns::_checkdnsrrWindows($host, $type);
             }
-            else {
-                // call the native version
-                return checkdnsrr( $host, $type );
+            else
+            {
+                return checkdnsrr($host, $type);
             }
         }
 
@@ -50,15 +53,19 @@
          * @static
          * @private
          */
-        function checkdnsrr_windows( $host, $type = "MX" )
+        function _checkdnsrrWindows($host, $type = "MX")
         {
-            if( !empty( $host ) ) {
-                @exec( "nslookup -type=$type $host", $output );
+            if (!empty($host))
+            {
+                $command = str_replace("%type", $type, DEFAULT_DNSRR_COMMAND);
+                $command = str_replace("%host", $host, $command);
 
-                while( list( $k, $line ) = each( $output ) ) {
-                    // Valid records begin with host name:
-                    if( eregi( "^$host", $line ) ) {
-                        // record found:
+                @exec($command, $output);
+
+                while (list($k, $line) = each($output))
+                {
+                    if (eregi("^" . $host, $line))
+                    {
                         return true;
                     }
                 }
@@ -71,20 +78,20 @@
          * Static function that detects wether we're running windows or not and then either uses the native version of
          * getmxrr or the alternative one. See getmxrr_windows below for more information.
          *
-         * @param hostname The host for which we want to get the mx records.
+         * @param host The host for which we want to get the mx records.
          * @param mxhosts The array we are going to fill with the mx records.
          * @return Returns either true or false.
          * @static
          */
-        function getmxrr( $hostname, &$mxhosts )
+        function getmxrr($host, &$mxhosts)
         {
-            if( OsDetect::isWindows()) {
-                // call the alternative version
-                return Dns::getmxrr_windows( $hostname, $mxhosts );
+            if (qOsDetect::isWindows())
+            {
+                return Dns::_getmxrrWindows($host, $mxhosts);
             }
-            else {
-                // use the native version
-                return getmxrr( $hostname, $mxhosts );
+            else
+            {
+                return getmxrr($host, $mxhosts);
             }
         }
 
@@ -94,33 +101,45 @@
          *
          * See http://hk2.php.net/manual/en/function.getmxrr.php for more details.
          *
-         * @param hostname The host for which we want to get the mx records.
+         * @param host The host for which we want to get the mx records.
          * @param mxhosts The array we are going to fill with the mx records.
          * @return Returns either true or false.
          * @static
          * @private
          */
-        function getmxrr_windows( $hostname, &$mxhosts )
+        function _getmxrrWindows($host, &$mxhosts)
         {
-            if( !is_array( $mxhosts )) $mxhosts = array();
+            if (!is_array($mxhosts))
+            {
+                $mxhosts = array();
+            }
 
-            if( !empty( $hostname ) ) {
-                @exec( "nslookup -type=MX $hostname", $output, $ret );
+            if (!empty($host))
+            {
+                $command = str_replace("%type", "MX", DEFAULT_DNSRR_COMMAND);
+                $command = str_replace("%host", $host, $command);
 
-                while( list( $k, $line ) = each( $output ) ) {
-                    // Valid records begin with hostname:
-                    if( ereg( "^$hostname\tMX preference = ([0-9]+), mail exchanger = (.*)$", $line, $parts )) {
-                        $mxhosts[ $parts[1] ] = $parts[2];
+                @exec($command, $output);
+
+                while (list($k, $line) = each($output))
+                {
+                    $regExp = str_replace("%host", $host, DEFAULT_MXRR_REG_EXP);
+
+                    if (ereg($regExp, $line, $parts))
+                    {
+                        $mxhosts[$parts[1]] = $parts[2];
                     }
                 }
 
-                if( count( $mxhosts ) ) {
-                    reset( $mxhosts );
-                    ksort( $mxhosts );
+                if (count($mxhosts))
+                {
+                    reset($mxhosts);
+                    ksort($mxhosts);
 
                     $i = 0;
 
-                    while( list( $pref, $host ) = each( $mxhosts ) ) {
+                    while (list($pref, $host) = each($mxhosts))
+                    {
                         $mxhosts2[$i] = $host;
                         $i++;
                     }
@@ -129,7 +148,8 @@
 
                     return true;
                 }
-                else {
+                else
+                {
                     return false;
                 }
             }

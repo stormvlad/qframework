@@ -2,6 +2,8 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
+    define(DEFAULT_GLOB_FOLDER, "./");
+
     /**
      * Alternative implementation of the glob() function, since the latter is only
      * available in php versions 4.3 or higher and many many hosts have not updated
@@ -30,20 +32,24 @@
          * folder or false if there was an error.
          * @static
          */
-        function qGlob( $folder = ".", $pattern = "*", $flags = 0 )
+        function qGlob($folder = DEFAULT_GLOB_FOLDER, $pattern = "*", $flags = 0)
         {
-            if( function_exists("glob")) {
-                // call the native glob function with parameters
+            if (function_exists("glob"))
+            {
                 $fileName = $folder;
-                if( substr($fileName, -1) != "/" )
+
+                if (substr($fileName, -1) != "/")
+                {
                     $fileName .= "/";
+                }
+
                 $fileName .= $pattern;
 
-                return glob( $fileName, $flags );
+                return glob($fileName, $flags);
             }
-            else {
-                // call our own implementation
-                return Glob::myGlob( $folder, $pattern );
+            else
+            {
+                return qGlob::_myGlob($folder, $pattern);
             }
         }
 
@@ -58,15 +64,15 @@
          * @return True if the file matches the pattern or false if not.
          * @static
          */
-        function fnmatch( $pattern, $file )
+        function fnmatch($pattern, $file)
         {
-            if( function_exists("fnmatch")) {
-                // use the native fnmatch version
-                return fnmatch( $pattern, $file );
+            if (function_exists("fnmatch"))
+            {
+                return fnmatch($pattern, $file);
             }
-            else {
-                // otherwise, use our own
-                return Glob::myFnmatch( $pattern, $file );
+            else
+            {
+                return qGlob::_myFnmatch($pattern, $file);
             }
         }
 
@@ -81,29 +87,37 @@
          * files will match and which will not.
          * @return An array with the matching files and false if error.
          */
-        function myGlob( $folder = ".", $pattern = "*" )
+        function _myGlob($folder = DEFAULT_GLOB_FOLDER, $pattern = "*")
         {
-            // Note that !== did not exist until 4.0.0-RC2
-            if ($handle = opendir( $folder )) {
-                $files = Array();
-
-                while (false !== ($file = readdir($handle))) {
-                    if( $file !="." && $file != ".." )    // ignore '.' and '..'
-                        if( Glob::fnmatch($pattern,$file)) {
-                            if( $folder[strlen($folder)-1] != "/")
-                                $filePath = $folder."/".$file;
-                            else
-                                $filePath = $folder.$file;
-                            array_push( $files, $filePath );
-
-                        }
-                }
-
-                closedir($handle);
-            }
-            else
+            if (!($handle = opendir($folder)))
+            {
                 return false;
+            }
 
+            $files = Array();
+
+            while (($file = readdir($handle)) !== false)
+            {
+                if ($file != "." && $file != "..")
+                {
+                    if (qGlob::fnmatch($pattern, $file))
+                    {
+                        if ($folder[strlen($folder)-1] != "/")
+                        {
+                            $filePath = $folder . "/" . $file;
+                        }
+                        else
+                        {
+                            $filePath = $folder . $file;
+                        }
+
+                        array_push($files, $filePath);
+
+                    }
+                }
+            }
+
+            closedir($handle);
             return $files;
         }
 
@@ -113,43 +127,63 @@
          * Based on a user-contributed code for the fnmatch php function here:
          * http://www.php.net/manual/en/function.fnmatch.php
          */
-        function myFnmatch( $pattern, $file )
+        function _myFnmatch($pattern, $file)
         {
-
-
-            for($i=0; $i<strlen($pattern); $i++) {
-                if($pattern[$i] == "*") {
-                    for($c=$i; $c<max(strlen($pattern), strlen($file)); $c++) {
-                        if(Glob::myFnmatch(substr($pattern, $i+1), substr($file, $c))) {
+            for ($i = 0; $i < strlen($pattern); $i++)
+            {
+                if ($pattern[$i] == "*")
+                {
+                    for ($c = $i; $c < max(strlen($pattern), strlen($file)); $c++)
+                    {
+                        if(qGlob::_myFnmatch(substr($pattern, $i + 1), substr($file, $c)))
+                        {
                             return true;
                         }
                     }
+
                     return false;
                 }
-                if($pattern[$i] == "[") {
+
+                if ($pattern[$i] == "[")
+                {
                     $letter_set = array();
-                    for($c=$i+1; $c<strlen($pattern); $c++) {
-                        if($pattern[$c] != "]") {
+
+                    for ($c = $i + 1; $c < strlen($pattern); $c++)
+                    {
+                        if ($pattern[$c] != "]")
+                        {
                             array_push($letter_set, $pattern[$c]);
                         }
                         else
+                        {
                             break;
+                        }
                     }
-                    foreach ($letter_set as $letter) {
-                        if(Glob::myFnmatch($letter.substr($pattern, $c+1), substr($file, $i))) {
+
+                    foreach ($letter_set as $letter)
+                    {
+                        if (qGlob::_myFnmatch($letter . substr($pattern, $c + 1), substr($file, $i)))
+                        {
                             return true;
                         }
                     }
+
                     return false;
                }
-               if($pattern[$i] == "?") {
-                      continue;
-              }
-              if($pattern[$i] != $file[$i]) {
+
+               if ($pattern[$i] == "?")
+               {
+                   continue;
+               }
+
+               if ($pattern[$i] != $file[$i])
+               {
                   return false;
-              }
-         }
-         return true;
-       }
+               }
+            }
+
+            return true;
+        }
     }
+
 ?>

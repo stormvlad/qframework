@@ -13,22 +13,71 @@
      */
     class qValidator extends qObject
     {
+        var $_rules;
+        var $_error;
+
         /**
          * The constructor does nothing.
          */
         function qValidator()
         {
             $this->qObject();
+
+            $this->_rules = array();
+            $this->_error = false;
         }
 
         /**
-         * Validates the data. Does nothing here and it must be reimplemented by
-         * every child class.
-         */
-        function validate()
+        *    Add function info here
+        **/
+        function addRule(&$rule)
         {
-            throw(new qException("qValidator::validate: This method must be implemented by child classes."));
-            die();
+            $this->_rules[] = &$rule;
+        }
+
+        /**
+        *    Add function info here
+        **/
+        function addValidator(&$validator)
+        {
+            foreach ($validator->_rules as $rule)
+            {
+                $this->addRule($rule);
+            }
+        }
+
+        /**
+        *    Add function info here
+        **/
+        function _setError($error)
+        {
+            $this->_error = $error;
+        }
+
+        /**
+        *    Add function info here
+        **/
+        function getError()
+        {
+            return $this->_error;
+        }
+
+        /**
+        *    Add function info here
+        **/
+        function validate($value)
+        {
+            foreach ($this->_rules as $rule)
+            {
+                if (!$rule->check($value))
+                {
+                    $this->_setError($rule->getError());
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
+
 ?>
