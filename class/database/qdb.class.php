@@ -12,6 +12,7 @@
     class qDb extends qObject
     {
         var $_db;
+        var $_queryCount;
 
         /**
         * Add function info here
@@ -19,14 +20,8 @@
         function qDb(&$db)
         {
             $this->qObject();
-            $this->_db = &$db;
-
-            overload("qdb");
-
-            if ($this->getClassName() != "qdb")
-            {
-                overload($this->getClassName());
-            }
+            $this->_db         = &$db;
+            $this->_queryCount = 0;
 
             $this->registerEvent("DB_SQL_QUERY_EVENT");
         }
@@ -34,25 +29,97 @@
         /**
         * Add function info here
         */
-        function &getDb()
+        function &getInstance()
         {
             throw(new qException("qDb::getDb: This function must be implemented by child classes."));
             die();
         }
 
         /**
-         * Prepares a string for an SQL query by escaping apostrophe
-         * characters. If the PHP configuration setting 'magic_quotes_gpc'
-         * is set to ON, it will first strip the added slashes. Apostrophe
-         * characters are doubled, conforming with the ANSI SQL standard.
-         * The SQL parser makes sure that the escape token is not entered
-         * in the database so there is no need to modify the data when it
-         * is read from the database.
-         *
-         * @param  string $string
-         * @return string
-         * @access public
-         */
+        * Add function info here
+        */
+        function sendQueryEvent($sql, $seconds)
+        {
+            $this->_queryCount++;
+
+            $server = &qHttp::getServerVars();
+            $params = array(
+                "ip"         => qClient::getIp(),
+                "class"      => $this->getClassName(),
+                "script"     => basename($server->getValue("PHP_SELF")),
+                "uri"        => $server->getValue("REQUEST_URI"),
+                "queryCount" => $this->_queryCount,
+                "sql"        => $sql,
+                "time"       => $seconds);
+
+            $this->sendEvent("DB_SQL_QUERY_EVENT", $params);
+        }
+
+        /**
+        * Add function info here
+        */
+        function SelectLimit($sql, $numrows = -1, $offset = -1, $inputarr = false)
+        {
+            $timer   = new qTimer();
+            $result  = $this->_db->SelectLimit($sql, $numrows, $offset, $inputarr);
+            $seconds = $timer->get();
+
+            $this->sendQueryEvent($sql, $seconds);
+
+            return $result;
+        }
+
+        /**
+        * Add function info here
+        */
+        function Execute($sql, $inputarr = false)
+        {
+            $timer   = new qTimer();
+            $result  = $this->_db->Execute($sql, $inputarr);
+            $seconds = $timer->get();
+
+            $this->sendQueryEvent($sql, $seconds);
+
+            return $result;
+        }
+
+        /**
+        * Add function info here
+        */
+        function MetaTables($ttype = false, $showSchema = false, $mask = false)
+        {
+            return $this->_db->MetaTables($ttype, $showSchema, $mask);
+        }
+
+        /**
+        * Add function info here
+        */
+        function MetaColumnNames($table, $numericIndex = false)
+        {
+            return $this->_db->MetaColumnNames($table, $numericIndex);
+        }
+
+        /**
+        * Add function info here
+        */
+        function MetaPrimaryKeys($table, $owner = false)
+        {
+            return $this->_db->MetaPrimaryKeys($table, $owner);
+        }
+
+        /**
+        * Prepares a string for an SQL query by escaping apostrophe
+        * characters. If the PHP configuration setting 'magic_quotes_gpc'
+        * is set to ON, it will first strip the added slashes. Apostrophe
+        * characters are doubled, conforming with the ANSI SQL standard.
+        * The SQL parser makes sure that the escape token is not entered
+        * in the database so there is no need to modify the data when it
+        * is read from the database.
+        *
+        * @param  string $string
+        * @return string
+        * @access public
+        */
         function qstr($string)
         {
             if (get_magic_quotes_gpc())
@@ -61,33 +128,6 @@
             }
 
             return str_replace("'", "''", $string);
-        }
-
-        /**
-        * Add function info here
-        */
-        function __call($method, $args, &$return)
-        {
-            if ($method == "execute" || $method == "selectlimit")
-            {
-                $t = new qTimer();
-                $return = call_user_func_array(array(&$this->_db, $method), $args);
-                $t->stop();
-
-                $params = array(
-                    "ip"    => qClient::getIp(),
-                    "class" => $this->getClassName(),
-                    "sql"   => $args[0],
-                    "time"  => $t->get());
-
-                $this->sendEvent("DB_SQL_QUERY_EVENT", $params);
-            }
-            else
-            {
-                $return = call_user_func_array(array(&$this->_db, $method), $args);
-            }
-
-            return true;
         }
     }
 ?>

@@ -18,7 +18,7 @@
             $this->priority     = 0;
             $this->exitPriority = 1000;
 
-            $layout   = new qPatternLayout("%x{ip} | %x{class} | %x{time} | %x{sql}%n");
+            $layout   = new qPatternLayout("%d{Y/m/d H:i:s} | %x{ip} | %x{script} | %x{queryCount} | %x{time} | %x{sql}%n");
             $appender = new qStdoutAppender($layout);
             $this->addAppender("stdout", $appender);
         }
