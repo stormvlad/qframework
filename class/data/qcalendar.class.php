@@ -28,15 +28,22 @@
         /**
         *    Add function info here
         */
-        function getMonth()
+        function getMonth($padding = true)
         {
-            return $this->_month;
+            $month = $this->_month;
+
+            if ($padding)
+            {
+                $month = sprintf("%02d", $month);
+            }
+
+            return $month;
         }
 
         /**
         *    Add function info here
         */
-        function getYear()
+        function getYear($padding = false)
         {
             return $this->_year;
         }
