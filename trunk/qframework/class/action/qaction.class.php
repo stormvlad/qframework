@@ -207,6 +207,19 @@
         /**
         * Add function info here
         */
+        function formValueExists($name, $step = null)
+        {
+            $user       = &$this->_controllerParams->getUser();
+            $formValues = &$user->getAttributeRef("formValues");
+            $formName   = $this->getFormName();
+            $step       = $this->_getNormalizedStep($step);
+
+            return array_key_exists($name, $formValues[$formName][$step]);
+        }
+
+        /**
+        * Add function info here
+        */
         function getFormValue($name, $step = null)
         {
             $user       = &$this->_controllerParams->getUser();

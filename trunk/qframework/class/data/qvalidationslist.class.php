@@ -145,6 +145,12 @@
                     $this->setError($name, ERROR_RULE_IS_EMPTY);
                     $result = false;
                 }
+                // Added to check required variables from $_FILES
+                else if ($required && array_key_exists($name, $values) && is_array($values[$name]) && $values[$name]["error"] == 4)
+                {
+                    $this->setError($name, ERROR_RULE_IS_EMPTY);
+                    $result = false;
+                }
             }
 
             foreach ($values as $name => $value)

@@ -84,6 +84,7 @@
             }
 
             $httpRequest = &$this->_controllerParams->getHttpRequest();
+            $files       = &qHttp::getFilesVars();
             $method      = $httpRequest->getValue("__method__");
 
             if (($action->getValidationMethod() & $method) != $method)
@@ -99,7 +100,7 @@
             $validations = new qValidationsList();
             $action->registerValidations($validations);
 
-            if (!$validations->validate($httpRequest->getAsArray()))
+            if (!$validations->validate(array_merge($httpRequest->getAsArray(), $files->getAsArray())))
             {
                 if ($view = $action->handleValidateError($validations->getErrors()))
                 {
