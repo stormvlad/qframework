@@ -13,7 +13,6 @@
     {
         var $_db;
         var $_queryCount;
-        var $_eventName;
 
         /**
         * Add function info here
@@ -21,11 +20,11 @@
         function qDb(&$db)
         {
             $this->qObject();
+
             $this->_db         = &$db;
             $this->_queryCount = 0;
-            $this->_eventName  = strtoupper($this->getClassName()) . "_SQL_QUERY_EVENT";
 
-            $this->registerEvent($this->_eventName);
+            $this->registerEvent(1);
         }
 
         /**
@@ -51,10 +50,10 @@
                 "script"     => basename($server->getValue("PHP_SELF")),
                 "uri"        => $server->getValue("REQUEST_URI"),
                 "queryCount" => $this->_queryCount,
-                "sql"        => $sql,
+                "sql"        => ereg_replace("[\t\r\n ]+", " ", $sql),
                 "time"       => $seconds);
 
-            $this->sendEvent($this->_eventName, $params);
+            $this->sendEvent(1, $params);
         }
 
         /**
@@ -107,6 +106,30 @@
         function MetaPrimaryKeys($table, $owner = false)
         {
             return $this->_db->MetaPrimaryKeys($table, $owner);
+        }
+
+        /**
+        * Add function info here
+        */
+        function ErrorNo()
+        {
+            return $this->_db->ErrorNo();
+        }
+
+        /**
+        * Add function info here
+        */
+        function ErrorMsg()
+        {
+            return $this->_db->ErrorMsg();
+        }
+
+        /**
+        * Add function info here
+        */
+        function Insert_ID()
+        {
+            return $this->_db->Insert_ID();
         }
 
         /**

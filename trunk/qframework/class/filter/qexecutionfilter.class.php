@@ -75,8 +75,11 @@
 
             if (!$this->checkSecurityAction($action))
             {
-                $view = $action->handleSecureError();
-                $view->setValue("formValues", $action->getFormValues());
+                if ($view = $action->handleSecureError())
+                {
+                    $view->setValue("formValues", $action->getFormValues());
+                }
+
                 return $view;
             }
 
@@ -85,8 +88,11 @@
 
             if (($action->getValidationMethod() & $method) != $method)
             {
-                $view = $action->perform();
-                $view->setValue("formValues", $action->getFormValues());
+                if ($view = $action->perform())
+                {
+                    $view->setValue("formValues", $action->getFormValues());
+                }
+
                 return $view;
             }
 
@@ -95,20 +101,29 @@
 
             if (!$validations->validate($httpRequest->getAsArray()))
             {
-                $view = $action->handleValidateError($validations->getErrors());
-                $view->setValue("formValues", $action->getFormValues());
+                if ($view = $action->handleValidateError($validations->getErrors()))
+                {
+                    $view->setValue("formValues", $action->getFormValues());
+                }
+
                 return $view;
             }
 
             if (!$action->validate())
             {
-                $view = $action->handleValidateError($action->getErrors());
-                $view->setValue("formValues", $action->getFormValues());
+                if ($view = $action->handleValidateError($action->getErrors()))
+                {
+                    $view->setValue("formValues", $action->getFormValues());
+                }
+
                 return $view;
             }
 
-            $view = $action->performAfterValidation();
-            $view->setValue("formValues", $action->getFormValues());
+            if ($view = $action->performAfterValidation())
+            {
+                $view->setValue("formValues", $action->getFormValues());
+            }
+
             return $view;
         }
 

@@ -15,6 +15,7 @@
     class qObject
     {
         var $_debug;
+        var $_eventMap;
 
         /**
          * Constructor
@@ -29,6 +30,35 @@
             {
                 $this->_debug = false;
             }
+
+            // Not initialized to an array for memory amount reasons. Initialized on demand
+            $this->_eventMap = null;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getEventCode($index)
+        {
+            if (empty($this->_eventMap) || empty($this->_eventMap[$index]))
+            {
+                return strtoupper($this->getClassName()) . "_EVENT" . $index;
+            }
+
+            return $this->_eventMap[$index];
+        }
+
+        /**
+        * Add function info here
+        */
+        function setEventCode($index, $code)
+        {
+            if (empty($this->_eventMap))
+            {
+                $this->_eventMap = array();
+            }
+
+            $this->_eventMap[$index] = $code;
         }
 
         /**
@@ -148,8 +178,10 @@
          */
         function unregisterEvent($event)
         {
+            $eventCode    = $this->getEventCode($event);
             $eventManager = &qEventManager::getInstance();
-            return $eventManager->unregisterEvent($this, $event);
+
+            return $eventManager->unregisterEvent($this, $eventCode);
         }
 
         /**
@@ -157,8 +189,10 @@
          */
         function registerEvent($event)
         {
+            $eventCode    = $this->getEventCode($event);
             $eventManager = &qEventManager::getInstance();
-            return $eventManager->registerEvent($this, $event);
+
+            return $eventManager->registerEvent($this, $eventCode);
         }
 
         /**
@@ -175,8 +209,10 @@
          */
         function sendEvent($event, $eventArgs = array())
         {
+            $eventCode    = $this->getEventCode($event);
             $eventManager = &qEventManager::getInstance();
-            return $eventManager->sendEvent($this, $event, $eventArgs);
+
+            return $eventManager->sendEvent($this, $eventCode, $eventArgs);
         }
     }
 ?>
