@@ -35,7 +35,7 @@
         /**
         * Add function info here
         */
-        function stripTags($str, $allowedTags = array())
+        function stripTags($str, $allowedTags = null)
         {
             return strip_tags($str, $allowedTags);
         }
