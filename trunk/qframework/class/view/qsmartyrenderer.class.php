@@ -2,7 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/libs/smarty/Smarty.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qviewrenderer.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/misc/qtimer.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/timer/qtimer.class.php");
 
     define("DEFAULT_SMARTY_CACHE_DIR", "tmp/");
     define("DEFAULT_SMARTY_COMPILE_DIR", "tmp/");
