@@ -3,7 +3,6 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/locale/qlocalefilestorage.class.php");
-//    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/locale/qlocalegettextstorage.class.php");
 
     define("DEFAULT_LOCALE_CODE", "es_ES");
     define("DEFAULT_LOCALE_PATH", APP_ROOT_PATH . "locale/");
@@ -44,7 +43,6 @@
             if (!isset($localeInstance))
             {
                 $localeInstance = new qLocale(new qLocaleFileStorage(DEFAULT_LOCALE_FILE_STORAGE));
-                //$localeInstance = new qLocale(new qLocaleGettextStorage(DEFAULT_LOCALE_FILE_STORAGE), false);
             }
 
             return $localeInstance;
@@ -374,7 +372,11 @@
                     $this->setValue($id, $id);
                     $translated = $id;
                 }
-
+                else
+                {
+                    $translated = $id;
+                }                
+                
                 if( $this->getDirection() == "rtl" )
                 {
                     $translated = "<span dir=\"rtl\">" . $translated . "</span>";
