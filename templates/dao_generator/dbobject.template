@@ -1,0 +1,45 @@
+<?php
+
+    include_once(APP_ROOT_PATH . "class/dao/dbobject.class.php");
+
+    /**
+    * DbObject base class.
+    * Your db object classes should inherits from this.
+    * At first it hasn't any suplementary functionality than his parent.
+    */
+    class {$className} extends DbObject
+    {literal}{{/literal}
+        /**
+        * Constructor
+        */
+        function {$className}()
+        {literal}{{/literal}
+            $this->DbObject();
+
+            {foreach item="field" from=$fields}
+$this->addField("{$field}", null);
+            {/foreach}
+
+            {foreach item="idField" from=$idFields}
+$this->addIdField("{$idField}");
+            {/foreach}
+        {literal}
+        }
+        {/literal}
+        /**
+        * setValue method override
+        */
+        function setValue($fieldName, $value)
+        {literal}{{/literal}
+            parent::setValue($fieldName, $value);
+        {literal}}{/literal}
+
+        /**
+        * setValue method override
+        */
+        function getValue($fieldName)
+        {literal}{{/literal}
+            return parent::getValue($fieldName);
+        {literal}}{/literal}
+    {literal}}{/literal}
+?>

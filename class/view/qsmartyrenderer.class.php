@@ -14,70 +14,24 @@
      */
     class qSmartyRenderer extends qViewRenderer
     {
-        var $_cacheDir;
-        var $_compileDir;
-        var $_templatesDir;
-        var $_templatesExtension;
-
         /**
         * Add function info here
         */
         function qSmartyRenderer($templatesDir = DEFAULT_SMARTY_TEMPLATES_DIR, $templatesExtension = DEFAULT_SMARTY_TEMPLATES_EXTENSION)
         {
             $this->qViewRenderer();
+            $this->_engine = new Smarty();
 
-            $this->_templatesDir       = $templatesDir;
-            $this->_templatesExtension = $templatesExtension;
-            $this->_cacheDir           = DEFAULT_SMARTY_CACHE_DIR;
-            $this->_compileDir         = DEFAULT_SMARTY_COMPILE_DIR;
-        }
+            $this->_engine->caching        = false;
+            $this->_engine->cache_lifetime = 300;
+            $this->_engine->cache_dir      = DEFAULT_SMARTY_CACHE_DIR;
+            $this->_engine->compile_dir    = DEFAULT_SMARTY_COMPILE_DIR;
+            $this->_engine->template_dir   = $templatesDir;
 
-        /**
-        * Add function info here
-        */
-        function getCacheDir()
-        {
-            return $this->_cacheDir;
-        }
+            $this->_engine->php_handling   = false;
+            $this->_engine->use_sub_dirs   = false;
 
-        /**
-        * Add function info here
-        */
-        function setCacheDir($dir)
-        {
-            $this->_cacheDir = $dir;
-        }
-
-        /**
-        * Add function info here
-        */
-        function getCompileDir()
-        {
-            return $this->_compileDir;
-        }
-
-        /**
-        * Add function info here
-        */
-        function setCompileDir($dir)
-        {
-            $this->_compileDir = $dir;
-        }
-
-        /**
-        * Add function info here
-        */
-        function getTemplatesDir()
-        {
-            return $this->_templatesDir;
-        }
-
-        /**
-        * Add function info here
-        */
-        function setTemplatesDir($dir)
-        {
-            $this->_templatesDir = $dir;
+            $this->setTemplatesExtension($templatesExtension);
         }
 
         /**
@@ -115,20 +69,10 @@
             $templateFileName .= $view->getTemplateName() . $this->_templatesExtension;
             $view->setValue("templateFileName", $templateFileName);
 
-            $smarty = new Smarty();
+            $this->_engine->_templateFile = $templateFileName;
+            $this->_engine->assign($view->getAsArray());
 
-            $smarty->caching        = false;
-            $smarty->cache_lifetime = 300;
-            $smarty->cache_dir      = $this->_cacheDir;
-            $smarty->compile_dir    = $this->_compileDir;
-            $smarty->template_dir   = $this->_templatesDir;
-            $smarty->_templateFile  = $templateFileName;
-
-            $smarty->php_handling   = false;
-            $smarty->use_sub_dirs   = false;
-            $smarty->assign($view->getAsArray());
-
-            return $smarty->fetch($templateFileName);
+            return $this->_engine->fetch($templateFileName);
         }
     }
 
