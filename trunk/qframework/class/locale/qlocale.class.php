@@ -382,6 +382,17 @@
         */
         function i18n($id)
         {
+            $args   = func_get_args();
+            $result = call_user_func_array(array(&$this, "translate"), $args);
+
+            return $result;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function translate($id)
+        {
             if (is_array($id))
             {
                 $translated = array();
@@ -576,7 +587,7 @@
             {
                 return "";
             }
-        
+
             if (!checkdate($month, $day, $year))
             {
                 return "";
@@ -614,7 +625,7 @@
             {
                 $offset2 = "Z";
             }
-            	
+
             $days        = array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
             $daysShort   = array("Mo", "Tu", "We", "Th", "Fr", "Sa", "Su");
             $months      = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
