@@ -36,7 +36,7 @@
         /**
         *    Add function info here
         */
-        function &getLocale()
+        function &getInstance()
         {
             static $localeInstance;
 

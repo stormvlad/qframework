@@ -34,7 +34,7 @@
         /**
         *    Add function info here
         */
-        function &getConfig()
+        function &getInstance()
         {
             static $configInstance;
 

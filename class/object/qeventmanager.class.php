@@ -28,7 +28,7 @@
         /**
          * Add function info here
          */
-        function &getEventManager()
+        function &getInstance()
         {
             static $eventManagerInstance;
 

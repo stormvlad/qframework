@@ -74,12 +74,17 @@
             $this->_sessionEnabled   = false;
             $this->_controllerParams = null;
             $this->_user             = null;
+
+            $logManager = &qLogManager::getInstance();
+            $logger     = &$logManager->getLogger("default");
+
+            set_error_handler(array(&$logger, "standard"));
         }
 
         /**
          * Add function info here
          */
-        function &getController()
+        function &getInstance()
         {
             static $controllerInstance;
 
@@ -318,17 +323,11 @@
          */
         function process($httpRequest = null)
         {
-            // register error handler as default logger's standard() method
-            $logManager = &qLogManager::getInstance();
-            $logger     = &$logManager->getLogger("default");
-
-            set_error_handler(array(&$logger, "standard"));
-
             if ($this->_sessionEnabled)
             {
                 if (empty($this->_user))
                 {
-                    $this->_user = &qUser::getUser();
+                    $this->_user = &qUser::getInstance();
                 }
 
                 $this->_user->setSid(session_id());
