@@ -307,7 +307,7 @@
         function getDbObjects($whereClause = null, $orderClause = null, $offset = null, $numRows = null)
         {
             $objClassName = str_replace("dao", "dbobject", $this->getClassName()); // PHP4
-            $objClassName = str_replace("Dao", "DbObject", $this->getClassName()); // PHP5
+            $objClassName = str_replace("Dao", "DbObject", $objClassName); // PHP5
 
             if (!($result = $this->select($whereClause, $orderClause, $offset, $numRows)))
             {
