@@ -187,9 +187,9 @@
         /**
         * Add function here
         */
-        function output($tableName = null)
+        function output($tables = null)
         {
-            if (empty($tableName))
+            if (empty($tables))
             {
                 $tables = $this->_db->MetaTables();
 
@@ -198,9 +198,16 @@
                     $this->_outputTable($table);
                 }
             }
-            else
+            else if (is_array($tables))
             {
-                $this->_outputTable($tableName);
+                foreach ($tables as $table)
+                {
+                    $this->_outputTable($table);
+                }
+            }
+            else if (is_string($tables))
+            {
+                $this->_outputTable($tables);
             }
         }
     }
