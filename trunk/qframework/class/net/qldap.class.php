@@ -249,5 +249,18 @@
         {
             return ldap_add($this->_fp, $dn, $values);
         }
+
+        /**
+        * Add function info here
+        */
+        function rename($oldDn, $newRdn, $newParent = null, $deleteOldRdn = true)
+        {
+            if (empty($newParent))
+            {
+                $newParent = $this->_baseDn;
+            }
+
+            return ldap_rename($this->_fp, $oldDn, $newRdn, $newParent, $deleteOldRdn);
+        }
     }
 ?>
