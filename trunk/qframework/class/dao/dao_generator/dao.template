@@ -1,0 +1,45 @@
+<?php
+
+    include_once("class/dao/dao.class.php");
+
+    /**
+    * Dao base class.
+    * Your dao classes should inherit from this.
+    */
+    class {$className} extends Dao
+    {literal}{{/literal}
+        /**
+        * Constructor.
+        * It will work with global db connection.
+        */
+        function {$className}()
+        {literal}{{/literal}
+            $this->Dao("{$tableName}");
+        {literal}}{/literal}
+
+        /**
+        * Add function here
+        */
+        function getWhereClauseFromHttpRequest($httpRequest)
+        {literal}{{/literal}
+            // TODO
+        {literal}}{/literal}
+
+        /**
+        * Add function here
+        */
+        function selectCountFromHttpRequest($httpRequest)
+        {literal}{{/literal}
+            // TODO
+        {literal}}{/literal}
+
+        /**
+        * Add function here
+        */
+        function selectFromHttpRequest($httpRequest)
+        {literal}{{/literal}
+            // TODO
+        {literal}}{/literal}
+    {literal}}{/literal}
+
+?>
