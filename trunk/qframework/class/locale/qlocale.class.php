@@ -517,7 +517,27 @@
             $week2       = (int) strftime("%W", $timeStamp);
             $week3       = (int) strftime("%U", $timeStamp);
             $year        = (int) strftime("%Y", $timeStamp);
+            $year2       = (int) strftime("%y", $timeStamp);
             $century     = (int) ($year / 100);
+
+            $lTime       = localtime($timeStamp, true);
+            $offset      = str_replace("00", ":00", strftime("%z", $timeStamp));
+
+            if ($lTime["tm_isdst"])
+            {
+                $tmp    = intVal(substr($offset, 1, 2)) - 1;
+                $tmp    = sprintf("%02s", $tmp);
+                $offset = ereg_replace("([+-])([0-9]{2}):([0-9]{2})", "\\1" . $tmp . ":\\3", $offset);
+            }
+
+            $offset2     = $offset;
+
+            if (substr($offset, 1, 2) == "00")
+            {
+                $offset2 = "Z";
+            }
+
+            $timeZone    = strftime("%Z", $timeStamp);
 
             $rTime       = strftime("%r", $timeStamp);
             $rTimeR      = strftime("%R", $timeStamp);
@@ -534,6 +554,7 @@
             $monthsShort = $this->i18n("_months_short");
 
             $result      = $format;
+            $result      = str_replace("%w3c", sprintf("%s-%02s-%02sT%02s:%02s.%02s%s", $year, $month, $day, $hour, $minute, $second, $offset2), $result);
             $result      = str_replace("%a", $daysShort[$weekDayNum], $result);
             $result      = str_replace("%A", $days[$weekDayNum], $result);
             $result      = str_replace("%b", $monthsShort[$month - 1], $result);
@@ -567,6 +588,7 @@
             $result      = str_replace("%X", sprintf("%02s:%02s:%02s", $hour, $minute, $second), $result);
             $result      = str_replace("%y", substr($year, 2, 2), $result);
             $result      = str_replace("%Y", $year, $result);
+            $result      = str_replace("%z", $offset, $result);
             $result      = str_replace("%Z", $timeZone, $result);
             $result      = str_replace("%%", "%", $result);
 
