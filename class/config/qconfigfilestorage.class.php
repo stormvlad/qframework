@@ -74,13 +74,13 @@
 
             if ($this->getType($value) == TYPE_STRING)
             {
-                $regexp      = "/( *)\\\$config\[\"" . $name. "\"\]( *)=( *)\"(.+)\";( *)/";
-                $replaceWith = "\\1\$config[\"" . $name . "\"]\\2=\\3" . $valueString . ";\\5";
+                $regexp      = "/([ \t]*)\\\$config\[\"" . $name. "\"\]( *)=( *)\"(.+)\";( *)/";
+                $replaceWith = "\\1\$config[\"" . $name . "\"]\\2=\${3}" . $valueString . ";\\5";
             }
             else
             {
-                $regexp      = "/( *)\\\$config\[\"" . $name . "\"\]( *)=( *)(.+);( *)/";
-                $replaceWith = "\\1\$config[\"" . $name . "\"]\\2=\\3" . $valueString . ";\\5";
+                $regexp      = "/([ \t]*)\\\$config\[\"" . $name . "\"\]( *)=( *)(.+);( *)/";
+                $replaceWith = "\\1\$config[\"" . $name . "\"]\\2=\${3}" . $valueString . ";\\5";
             }
 
             while ($i < count($contents))
