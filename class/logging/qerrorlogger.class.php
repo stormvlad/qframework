@@ -6,7 +6,7 @@
     /**
      * qErrorLogger provides a default logging mechanism for errors.
      *
-     * @package qframework
+     * @package qFramework
      * @since   1.0
      */
     class qErrorLogger extends qLogger

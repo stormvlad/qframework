@@ -294,13 +294,22 @@
         }
 
         /**
-        * Add function info here
+        * Returns an instance of DbObject class
+        *
         */
-        function getDbObjects($whereClause = null, $orderClause = null, $offset = null, $numRows = null)
+        function getDbObjectClass()
         {
             $objClassName = str_replace("dao", "dbobject", $this->getClassName()); // PHP4
             $objClassName = str_replace("Dao", "DbObject", $objClassName); // PHP5
 
+            return new $objClassName();
+        }
+        
+        /**
+        * Add function info here
+        */
+        function getDbObjects($whereClause = null, $orderClause = null, $offset = null, $numRows = null)
+        {
             if (!($result = $this->select($whereClause, $orderClause, $offset, $numRows)))
             {
                 return false;
@@ -310,7 +319,7 @@
 
             while ($row = $result->FetchRow())
             {
-                $obj = new $objClassName();
+                $obj = $this->getDbObjectClass();
                 $obj->map($row);
                 $items[] = $obj;
             }
@@ -350,7 +359,7 @@
         /**
         * Add function here
         */
-        function count($whereClause = null)
+        function doCount($whereClause = null)
         {
             $sql = "SELECT COUNT(" . $this->getClause("SELECT") . ") AS total FROM " . $this->getClause("FROM");
 
@@ -388,6 +397,22 @@
             return $row["total"];
         }
 
+        function doDelete($whereClause = null)
+        {
+            $sql = "DELETE FROM `" . $this->_tableName . "`";
+
+            if (!empty($whereClause))
+            {
+                $sql .= " WHERE " . $whereClause;
+            }
+            else if ($this->getClause("WHERE"))
+            {
+                $sql .= " WHERE " . $this->getClause("WHERE");
+            }
+
+            return $this->_update($sql);
+        }        
+
         /*
          * Retrieve a single object by pkey.
          *
@@ -395,26 +420,20 @@
          */
         function retrieveByPK($pk)
         {
-            $objClassName = str_replace("dao", "dbobject", $this->getClassName()); // PHP4
-            $objClassName = str_replace("Dao", "DbObject", $objClassName); // PHP5
-
-            $obj      = new $objClassName();
+            $obj      = $this->getDbObjectClass();
             $pkFields = $obj->getPrimaryKeyFields();
             
             return $this->getDbObject($pkFields[0] . "='" . $pk . "'");
         }     
 
         /*
-         * Retrieve a single object by pkey.
+         * Retrieve a single object by primary keys.
          *
          * @param mixed $pk
          */
         function retrieveByPKs($pks)
         {
-            $objClassName = str_replace("dao", "dbobject", $this->getClassName()); // PHP4
-            $objClassName = str_replace("Dao", "DbObject", $objClassName); // PHP5
-
-            $obj      = new $objClassName();
+            $obj      = $this->getDbObjectClass();
             $pkFields = $obj->getPrimaryKeyFields();
             
             $clause   = "1=1";
