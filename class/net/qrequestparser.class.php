@@ -16,7 +16,7 @@
                 $pathInfo = $server->getValue("PATH_INFO");
             }
 
-            $this->Object();
+            $this->qObject();
             $this->_function = $function;
             $this->_pathInfo = $pathInfo;
         }

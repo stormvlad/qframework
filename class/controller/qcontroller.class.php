@@ -43,6 +43,7 @@
         var $_sessionEnabled;
 
         var $_actionsChain;
+        var $_forwarded;
 
         /**
          * $ActionsMap is an associative array of the form:
@@ -64,6 +65,7 @@
             $this->_actionParam     = $actionParam;
             $this->_sessionEnabled  = false;
             $this->_actionsChain    = array();
+            $this->_forwarded       = 0;
         }
 
         /**
@@ -96,7 +98,19 @@
         function forward($actionName)
         {
             $actionClassName = $this->_getActionClassName($actionName);
-            array_push($this->_actionsChain, $actionClassName);
+
+            if  ($this->_forwarded == 0)
+            {
+                array_push($this->_actionsChain, $actionClassName);
+            }
+            else
+            {
+                $left = array_slice($this->_actionsChain, 0, count($this->_actionsChain) - $this->_forwarded);
+                $right = array_slice($this->_actionsChain, count($this->_actionsChain) - $this->_forwarded, $this->_forwarded);
+                $this->_actionsChain = array_merge($left, array($actionClassName), $right);
+            }
+
+            $this->_forwarded++;
         }
 
         /**
@@ -115,7 +129,7 @@
             }
             else
             {
-                $actionClassName = $actionName . "Action";
+                $actionClassName = ucfirst($actionName) . "Action";
             }
 
             return $actionClassName;
@@ -130,6 +144,8 @@
             {
                 include_once("class/action/" . strtolower($actionClassName) . ".class.php");
             }
+
+            $this->_forwarded = 0;
         }
 
         /**
@@ -155,7 +171,7 @@
 
             while (count($this->_actionsChain) > 0)
             {
-                $actionClassName = array_shift($this->_actionsChain);
+                $actionClassName = array_pop($this->_actionsChain);
                 $this->loadActionClass($actionClassName);
                 $actionObject = new $actionClassName();
 
