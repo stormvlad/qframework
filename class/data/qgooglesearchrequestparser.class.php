@@ -203,6 +203,7 @@
             $this->_localeExcludedTerms = array_intersect($this->_terms, $this->_localeStopWordsList);
             $this->_terms = array_diff($this->_terms, $this->_localeExcludedTerms);
 
+            print "<pre>";print_r($this);print "</pre>";
             return true;
         }
     }
