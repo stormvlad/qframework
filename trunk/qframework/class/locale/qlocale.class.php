@@ -562,7 +562,7 @@
             {
                 $timeStamp = mktime(substr($timeStamp, 8, 2), substr($timeStamp, 10, 2), substr($timeStamp, 12, 2), substr($timeStamp, 4, 2), substr($timeStamp, 6, 2), substr($timeStamp, 0, 4));
             }
-            
+
             if ($timeStamp < 1)
             {
                 return "";
@@ -582,7 +582,7 @@
             $year2       = (int) strftime("%y", $timeStamp);
             $century     = (int) ($year / 100);
 
-            $lTime       = localtime($timeStamp, true);            
+            $lTime       = localtime($timeStamp, true);
             $offset      = str_replace("00", ":00", strftime("%z", $timeStamp));
 
             if ($lTime["tm_isdst"])

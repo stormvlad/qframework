@@ -2,6 +2,8 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidation.class.php");
 
+    define("DEFAULT_RULE_CASE_SENSITIVE", true);
+
     /**
      * This is an implementation of the 'Strategy' pattern as it can be seen
      * http://www.phppatterns.com/index.php/article/articleview/13/1/1/. Here we use

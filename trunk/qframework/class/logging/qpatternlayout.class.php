@@ -123,7 +123,7 @@
                             break;
 
                         case "rel":
-                            $data = substr(dirname($data), strlen($server->getValue("DOCUMENT_ROOT")) + 1) . basename($data);
+                            $data = substr(dirname($data), strlen($server->getValue("DOCUMENT_ROOT")) + 1) .  "/" . basename($data);
                     }
                     break;
 

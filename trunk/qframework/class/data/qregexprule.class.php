@@ -2,7 +2,6 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qrule.class.php");
 
-    define("DEFAULT_RULE_CASE_SENSITIVE", true);
     define("ERROR_RULE_REGEXP_NOT_MATCH", "error_rule_regexp_not_match");
 
     /**
