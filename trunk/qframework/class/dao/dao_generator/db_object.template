@@ -3,10 +3,10 @@
     include_once("class/dao/dbobject.class.php");
 
     /**
-     * DbObject base class.
-     * Your db object classes should inherits from this.
-     * At first it hasn't any suplementary functionality than his parent.
-     */
+    * DbObject base class.
+    * Your db object classes should inherits from this.
+    * At first it hasn't any suplementary functionality than his parent.
+    */
     class {$className} extends DbObject
     {literal}{{/literal}
         /**
