@@ -461,8 +461,12 @@
         */
         function getOwner($file = null)
         {
-            $result = posix_getpwuid(qFile::getUid($file));
+            if (!function_exists("posix_getpwuid"))
+            {
+                return false;
+            }
 
+            $result = posix_getpwuid(qFile::getUid($file));
             return $result["name"];
         }
 
@@ -484,8 +488,12 @@
         */
         function getGroup($file = null)
         {
-            $result = posix_getgrgid(qFile::getGid($file));
+            if (!function_exists("posix_getgrgid"))
+            {
+                return false;
+            }
 
+            $result = posix_getgrgid(qFile::getGid($file));
             return $result["name"];
         }
 
