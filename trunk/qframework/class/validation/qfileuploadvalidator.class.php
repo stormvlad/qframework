@@ -7,6 +7,7 @@
     define("ERROR_VALIDATOR_FILE_UPLOAD_PARTIAL", "error_validator_file_upload_partial");
     define("ERROR_VALIDATOR_FILE_UPLOAD_EXTENSION", "error_validator_file_upload_extension");
     define("ERROR_VALIDATOR_FILE_UPLOAD_UNKNOWN", "error_validator_file_upload_unknown");
+    define("ERROR_VALIDATOR_FILE_UPLOAD_NOT_EXISTS", "error_validator_file_upload_not_exists");
 
     /**
      * @brief Determina cuando se ha subido un fichero sin errores.
@@ -86,7 +87,7 @@
         */
         function isValidExtension($extension)
         {
-            return in_array(strtolower($extension), $this->_validExtensions);
+            return in_array(strtolower($extension), $this->_validExtensions) || (count($this->_validExtensions) == 0);
         }
 
         /**
@@ -100,8 +101,6 @@
                 {
                     switch ($value["error"])
                     {
-                        case 4:
-                            return true;
                         case 1:
                         case 2:
                             $this->setError(ERROR_VALIDATOR_FILE_UPLOAD_SIZE);
@@ -111,6 +110,9 @@
                             $this->setError(ERROR_VALIDATOR_FILE_UPLOAD_PARTIAL);
                             return false;
 
+                        case 4:
+                            return true;
+
                         /*case 4:
                             $this->addError($locale->i18n("products_error_upload_empty"), "image");
                             return false;*/
@@ -119,6 +121,11 @@
                             $this->setError(ERROR_VALIDATOR_FILE_UPLOAD_UNKNOWN);
                             return false;
                     }
+                }
+                else if ($value["size"] == 0)
+                {
+                    $this->setError(ERROR_VALIDATOR_FILE_UPLOAD_NOT_EXISTS);
+                    return false;
                 }
 
                 if (!$this->isValidExtension(qFile::getExtension($value["name"])))
