@@ -66,7 +66,7 @@
         /**
         * Add function info here
         */
-        function filter(&$controller, &$httpRequest)
+        function filter(&$controller, &$httpRequest, &$user)
         {
             $clientIp = qClient::getIp();
 
