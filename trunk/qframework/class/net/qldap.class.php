@@ -14,6 +14,13 @@
     {
         var $_host;
         var $_port;
+        var $_baseDn;
+
+        var $_result;
+        var $_curIndex;
+        var $_entries;
+        var $_entriesCount;
+
         var $_fp;
 
         /**
@@ -25,8 +32,64 @@
         */
         function qLdap($host = "localhost", $port = 389)
         {
-            $this->setHost($host);
-            $this->setPort($port);
+            $this->_host         = $host);
+            $this->_port         = $port;
+            $this->_baseDn       = null;
+
+            $this->_result       = null;
+            $this->_curIndex     = 0;
+            $this->_entries      = array();
+            $this->_entriesCount = 0;
+
+            $this->_fp           = null;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getHost()
+        {
+            return $this->_host;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getPort()
+        {
+            return $this->_port;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getBaseDn()
+        {
+            return $this->_baseDn;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getEntries()
+        {
+            return $this->_entries;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getEntriesCount()
+        {
+            return $this->_entriesCount;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getCurIndex()
+        {
+            return $this->_curIndex;
         }
 
         /**
@@ -46,7 +109,7 @@
         *
         * @param port integer with port of a LDAP server
         */
-        function setPort($port = 389)
+        function setPort($port)
         {
             $this->_port = $port;
         }
@@ -54,9 +117,9 @@
         /**
         * Specifies the base DN for the directory.
         */
-        function setBaseDn($basedn)
+        function setBaseDn($baseDn)
         {
-            $this->_basedn = $basedn;
+            $this->_baseDn = $baseDn;
         }
 
         /**
@@ -65,16 +128,7 @@
         */
         function connect()
         {
-            // open the connection
-            $this->_fp = ldap_connect($this->_host, $this->_port);
-
-            // if no connection, return false
-            if (!$this->_fp)
-            {
-                return false;
-            }
-
-            return true;
+            return $this->_fp = ldap_connect($this->_host, $this->_port);
         }
 
         /**
@@ -96,9 +150,9 @@
         * @return boolean Returns TRUE on success or FALSE on failure.
         * @access public
         */
-        function bind($username, $password)
+        function bind($userName, $password)
         {
-            $bind = @ldap_bind($this->_fp, $username, $password);
+            $bind = @ldap_bind($this->_fp, $userName, $password);
 
             return $bind;
         }
@@ -107,67 +161,83 @@
         *  Search the active directory and pull the group names
         *    $search = "userPrincipalName=*".$username."*";
         */
-        function search ($search, $basedn = "")
+        function search($search, $baseDn = null)
         {
             if (!$this->_fp)
             {
                 return false;
             }
 
-            if (!$basedn)
+            if (empty($baseDn))
             {
-                $basedn = $this->_basedn;
+                $baseDn = $this->_baseDn;
             }
 
-            // Perform Search
-            $sr = ldap_search($this->_fp, $basedn, $search);
+            $this->_result = ldap_search($this->_fp, $baseDn, $search);
 
-            // no matches, bad bad bad
-            if (!ldap_count_entries($this->_fp, $sr))
+            if ($this->_result)
+            {
+                $this->_current      = 0;
+                $this->_entries      = ldap_get_entries($this->_fp, $this->_result);
+                $this->_entriesCount = count($this->_entries);
+            }
+
+            return $this->result;
+        }
+
+        /**
+        * Add function info here
+        */
+        function fetch()
+        {
+            if (!$this->_fp || !$this->_result || $this->_curIndex >= $this->_entriesCount)
             {
                 return false;
             }
 
-            // get the info
-            $info = ldap_get_entries($this->_fp, $sr);
+            $result = array();
 
-            // make it a bit cleaner
-            $info = $info[0];
-
-            // if its a Person category, set that as their full name
-            if (preg_match('/CN=Person/i', $info['objectcategory'][0]))
+            foreach ($this->_entries[$this->_curIndex] as $key => $value)
             {
-                $loginname = $info['name'][0];
-            }
-
-            // loop through and pull out all the groups, recursive
-            if (is_array($info['memberof']))
-            {
-                foreach ($info['memberof'] as $var)
+                if (gettype($value) == "array" && count($value) == 2)
                 {
-                    if (preg_match('/CN=([^,]*?),/i', $var, $m))
-                    {
-                        $groups[]   = $m[1];
-                        $moregroups = $this->search('name=*'.$m[1].'*', $basedn);
-
-                        if (is_array($moregroups))
-                        {
-                            foreach ($moregroups as $v)
-                            {
-                                $groups[] = $v;
-                            }
-                        }
-                    }
+                    $value = $value[0];
                 }
+
+                $result[$key] = $value;
             }
 
-            // nice stuff.
-            if (isset($loginname))
+            $this->_curIndex++;
+            return $result;
+        }
+
+        /**
+        * Add function info here
+        */
+        function delete($dn)
+        {
+            return ldap_delete($this->_fp, $dn);
+        }
+
+        /**
+        * Add function info here
+        */
+        function update($oldDn, $newDn, $options)
+        {
+            if (!($result = $this->delete($oldDn)))
             {
-                $groups["loginname"] = $loginname;
+                return false;
             }
 
-            return $groups;
+            return $this->add($newDn, $options);
+        }
+
+        /**
+        * Add function info here
+        */
+        function add($dn, $options)
+        {
+            return ldap_add($this->_fp, $dn, $options);
         }
     }
 ?>
