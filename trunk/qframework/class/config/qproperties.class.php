@@ -1,5 +1,5 @@
 <?php
-    include_once("framework/class/object/qobject.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
 
     /**
      * Class inspired by the java class Properties

@@ -1,5 +1,5 @@
 <?php
-    include_once("framework/class/object/qobject.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
 
     /**
      * PHP Java-style definition of an Exception object-

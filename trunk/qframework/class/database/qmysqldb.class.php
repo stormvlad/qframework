@@ -1,8 +1,8 @@
 <?php
 
-    include_once("framework/class/database/adodb/adodb.inc.php" );
-    include_once("framework/class/database/qdb.class.php" );
-    include_once("framework/class/database/qdbparams.class.php" );
+    include_once("qframework/class/database/adodb/adodb.inc.php" );
+    include_once("qframework/class/database/qdb.class.php" );
+    include_once("qframework/class/database/qdbparams.class.php" );
 
     /**
      * Provides a singleton for accessing the db.

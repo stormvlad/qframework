@@ -1,6 +1,6 @@
 <?php
 
-     include_once("framework/class/data/qdate.class.php");
+     include_once("qframework/class/data/qdate.class.php");
 
     class qTimestamp extends qDate {
 

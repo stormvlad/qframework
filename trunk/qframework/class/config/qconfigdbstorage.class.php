@@ -1,8 +1,8 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/config/qconfigabstractstorage.class.php");
-    include_once("framework/class/database/qdb.class.php");
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/config/qconfigabstractstorage.class.php");
+    include_once("qframework/class/database/qdb.class.php");
 
     /**
      * Storage backend that stores/retrieves the data from the plog_config

@@ -1,7 +1,7 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/data/qtimestamp.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/data/qtimestamp.class.php" );
 
     define(DEFAULT_LOCALE_CODE, "es_ES");
     define(DEFAULT_LOCALE_FOLDER, "locale");

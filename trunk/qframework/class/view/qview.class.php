@@ -1,7 +1,7 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/config/qproperties.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/config/qproperties.class.php" );
 
     /**
      * Methods provided by the View object that every object inheriting from this

@@ -1,11 +1,11 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/file/qbaseunpacker.class.php" );
-    include_once("framework/class/file/qtargzunpacker.class.php" );
-    include_once("framework/class/file/qzipunpacker.class.php" );
-    include_once("framework/class/file/qtarbz2unpacker.class.php" );
-    include_once("framework/class/file/qrarunpacker.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/file/qbaseunpacker.class.php" );
+    include_once("qframework/class/file/qtargzunpacker.class.php" );
+    include_once("qframework/class/file/qzipunpacker.class.php" );
+    include_once("qframework/class/file/qtarbz2unpacker.class.php" );
+    include_once("qframework/class/file/qrarunpacker.class.php" );
 
     define( "UNPACKER_AUTODETECT", "detect" );
     define( "UNPACKER_TAR_GZ", "tar.gz" );

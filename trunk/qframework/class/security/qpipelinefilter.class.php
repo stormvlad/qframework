@@ -1,8 +1,8 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/object/qexception.class.php" );
-    include_once("framework/class/security/qpipelineresult.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/object/qexception.class.php" );
+    include_once("qframework/class/security/qpipelineresult.class.php" );
 
     /**
      * This is the base class from which all the objects that will be used in the

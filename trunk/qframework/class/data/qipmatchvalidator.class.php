@@ -1,6 +1,6 @@
 <?php
 
-    include_once("framework/class/data/qvalidator.class.php" );
+    include_once("qframework/class/data/qvalidator.class.php" );
 
     /**
      * Matches ip address with masks. Returns true wether

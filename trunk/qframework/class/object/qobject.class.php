@@ -1,6 +1,6 @@
 <?php
 
-    include_once("framework/class/object/qexception.class.php" );
+    include_once("qframework/class/object/qexception.class.php" );
 
     /**
      * This is the highest class on the top of our hierarchy. Provides some common methods

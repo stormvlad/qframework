@@ -1,6 +1,6 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
 
     /**
      * Encapsulates a definition of an object representing a URL

@@ -1,7 +1,7 @@
 <?php
 
-    include_once("framework/class/data/qvalidator.class.php" );
-    include_once("framework/class/net/qdns.class.php" );
+    include_once("qframework/class/data/qvalidator.class.php" );
+    include_once("qframework/class/net/qdns.class.php" );
 
     define(DEFAULT_CHECK_EMAIL_ADDRESS, false);
     define(EMAIL_REG_EXP, "^[a-z0-9]+([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,4}");

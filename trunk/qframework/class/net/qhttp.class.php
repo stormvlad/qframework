@@ -1,13 +1,13 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php");
-    include_once("framework/class/net/qhttpgetvars.class.php");
-    include_once("framework/class/net/qhttppostvars.class.php");
-    include_once("framework/class/net/qhttpsessionvars.class.php");
-    include_once("framework/class/net/qhttpcookievars.class.php");
-    include_once("framework/class/net/qhttpfilesvars.class.php");
-    include_once("framework/class/net/qhttpservervars.class.php");
-    include_once("framework/class/net/qhttprequestvars.class.php");
+    include_once("qframework/class/object/qobject.class.php");
+    include_once("qframework/class/net/qhttpgetvars.class.php");
+    include_once("qframework/class/net/qhttppostvars.class.php");
+    include_once("qframework/class/net/qhttpsessionvars.class.php");
+    include_once("qframework/class/net/qhttpcookievars.class.php");
+    include_once("qframework/class/net/qhttpfilesvars.class.php");
+    include_once("qframework/class/net/qhttpservervars.class.php");
+    include_once("qframework/class/net/qhttprequestvars.class.php");
 
     /**
      * HttpVars compatibility package, which allows to fetch some of php's basic

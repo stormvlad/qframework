@@ -1,7 +1,7 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/file/qbaseunpacker.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/file/qbaseunpacker.class.php" );
 
     define( "DEFAULT_UNZIP_PATH", "/usr/bin/unzip" );
 

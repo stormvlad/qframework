@@ -1,7 +1,7 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/net/xmlrpc/IXR_Library.lib.php" );
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/net/xmlrpc/IXR_Library.lib.php" );
 
     /**
      * Implements a very basic XMLRPC client, which offers methods such as

@@ -1,6 +1,6 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
 
     define( TYPE_INTEGER, 1 );
     define( TYPE_BOOLEAN, 2 );

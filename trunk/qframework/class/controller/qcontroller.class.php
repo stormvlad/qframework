@@ -1,10 +1,10 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/action/qction.class.php" );
-    include_once("framework/class/object/qexception.class.php" );
-    include_once("framework/class/net/qhttp.class.php");
-    include_once("framework/class/security/qpipeline.class.php");
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/action/qction.class.php" );
+    include_once("qframework/class/object/qexception.class.php" );
+    include_once("qframework/class/net/qhttp.class.php");
+    include_once("qframework/class/security/qpipeline.class.php");
 
     define("DEFAULT_ACTION_PARAM", "op");
     define("DEFAULT_ACTION_NAME", "default");

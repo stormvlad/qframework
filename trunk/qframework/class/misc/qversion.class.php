@@ -1,6 +1,6 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
 
     define( "PLOG_PROJECT_PAGE", "http://www.plogworld.org" );
 
