@@ -320,6 +320,19 @@
         /**
         * Add function info here
         */
+        function getDbObject($whereClause = null)
+        {
+            if (!($items = $this->getDbObjects($where)))
+            {
+                return false;
+            }
+
+            return $items[0];
+        }
+
+        /**
+        * Add function info here
+        */
         function getAll()
         {
             return $this->getDbObjects();
