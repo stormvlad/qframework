@@ -2,7 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
-    define(DEFAULT_TIMER_PRECISION, 8);
+    define(DEFAULT_TIMER_PRECISION, 6);
 
     class qTimer extends qObject
     {
@@ -12,12 +12,27 @@
         /**
         *    Add function info here
         */
-        function qTimer()
+        function qTimer($precision = DEFAULT_TIMER_PRECISION)
         {
             $this->qObject();
             $this->_marks     = array();
-            $this->_precision = DEFAULT_TIMER_PRECISION;
+            $this->_precision = $precision;
             $this->start();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function &getTimer()
+        {
+            static $timerInstance;
+
+            if (!isset($timerInstance))
+            {
+                $timerInstance = new qTimer();
+            }
+
+            return $timerInstance;
         }
 
         /**
@@ -68,7 +83,6 @@
             }
             else
             {
-                print $this->_getTime() . "-- " . $this->_marks[$start] . "<br>";
                 return bcsub($this->_getTime(), $this->_marks[$start], $this->_precision);
             }
         }
