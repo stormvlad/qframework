@@ -1,6 +1,7 @@
 <?php
 
-    include_once("class/dao/dao.class.php");
+    include_once(APP_ROOT_PATH . "class/dao/dao.class.php");
+    include_once(APP_ROOT_PATH . "class/dao/{$className|lower|replace:"dao":"dbobject"}.class.php");
 
     /**
     * Dao base class.
