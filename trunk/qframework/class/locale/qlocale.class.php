@@ -1,359 +1,576 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qtimestamp.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/locale/qlocalefilestorage.class.php");
 
     define(DEFAULT_LOCALE_CODE, "es_ES");
-    define(DEFAULT_LOCALE_FOLDER, "locale");
-    define(DEFAULT_ENCODING, "iso-8859-1");
+    define(DEFAULT_LOCALE_FILE_STORAGE, "locale/" . DEFAULT_LOCALE_CODE . ".php");
 
     /**
-     * Class used to localize messages and things such as dates and numbers.
+     * Extends the Properties class so that our own configuration file is automatically loaded.
+     * The configuration file is under config/config.properties.php
      *
-     * To use this class, we will have to provide a file containing an array
-     * of the form:
-     *
-     * <pre>
-     * $messages["identifier"] = "Translated text"
-     * </pre>
-     *
-     * The file will be loaded when creating this object and must be called following
-     * the same scheme: locale_lang_COUNTRY (see constructor on locales namig schemes)
-     *
-     * When we want to translate a string, we will have to use its identifier, that will
-     * be looked up in the array containing all the messages. If there is a message for that
-     * identifier, it will be returned or a empty string otherwise.
-     *
-     * This class is extensively used throughout the templates to localize texts, dates
-     * and numbers, being the formatDate function one of the most importants of this class.
-     *
-     * <b>IMPORTANT:</b> For performance reasons, it is recommended to use the Locales::getLocale
-     * method instead of creating new Locale objects every time we need one. The getLocale methods
-     * offers caching capabilities so that the file with the messages will not need to be fetched
-     * every time from disk.
-     * @see Locales::getLocale()
+     * It is recommented to use this function as a singleton rather than as an object.
+     * @see Config
+     * @see getConfig
      */
     class qLocale extends qObject
     {
-        var $_code;
-        var $_defaultFolder;
+        var $_storage;
         var $_messages;
-        var $_charset;
 
         /**
-         * Constructor.
-         *
-         * @param $code Code follows the Java naming scheme: language_COUNTRY, so
-         * for example if we want to have the texts translated in the English spoken
-         * in the UK, we'd have to use en_UK as the code. The two digits country
-         * code and language code are ISO standards and can be found in
-         * http://userpage.chemie.fu-berlin.de/diverse/doc/ISO_3166.html (country codes) and
-         * http://userpage.chemie.fu-berlin.de/diverse/doc/ISO_639.html (language codes)
-         */
-        function qLocale($code = DEFAULT_LOCALE_CODE)
+        *    Add function info here
+        */
+        function qLocale(&$storage)
         {
             $this->qObject();
 
-            $this->_code          = $code;
-            $this->_charset       = $this->_messages["encoding"];
-            $this->_direction     = $this->_messages["direction"];
-            $this->_defaultFolder = DEFAULT_LOCALE_FOLDER;
+            $this->_storage  = &$storage;
+            $this->_messages = new qProperties();
 
-            $this->_loadLocaleFile();
+            $this->load();
+        }
 
-            if (empty($this->_charset))
+        /**
+        *    Add function info here
+        */
+        function &getLocale()
+        {
+            static $localeInstance;
+
+            if (!isset($localeInstance))
             {
-                $this->_charset = DEFAULT_ENCODING;
-            }
-        }
-
-        /**
-         * @private
-         */
-        function _loadLocaleFile()
-        {
-            $fileName = $this->_defaultFolder . "/locale_" . $this->_code . ".php";
-
-            include($fileName);
-            $this->_messages = $messages;
-        }
-
-        function getDefaultFolder()
-        {
-            return $this->_defaultFolder;
-        }
-
-        /**
-         * Returns the character encoding method used by the current locale file. It has to be a valid
-         * character encoding, since it will be used in the header of the html file to tell the browser
-         * which is the most suitable encoding that should be used.
-         *
-         * @return A valid character encoding method.
-         */
-        function getCharset()
-        {
-            return $this->_charset;
-        }
-
-        /**
-         * returns the direction in which this language is written.
-         * Possible values are, as with the html standard, "rtl" or "ltr"
-         *
-         */
-        function getDirection()
-        {
-            $direction = $this->_direction;
-
-            if ($direction != "rtl")
-            {
-                $direction = "ltr";
+                $localeInstance = new qLocale(new qLocaleFileStorage(DEFAULT_LOCALE_FILE_STORAGE));
             }
 
-            return $direction;
+            return $localeInstance;
         }
 
         /**
-         * Returns an optional locale description string that can be included in the
-         * locale file with the other texts.
-         *
-         * @return A string describing the locale file.
-         */
+        *    Add function info here
+        */
+        function getCountryId()
+        {
+            return substr($this->getLocaleCode(), 3, 2);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getLanguageId()
+        {
+            return substr($this->getLocaleCode(), 0, 2);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getLocaleCode()
+        {
+            return $this->getValue("__locale_code__");
+        }
+
+        /**
+        *    Add function info here
+        */
         function getDescription()
         {
-            return $this->_messages["locale_description"];
+            return $this->getValue("__description__");
         }
 
         /**
-         * Changes the locale to something else than what we chose in the first place when
-         * creating the object.
-         *
-         * @param code follows the same format as in the constructor.
-         */
-        function setLocale($code)
+        *    Add function info here
+        */
+        function getCharset()
         {
-            $this->_code = $code;
-            $this->_loadLocaleFile();
+            return $this->getValue("__charset__");
         }
 
         /**
-         * Translates a string
-         *
-         * @param id Identifier of the message we would like to translate
-         */
-        function getString($id, $default = -1)
+        *    Add function info here
+        */
+        function getDirection()
         {
-            if ($default == -1)
+            return $this->getValue("__direction__");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getDecimalSymbol()
+        {
+            return $this->getValue("__decimal_symbol__");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getThousandsSeparator()
+        {
+            return $this->getValue("__thousands_separator__");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getCurrencySymbol()
+        {
+            return $this->getValue("__currency_symbol__");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getCurrencySymbol2()
+        {
+            return $this->getValue("__currency_symbol2__");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getCurrencySymbolPosition()
+        {
+            return $this->getValue("__currency_symbol_position__");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getCurrencyDecimals()
+        {
+            return $this->getValue("__currency_decimals__");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getTimeFormat()
+        {
+            return $this->getValue("__time_format__");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getDateFormat()
+        {
+            return $this->getValue("__date_format__");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getDateFormatShort()
+        {
+            return $this->getValue("__date_format_short__");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getDateTimeFormat()
+        {
+            return $this->getValue("__date_time_format__");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getFirstDayOfWeek()
+        {
+            return $this->getValue("__first_day_of_week__");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getPaperFormat()
+        {
+            return $this->getValue("__paper_format__");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setCode($code)
+        {
+            $this->setValue("__locale_code__", $code);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setDescription($description)
+        {
+            $this->setValue("__description__", $description);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setCharset($charset)
+        {
+            $this->setValue("__charset__", $charset);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setDirection($direction)
+        {
+            $this->setValue("__direction__", $direction);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setDecimalSymbol($symbol)
+        {
+            $this->setValue("__decimal_symbol__", $symbol);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setThousandsSeparator($separator)
+        {
+            $this->setValue("__thousands_separator__", $separator);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setCurrencySymbol($symbol)
+        {
+            $this->setValue("__currency_symbol__", $symbol);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setCurrencySymbol2($symbol)
+        {
+            $this->setValue("__currency_symbol2__", $symbol);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setCurrencySymbolPosition($position)
+        {
+            $this->setValue("__currency_symbol_position__", $position);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setCurrencyDecimals($num)
+        {
+            $this->setValue("__currency_decimals__", $num);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setTimeFormat($format)
+        {
+            $this->setValue("__time_format__", $format);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setDateFormat($format)
+        {
+            $this->setValue("__date_format__", $format);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setDateFormatShort($format)
+        {
+            $this->setValue("__date_format_short__", $format);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setDateTimeFormat($format)
+        {
+            $this->setValue("__date_time_format__", $format);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setFirstDayOfWeek($day)
+        {
+            $this->setValue("__first_day_of_week__", $day);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setPaperFormat($format)
+        {
+            $this->setValue("__paper_format__", $format);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function load()
+        {
+            return $this->_storage->load($this);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function saveValue($name, $value)
+        {
+            return $this->_storage->saveValue($this, $name, $value);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function save()
+        {
+            return $this->_storage->save($this);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function i18n($id)
+        {
+            if ($this->keyExists($id))
             {
-                $default = $id;
+                $string = $this->_messages->getValue($id);
+            }
+            else
+            {
+                $string = $id;
             }
 
-            $string = $this->_messages[$id];
-
-            if ($string == "")
+            if( $this->getDirection() == "rtl" )
             {
-                $string = $default;
+                $string = "<span dir=\"rtl\">" . $string . "</span>";
             }
 
-            if ($this->_direction == "rtl")
+            $numArgs = func_num_args();
+            $argList = func_get_args();
+
+            for ($i = 1; $i < $numArgs; $i++)
             {
-                $string = "<span dir=\"rtl\">$string</span>";
+                $string = str_replace("%" . $i, $argList[$i], $string);
             }
 
             return $string;
         }
 
         /**
-         * Alias for getString
-         * @see getString
-         */
-        function tr($id, $default = -1)
+        *    Add function info here
+        */
+        function getValue($key)
         {
-            return $this->getString($id, $default);
+            return $this->_messages->getValue($key);
         }
 
         /**
-         * Alias for getString
-         * @see getString
-         */
-        function i18n($id, $default = -1)
+        *    Add function info here
+        */
+        function setValues($values)
         {
-            return $this->getString($id, $default);
+            return $this->_messages->setValues($values);
         }
 
         /**
-         * calls printf on the translated string.
-         *
-         * Crappy Crappy! Since it only accepts two arguments... ;) Well, if we
-         * ever need more than two, I'll change it!
-         * @private
-         */
-        function pr($id, $arg1 = null, $arg2 = null)
+        *    Add function info here
+        */
+        function setValue($key, $value)
         {
-            $str = $this->tr( $id );
+            return $this->_messages->setValue($key, $value);
+        }
 
-            if (empty($arg1))
-            {
-                $result = $str;
-            }
+        /**
+        *    Add function info here
+        */
+        function getKeys()
+        {
+            return $this->_messages->getKeys();
+        }
 
-            if (empty($arg2))
+        /**
+        *    Add function info here
+        */
+        function getValues()
+        {
+            return $this->_messages->getValues();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getAsArray()
+        {
+            return $this->_messages->getAsArray();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function keyExists($key)
+        {
+            return $this->_messages->keyExists($key);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function formatNumber($number, $decimals = null)
+        {
+            if (empty($decimals))
             {
-                $result = sprintf($str, $arg1);
+                $decimals = is_float($number) ? $this->getCurrencyDecimals() : 0;
             }
-            else
+            return  number_format($number, $decimals, $this->getDecimalSymbol(), $this->getThousandsSeparator());
+        }
+
+        /**
+        *    Add function info here
+        */
+        function formatCurrency($number, $html = true)
+        {
+            $symbol = $html ? $this->getCurrencySymbol() : $this->getCurrencySymbol2();
+            $result = number_format($number, $this->getCurrencyDecimals(), $this->getDecimalSymbol(), $this->getThousandsSeparator());
+
+            switch (strtoupper($this->getCurrencySymbolPosition()))
             {
-                $result = sprintf($str, $arg1, $arg2);
+                case "L":
+                    $result = $symbol . $result;
+                    break;
+
+                case "R":
+
+                default:
+                    $result = $result . $symbol;
             }
 
             return $result;
         }
 
         /**
-         * Returns the complete code
-         *
-         * @return The Locale code
-         */
-        function getLocale()
+        *    Add function info here
+        */
+        function formatTime($timeStamp = null)
         {
-            return $this->_code;
+            return $this->format($this->getTimeFormat(), $timeStamp);
         }
 
         /**
-         * Returns the two-character language code
-         *
-         * @return The two-character language code
-         */
-        function getLanguageId()
+        *    Add function info here
+        */
+        function formatDate($timeStamp = null)
         {
-            return substr($this->_code, 0, 2);
+            return $this->format($this->getDateFormat(), $timeStamp);
         }
 
         /**
-         * Returns the two-character country code
-         *
-         * @return The two-character country code.
-         */
-        function getCountryId()
+        *    Add function info here
+        */
+        function formatDateShort($timeStamp = null)
         {
-            return substr($this->_code, 3, 5);
+            return $this->format($this->getDateFormatShort(), $timeStamp);
         }
 
         /**
-         * Returns the first day of the week, which also depends on the country
-         *
-         * @return Returns 0 for Sunday, 1 for Monday and so on...
-         */
-        function firstDayOfWeek()
+        *    Add function info here
+        */
+        function formatDateTime($timeStamp = null)
         {
-            switch ($this->getCountryId())
-            {
-                case "US":
-                case "AU":
-                case "IE":
-                case "UK":
-                    $day = 0;
-                    break;
-
-                default:
-                    $day = 1;
-                    break;
-            }
-
-            return $day;
+            return $this->format($this->getDateTimeFormat(), $timeStamp);
         }
 
         /**
-         * Returns all the months of the year
-         *
-         * @return Returns an array containing the names of the months, where the
-         * first one is January.
-         */
-        function getMonthNames()
-        {
-            return $this->_messages["months"];
-        }
-
-        /**
-         * Returns the days of the week
-         *
-         * @return Returns the names of the days of the week, where the first one is
-         * Sunday.
-         */
-        function getDayNames()
-        {
-            return $this->_messages["days"];
-        }
-
-        /**
-         * Returns the shorter version of the days of the week
-         *
-         * @return Returns an array with the days of the week abbreviated, where the first
-         * one is Sunday.
-         */
-        function getDayNamesShort()
-        {
-            return $this->_messages["daysshort"];
-        }
-
-        /**
-         * Formats the date of a Timestamp object according to the given format:
-         *
-         * (compatible with PHP):<ul>
-         * <li>%a abbreviated weekday</li>
-         * <li>%A    complete weekday</li>
-         * <li>%b    abbreviated month</li>
-         * <li>%B    long month</li>
-         * <li>%d    day of the month, numeric</li>
-         * <li>%H    hours, in 24-h format</li>
-         * <li>%I    hours, in 12-h format</li>
-         * <li>%M    minutes</li>
-         * <li>%m    month number, from 00 to 12</li>
-         * <li>%S    seconds</li>
-         * <li>%y    2-digit year representation</li>
-         * <li>%Y    4-digit year representation</li>
-         * <li>%%    the '%' character
-         * </ul>
-         * (these have been added by myself and are therefore incompatible with php)<ul>
-         * <li>%T    "_day_ of _month_", where the day is in ordinal form and 'month' is the name of the month</li>
-         * <li>%D    cardinal representation of the day</li>
-         * </ul>
-         */
-        function formatDate($format, $timeStamp = null)
+        *    Add function info here
+        */
+        function format($format, $timeStamp = null)
         {
             if (empty($timeStamp))
             {
-                $timeStamp = new qTimeStamp();
+                $timeStamp = mktime();
             }
 
-            $monthId    = (int)$timeStamp->getMonth();
-            $monthStr   = $this->_messages["months"][$monthId-1];
-            $weekdayId  = $timeStamp->getWeekdayId();
-            $weekday    = $this->_messages["days"][$weekdayId];
+            $hour        = (int) strftime("%H", $timeStamp);
+            $hour2       = (int) strftime("%I", $timeStamp);
+            $minute      = (int) strftime("%M", $timeStamp);
+            $second      = (int) strftime("%S", $timeStamp);
 
-            $values["%a"] = substr($weekday, 0, 2);
-            $values["%A"] = $weekday;
-            $values["%b"] = substr($monthStr, 0, 3);
-            $values["%B"] = $monthStr;
-            $values["%d"] = $timeStamp->getDay();
-            $values["%H"] = $timeStamp->getHour();
-            $values["%I"] = $timeStamp->getHour / 2;
-            $values["%M"] = $timeStamp->getMinutes();
-            $values["%m"] = $timeStamp->getMonth();
-            $values["%S"] = $timeStamp->getSeconds();
-            $values["%y"] = substr($timeStamp->getYear(), 2, 4);
-            $values["%Y"] = $timeStamp->getYear();
-            $values["%%"] = "%";
-            $values["%T"] = $timeStamp->getDayOrdinal() . " " . $this->tr("of") . " " . $monthStr;
-            $values["%D"] = $timeStamp->getDayOrdinal();
+            $day         = (int) strftime("%d", $timeStamp);
+            $month       = (int) strftime("%m", $timeStamp);
+            $week        = (int) strftime("%V", $timeStamp);
+            $week2       = (int) strftime("%W", $timeStamp);
+            $week3       = (int) strftime("%U", $timeStamp);
+            $year        = (int) strftime("%Y", $timeStamp);
+            $century     = (int) ($year / 100);
 
-            $text = $format;
+            $rTime       = strftime("%r", $timeStamp);
+            $rTimeR      = strftime("%R", $timeStamp);
+            $amPm        = strftime("%p", $timeStamp);
 
-            foreach(array_keys($values) as $key)
-            {
-                $text = str_replace($key, $values[$key], $text);
-            }
+            $weekDayNum  = (int) strftime("%w", $timeStamp);
+            $weekDayNum2 = (int) strftime("%u", $timeStamp);
 
-            return $text;
+            $yearDayNum  = (int) strftime("%j", $timeStamp);
+
+            $days        = $this->i18n("_days");
+            $daysShort   = $this->i18n("_days_short");
+            $months      = $this->i18n("_months");
+            $monthsShort = $this->i18n("_months_short");
+
+            $result      = $format;
+            $result      = str_replace("%a", $daysShort[$weekDayNum], $result);
+            $result      = str_replace("%A", $days[$weekDayNum], $result);
+            $result      = str_replace("%b", $monthsShort[$month - 1], $result);
+            $result      = str_replace("%B", $months[$month - 1], $result);
+            $result      = str_replace("%c", sprintf("%s %s %s %s %02s:%02s:%02s %s", $daysShort[$weekDayNum], $day, $months[$month - 1], $year, $hour, $minute, $second, $timeZone), $result);
+            $result      = str_replace("%C", sprintf("%02s", $century), $result);
+            $result      = str_replace("%d", sprintf("%02s", $day), $result);
+            $result      = str_replace("%D", sprintf("%02s/%02s/%02s", $month, $day, $year2), $result);
+            $result      = str_replace("%e", $day, $result);
+            $result      = str_replace("%g", substr($year, 2, 2), $result);
+            $result      = str_replace("%G", $year, $result);
+            $result      = str_replace("%h", $monthsShort[$month - 1], $result);
+            $result      = str_replace("%H", sprintf("%02s", $hour), $result);
+            $result      = str_replace("%I", $hour2, $result);
+            $result      = str_replace("%j", sprintf("%03s", $yearDayNum), $result);
+            $result      = str_replace("%m", sprintf("%02s", $month), $result);
+            $result      = str_replace("%M", sprintf("%02s", $minute), $result);
+            $result      = str_replace("%n", "\n", $result);
+            $result      = str_replace("%p", $amPm, $result);
+            $result      = str_replace("%r", $rTime, $result);
+            $result      = str_replace("%R", $rTimeR, $result);
+            $result      = str_replace("%S", sprintf("%02s", $second), $result);
+            $result      = str_replace("%t", "\t", $result);
+            $result      = str_replace("%T", sprintf("%02s:%02s:%02s", $hour, $minute, $second), $result);
+            $result      = str_replace("%u", $weekDayNum2, $result);
+            $result      = str_replace("%U", $week3, $result);
+            $result      = str_replace("%V", $week, $result);
+            $result      = str_replace("%W", $week2, $result);
+            $result      = str_replace("%w", $weekDayNum, $result);
+            $result      = str_replace("%x", sprintf("%02s/%02s/%02s", $month, $day, $year2), $result);
+            $result      = str_replace("%X", sprintf("%02s:%02s:%02s", $hour, $minute, $second), $result);
+            $result      = str_replace("%y", substr($year, 2, 2), $result);
+            $result      = str_replace("%Y", $year, $result);
+            $result      = str_replace("%Z", $timeZone, $result);
+            $result      = str_replace("%%", "%", $result);
+
+            return $result;
         }
     }
 ?>
