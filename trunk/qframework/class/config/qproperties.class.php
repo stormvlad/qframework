@@ -90,6 +90,21 @@
         }
 
         /**
+        * Add function info here
+        */
+        function &getValueRef($key)
+        {
+            if (array_key_exists($key, $this->_props))
+            {
+                return $this->_props[$key];
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /**
          * Returns the internal arrary used to store the properties as a PHP array
          * @return Internal array as a PHP array
          */
