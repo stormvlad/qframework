@@ -68,12 +68,14 @@
          */
         function check($value)
         {
-            if ($value < $this->_min)
+            $len = strlen($value);
+
+            if ($len < $this->_minValue)
             {
                 $this->setError(ERROR_RULE_TOO_SMALL);
                 return false;
             }
-            else if ($value > $this->_max)
+            else if ($this->_maxValue != 0 && $len > $this->_maxValue)
             {
                 $this->setError(ERROR_RULE_TOO_LARGE);
                 return false;
