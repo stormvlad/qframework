@@ -186,20 +186,32 @@
          */
         function unregisterEvent($event)
         {
-            $eventCode    = $this->getEventCode($event);
-            $eventManager = &qEventManager::getInstance();
+            $eventCode = $event;
 
+            if (is_int($eventCode))
+            {
+                $eventCode = $this->getEventCode($eventCode);
+            }
+
+            $eventManager = &qEventManager::getInstance();
             return $eventManager->unregisterEvent($this, $eventCode);
         }
 
         /**
          * Add function info here
          */
-        function registerEvent($event)
+        function registerEvent($event, $eventCode = null)
         {
-            $eventCode    = $this->getEventCode($event);
-            $eventManager = &qEventManager::getInstance();
+            if (empty($eventCode))
+            {
+                $eventCode = $this->getEventCode($event);
+            }
+            else
+            {
+                $this->setEventCode($event, $eventCode);
+            }
 
+            $eventManager = &qEventManager::getInstance();
             return $eventManager->registerEvent($this, $eventCode);
         }
 
@@ -208,8 +220,15 @@
          */
         function addEventHandler($event, &$obj, $method)
         {
+            $eventCode = $event;
+
+            if (is_int($eventCode))
+            {
+                $eventCode = $this->getEventCode($eventCode);
+            }
+
             $eventManager = &qEventManager::getInstance();
-            return $eventManager->addEventHandler($event, $obj, $method);
+            return $eventManager->addEventHandler($eventCode, $obj, $method);
         }
 
         /**
@@ -217,7 +236,14 @@
          */
         function sendEvent($event, $eventArgs = array())
         {
-            $eventCode    = $this->getEventCode($event);
+            $eventCode = $event;
+
+            if (is_int($eventCode))
+            {
+                $eventCode = $this->getEventCode($eventCode);
+            }
+
+            $eventArgs    = array_merge(array("event" => $eventCode), $eventArgs);
             $eventManager = &qEventManager::getInstance();
 
             return $eventManager->sendEvent($this, $eventCode, $eventArgs);
