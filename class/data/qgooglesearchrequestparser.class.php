@@ -202,7 +202,7 @@
 
             $request = preg_replace_callback("/([[:space:]]+|^)?([\"+-]?.+?\"?)([[:space:]]+|$)/si", array(&$this, "_replaceTerms"), $request);
 
-            $this->_localeExcludedTerms = array_intersect($this->_terms, $this->_localeStopWordsList);
+            $this->_localeExcludedTerms = array_unique(array_intersect($this->_terms, $this->_localeStopWordsList));
             $this->_terms = array_diff($this->_terms, $this->_localeExcludedTerms);
 
             if (count($this->_allTerms) == 1 && count($this->_localeExcludedTerms) == 1)
