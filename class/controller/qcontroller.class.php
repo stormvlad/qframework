@@ -82,7 +82,7 @@
 
             if (!isset($controllerInstance))
             {
-                $controllerInstance = new qContoller();
+                $controllerInstance = new qController();
             }
 
             return $controllerInstance;
@@ -101,7 +101,7 @@
          */
         function setUser(&$user)
         {
-            $this->_user = $user;
+            $this->_user = &$user;
         }
 
         /**
