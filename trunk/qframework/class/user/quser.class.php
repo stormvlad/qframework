@@ -17,6 +17,7 @@
         var $_loginName;
         var $_lastActionTime;
         var $_attributes;
+        var $_formValues;
         var $_permissions;
 
         /**
@@ -32,6 +33,7 @@
             $this->_loginName      = null;
             $this->_lastActionTime = null;
             $this->_attributes     = new qProperties();
+            $this->_formValues     = array();
             $this->_permissions    = array();
         }
 
@@ -172,6 +174,135 @@
         function hasAttribute($name)
         {
             return $this->_attributes->keyExists($name);
+        }
+
+        /**
+        * Add function info here
+        */
+        function &getAllFormValues()
+        {
+            return $this->_formValues;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getNormalizedStep($formName, $step)
+        {
+            if ($step === null)
+            {
+                $step = count($this->_formValues[$formName]) - 1;
+            }
+            else if ($step < 0)
+            {
+                $step = count($this->_formValues[$formName]) -1 + $step;
+            }
+
+            if ($step <  0)
+            {
+                $step = 0;
+            }
+
+            return $step;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getNextStep($formName)
+        {
+            return count($this->_formValues[$formName]);
+        }
+
+        /**
+        * Add function info here
+        */
+        function formValueExists($formName, $name, $step = null)
+        {
+            $step = $this->getNormalizedStep($formName, $step);
+            return array_key_exists($name, $this->_formValues[$formName][$step]);
+        }
+
+        /**
+        * Add function info here
+        */
+        function getFormValue($formName, $name, $step = null)
+        {
+            $step = $this->getNormalizedStep($formName, $step);
+            return $this->_formValues[$formName][$step][$name];
+        }
+
+        /**
+        * Add function info here
+        */
+        function &getFormValues($formName = null, $step = null)
+        {
+            if (empty($formName))
+            {
+                return $this->_formValues;
+            }
+            else
+            {
+                $step = $this->getNormalizedStep($formName, $step);
+
+                if (empty($this->_formValues[$formName][$step]))
+                {
+                    return false;
+                }
+
+                return $this->_formValues[$formName][$step];
+            }
+        }
+
+        /**
+        * Add function info here
+        */
+        function setFormValue($formName, $name, $value, $step = null)
+        {
+            $step = $this->getNormalizedStep($formName, $step);
+            $this->_formValues[$formName][$step][$name] = $value;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setFormValues($formName = null, $values = null, $step = null)
+        {
+            if (empty($formName))
+            {
+                $this->_formValues = $values;
+            }
+            else
+            {
+                foreach ($values as $key => $value)
+                {
+                    $this->setFormValue($formName, $key, $value, $step);
+                }
+            }
+        }
+
+        /**
+        * Add function info here
+        */
+        function removeFormValue($formName, $name, $step = null)
+        {
+            $step = $this->getNormalizedStep($formName, $step);
+            unset($this->_formValues[$formName][$step][$name]);
+        }
+
+        /**
+        * Add function info here
+        */
+        function resetFormValues($formName = null)
+        {
+            if (empty($formName))
+            {
+                $this->_formValues = array();
+            }
+            else
+            {
+                $this->_formValues[$formName] = array();
+            }
         }
 
         /**

@@ -26,6 +26,7 @@
             $loginName      = $session->getValue("loginName");
             $lastActionTime = $session->getValue("lastActionTime");
             $attributes     = $session->getValue("attributes");
+            $formValues     = $session->getValue("formValues");
             $permissions    = $session->getValue("permissions");
 
             if (empty($attributes))
@@ -37,6 +38,7 @@
             $user->setLoginName($loginName);
             $user->setLastActionTime($lastActionTime);
             $user->setAttributes($attributes);
+            $user->setFormValues(null, $formValues);
             $user->setPermissions($permissions);
 
             return true;
@@ -49,12 +51,14 @@
         {
             $session     = &qHttp::getSessionVars();
             $attributes  = &$user->getAttributes();
+            $formValues  = &$user->getFormValues();
             $permissions = &$user->getPermissions();
 
             $session->setValue("auth", $user->isAuthenticated());
             $session->setValue("loginName", $user->getLoginName());
             $session->setValue("lastActionTime", $user->getLastActionTime());
             $session->setValue("attributes", $attributes);
+            $session->setValue("formValues", $formValues);
             $session->setValue("permissions", $permissions);
             $session->save();
         }
