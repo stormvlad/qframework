@@ -672,7 +672,14 @@
                 $format = $this->getDateFormat();
             }
 
-            return $this->format($format);
+            $result = $this->format($format);
+
+            if ($this->getLocaleCode() == "ca_ES")
+            {
+                $result = ereg_replace("de ([AEIOUaeiou])", "d'\\1", $result);
+            }
+
+            return $result;
         }
     }
 ?>
