@@ -22,9 +22,20 @@
         /**
         * Add function info here
         */
-        function addField($fieldName)
+        function addFields($fields)
         {
-            $this->_fields->setValue($fieldName, null);
+            foreach ($fields as $fieldName => $fieldValue)
+            {
+                $this->_fields->setValue($fieldName, $fieldValue);
+            }
+        }
+
+        /**
+        * Add function info here
+        */
+        function addField($fieldName, $fieldValue = null)
+        {
+            $this->_fields->setValue($fieldName, $fieldValue);
         }
 
         /**
@@ -63,6 +74,14 @@
                     $this->_fields->setValue($key, $value);
                 }
             }
+        }
+
+        /**
+        * Add function info here
+        */
+        function getFieldsCount()
+        {
+            $this->_fields->count();
         }
     }
 ?>
