@@ -37,6 +37,8 @@
             $this->_attributes     = new qProperties();
             $this->_formValues     = array();
             $this->_permissions    = array();
+
+            $this->load();
         }
 
         /**

@@ -346,9 +346,6 @@
                 {
                     $this->_user = &qUser::getInstance();
                 }
-
-                $this->_user->setSid(session_id());
-                $this->_user->load();
             }
 
             if (empty($httpRequest))
