@@ -65,9 +65,9 @@
          */
         function setValuesByRef (&$values)
         {
-            foreach ($values as $key => &$value)
+            foreach ($values as $key => $value)
             {
-                $this->_props[$key] =& $value;
+                $this->_props[$key] =& $values[$key];
             }
         }
         
@@ -222,11 +222,11 @@
         {
             $array = array();
     
-            foreach ($this->_props as $key => &$value)
+            foreach ($this->_props as $key => $value)
             {
                 if (in_array($key, $keys))
                 {
-                    $array[$key] =& $value;
+                    $array[$key] =& $this->_props[$key];
                 }
             }
     
