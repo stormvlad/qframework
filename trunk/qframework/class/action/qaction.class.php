@@ -227,6 +227,11 @@
             $formName   = $this->getFormName();
             $step       = $this->_getNormalizedStep($step);
 
+            if (empty($formValues[$formName][$step]))
+            {
+                return false;
+            }
+
             return $formValues[$formName][$step];
         }
 
