@@ -29,9 +29,33 @@
         /**
         * Add function info here
         */
+        function addIdFields($fields)
+        {
+            $this->_idFields[] = $fields;
+        }
+
+        /**
+        * Add function info here
+        */
         function addIdField($fieldName)
         {
             $this->_idFields[] = $fieldName;
+        }
+
+        /**
+        * Add function info here
+        */
+        function removeIdFields()
+        {
+            $this->_idFields = array();
+        }
+
+        /**
+        * Add function info here
+        */
+        function removeIdField($fieldName)
+        {
+            $this->_idFields = array_diff($this->_idFields, array($fieldName));
         }
 
         /**
@@ -58,6 +82,24 @@
         /**
         * Add function info here
         */
+        function removeFields()
+        {
+            $this->_fields     = new qProperties($fields);
+            $this->_nullFields = array();
+        }
+
+        /**
+        * Add function info here
+        */
+        function removeField($fieldName)
+        {
+            $this->_fields->removeValue($fieldName);
+            unset($this->_nullFields[$fieldName]);
+        }
+
+        /**
+        * Add function info here
+        */
         function addOuterFields($fields)
         {
             foreach ($fields as $fieldName => $fieldValue)
@@ -72,6 +114,22 @@
         function addOuterField($fieldName, $fieldValue = null)
         {
             $this->_outerFields->setValue($fieldName, $fieldValue);
+        }
+
+        /**
+        * Add function info here
+        */
+        function removeOuterFields()
+        {
+            $this->_outerfields = new qProperties($fields);
+        }
+
+        /**
+        * Add function info here
+        */
+        function removeOuterField($fieldName)
+        {
+            $this->_outerfields->removeValue($fieldName);
         }
 
         /**
@@ -102,11 +160,18 @@
         */
         function setValue($fieldName, $value)
         {
-            $this->_fields->setValue($fieldName, $value);
-
-            if (empty($value))
+            if ($this->fieldExists($fieldName))
             {
-                $this->_nullFields[$fieldName] = true;
+                $this->_fields->setValue($fieldName, $value);
+
+                if (empty($value))
+                {
+                    $this->_nullFields[$fieldName] = true;
+                }
+            }
+            else
+            {
+                $this->_outerFields->setValue($fieldName, $value);
             }
         }
 
