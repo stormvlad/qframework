@@ -128,7 +128,7 @@
 
             foreach ($this->_allTerms as $term)
             {
-                if (in_array($term, $this->_localeExcludedTerms))
+                if (in_array($term, $this->_localeExcludedTerms) || in_array(substr($term, 1), $this->_excludedTerms))
                 {
                     $result .= $term . " ";
                 }
