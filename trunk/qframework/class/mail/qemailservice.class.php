@@ -124,6 +124,8 @@
             $mail->Body     = $message->getBody();
             $mail->From     = $message->getFrom();
 
+            $mail->IsHTML($message->isHtml());
+
             $attachments = $message->getAttachments();
 
             foreach ($attachments as $name => $attachment)

@@ -22,6 +22,7 @@
         var $_body;
         var $_mimeType;
         var $_attachments;
+        var $_isHtml;
 
         /**
          * Constructor
@@ -35,8 +36,12 @@
             $this->_bccAddrs    = array();
             $this->_attachments = array();
             $this->_mimeType    = DEFAULT_EMAIL_MESSAGE_MIME_TYPE;
+            $this->_isHtml      = false;
         }
 
+        /**
+         * Add function info here
+         */
         function addAttachment($attachment, $name = null)
         {
             if (empty($name))
@@ -45,6 +50,22 @@
             }
 
             $this->_attachments[$name] = $attachment;
+        }
+
+        /**
+         * Add function info here
+         */
+        function isHtml()
+        {
+            return $this->_isHtml;
+        }
+
+        /**
+         * Add function info here
+         */
+        function setHtml($isHtml)
+        {
+            $this->_isHtml = $isHtml;
         }
 
         /**
