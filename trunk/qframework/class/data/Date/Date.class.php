@@ -21,9 +21,9 @@
 //
 // Date Class
 //
-require_once 'framework/class/data/Date/TimeZone.class.php';
-require_once 'framework/class/data/Date/Calc.class.php';
-require_once 'framework/class/data/Date/Span.class.php';
+require_once 'qframework/class/data/Date/TimeZone.class.php';
+require_once 'qframework/class/data/Date/Calc.class.php';
+require_once 'qframework/class/data/Date/Span.class.php';
 
 /**
  * "YYYY-MM-DD HH:MM:SS"

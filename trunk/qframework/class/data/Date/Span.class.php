@@ -19,8 +19,8 @@
 // $Id: Span.class.php,v 1.2 2004/01/28 17:48:28 phunkphorce Exp $
 //
 
-require_once 'framework/class/data/Date.class.php';
-require_once 'framework/class/data/Date/Calc.class.php';
+require_once 'qframework/class/data/Date/Date.class.php';
+require_once 'qframework/class/data/Date/Calc.class.php';
 
 /**
  * Non Numeric Separated Values (NNSV) Input Format.

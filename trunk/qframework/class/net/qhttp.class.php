@@ -217,7 +217,7 @@
 
             if (!isset($requestVarsInstance))
             {
-                $requestVarsInstance = new qHttpRequestVars(Http::getRequest());
+                $requestVarsInstance = new qHttpRequestVars(qHttp::getRequest());
             }
 
             return $requestVarsInstance;

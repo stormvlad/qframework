@@ -17,7 +17,7 @@
 
         function qConfigAbstractStorage()
         {
-            $this->Object();
+            $this->qObject();
         }
 
         /**

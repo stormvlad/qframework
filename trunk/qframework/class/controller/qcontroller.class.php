@@ -1,10 +1,11 @@
 <?php
 
     include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/action/qction.class.php" );
+    include_once("qframework/class/action/qaction.class.php" );
     include_once("qframework/class/object/qexception.class.php" );
     include_once("qframework/class/net/qhttp.class.php");
     include_once("qframework/class/security/qpipeline.class.php");
+
 
     define("DEFAULT_ACTION_PARAM", "op");
     define("DEFAULT_ACTION_NAME", "default");
@@ -144,7 +145,7 @@
 
             if ($httpRequest === null)
             {
-                $httpRequest = &Http::getRequestVars();
+                $httpRequest = &qHttp::getRequestVars();
             }
 
             if (!empty($this->_pipeline))
