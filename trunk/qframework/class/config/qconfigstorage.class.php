@@ -10,11 +10,21 @@
     define("TYPE_FLOAT",   6);
 
     /**
-     * Interface class that defines the methods that should be implemented
-     * by child classes wishing to implement a configuratino settings storage backend.
+     * @brief Servicio de almacenaje de la configuración
+     *
+     * Clase interfície que define los métodos que deben implementar las clases
+     * derivadas que implementen un servicio de almacenaje de configuración.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    12/03/2005 23:36
+     * @version 1.0
+     * @ingroup config
      */
     class qConfigStorage extends qObject
     {
+        /**
+         * Constructor
+         */
         function qConfigStorage()
         {
             $this->qObject();

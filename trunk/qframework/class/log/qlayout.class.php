@@ -1,9 +1,12 @@
 <?php
 
     /**
-     * qLayout provides a customizable way to format data for an appender.
+     * @brief Proporciona una forma personalizable para dar formato a los datos.
      *
-     * @since   1.0
+     * @author  qDevel - info@qdevel.com
+     * @date    13/03/2005 04:22
+     * @version 1.0
+     * @ingroup log
      */
     class qLayout extends qObject
     {

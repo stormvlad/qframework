@@ -5,6 +5,8 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/dao/qdb.class.php");
 
     /**
+     * @brief Servicio de almacenaje de la configuración en base de datos simple
+     *
      * Storage backend that stores/retrieves the data from the plog_config
      * table.<br/>
      * The structore of the table is as follows:<ul>
@@ -104,8 +106,9 @@
         }
 
         /**
-        *    Add function info here
-        */
+         *    Add function info here
+         * @private
+         */
         function _updateValue(&$config, $key, $value)
         {
             $type = $this->getType($value);
@@ -137,8 +140,9 @@
         }
 
         /**
-        *    Add function info here
-        */
+         *    Add function info here
+         * @private
+         */
         function _insertValue(&$config, $key, $value)
         {
             $type = $this->getType($value);

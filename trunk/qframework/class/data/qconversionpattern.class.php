@@ -3,10 +3,15 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-     * Container provides storage for user data.
+     * @brief Conversión para cadenas con patrones
      *
-     * @since   1.0
-     */
+     * Reemplaza las ocurrencias de simbolos predefinidos por valores.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    13/03/2005 04:07
+     * @version 1.0
+     * @ingroup misc
+     */     
     class qConversionPattern extends qObject
     {
         /**

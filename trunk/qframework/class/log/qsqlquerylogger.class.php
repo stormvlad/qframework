@@ -4,8 +4,13 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/log/qmessage.class.php");
 
     /**
-    * qSqlLogger
-    */
+     * @brief Establece logs para las consultas SQL.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    13/03/2005 04:32
+     * @version 1.0
+     * @ingroup log
+     */
     class qSqlQueryLogger extends qLogger
     {
         /**

@@ -1,11 +1,16 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/log/qconversionpattern.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qconversionpattern.class.php");
 
     /**
-     * qFileAppender allows a logger to write a message to file.
+     * @brief Permite guardar los mensajes de log en un fichero.
      *
-     * @since   1.0
+     * Clase que implementa la salida a fichero para logs.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    13/03/2005 04:18
+     * @version 1.0
+     * @ingroup log
      */
     class qFileAppender extends qAppender
     {

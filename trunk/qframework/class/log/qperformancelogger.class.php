@@ -4,8 +4,19 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/log/qmessage.class.php");
 
     /**
-    * qPerformanceLogger
-    */
+     * @brief Establece logs para el tiempo de ejecución.
+     *
+     * Los logs generados por esta clase nos dan información sobre parámetros
+     * de rendimiento de la aplicación. Podemos obtener el número de consultas
+     * ejecutadas, el tiempo total de ejecución del script, el tiempo empleado
+     * en consultas en la base de datos, el tiempo empleado en renderizar la
+     * pàgina i el resto.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    13/03/2005 04:35
+     * @version 1.0
+     * @ingroup log
+     */
     class qPerformanceLogger extends qLogger
     {
         var $_queryCount;

@@ -12,7 +12,7 @@
      * @date    06/03/2005 19:10
      * @version 1.0
      * @ingroup log
-     **/
+     */
      
     class qAppender extends qObject
     {

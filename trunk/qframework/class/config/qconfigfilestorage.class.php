@@ -4,8 +4,14 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfigstorage.class.php");
 
     /**
-     * Extends the Properties class so that our own configuration file is automatically loaded.
-     * The configuration file is under config/config.properties.php
+     * @brief Servicio de almacenaje (backend) en fichero de texto para datos de configuración 
+     * 
+     * El fichero de texto con la configuración se carga/guarda en config/config.properties.php
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    12/03/2005 23:10
+     * @version 1.0
+     * @ingroup config
      */
     class qConfigFileStorage extends qConfigStorage
     {

@@ -3,9 +3,12 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/log/qappender.class.php");
 
     /**
-     * qStdoutAppender logs a message directly to the requesting client.
+     * @brief Añade el mensaje directamente a la respuesta para el cliente
      *
-     * @since   1.0
+     * @author  qDevel - info@qdevel.com
+     * @date    13/03/2005 04:32
+     * @version 1.0
+     * @ingroup log
      */
     class qStdoutAppender extends qAppender
     {

@@ -1,14 +1,20 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/log/qlayout.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/log/qconversionpattern.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qconversionpattern.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
 
     /**
      * PatternLayout allows a completely customizable layout that uses a conversion
      * pattern for formatting.
+    /**
+     * @brief Permite una composición personalizable para usar una conversión con patrones.
      *
-     * @since   1.0
+     * @author  qDevel - info@qdevel.com
+     * @date    13/03/2005 04:22
+     * @version 1.0
+     * @ingroup log
+     * @see     qConversionPattern
      */
     class qPatternLayout extends qLayout
     {

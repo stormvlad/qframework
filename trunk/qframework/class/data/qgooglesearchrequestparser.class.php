@@ -143,8 +143,9 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Add function info here
+         * @private
+         */
         function _replaceTextualTerms($matches)
         {
             $matches[2] = str_replace("_", "\\_", $matches[2]);
@@ -154,8 +155,9 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Add function info here
+         * @private
+         */
         function _replaceTerms($matches)
         {
             $char = substr($matches[2], 0, 1);

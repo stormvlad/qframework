@@ -120,8 +120,9 @@
         }
 
         /**
-        * Add function here
-        */
+         * Add function here
+         * @private
+         */
         function _getTableNameToClassName($tableName)
         {
             $className = str_replace("_", " ", $tableName);
@@ -131,8 +132,9 @@
         }
 
         /**
-        * Add function here
-        */
+         * Add function here
+         * @private
+         */
         function _outputDbObjectTemplate($tableName)
         {
             $fields     = $this->_db->MetaColumnNames($tableName, true);
@@ -159,8 +161,9 @@
         }
 
         /**
-        * Add function here
-        */
+         * Add function here
+         * @private
+         */
         function _outputDaoTemplate($tableName)
         {
             $smartyView = new qSmartyView($this->_daoTemplate, "");
@@ -182,8 +185,9 @@
         }
 
         /**
-        * Add function here
-        */
+         * Add function here
+         * @private
+         */
         function _outputTable($tableName)
         {
             $this->_outputDaoTemplate($tableName);

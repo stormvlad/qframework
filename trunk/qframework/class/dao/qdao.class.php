@@ -253,8 +253,9 @@
         }
 
         /**
-        * Add function here
-        */
+         * Add function here
+         * @private
+         */
         function _getWhereClause($obj)
         {
             $fields   = $obj->getFields();
@@ -270,16 +271,18 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Add function info here
+         * @private
+         */
         function _printSqlQueryDebug($sql)
         {
             print "<pre>"; print $sql; print "</pre>";
         }
 
         /**
-        * Add function info here
-        */
+         * Add function info here
+         * @private
+         */
         function _retrieve($sql, $offset = null, $numRows = null)
         {
             if (empty($offset))
@@ -303,8 +306,9 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Add function info here
+         * @private
+         */
         function _update($sql)
         {
             return $this->_db->Execute($sql);

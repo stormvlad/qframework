@@ -11,15 +11,15 @@
      * @author  qDevel - info@qdevel.com
      * @date    05/03/2005 19:19
      * @version 1.0
-     * @ingroup log
      */
 
-
     /**
-     * qLogManager manages all loggers.
+     * @brief Gestiiona todos los logs de la aplicación.
+     *
+     * Esta clase se usa habitualmente con una sola instancia (singleton).
      *
      * @author  qDevel - info@qdevel.com
-     * @date    05/03/2005 19:19
+     * @date    13/03/2005 04:24
      * @version 1.0
      * @ingroup log
      */
