@@ -40,14 +40,14 @@
          */
         function fileExists($localeCode)
         {
-            $filename = DEFAULT_LOCALE_PATH . $localeCode . "/LC_MESSAGES/" . GETTEXT_FILENAME;
+            $filename = DEFAULT_LOCALE_PATH . $localeCode . "/" . GETTEXT_FILENAME;
 
             if (qFile::exists($filename))
             {
                 return $filename;
             }
 
-            $filename = DEFAULT_LOCALE_PATH . substr($localeCode, 0, 2) . "/LC_MESSAGES/" . GETTEXT_FILENAME;
+            $filename = DEFAULT_LOCALE_PATH . substr($localeCode, 0, 2) . "/" . GETTEXT_FILENAME;
 
             if (qFile::exists($filename))
             {
@@ -123,11 +123,11 @@
         function save(&$locale)
         {
             // Check the directory exists
-            $dirname = DEFAULT_LOCALE_PATH . $this->_localeCode . "/LC_MESSAGES/";
+            $dirname = DEFAULT_LOCALE_PATH . $this->_localeCode . "/";
 
             if (!qFile::exists($dirname))
             {
-                $dirname = DEFAULT_LOCALE_PATH . substr($this->_localeCode, 0, 2) . "/LC_MESSAGES/";
+                $dirname = DEFAULT_LOCALE_PATH . substr($this->_localeCode, 0, 2) . "/";
 
                 if (!qFile::exists($dirname))
                 {
