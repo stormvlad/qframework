@@ -239,6 +239,14 @@
         }
 
         /**
+        * Get all object fields and the outer fields added
+        */
+        function getAllFields()
+        {
+            return array_merge($this->getFields(), $this-> getOuterFields());
+        }
+
+        /**
         * Add function info here
         */
         function getIdFields()
