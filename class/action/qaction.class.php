@@ -7,15 +7,34 @@
      */
     class qAction extends qObject
     {
+        var $_controllerParams;
+
         /**
          * Constructor.
          *
          * @param actionInfo An qActionInfo object contaning information about the action
          * @param httpRequest the HTTP request.
          */
-        function qAction()
+        function qAction(&$controllerParams)
         {
             $this->qObject();
+            $this->_controllerParams = &$controllerParams;
+        }
+
+        /**
+        *    Add function info here
+        **/
+        function &getControllerParams()
+        {
+            return $this->_controllerParams;
+        }
+
+        /**
+        *    Add function info here
+        **/
+        function setControllerParams(&$controllerParams)
+        {
+            $this->_controllerParams = &$controllerParams;
         }
 
         /**
@@ -29,7 +48,7 @@
         /**
          * Add function info here
          */
-        function validate(&$controller, &$httpRequest, &$user)
+        function validate()
         {
             return true;
         }
@@ -37,7 +56,7 @@
         /**
          * Add function info here
          */
-        function handleValidateError(&$controller, &$httpRequest, &$user, &$errors)
+        function handleValidateError($errors)
         {
             throw(new qException("qAction::handleValidateError: This method must be implemented by child classes."));
             die();
@@ -46,14 +65,14 @@
         /**
          * Add function info here
          */
-        function registerValidations(&$controller, &$httpRequest, &$user, &$validationsList)
+        function registerValidations(&$validationsList)
         {
         }
 
         /**
          * Add function info here
          */
-        function handleFilterError(&$controller, &$httpRequest, &$user, $error)
+        function handleFilterError($error)
         {
             throw(new qException("qAction::handleFilterError: This method must be implemented by child classes."));
             die();
@@ -62,7 +81,7 @@
         /**
          * Add function info here
          */
-        function registerFilters(&$controller, &$httpRequest, &$user, &$filtersChain)
+        function registerFilters(&$filtersChain)
         {
         }
 
@@ -75,9 +94,17 @@
         }
 
         /**
+        *    Add function info here
+        **/
+        function getPermissions()
+        {
+            return false;
+        }
+
+        /**
          * Add function info here
          */
-        function handleSecureError(&$controller, &$httpRequest, &$user)
+        function handleSecureError()
         {
             throw(new qException("qAction::handleSecureError: This method must be implemented by child classes."));
             die();
@@ -94,7 +121,7 @@
          *
          * @return Returns nothing
          */
-        function perform(&$controller, &$httpRequest, &$user)
+        function perform()
         {
             throw(new qException("qAction::perform: This method must be implemented by child classes."));
             die();
@@ -103,7 +130,7 @@
         /**
          * Add function info here
          */
-        function performAfterValidation(&$controller, &$httpRequest, &$user)
+        function performAfterValidation()
         {
             throw(new qException("qAction::performAfterValidation: This method must be implemented by child classes."));
             die();

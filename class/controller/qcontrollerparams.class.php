@@ -1,6 +1,6 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qparams.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
      * Inherits from Properties but just to add some default

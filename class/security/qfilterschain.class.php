@@ -11,6 +11,7 @@
      */
     class qFiltersChain extends qObject
     {
+        var $_controllerParams;
         var $_filters;
         var $_error;
 
@@ -20,11 +21,13 @@
          * @param httpRequest The HTTP request
          * that is currently executing this pipeline
          */
-        function qFiltersChain()
+        function qFiltersChain(&$controllerParams)
         {
             $this->qObject();
-            $this->_filters = array();
-            $this->_error   = false;
+
+            $this->_controllerParams = &$controllerParams;
+            $this->_filters          = array();
+            $this->_error            = false;
         }
 
         /**
@@ -64,11 +67,11 @@
          * Processes the pipeline, using the request and blogInfo
          * objects as given in the constructor.
          */
-        function filter(&$controller, &$httpRequest, &$user)
+        function filter()
         {
             foreach ($this->_filters as $filter)
             {
-                if (!$filter->filter($controller, $httpRequest, &$user))
+                if (!$filter->filter())
                 {
                     $this->_setError($filter->getError());
                     return false;
