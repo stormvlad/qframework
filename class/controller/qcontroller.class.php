@@ -172,6 +172,38 @@
         /**
          * Add function info here
          */
+        function getSessionName()
+        {
+            return session_name();
+        }
+
+        /**
+         * Add function info here
+         */
+        function setSessionName($name)
+        {
+            session_name($name);
+        }
+
+        /**
+         * Add function info here
+         */
+        function getSessionPath()
+        {
+            return session_save_path();
+        }
+
+        /**
+         * Add function info here
+         */
+        function setSessionPath($path)
+        {
+            session_save_path($path);
+        }
+
+        /**
+         * Add function info here
+         */
         function registerActions($actions)
         {
             $result = true;
