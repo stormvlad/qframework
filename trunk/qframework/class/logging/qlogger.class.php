@@ -50,7 +50,6 @@
             parent::qObject();
 
             // set default minimum priority levels
-
             if (parent::isDebug())
             {
                 $this->priority     = 0; // SHOW ALL ERRORS

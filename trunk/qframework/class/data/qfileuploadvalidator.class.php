@@ -43,26 +43,31 @@
             }
             else if (is_array($extensions))
             {
-                $this->_validExtensions = $extensions;
-            }
-            else if (is_string($extensions) && ereg("(\\*\\.[^*.|]+)([|,;:]?\\*\\.[^*.|]+)*", $extensions))
-            {
                 $this->_validExtensions = array();
-                $extensions = explode("|", $extensions);
 
                 foreach ($extensions as $extension)
                 {
-                    $this->_validExtensions[] = substr(trim($extension), 2);
+                    $this->_validExtensions[] = strtolower(trim($extension));
                 }
             }
-            else if (is_string($extensions) && ereg("([^|]+)(|,;:]?[^|]+)*", $extensions))
+            else if (is_string($extensions) && ereg("(\\*\\.[^*.|]+)([|,;:]\\*\\.[^*.|]+)*", $extensions))
             {
                 $this->_validExtensions = array();
-                $extensions = explode("|", $extensions);
+                $extensions = split("[|,;:]", $extensions);
 
                 foreach ($extensions as $extension)
                 {
-                    $this->_validExtensions[] = trim($extension);
+                    $this->_validExtensions[] = strtolower(substr(trim($extension), 2));
+                }
+            }
+            else if (is_string($extensions) && ereg("([^|]+)(|,;:][^|]+)*", $extensions))
+            {
+                $this->_validExtensions = array();
+                $extensions = explode("[|,;:]", $extensions);
+
+                foreach ($extensions as $extension)
+                {
+                    $this->_validExtensions[] = strtolower(trim($extension));
                 }
             }
             else
@@ -76,7 +81,7 @@
         */
         function isValidExtension($extension)
         {
-            return in_array($extension, $this->_validExtensions);
+            return in_array(strtolower($extension), $this->_validExtensions);
         }
 
         /**
