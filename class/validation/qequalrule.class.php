@@ -5,6 +5,8 @@
     define("ERROR_RULE_VALUES_NOT_EQUAL", "error_rule_values_not_equal");
 
     /**
+     * @brief Comprueba que un dato es igual a uno predefinido
+     *
      * This is an implementation of the 'Strategy' pattern as it can be seen
      * http://www.phppatterns.com/index.php/article/articleview/13/1/1/. Here we use
      * this pattern to validate data received from forms. Its is useful since for example

@@ -9,7 +9,7 @@
     define("ERROR_VALIDATOR_FILE_UPLOAD_UNKNOWN", "error_validator_file_upload_unknown");
 
     /**
-     * Extends the validator class to determine wether an email address is valid or not.
+     * @brief Determina cuando se ha subido un fichero sin errores.
      *
      * @author  qDevel - info@qdevel.com
      * @date    05/03/2005 19:22

@@ -7,6 +7,8 @@
       */
 
     /**
+     * @brief Base de un validador o regla
+     *
      * This is an implementation of the 'Strategy' pattern as it can be seen
      * http://www.phppatterns.com/index.php/article/articleview/13/1/1/. Here we use
      * this pattern to validate data received from forms. Its is useful since for example

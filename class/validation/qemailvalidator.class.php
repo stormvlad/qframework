@@ -7,7 +7,7 @@
     define("DEFAULT_CHECK_EMAIL_ADDRESS", false);
 
     /**
-     * Extends the validator class to determine wether an email address is valid or not.
+     * @brief Comprueba que se sigue un formato de email y se comprueba posteriormente online
      *
      * @author  qDevel - info@qdevel.com
      * @date    05/03/2005 19:22
