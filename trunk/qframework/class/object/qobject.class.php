@@ -149,7 +149,7 @@
         /**
          * Add function info here
          */
-        function sendEvent($event, $eventArgs)
+        function sendEvent($event, $eventArgs = array())
         {
             if (!array_key_exists($event, $this->_events))
             {

@@ -214,13 +214,20 @@
                 $actionObject     = new $actionClassName();
                 $this->_forwarded = 0;
 
-                if ($actionObject->validate($this, $httpRequest))
+                if ($actionObject->filter($this, $httpRequest))
                 {
-                    $view = $actionObject->perform($this, $httpRequest);
+                    if ($actionObject->validate($this, $httpRequest))
+                    {
+                        $view = $actionObject->perform($this, $httpRequest);
+                    }
+                    else
+                    {
+                        $view = $actionObject->handleValidateError($this, $httpRequest);
+                    }
                 }
                 else
                 {
-                    $view = $actionObject->handleValidateError($this, $httpRequest);
+                    $view = $actionObject->handleFilterError($this, $httpRequest);
                 }
             }
 

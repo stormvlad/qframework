@@ -1,6 +1,7 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/security/qfilterschain.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidationslist.class.php");
 
     /**
@@ -8,7 +9,7 @@
      */
     class qAction extends qObject
     {
-        // this is the pointer to the view associated with this action
+        var $_filtersChain;
         var $_validationsList;
 
         /**
@@ -20,6 +21,7 @@
         function qAction()
         {
             $this->qObject();
+            $this->_filtersChain    = null;
             $this->_validationsList = null;
         }
 
@@ -39,7 +41,20 @@
         /**
         *    Add function info here
         **/
-        function getErrors()
+        function addFilter(&$filter)
+        {
+            if  (!is_object($this->_filtersChain))
+            {
+                $this->_filtersChain = new qFiltersChain();
+            }
+
+            $this->_filtersChain->addFilter($filter);
+        }
+
+        /**
+        *    Add function info here
+        **/
+        function getValidateErrors()
         {
             if  (!is_object($this->_validationsList))
             {
@@ -68,6 +83,41 @@
         function handleValidateError(&$controller, &$httpRequest)
         {
             throw(new qException("qAction::handleValidateError: This method must be implemented by child classes."));
+            die();
+        }
+
+        /**
+        *    Add function info here
+        **/
+        function getFilterError()
+        {
+            if  (!is_object($this->_filtersChain))
+            {
+                $this->_filtersChain = new qFiltersChain();
+            }
+
+            return $this->_filtersChain->getError();
+        }
+
+        /**
+        *    Add function info here
+        **/
+        function filter(&$controller, &$httpRequest)
+        {
+            if  (is_object($this->_filtersChain))
+            {
+                return $this->_filtersChain->filter($controller, $httpRequest);
+            }
+
+            return true;
+        }
+
+        /**
+         * Add function info here
+         */
+        function handleFilterError(&$controller, &$httpRequest)
+        {
+            throw(new qException("qAction::handleFilterError: This method must be implemented by child classes."));
             die();
         }
 
