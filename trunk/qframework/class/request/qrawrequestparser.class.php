@@ -20,8 +20,8 @@
 
         function parse(&$request)
         {
-            $request = &qHttp::getRequestVars();
-            $request->setValuesByRef($request->getAsArray());
+            $requestVars = &qHttp::getRequestVars();
+            $request->setValuesByRef($requestVars->getAsArray());
         }
     }
 ?>
