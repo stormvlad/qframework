@@ -4,6 +4,9 @@
 
     class qFormat extends qObject
     {
+        /**
+        * Add function info here
+        */
         function sanitize($str, $length = null)
         {
             $str = qFormat::removeAccents($str);
@@ -23,6 +26,22 @@
             return $str;
         }
 
+        /**
+        * Add function info here
+        */
+        function stripTags($str, $replaceWithSpace = true)
+        {
+            if ($replaceWithSpace)
+            {
+                return preg_replace("!<[^>]*?>!", " ", $str);
+            }
+
+            return strip_tags($str);
+        }
+
+        /**
+        * Add function info here
+        */
         function removeAccents($string)
         {
             $chars['in']  = chr(128).chr(131).chr(138).chr(142).chr(154).chr(158)
