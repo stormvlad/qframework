@@ -46,7 +46,11 @@
 
             if (!isset($user))
             {
-                session_start();
+                if (!session_id())
+                {
+                    session_start();
+                }
+
                 $user = new qUser(session_id(), new qUserSessionStorage());
             }
 
