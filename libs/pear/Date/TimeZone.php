@@ -18,7 +18,7 @@
 // |                                                                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: TimeZone.php,v 1.5 2004/03/14 15:27:13 pajoye Exp $
+// $Id: TimeZone.php,v 1.6 2004/05/16 12:48:06 pajoye Exp $
 //
 // Date_TimeZone Class
 //
@@ -2970,11 +2970,11 @@ $GLOBALS['_DATE_TIMEZONE_DATA'] = array(
         'longname' => "Bhutan Time",
         'shortname' => 'BTT',
         'hasdst' => false ),
-    'BST' => array(
+    'BDT' => array(
         'offset' => 21600000,
         'longname' => "Bangladesh Time",
         'shortname' => 'BDT',
-        'hasdst' => false ),
+        'hasdst' => true ),
     'Etc/GMT-6' => array(
         'offset' => 21600000,
         'longname' => "GMT+06:00",

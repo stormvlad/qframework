@@ -3,7 +3,8 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qfile.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qfilelistentry.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/ftp/FTP.php");
+
+    require_once 'Net/FTP.php'; // PEAR include
 
     define("DEFAULT_FTP_PORT",           21);
     define("DEFAULT_FTP_OVERWRITE",      false);
