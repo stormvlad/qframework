@@ -7,16 +7,17 @@
         /**
         * Add function info here
         */
-        function sanitize($str, $length = null)
+        function sanitize($str, $charSpaceReplace = "-", $length = null)
         {
             $str = qFormat::removeAccents($str);
+            $str = qFormat::stripTags($str);
             $str = strtolower($str);
-            $str = preg_replace('/&.+?;/', '', $str); // kill entities
-            $str = preg_replace('/[^a-z0-9 _-]/', '', $str);
-            $str = preg_replace('/\s+/', ' ', $str);
-            $str = str_replace(' ', '_', $str);
-            $str = preg_replace('|-+|', '_', $str);
-            $str = trim($str, '-');
+            $str = preg_replace("/&.+?;/", "", $str);
+            $str = preg_replace("/[^a-z0-9 _-]/", "", $str);
+            $str = preg_replace("/\s+/", " ", $str);
+            $str = str_replace(" ", $charSpaceReplace, $str);
+            $str = preg_replace("|-+|", $charSpaceReplace, $str);
+            $str = trim($str, $charSpaceReplace);
 
             if (!empty($length))
             {
