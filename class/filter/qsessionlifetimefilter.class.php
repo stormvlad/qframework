@@ -23,7 +23,7 @@
          * @param lifeTime
          * @param expiredUrl
          */
-        function qSessionLifeTimeFilter($lifeTime = "3600", $expiredUrl = "/")
+        function qSessionLifeTimeFilter($lifeTime = 3600, $expiredUrl = "/")
         {
             $this->qFilter();
 
@@ -66,7 +66,7 @@
         /**
         * Add function info here
         */
-        function run(&$filtersChain)
+        function isLifeTimeExpired()
         {
             $user = &User::getInstance();
             $time = $user->getLastActionTime();
@@ -75,15 +75,25 @@
             $d2   = new qDate();
             $sec2 = $d2->getDate(DATE_FORMAT_UNIXTIME);
 
-            if (($sec2 - $sec1 < $this->_lifeTime) || empty($time))
+            return ($sec2 - $sec1 >= $this->_lifeTime) && !empty($time);
+        }
+
+        /**
+        * Add function info here
+        */
+        function run(&$filtersChain)
+        {
+            if ($this->isLifeTimeExpired())
             {
-                $filtersChain->run();
+                $user = &User::getInstance();
+                $user->destroy();
+
+                $view = new qRedirectView($this->_expiredUrl);
+                print $view->render();
             }
             else
             {
-                $user->destroy();
-                $view = new qRedirectView($this->_expiredUrl);
-                print $view->render();
+                $filtersChain->run();
             }
         }
     }
