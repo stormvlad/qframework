@@ -1,6 +1,7 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/qusersessionstorage.class.php");
 
     define(DEFAULT_USER_PERMISSIONS_LEVEL, "__all__");
 
@@ -28,6 +29,22 @@
             $this->_authenticated = false;
             $this->_attributes    = new qProperties();
             $this->_permissions   = array();
+        }
+
+        /**
+        * Add function info here
+        */
+        function &getUser()
+        {
+            static $user;
+
+            if (!isset($user))
+            {
+                session_start();
+                $user = new qUser(session_id(), new qUserSessionStorage());
+            }
+
+            return $user;
         }
 
         /**

@@ -263,7 +263,7 @@
 
                 if (empty($this->_user))
                 {
-                    $this->_user = new qUser(session_id(), new qUserSessionStorage());
+                    $this->_user = &qUser::getUser();
                 }
 
                 $this->_user->setSid(session_id());
