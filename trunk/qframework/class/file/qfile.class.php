@@ -318,6 +318,7 @@
          *
          * @static
          * @param dirName The name of the new folder
+         * @param mode 
          * @return Returns true if no problem or false otherwise.
          */
         function mkdir($dirName, $mode = DEFAULT_FILE_DIRECTORY_UMASK)
@@ -337,9 +338,9 @@
         /**
          * Returns the size of the file.
          *
-         * @param string fileName An optional parameter specifying the name of the file. If omitted,
-         * we will use the file that we have currently opened. Please note that this function can
-         * be used as static if a file name is specified.
+         * @param file string fileName An optional parameter specifying the name of the file. If omitted,
+         *                    we will use the file that we have currently opened. Please note that this function can
+         *                    be used as static if a file name is specified.
          * @return An integer specifying the size of the file.
          */
         function getSize($file = null)

@@ -8,9 +8,6 @@
      * PatternLayout allows a completely customizable layout that uses a conversion
      * pattern for formatting.
      *
-     * @author  Sean Kerr
-     * @package qframework
-     * @package logging
      * @since   1.0
      */
     class qPatternLayout extends qLayout
@@ -36,7 +33,7 @@
         /**
          * Create a new PatternLayout instance.
          *
-         * @param string A message layout.
+         * @param layout string A message layout.
          *
          * @public
          * @since  1.0
@@ -49,14 +46,9 @@
         /**
          * qConversionPattern callback method.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     This should never be called manually.
-         * </note>
-         *
-         * @param string A conversion character.
-         * @param string A conversion parameter.
+         * @note This should never be called manually.
+         * @param char string A conversion character.
+         * @param param string A conversion parameter.
          *
          * @return string A replacement for the given data.
          *
@@ -161,7 +153,7 @@
          *     <li><b>%x{param}</b>        - a custom message parameter name</li>
          * </ul>
          *
-         * @param Message A Message instance.
+         * @param message A Message instance.
          *
          * @return string A formatted log message.
          */

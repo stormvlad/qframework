@@ -5,7 +5,6 @@
     /**
      * Container provides storage for user data.
      *
-     * @package qframework
      * @since   1.0
      */
     class qConversionPattern extends qObject
@@ -39,14 +38,9 @@
         var $pattern;
 
         /**
-         * Create a new ConversionPattern instance.
+         * Constructor
          *
-         * @param string A pattern containing conversion characters.
-         *
-         * @return ConversionPattern A ConversionPattern instance.
-         *
-         * @public
-         * @since  1.0
+         * @param pattern string A pattern containing conversion characters.
          */
         function &qConversionPattern ($pattern = NULL)
         {
@@ -60,7 +54,7 @@
         /**
          * Retrieve a parameter for a conversion character.
          *
-         * @param int The pattern index at which we're working.
+         * @param index int The pattern index at which we're working.
          *
          * @return string A conversion character parameter if one one exists,
          *                otherwise <b>NULL</b>.
@@ -179,7 +173,7 @@
         /**
          * Set the callback function.
          *
-         * @param string A function name.
+         * @param function string A function name.
          *
          * @public
          * @since  1.0
@@ -193,7 +187,7 @@
          * Set the callback object and function.
          *
          * @param object An object holding a callback function.
-         * @param string A function name.
+         * @param function string A function name.
          *
          * @public
          * @since  1.0
@@ -207,7 +201,7 @@
         /**
          * Set the conversion pattern.
          *
-         * @param string A pattern consisting of one or more conversion characters.
+         * @param pattern string A pattern consisting of one or more conversion characters.
          *
          * @public
          * @since  1.0

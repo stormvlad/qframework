@@ -5,7 +5,6 @@
     /**
      * qMessage contains information about a log message.
      *
-     * @package qframework
      * @since   1.0
      */
     class qMessage extends qObject
@@ -13,7 +12,7 @@
         /**
          * An associative array of message parameters.
          *
-         * @access private
+         * @private
          * @since  1.0
          * @type   array
          */
@@ -24,7 +23,7 @@
          *
          * @param params An associative array of parameters.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &qMessage ($params = NULL)
@@ -42,7 +41,7 @@
          * @return string A parameter value, if a parameter with the given name
          *                exists, otherwise <b>NULL</b>.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &getParameter ($name)
@@ -58,12 +57,12 @@
         /**
          * Determine if a parameter was set.
          *
-         * @param string A parameter name.
+         * @param name string A parameter name.
          *
          * @return bool <b>TRUE</b>, if the parameter has been set, otherwise
          *              <b>FALSE</b>.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function hasParameter ($name)
@@ -74,10 +73,10 @@
         /**
          * Set a parameter.
          *
-         * @param string A parameter name.
-         * @param string A parameter value.
+         * @param name string A parameter name.
+         * @param value string A parameter value.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function setParameter ($name, $value)
@@ -88,10 +87,10 @@
         /**
          * Set a parameter by reference.
          *
-         * @param string A parameter name.
-         * @param string A parameter value.
+         * @param name string A parameter name.
+         * @param value string A parameter value.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function setParameterByRef ($name, &$value)

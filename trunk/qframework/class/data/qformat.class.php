@@ -5,7 +5,6 @@
     /**
      * qFormat provides a package of functions to format and unformat quite type of values.
      *
-     * @package qframework
      * @since   1.0
      */
     class qFormat extends qObject
