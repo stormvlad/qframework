@@ -117,6 +117,11 @@
             $file = $files->getValue($this->_name);
             $dst  = $this->getDestinationFileName();
 
+            if (!is_dir($this->_destinationDirectory))
+            {
+                mkdir($this->_destinationDirectory, $this->getMode());
+            }
+
             if (!move_uploaded_file($file["tmp_name"], $this->_destinationDirectory . $dst))
             {
                 throw(new qException("qFileUpload::save: Error moving upload tmp file '" . $file["tmp_name"] . "' to '" . $this->_destinationDirectory . $dst . "'."));
