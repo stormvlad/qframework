@@ -12,6 +12,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qdate.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/logging/qlogmanager.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qredirectview.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/timer/qtimer.class.php");
 
     define("DEFAULT_ACTION_PARAM", "op");
     define("DEFAULT_ACTION_NAME", "default");
