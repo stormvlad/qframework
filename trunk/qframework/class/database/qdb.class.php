@@ -50,7 +50,7 @@
                 "script"     => basename($server->getValue("PHP_SELF")),
                 "uri"        => $server->getValue("REQUEST_URI"),
                 "queryCount" => $this->_queryCount,
-                "sql"        => ereg_replace("[\t\r\n ]+", " ", $sql),
+                "sql"        => ereg_replace("[\t\r\n ]+", " ", trim($sql)),
                 "time"       => $seconds);
 
             $this->sendEvent(1, $params);
@@ -137,6 +137,12 @@
         */
         function GetOne($sql, $inputarr = false)
         {
+            $timer   = new qTimer();
+            $result  = $this->_db->Execute($sql, $inputarr);
+            $seconds = $timer->get();
+
+            $this->sendQueryEvent($sql, $seconds);
+
             return $this->_db->GetOne($sql, $inputarr);
         }
 
@@ -145,6 +151,12 @@
         */
         function GetRow($sql, $inputarr = false)
         {
+            $timer   = new qTimer();
+            $result  = $this->_db->Execute($sql, $inputarr);
+            $seconds = $timer->get();
+
+            $this->sendQueryEvent($sql, $seconds);
+
             return $this->_db->GetRow($sql, $inputarr);
         }
 
