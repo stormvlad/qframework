@@ -135,7 +135,7 @@
          */
         function exists($file = null)
         {
-            if (empty($file))
+            if (empty($file) && !empty($this->_fileName))
             {
                 $file = $this->_fileName;
             }
@@ -154,7 +154,7 @@
          */
         function isDir($file = null)
         {
-            if (empty($file))
+            if (empty($file) && !empty($this->_fileName))
             {
                 $file = $this->_fileName;
             }
@@ -173,7 +173,7 @@
          */
         function isWritable($file = null)
         {
-            if (empty($file))
+            if (empty($file) && !empty($this->_fileName))
             {
                 $file = $this->_fileName;
             }
@@ -186,7 +186,7 @@
         */
         function isReadable($file = null)
         {
-            if (empty($file))
+            if (empty($file) && !empty($this->_fileName))
             {
                 $file = $this->_fileName;
             }
@@ -217,7 +217,7 @@
         */
         function rm($file = null)
         {
-            if (empty($file))
+            if (empty($file) && !empty($this->_fileName))
             {
                 $file = $this->_fileName;
             }
@@ -264,7 +264,7 @@
         */
         function cp($source, $dest = null)
         {
-            if (empty($dest))
+            if (empty($dest) && !empty($this->_fileName))
             {
                 $dest   = $source;
                 $source = $this->_fileName;
@@ -313,7 +313,7 @@
          */
         function getSize($file = null)
         {
-            if (empty($file))
+            if (empty($file) && !empty($this->_fileName))
             {
                 $file = $this->_fileName;
             }
@@ -356,7 +356,7 @@
          */
         function rename($inFile, $outFile = null)
         {
-            if (empty($outFile))
+            if (empty($outFile) && !empty($this->_fileName))
             {
                 $outFile = $inFile;
                 $inFile  = $this->_fileName;
@@ -370,7 +370,7 @@
         */
         function getExtension($file = null)
         {
-            if (empty($file))
+            if (empty($file) && !empty($this->_fileName))
             {
                 $file = $this->_fileName;
             }
@@ -390,7 +390,7 @@
         */
         function getPermissions($file = null)
         {
-            if (empty($file))
+            if (empty($file) && !empty($this->_fileName))
             {
                 $file = $this->_fileName;
             }
@@ -446,7 +446,7 @@
         */
         function getUid($file = null)
         {
-            if (empty($file))
+            if (empty($file) && !empty($this->_fileName))
             {
                 $file = $this->_fileName;
             }
@@ -469,7 +469,7 @@
         */
         function getGid($file = null)
         {
-            if (empty($file))
+            if (empty($file) && !empty($this->_fileName))
             {
                 $file = $this->_fileName;
             }
@@ -492,12 +492,25 @@
         */
         function getTimeStamp($file = null)
         {
-            if (empty($file))
+            if (empty($file) && !empty($this->_fileName))
             {
                 $file = $this->_fileName;
             }
 
             return filemtime($file);
+        }
+
+        /**
+         * Deletes a file
+         */
+        function delete($file = NULL)
+        {
+            if (empty($file) && !empty($this->_fileName))
+            {                
+                $file = $this->_fileName;
+            }
+            
+            return unlink($file);
         }
     }
 ?>
