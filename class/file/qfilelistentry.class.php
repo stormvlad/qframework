@@ -11,7 +11,7 @@
      {
         var $_name;
         var $_size;
-        var $_rights;
+        var $_permissions;
         var $_user;
         var $_group;
         var $_timeStamp;
@@ -20,13 +20,13 @@
         /**
         *    Add function info here
         */
-        function qFileListEntry($name, $size, $rights, $user, $group, $timeStamp, $isDir = false)
+        function qFileListEntry($name, $size, $permissions, $user, $group, $timeStamp, $isDir = false)
         {
             $this->qObject();
 
             $this->_name        = $name;
             $this->_size        = $size;
-            $this->_rights      = $rights;
+            $this->_permissions = $permissions;
             $this->_user        = $user;
             $this->_group       = $group;
             $this->_timeStamp   = $timeStamp;
@@ -52,9 +52,9 @@
         /**
          * Add function info here
          */
-        function getRights()
+        function getPermissions()
         {
-            return $this->_rights;
+            return $this->_permissions;
         }
 
         /**
@@ -108,9 +108,9 @@
         /**
          * Add function info here
          */
-        function setRights($rights)
+        function setPermissions($perms)
         {
-            $this->_rights = $rights;
+            $this->_permissions = $perms;
         }
 
         /**

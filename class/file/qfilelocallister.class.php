@@ -42,7 +42,7 @@
                 if ($file != "." && $file != "..")
                 {
                     $f = new qFile($dir . $file);
-                    array_push($result, new qFileListEntry($file, $f->getSize(), $f->getRights(), $f->getOwner(), $f->getGroup(), $f->getTimeStamp(), $f->isDir()));
+                    array_push($result, new qFileListEntry($file, $f->getSize(), $f->getPermissions(), $f->getOwner(), $f->getGroup(), $f->getTimeStamp(), $f->isDir()));
                 }
             }
 
