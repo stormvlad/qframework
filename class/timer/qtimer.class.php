@@ -98,6 +98,14 @@
         /**
         *    Add function info here
         */
+        function removeMark($name)
+        {
+            unset($this->_marks[$name]);
+        }
+
+        /**
+        *    Add function info here
+        */
         function setPrecision($precision)
         {
             $this->_precision   = $precision;
