@@ -57,14 +57,7 @@
         **/
         function addValidation($name, &$validation)
         {
-            if ($validation->typeOf("qNonEmptyRule"))
-            {
-                $this->_required[$name] = true;
-            }
-            else
-            {
-                $this->_validations[$name][] = &$validation;
-            }
+            $this->_validations[$name][] = &$validation;
         }
 
         /**
