@@ -46,7 +46,7 @@
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.
          */
-        function check($value)
+        function validate($value)
         {
             $counter = 0;
             $range   = explode("/", $this->_range);
@@ -61,17 +61,17 @@
 
                 if ((ip2long($value) > $ipStart) && (ip2long($value) < $ipEnd))
                 {
-                    $this->setError(false);
+                    $this->_setError(false);
                     return true;
                 }
             }
             elseif (ip2long($value) == ip2long($range[0]))
             {
-                $this->setError(false);
+                $this->_setError(false);
                 return true;
             }
 
-            $this->setError(ERROR_RULE_IP_NOT_IN_RANGE);
+            $this->_setError(ERROR_RULE_IP_NOT_IN_RANGE);
             return false;
         }
     }

@@ -47,16 +47,16 @@
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.
          */
-        function check($value)
+        function validate($value)
         {
             if ($this->_equalValue == $value)
             {
-                $this->setError(false);
+                $this->_setError(false);
                 return true;
             }
             else
             {
-                $this->setError(ERROR_RULE_VALUES_NOT_EQUAL);
+                $this->_setError(ERROR_RULE_VALUES_NOT_EQUAL);
                 return false;
             }
         }

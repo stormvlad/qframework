@@ -66,21 +66,21 @@
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.
          */
-        function check($value)
+        function validate($value)
         {
             if ($this->_caseSensitive && ereg($this->_regExp, $value))
             {
-                $this->setError(false);
+                $this->_setError(false);
                 return true;
             }
             else if (!$this->_caseSensitive && eregi($this->_regExp, $value))
             {
-                $this->setError(false);
+                $this->_setError(false);
                 return true;
             }
             else
             {
-                $this->setError(ERROR_RULE_REGEXP_NOT_MATCH);
+                $this->_setError(ERROR_RULE_REGEXP_NOT_MATCH);
                 return false;
             }
         }

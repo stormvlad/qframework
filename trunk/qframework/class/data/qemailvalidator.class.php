@@ -11,28 +11,16 @@
      */
     class qEmailValidator extends qValidator
     {
-        var $_checkEmailAddress;
-
         function qEmailValidator($checkEmailAddress = DEFAULT_CHECK_EMAIL_ADDRESS)
         {
             $this->qValidator();
-            $this->_checkEmailAddress = $checkEmailAddress;
-        }
 
-        /**
-         * Add function here
-        */
-        function getCheckEmailAddress()
-        {
-            return $this->_checkEmailAddress;
-        }
+            $this->addRule(new qEmailFormatRule());
 
-        /**
-         * Add function here
-        */
-        function setCheckEmailAddress($enable = true)
-        {
-            $this->_checkEmailAddress = $enable;
+            if ($checkEmailAddress)
+            {
+                $this->addRule(new qEmailDnsRule());
+            }
         }
 
         /**
@@ -42,13 +30,6 @@
          */
         function validate($value)
         {
-            $this->addRule(new qEmailFormatRule());
-
-            if ($this->_checkEmailAddress)
-            {
-                $this->addRule(new qEmailDnsRule());
-            }
-
             return parent::validate($value);
         }
     }
