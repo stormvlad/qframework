@@ -22,6 +22,7 @@
         function render(&$view)
         {
             header("Location: " . $view->getUrl());
+            die;
         }
     }
 
