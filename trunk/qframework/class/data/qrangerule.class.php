@@ -72,17 +72,17 @@
 
             if ($len < $this->_minValue)
             {
-                $this->_setError(ERROR_RULE_TOO_SMALL);
+                $this->setError(ERROR_RULE_TOO_SMALL);
                 return false;
             }
             else if ($this->_maxValue != 0 && $len > $this->_maxValue)
             {
-                $this->_setError(ERROR_RULE_TOO_LARGE);
+                $this->setError(ERROR_RULE_TOO_LARGE);
                 return false;
             }
             else
             {
-                $this->_setError(false);
+                $this->setError(false);
                 return true;
             }
         }

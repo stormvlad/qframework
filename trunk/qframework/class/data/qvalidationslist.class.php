@@ -78,7 +78,7 @@
         /**
         *    Add function info here
         **/
-        function _setError($name, $error)
+        function setError($name, $error)
         {
             $this->_errors[$name] = $error;
         }
@@ -105,7 +105,7 @@
         {
             if (empty($value) && $this->isRequired($name))
             {
-                $this->_setError($name, ERROR_RULE_IS_EMPTY);
+                $this->setError($name, ERROR_RULE_IS_EMPTY);
                 return false;
             }
 
@@ -115,7 +115,7 @@
                 {
                     if (!$validation->validate($value))
                     {
-                         $this->_setError($name, $validation->getError());
+                         $this->setError($name, $validation->getError());
                          return false;
                     }
                 }
@@ -135,7 +135,7 @@
             {
                 if ($required && !array_key_exists($name, $values))
                 {
-                    $this->_setError($name, ERROR_RULE_IS_EMPTY);
+                    $this->setError($name, ERROR_RULE_IS_EMPTY);
                     $result = false;
                 }
             }

@@ -52,7 +52,7 @@
             {
                 if (!$rule->validate($value))
                 {
-                    $this->_setError($rule->getError());
+                    $this->setError($rule->getError());
                     return false;
                 }
             }

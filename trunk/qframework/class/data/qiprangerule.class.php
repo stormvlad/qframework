@@ -61,17 +61,17 @@
 
                 if ((ip2long($value) > $ipStart) && (ip2long($value) < $ipEnd))
                 {
-                    $this->_setError(false);
+                    $this->setError(false);
                     return true;
                 }
             }
             elseif (ip2long($value) == ip2long($range[0]))
             {
-                $this->_setError(false);
+                $this->setError(false);
                 return true;
             }
 
-            $this->_setError(ERROR_RULE_IP_NOT_IN_RANGE);
+            $this->setError(ERROR_RULE_IP_NOT_IN_RANGE);
             return false;
         }
     }

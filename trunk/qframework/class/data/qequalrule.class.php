@@ -51,12 +51,12 @@
         {
             if ($this->_equalValue == $value)
             {
-                $this->_setError(false);
+                $this->setError(false);
                 return true;
             }
             else
             {
-                $this->_setError(ERROR_RULE_VALUES_NOT_EQUAL);
+                $this->setError(ERROR_RULE_VALUES_NOT_EQUAL);
                 return false;
             }
         }

@@ -72,15 +72,6 @@
         /**
          * Add function info here
          */
-        function handleFilterError($error)
-        {
-            throw(new qException("qAction::handleFilterError: This method must be implemented by child classes."));
-            die();
-        }
-
-        /**
-         * Add function info here
-         */
         function registerFilters(&$filtersChain)
         {
         }

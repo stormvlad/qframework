@@ -70,17 +70,17 @@
         {
             if ($this->_caseSensitive && ereg($this->_regExp, $value))
             {
-                $this->_setError(false);
+                $this->setError(false);
                 return true;
             }
             else if (!$this->_caseSensitive && eregi($this->_regExp, $value))
             {
-                $this->_setError(false);
+                $this->setError(false);
                 return true;
             }
             else
             {
-                $this->_setError(ERROR_RULE_REGEXP_NOT_MATCH);
+                $this->setError(ERROR_RULE_REGEXP_NOT_MATCH);
                 return false;
             }
         }

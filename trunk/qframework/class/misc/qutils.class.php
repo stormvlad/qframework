@@ -61,5 +61,18 @@
 
             return ($r << 16) + ($g << 8) + $b;
         }
+
+        /**
+         * Add function info here
+         */
+        function addDirSep($file)
+        {
+            if (substr($file, -1) != "/")
+            {
+                $file .= "/";
+            }
+
+            return $file;
+        }
     }
 ?>

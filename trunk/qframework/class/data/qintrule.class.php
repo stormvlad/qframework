@@ -32,12 +32,12 @@
         {
             if (parent::validate($value))
             {
-                $this->_setError(false);
+                $this->setError(false);
                 return true;
             }
             else
             {
-                $this->_setError(ERROR_RULE_INT_FORMAT_WRONG);
+                $this->setError(ERROR_RULE_INT_FORMAT_WRONG);
                 return false;
             }
         }

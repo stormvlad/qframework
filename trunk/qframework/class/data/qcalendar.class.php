@@ -86,16 +86,26 @@
         /**
         *    Add function info here
         */
+        function isToday($day)
+        {
+            $curDay   = (int) strftime("%d");
+            $curMonth = (int) strftime("%m");
+            $curYear  = (int) strftime("%Y");
+
+            return ($curMonth == $this->_month && $curYear == $this->_year && $day == $curDay);
+        }
+
+        /**
+        *    Add function info here
+        */
         function _generate()
         {
             $this->_calendar = array();
 
-            $curDay          = (int) strftime("%d");
             $curMonth        = (int) strftime("%m");
             $curYear         = (int) strftime("%Y");
             $weekDay         = (int) strftime("%w", mktime(0, 0, 0, $this->_month, 1, $this->_year));
             $weekDay         = ($weekDay + 7 - $this->_firstDayOfWeek) % 7;
-            $possibleCurDay  = ($curMonth == $this->_month && $curYear == $this->_year);
             $dayCount        = 1;
 
             for ($j = 0; $j < 7; $j++)
@@ -110,11 +120,6 @@
                     if (($i == 1 && $j < $weekDay) || !checkdate($this->_month, $dayCount, $this->_year))
                     {
                         $this->_calendar[$i][$j] = false;
-                    }
-                    else if ($possibleCurDay && $dayCount == $curDay)
-                    {
-                        $this->_calendar[$i][$j] = "<span class=\"today\">" . $dayCount . "</span>";
-                        $dayCount++;
                     }
                     else
                     {
