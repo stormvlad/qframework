@@ -1,6 +1,6 @@
 <?php
 
-    include_once("qframework/class/net/qhttpvars.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpvars.class.php" );
 
     /**
      * Inherits from Properties but just to add some default
