@@ -157,7 +157,7 @@
                 {
                     if (empty($this->_smtpUser) || empty($this->_smtpPass))
                     {
-                        throw(new qException("EmailService::sendMessage: Please provide a username and a password if you wish to use SMTP authentication"));
+                        throw(new qException("qEmailService::sendMessage: Please provide a username and a password if you wish to use SMTP authentication"));
                         $mail->SMTPAuth = false;
                     }
                     else
@@ -174,7 +174,7 @@
 
                 if (empty($this->_smtpHost))
                 {
-                    throw(new qException("EmailService::sendMessage: You should specify an SMTP server in order to send emails."));
+                    throw(new qException("qEmailService::sendMessage: You should specify an SMTP server in order to send emails."));
                     return false;
                 }
                 else
@@ -186,12 +186,12 @@
             else
             {
                 $mail->IsMail();
-                throw(new qException("EmailService::sendMessage: Unrecognized value of the email_service_type setting. Reverting to PHP built-in mail() functionality"));
+                throw(new qException("qEmailService::sendMessage: Unrecognized value of the email_service_type setting. Reverting to PHP built-in mail() functionality"));
             }
 
             if (!$mail->Send())
             {
-                throw(new qException("EmailService::sendMessage: Error sending message: " . $mail->ErrorInfo));
+                throw(new qException("qEmailService::sendMessage: Error sending message: " . $mail->ErrorInfo));
                 die();
             }
         }

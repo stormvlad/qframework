@@ -254,6 +254,35 @@
         }
 
         /**
+         *    Add function info here
+         */
+        function _checkSecurity(&$action, &$httpRequest)
+        {
+            $result = true;
+
+            if ($perm = $action->isSecure())
+            {
+                if (!$this->_user->isAuthenticated())
+                {
+                    $result = false;
+                }
+                else
+                {
+                    if (is_string($perm))
+                    {
+                        $result = $this->_user->hasPermission($perm);
+                    }
+                    elseif (is_array($perm))
+                    {
+                        $result = $this->_user->hasPermission($perm[0], $perm[1]);
+                    }
+                }
+            }
+
+            return $result;
+        }
+
+        /**
          * Processess the HTTP request sent by the client
          *
          * @param httpRequest HTTP request sent by the client
@@ -269,7 +298,7 @@
                 return $view;
             }
 
-            if ($action->isSecure() && !$this->_user->isAuthenticated())
+            if (!$this->_checkSecurity(&$action, &$httpRequest))
             {
                 $view = $action->handleSecureError($this, $httpRequest, $this->_user);
                 return $view;
@@ -312,6 +341,7 @@
                     $this->_user = new qUser(session_id(), new qUserSessionStorage());
                 }
 
+                $this->_user->setSid(session_id());
                 $this->_user->load();
             }
 

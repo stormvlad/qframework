@@ -2,6 +2,8 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
 
+    define(DEFAULT_USER_PERMISSIONS_LEVEL, "__all__");
+
     /**
      * Inherits from Properties but just to add some default
      * values to some settings
@@ -12,6 +14,7 @@
         var $_storage;
         var $_authenticated;
         var $_attributes;
+        var $_permissions;
 
         /**
         * Add function info here
@@ -24,6 +27,7 @@
             $this->_storage       = &$storage;
             $this->_authenticated = false;
             $this->_attributes    = new qProperties();
+            $this->_permissions   = array();
         }
 
         /**
@@ -99,6 +103,46 @@
         function hasAttribute($name)
         {
             return $this->_attributes->keyExists($name);
+        }
+
+        /**
+        * Add function info here
+        */
+        function &getPermissions()
+        {
+            return $this->_permissions;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setPermissions(&$permissions)
+        {
+            $this->_permissions = &$permissions;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setPermission($name, $level = DEFAULT_USER_PERMISSIONS_LEVEL)
+        {
+            $this->_permissions[$level][$name] = true;
+        }
+
+        /**
+        * Add function info here
+        */
+        function removePermission($name, $level = DEFAULT_USER_PERMISSIONS_LEVEL)
+        {
+            unset($this->_permissions[$level][$name]);
+        }
+
+        /**
+        * Add function info here
+        */
+        function hasPermission($name, $level = DEFAULT_USER_PERMISSIONS_LEVEL)
+        {
+            return array_key_exists($name, $this->_permissions[$level]);
         }
 
         /**
