@@ -24,6 +24,8 @@
     class qFtp extends qObject
     {
         var $_ftp;
+        var $_isConnected;
+        var $_isLogged;
 
         /**
         *  Add function info here
@@ -31,7 +33,9 @@
         function qFtp($server, $port = DEFAULT_FTP_PORT)
         {
             $this->qObject();
-            $this->_ftp = new Net_FTP($server, $port);
+            $this->_ftp         = new Net_FTP($server, $port);
+            $this->_isConnected = false;
+            $this->_isLogged    = false;
         }
 
         /**
@@ -39,7 +43,8 @@
         */
         function connect()
         {
-            return ($this->_ftp->connect() === true);
+            $this->_isConnected = ($this->_ftp->connect() === true);
+            return $this->_isConnected;
         }
 
         /**
@@ -47,7 +52,18 @@
         */
         function disconnect()
         {
+            $this->_isConnected = false;
+            $this->_isLogged    = false;
+
             $this->_ftp->disconnect();
+        }
+
+        /**
+        *  Add function info here
+        */
+        function isConnected()
+        {
+            return $this->_isConnected;
         }
 
         /**
@@ -55,7 +71,8 @@
         */
         function login($userName, $pass)
         {
-            return ($this->_ftp->login($userName, $pass) === true);
+            $this->_isLogged = ($this->_ftp->login($userName, $pass) === true);
+            return $this->_isLogged;
         }
 
         /**
@@ -142,6 +159,21 @@
 
             set_error_handler($oldErrorHandler);
             return $result;
+        }
+
+        /**
+        *  Add function info here
+        */
+        function chmod($remoteName, $permissions)
+        {
+            if (substr($remoteName, -1) == "/")
+            {
+                return ($this->_ftp->chmodRecursive($remoteName, $permissions) === true);
+            }
+            else
+            {
+                return ($this->_ftp->chmod($remoteName, $permissions) === true);
+            }
         }
 
         /**
