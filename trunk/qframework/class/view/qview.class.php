@@ -1,14 +1,14 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/config/qproperties.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
 
     /**
      * Methods provided by the View object that every object inheriting from this
      * should implement
      */
-    class qView extends qObject {
-
+    class qView extends qObject
+    {
         var $_params;
 
         /**

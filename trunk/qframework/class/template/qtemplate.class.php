@@ -1,6 +1,10 @@
 <?php
 
-    include_once("qframework/class/template/smarty/Smarty.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/template/smarty/Smarty.class.php");
+
+    define(DEFAULT_TEMPLATE_CACHE_DIR, "tmp/");
+    define(DEFAULT_TEMPLATE_COMPILE_DIR, "tmp/");
+    define(DEFAULT_TEMPLATE_TEMPLATES_DIR, "templates/");
 
     /**
      * Wrapper around the Smarty class, inspired by the article
@@ -11,8 +15,8 @@
      *
      * It is recommended to use the TemplateService class to create the Template objects.
      */
-    class qTemplate extends Smarty {
-
+    class qTemplate extends Smarty
+    {
         var $_templateFile;
 
         /**
@@ -24,13 +28,13 @@
          * contents or not.
          * @param cacheLifeTime How many seconds we would like to cache the objects
          */
-        function qTemplate( $templateFile, $cache = false, $cacheLifetime = 300 )
+        function qTemplate($templateFile, $cache = false, $cacheLifetime = 300)
         {
             // create the Smarty object and set the security values
             $this->Smarty();
             $this->caching        = $cache;
             $this->cache_lifetime = $cacheLifeTime;
-            $this->cache_dir      = "tmp/";
+            $this->cache_dir      = DEFAULT_TEMPLATE_CACHE_DIR;
 
             $this->_templateFile  = $templateFile;
 
@@ -38,8 +42,8 @@
             $this->php_handling   = false;
 
             // default folders
-            $this->compile_dir    = "tmp/";
-            $this->template_dir   = "templates/";
+            $this->compile_dir    = DEFAULT_TEMPLATE_COMPILE_DIR;
+            $this->template_dir   = DEFAULT_TEMPLATE_TEMPLATES_DIR;
 
             //$this->template_dir = $config->getValue( "template_folder" )."/blog_1/";
             // this helps if php is running in 'safe_mode'
@@ -55,7 +59,7 @@
          * @param templateFolder The new path where we'd like to search for templates
          * @return Returns always true.
          */
-        function setTemplateDir( $templateDir )
+        function setTemplateDir($templateDir)
         {
             $this->template_dir = $templateDir;
             return true;
@@ -78,7 +82,7 @@
          */
         function fetch()
         {
-            return Smarty::fetch( $this->_templateFile );
+            return Smarty::fetch($this->_templateFile);
         }
 
         /**
@@ -88,7 +92,7 @@
          */
         function display()
         {
-            return Smarty::display( $this->_templateFile );
+            return Smarty::display($this->_templateFile);
         }
     }
 ?>
