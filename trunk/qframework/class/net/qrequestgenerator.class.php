@@ -21,6 +21,7 @@
         var $_params;
         var $_baseUrl;
         var $_dirName;
+        var $_xhtmlEnabled;
 
         /**
          * Constructor.
@@ -33,11 +34,12 @@
         {
             $this->qObject();
 
-            $server         = &qHttp::getServerVars();
+            $server              = &qHttp::getServerVars();
 
-            $this->_params  = Array();
-            $this->_dirName = dirname($server->getValue("SCRIPT_NAME"));
-            $this->_baseUrl = "http://" . $server->getValue("SERVER_NAME") . $this->_dirName;
+            $this->_params       = Array();
+            $this->_dirName      = dirname($server->getValue("SCRIPT_NAME"));
+            $this->_baseUrl      = "http://" . $server->getValue("SERVER_NAME") . $this->_dirName;
+            $this->_xhtmlEnabled = true;
         }
 
         function getBaseUrl($abs = DEFAULT_ABSOLUTE_URL)
@@ -77,6 +79,28 @@
         function addParameter($paramName, $paramValue)
         {
             $this->_params[$paramName] = $paramValue;
+        }
+
+        /**
+         * Adds a parameter to the request
+         *
+         * @param paramName Name of the parameter
+         * @param paramValue Value given to the parameter
+         */
+        function setXhtml($enable = true)
+        {
+            $this->_xhtmlEnabled = $enable;
+        }
+
+        /**
+         * Adds a parameter to the request
+         *
+         * @param paramName Name of the parameter
+         * @param paramValue Value given to the parameter
+         */
+        function isXhtml()
+        {
+            return $this->_xhtmlEnabled;
         }
     }
 ?>
