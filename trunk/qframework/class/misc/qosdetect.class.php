@@ -28,12 +28,7 @@
          */
         function isWindows()
         {
-            $os = qOsDetect::getOsString();
-
-            if(eregi("win", $os))
-                return true;
-            else
-                return false;
+            return eregi("win", qOsDetect::getOsString());
         }
 
         /**
@@ -44,12 +39,7 @@
          */
         function isLinux()
         {
-            $os = qOsDetect::getOsString();
-
-            if(eregi("linux", $os))
-                return true;
-            else
-                return false;
+            return eregi("linux", qOsDetect::getOsString());
         }
 
 
@@ -59,14 +49,9 @@
          * @return True if we are running Mac OS X, false otherwise.
          * @static
          */
-        function isMacOSX()
+        function isMacOsX()
         {
-            $os = qOsDetect::getOsString();
-
-            if(eregi("mac", $os))
-                return true;
-            else
-                return false;
+            return eregi("mac", qOsDetect::getOsString());
         }
     }
 ?>
