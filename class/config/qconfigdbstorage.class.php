@@ -5,25 +5,29 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/dao/qdb.class.php");
 
     /**
-     * Storage backend that stores/retrieves the data from the plog_config
-     * table.<br/>
-     * The structore of the table is as follows:<ul>
-     * <li>id: setting identifier</li>
-     * <li>config_key: Name of the setting. Can't be empty</li>
-     * <li>config_value: Value assigned to the key</li>
-     * <li>value_type: This field can take several values and gives the class
-     * a hint regardign the type of the value:<ul>
-     * <li>1: integer. The config_value field represents is value.</li>
-     * <li>2: boolean. It is saved as 1 == true and 0 == false.</li>
-     * <li>3: string. It is saved as is.</li>
-     * <li>4: object. The object is saved in a seralized way.</li>
-     * <li>5: array. The arrays are also saved serialized. This is transparently
-     * done inside the save() and saveValue() methods, and therefore the user
-     * does not have to worry about doing it.</li>
-     * <li>6: float. It is saved as is.</li>
+     * @brief Servicio de almacenaje (backend) en base de datos para datos de configuración 
+     * 
+     * La estructura de la tabla és como la siguiente:<ul>
+     * <li>id: identificador autonumérico</li>
+     * <li>config_key: clave o nombre de la configuración. no puede ser vacio</li>
+     * <li>config_value: valor asignado a la clave</li>
+     * <li>value_type: este campo puede tomar los siguientes valores:
+     * <ul>
+     *  <li>1: integer. Nombres enteros.</li>
+     *  <li>2: boolean. Booleano, se guarda verdadero=1 i falso=0</li>
+     *  <li>3: string. Cadena de carácteres, se guarda tál cual.</li>
+     *  <li>4: object. Objetos, se guarda serializando (convertir en cadena).</li>
+     *  <li>5: array. Vectores i matrices. Se guardan también serializados</li>
+     *  <li>6: float. Nombres com coma flotante</li>
      * </ul>
-     * Type detection is provided via the built-in mechanisms that PHP offers.
+     * <p>La serialización de los datos se hace de forma transparente al usuario.
+     * La detección del tipo de datos se hace con el sistema integrado en PHP</p>
      * </ul>
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    12/03/2005 20:28
+     * @version 1.0
+     * @ingroup config
      */
     class qConfigDbStorage extends qConfigStorage
     {

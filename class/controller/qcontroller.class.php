@@ -16,6 +16,8 @@
     define("DEFAULT_ACTIONS_CLASS_PATH", "class/action/");
 
     /**
+     * @brief Gestiona todas las peticiones del cliente
+     *
      * Así es como MVC funciona, usando el patrón 'Front Controller'. Este patrón tiene una única classe
      * de controlador que recibe totas las peticiones del cliente, identifica la acción a tomar
      * y traspasa la ejecución a la acción que mejor corresponde según la petición.

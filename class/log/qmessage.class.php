@@ -3,10 +3,14 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-     * qMessage contains information about a log message.
-     *
-     * @since   1.0
+     * @brief Contine la información sobre un mensaje de log.
+     *     
+     * @author  qDevel - info@qdevel.com
+     * @date    06/03/2005 19:10
+     * @version 1.0
+     * @ingroup log
      */
+
     class qMessage extends qObject
     {
         /**

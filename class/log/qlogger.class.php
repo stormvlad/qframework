@@ -3,9 +3,12 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-     * qLogger provides an interface for logging messages to multiple appenders.
+     * @brief Proporciona una interfície para dar salida a los logs en distintos medios.
      *
-     * @since   1.0
+     * @author  qDevel - info@qdevel.com
+     * @date    13/03/2005 04:23
+     * @version 1.0
+     * @ingroup log
      */
     class qLogger extends qObject
     {

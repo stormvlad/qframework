@@ -7,7 +7,14 @@
     define("PROPERTIES_SLASHES_STRIP", 2);
 
     /**
-     * Class inspired by the java class Properties
+     * @brief Mapa de valores definidos por una clave única
+     *
+     * Clase inspirada en la clase de Java Properties
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    12/03/2005 23:36
+     * @version 1.0
+     * @ingroup core
      */
     class qProperties extends qObject
     {

@@ -34,9 +34,9 @@
 
 
         /**
-          * Returns the ordinal expression for any given number
+         * Returns the ordinal expression for any given number
          * @private
-          */
+         */
         function _getOrdinal($num)
         {
             // first we check the last two digits

@@ -4,9 +4,12 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/log/qmessage.class.php");
 
     /**
-     * qErrorLogger provides a default logging mechanism for errors.
+     * @brief Establece el mecanismo de log de errores por defecto.
      *
-     * @since   1.0
+     * @author  qDevel - info@qdevel.com
+     * @date    13/03/2005 04:18
+     * @version 1.0
+     * @ingroup log
      */
     class qErrorLogger extends qLogger
     {

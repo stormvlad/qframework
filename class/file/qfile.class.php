@@ -7,10 +7,24 @@
 
      define("DEFAULT_FILE_DIRECTORY_UMASK", 0777);
 
+    /** 
+     * @defgroup file Ficheros
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    13/03/2005 04:40
+     * @version 1.0
+     */
+
     /**
-     * Encapsulation of a class to manage files. It is basically a wrapper
-     * to some of the php functions.
+     * @brief Permite la manipulación básica de ficheros.
+     * 
+     * Esta clase encapsula algunas de las operaciones para la manipulación
+     * de ficheros de PHP.
      * http://www.php.net/manual/en/ref.filesystem.php
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    13/03/2005 04:40
+     * @version 1.0
      */
      class qFile extends qObject
      {
@@ -226,8 +240,9 @@
         }
 
         /**
-        *    Add function info here
-        */
+         *    Add function info here
+         * @private
+         */
         function _rmDir($file)
         {
             $l       = new qFileList(new qFileLocalLister());
@@ -266,8 +281,9 @@
         }
 
         /**
-        *    Add function info here
-        */
+         *    Add function info here
+         * @private
+         */
         function _cpDir($source, $dest)
         {
             if (!qFile::exists($dest))

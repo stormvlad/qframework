@@ -170,8 +170,9 @@
         }
 
         /**
-        *    Add function info here
-        */
+         *    Add function info here
+         * @private
+         */
         function _generate()
         {
             $this->_calendar = array();
