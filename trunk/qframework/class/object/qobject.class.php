@@ -120,6 +120,15 @@
         /**
          * Add function info here
          */
+        function unregisterEvent($event)
+        {
+            $eventManager = &qEventManager::getEventManager();
+            return $eventManager->unregisterEvent($this, $event);
+        }
+
+        /**
+         * Add function info here
+         */
         function registerEvent($event)
         {
             $eventManager = &qEventManager::getEventManager();
