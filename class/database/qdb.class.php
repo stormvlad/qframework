@@ -13,6 +13,7 @@
     {
         var $_db;
         var $_queryCount;
+        var $_eventName;
 
         /**
         * Add function info here
@@ -22,8 +23,9 @@
             $this->qObject();
             $this->_db         = &$db;
             $this->_queryCount = 0;
+            $this->_eventName  = strtoupper($this->getClassName()) . "_SQL_QUERY_EVENT";
 
-            $this->registerEvent("DB_SQL_QUERY_EVENT");
+            $this->registerEvent($this->_eventName);
         }
 
         /**
@@ -52,7 +54,7 @@
                 "sql"        => $sql,
                 "time"       => $seconds);
 
-            $this->sendEvent("DB_SQL_QUERY_EVENT", $params);
+            $this->sendEvent($this->_eventName, $params);
         }
 
         /**
