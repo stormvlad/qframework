@@ -2,6 +2,8 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
+    if (PHP_VERSION < 5) include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qexception.php4.class.php");
+
     /**
      * PHP Java-style definition of an Exception object-
      */
@@ -28,7 +30,7 @@
          * Throws the exception and stops the execution, dumping some
          * interesting information.
          */
-        function throw()
+        function qthrow()
         {
             // gather some information
             print("<br/><b>Exception message</b>: " . $this->_exceptionString . "<br/><b>Error code</b>: " . $this->_exceptionCode."<br/>");
@@ -66,17 +68,37 @@
         }
     }
 
-
     /**
      * This error handler takes care of throwing exceptions whenever an error
      * occurs.
      */
-    function _internalErrorHandler($errorCode, $errorString)
+    function _internalErrorHandler($errorCode, $errorString, $errorFile, $errorLine)
     {
-        if ($errorCode != E_NOTICE)
+
+        if (error_reporting() == 0) // don't respond to the error if it was suppressed with a '@'
+        {
+            return;
+        }
+
+        if (($errorCode != E_NOTICE) && ($errorCode != E_WARNING) && ($errorCode != E_STRICT))
         {
             $e = new qException($errorString, $errorCode);
-            $e->throw();
+            $e->qthrow();
+        }
+        elseif (defined("_DEBUG_") && _DEBUG_ && ($errorCode != E_STRICT) && (substr($errorString, 0, 17) != "Undefined index: "))
+        {
+            switch($errorCode)
+            {
+                case E_NOTICE:
+                    print("<b>NOTICE</b>");
+                    break;
+
+                case E_WARNING:
+                    print("<b>WARNING</b>");
+                    break;
+            }
+
+            print (": $errorString in line $errorLine of file $errorFile<br/>");
         }
     }
 
@@ -84,22 +106,11 @@
      * This error handler takes care of throwing exceptions whenever an error
      * occurs.
      */
-    function _internalErrorHandlerDummy($errorCode, $errorString)
+    function _internalErrorHandlerDummy($errorCode, $errorString, $errorFile, $errorLine)
     {
     }
 
-    /**
-     * Throws an exception
-     */
-    function throw($exception)
-    {
-        $exception->throw();
-    }
-
-    function catch($exception)
-    {
-        print("Exception catched!");
-    }
-
+    error_reporting(E_ALL);
     $old_error_handler = set_error_handler("_internalErrorHandler");
+
 ?>

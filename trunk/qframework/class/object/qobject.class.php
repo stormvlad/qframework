@@ -21,7 +21,14 @@
          */
         function qObject()
         {
-            $this->_debug = false;
+            if (defined("_DEBUG_"))
+            {
+                $this->_debug = _DEBUG_;
+            }
+            else
+            {
+                $this->_debug = false;
+            }
         }
 
         /**

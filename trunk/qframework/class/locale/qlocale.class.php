@@ -1,10 +1,12 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/locale/qlocalefilestorage.class.php");
+//    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/locale/qlocalegettextstorage.class.php");
 
     define("DEFAULT_LOCALE_CODE", "es_ES");
-    define("DEFAULT_LOCALE_FILE_STORAGE", "locale/" . DEFAULT_LOCALE_CODE . ".php");
+    define("DEFAULT_LOCALE_PATH", APP_ROOT_PATH . "locale/");
 
     /**
      * Extends the Properties class so that our own configuration file is automatically loaded.
@@ -26,8 +28,8 @@
         {
             $this->qObject();
 
-            $this->_storage  = &$storage;
-            $this->_messages = new qProperties();
+            $this->_storage   = &$storage;
+            $this->_messages  = new qProperties();
 
             $this->load();
         }
@@ -42,6 +44,7 @@
             if (!isset($localeInstance))
             {
                 $localeInstance = new qLocale(new qLocaleFileStorage(DEFAULT_LOCALE_FILE_STORAGE));
+                //$localeInstance = new qLocale(new qLocaleGettextStorage(DEFAULT_LOCALE_FILE_STORAGE), false);
             }
 
             return $localeInstance;
@@ -348,11 +351,6 @@
         */
         function i18n($id)
         {
-            if ($this->isDebug())
-            {
-                return $id;
-            }
-
             if (is_array($id))
             {
                 $translated = array();
@@ -371,8 +369,9 @@
                 {
                     $translated = $this->_messages->getValue($id);
                 }
-                else
+                elseif ($this->isDebug())
                 {
+                    $this->setValue($id, $id);
                     $translated = $id;
                 }
 

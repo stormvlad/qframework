@@ -98,9 +98,7 @@
         */
         function bind($username, $password)
         {
-            $oldErrorHandler = set_error_handler("_internalErrorHandlerDummy");
-            $bind            = @ldap_bind($this->_fp, "$username@regsega.org", $password);
-            set_error_handler($oldErrorHandler);
+            $bind = @ldap_bind($this->_fp, $username, $password);
 
             return $bind;
         }
