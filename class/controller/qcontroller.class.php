@@ -4,13 +4,12 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/action/qaction.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qclient.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/controller/qcontrollerparams.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qexecutionfilter.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qfilterschain.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/quser.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/qusersessionstorage.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qdate.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/logging/qlogmanager.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/log/qlogmanager.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qredirectview.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/timer/qtimer.class.php");
 
@@ -41,10 +40,11 @@
      * the controller will <b>not</b> call the perform() method and stop execution. However, the
      * validate method should also generate a valid view containing probably the error message.
      *
-     * @author qDevel - info@qdevel.com
-     * @date 26/02/2005 14:46
+     * @author  qDevel - info@qdevel.com
+     * @date    26/02/2005 14:46
      * @version 1.0
-    **/
+     * @ingroup core
+     **/
 
     class qController extends qObject
     {
@@ -54,11 +54,9 @@
         var $_currentAction;
         var $_defaultAction;
         var $_sessionEnabled;
-        var $_controllerParams;
-        var $_user;
 
         /**
-         * Constructor
+         * Constructor    
          */
         function qController()
         {
@@ -70,8 +68,6 @@
             $this->_currentAction    = null;
             $this->_defaultAction    = DEFAULT_ACTION_NAME;
             $this->_sessionEnabled   = false;
-            $this->_controllerParams = null;
-            $this->_user             = null;
 
             $logManager = &qLogManager::getInstance();
             $logger     = &$logManager->getLogger("default");
@@ -83,11 +79,10 @@
         }
 
         /**
-         * El objectivo de este método es asegurar que exista sólo una instancia de esta clase 
-         * y proveer de un punto global de accesso a ella.
-         * Basado en el patrón Singleton.
+         * Devuelve la única instancia de qController
          *
-         * @return qController - devuelve una instancia de esta classe
+         * @note Basado en el patrón Singleton. El objectivo de este método es asegurar que exista sólo una instancia de esta clase y proveer de un punto global de accesso a ella.
+         * @return qController
          */
         function &getInstance()
         {
@@ -99,26 +94,6 @@
             }
 
             return $controllerInstance;
-        }
-
-        /**
-         * Devuelve el objeto que representa al cliente de la aplicación
-         *
-         * @return qUser
-         */
-        function &getUser()
-        {
-            return $this->_user;
-        }
-
-        /**
-         * Establece el cliente de la aplicación
-         * 
-         * @param user qUser Cliente de la aplicación
-         */
-        function setUser(&$user)
-        {
-            $this->_user = &$user;
         }
 
         /**
@@ -134,7 +109,7 @@
         /**
          * Establece el nombre del parámetro que define la acción a ejecutar por el controlador
          *
-         * @param actionParam string 
+         * @param actionParam <em>string</em>
          */
         function setActionParam($actionParam)
         {
@@ -152,11 +127,11 @@
         }
 
         /**
-         * Establece la ruta dónde se encuentran la classes de acción <i>qAction</i>.
-         * Por defecto en "class/action/"
-         *
-         * @param path string
-         */
+        * Establece la ruta dónde se encuentran la classes de acción <i>qAction</i>.
+        * Por defecto en "class/action/"
+        *
+        * @param path string
+        */
         function setActionsClassPath($path)
         {
             $this->_actionsClassPath = $path;
@@ -207,7 +182,7 @@
         /**
          * Establece si la session está habilitada.
          *
-         * @param enabled boolean - opcional - por defecto: true
+         * @param [enabled] <em>boolean</em> Establece si la session está habilitada (Opcional)
          */
         function setSessionEnabled($enabled = true)
         {
@@ -398,8 +373,8 @@
             $this->loadActionClass($actionClassName);
 
             $filtersChain     = new qFiltersChain();
-            $executionFilter  = new qExecutionFilter($this->controllerParams);
-            $action           = new $actionClassName($this->controllerParams);
+            $executionFilter  = new qExecutionFilter();
+            $action           = new $actionClassName();
 
             $this->_currentAction = &$action;
 
@@ -417,9 +392,10 @@
          */
         function redirect($url)
         {
-            if (!empty($this->_user))
+            if ($this->_sessionEnabled)
             {
-                $this->_user->store();
+                $user = &qUser::getInstance();
+                $user->store();
             }
 
             $view = new qRedirectView($url);
@@ -444,31 +420,25 @@
 
             $this->sendEvent(1, $params);
 
-            if ($this->_sessionEnabled)
-            {
-                if (empty($this->_user))
-                {
-                    $this->_user = &qUser::getInstance();
-                }
-            }
-
             if (empty($httpRequest))
             {
                 $httpRequest = &qHttp::getRequestVars();
             }
 
-            $this->controllerParams = new qControllerParams($this, $httpRequest, $this->_user);
             $this->forward($httpRequest->getValue($this->_actionParam));
 
             if ($this->_sessionEnabled)
             {
-                $d = new qDate();
-                $this->_user->setLastActionTime($d->getDate(DATE_FORMAT_TIMESTAMP));
-                $this->_user->store();
+                $user = &qUser::getInstance();
+                $d    = new qDate();
+                
+                $user->setLastActionTime($d->getDate(DATE_FORMAT_TIMESTAMP));
+                $user->store();
             }
 
             $params["seconds"] = $timer->get();
             $this->sendEvent(2, $params);
         }
     }
+
 ?>

@@ -10,14 +10,19 @@
     define("DEFAULT_SMARTY_TEMPLATES_EXTENSION", ".template");
 
     /**
-     * Inherits from Properties but just to add some default
-     * values to some settings
+     * @brief Motor de renderizado Smarty
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    06/03/2005 19:36
+     * @version 1.0
+     * @ingroup view
+     * @see qSmartyView
      */
     class qSmartyRenderer extends qViewRenderer
     {
         /**
-        * Add function info here
-        */
+         * Constructor
+         */
         function qSmartyRenderer($templatesDir = DEFAULT_SMARTY_TEMPLATES_DIR, $templatesExtension = DEFAULT_SMARTY_TEMPLATES_EXTENSION)
         {
             $this->qViewRenderer();

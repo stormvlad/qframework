@@ -4,10 +4,17 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qsmartyrenderer.class.php");
 
     /**
-     * Extends the original 'View' class to provide support for common operations, for example
-     * to automatically add support for locale. It is recommended
-     * that all classes that generate a view extend from this unless strictly necessary
+     * @brief Vista usando el motor de renderizado con plantillas Smarty
+     *
+     * Smarty http://smarty.php.net
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    06/03/2005 19:39
+     * @version 1.0
+     * @ingroup view
+     * @see qSmartyRenderer
      */
+          
     class qSmartyView extends qView
     {
         var $_templateName;

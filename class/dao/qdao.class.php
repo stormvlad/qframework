@@ -1,13 +1,23 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/database/qdb.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/dao/qdb.class.php");
+
+    /** 
+     * @defgroup dao Objetos de acceso a datos
+     */
 
     /**
-    *  Base class for data access objects
-    */
-    class qDao extends qObject
-    {
+     * @brief Clase base para objetos de acceso a datos
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    06/03/2005 19:36
+     * @version 1.0
+     * @ingroup dao
+     * @see qDaoGenerator Estas clases pueden generarse automáticamente
+     */
+     class qDao extends qObject
+     {
         var $_db;
         var $_tableName;
         var $_clauses;

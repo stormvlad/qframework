@@ -3,10 +3,10 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qfilter.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qhost.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qclient.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidator.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qipformatrule.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qipcidrformatrule.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qiprangerule.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qvalidator.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qipformatrule.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qipcidrformatrule.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qiprangerule.class.php");
 
     class qHostsFilter extends qFilter
     {
@@ -18,9 +18,9 @@
         /**
         * Add function info here
         */
-        function qHostsFilter(&$controllerParams)
+        function qHostsFilter()
         {
-            $this->qFilter($controllerParams);
+            $this->qFilter();
             $this->_blackHosts = array();
             $this->_whiteHosts = array();
             $this->_order      = "Allow,Deny";

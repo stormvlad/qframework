@@ -7,9 +7,9 @@
         /**
         * Add function info here
         */
-        function qWhiteHostsFilter(&$controllerParams)
+        function qWhiteHostsFilter()
         {
-            $this->qHostsFilter($controllerParams);
+            $this->qHostsFilter();
             $this->setOrder("Allow,Deny");
         }
 

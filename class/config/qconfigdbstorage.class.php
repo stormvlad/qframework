@@ -2,7 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfigstorage.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/database/qdb.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/dao/qdb.class.php");
 
     /**
      * Storage backend that stores/retrieves the data from the plog_config

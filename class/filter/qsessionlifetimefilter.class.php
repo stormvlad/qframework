@@ -1,7 +1,7 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qfilter.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qdate.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qdate.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qredirectview.class.php");
 
     /**
@@ -15,9 +15,9 @@
         /**
         * Add function info here
         */
-        function qSessionLifeTimeFilter(&$controllerParams, $lifeTime = "3600", $expiredUrl = "/")
+        function qSessionLifeTimeFilter($lifeTime = "3600", $expiredUrl = "/")
         {
-            $this->qFilter($controllerParams);
+            $this->qFilter();
 
             $this->_lifeTime   = $lifeTime;
             $this->_expiredUrl = $expiredUrl;
@@ -60,7 +60,7 @@
         */
         function run(&$filtersChain)
         {
-            $user = &$this->_controllerParams->getUser();
+            $user = &qUser::getInstance();
             $time = $user->getLastActionTime();
             $d1   = new qDate($time);
             $sec1 = $d1->getDate(DATE_FORMAT_UNIXTIME);

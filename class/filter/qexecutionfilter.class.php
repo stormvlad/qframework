@@ -1,7 +1,7 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qfilter.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidationslist.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qvalidationslist.class.php");
 
     /**
     * Add function info here
@@ -13,9 +13,9 @@
         /**
          * Add function info here
          */
-        function qExecutionFilter(&$controllerParams)
+        function qExecutionFilter()
         {
-            $this->qFilter($controllerParams);
+            $this->qFilter();
             $this->_actionsChain = array();
         }
 
@@ -33,7 +33,7 @@
         function checkSecurityAction(&$action)
         {
             $result = true;
-            $user   = &$this->_controllerParams->getUser();
+            $user   = &qUser::getInstance();
 
             if ($action->isSecure())
             {
@@ -83,7 +83,7 @@
                 return $view;
             }
 
-            $httpRequest = &$this->_controllerParams->getHttpRequest();
+            $httpRequest = &qHttp::getRequestVars();
             $files       = &qHttp::getFilesVars();
             $method      = $httpRequest->getValue("__method__");
 

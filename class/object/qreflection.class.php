@@ -3,9 +3,16 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-     * <b>Very</b> modest attempt to recreate some kind of Reflection API
-     * "a la" Java.
+     * @brief Obtención de metadatos de las clases
+     *
+     * Clase estática parecida a la que proporciona Java para obtener metainformación de las clases.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    06/03/2005 19:22
+     * @version 1.0
+     * @ingroup core
      */
+
     class qReflection extends qObject
     {
         /**
@@ -19,8 +26,8 @@
         /**
          * Returns true if the class has a method called $methodName
          *
-         * @param class An object of the class we want to check
-         * @param methodName Name of the method we want to check
+         * @param class qObject An object of the class we want to check
+         * @param methodName <code>string</code> Name of the method we want to check
          * @return Returns true if method exists otherwise, false
          */
         function methodExists(&$class, $methodName)

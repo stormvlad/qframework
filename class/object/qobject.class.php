@@ -4,13 +4,21 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qeventhandler.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qeventmanager.class.php");
 
-
+    /** 
+     * @defgroup core Nucleo 
+     */
+    
     /**
      * This is the highest class on the top of our hierarchy. Provides some common methods
      * useful to deal with objects, an also some commodity methods for debugging such as
      * toString, which will dump the names and the values of the attributes of the object.
      * All the objects should inherit from this one and call this constructor manually, due
      * to PHP not automatically calling the parent's class constructor when inheriting.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    05/03/2005 19:19
+     * @version 1.0
+     * @ingroup core
      */
     class qObject
     {

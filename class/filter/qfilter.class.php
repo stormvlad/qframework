@@ -9,15 +9,12 @@
      */
     class qFilter extends qObject
     {
-        var $_controllerParams;
-
         /**
         * Add function info here
         */
-        function qFilter(&$controllerParams)
+        function qFilter()
         {
             $this->qObject();
-            $this->_controllerParams = &$controllerParams;
         }
 
         /**

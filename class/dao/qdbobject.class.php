@@ -3,8 +3,13 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
 
     /**
-     * Inherits from Properties but just to add some default
-     * values to some settings
+     * @brief Clase base que representa un objeto de datos     
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    06/03/2005 19:36
+     * @version 1.0
+     * @ingroup dao
+     * @see qDaoGenerator Estas clases pueden generarse automáticamente
      */
     class qDbObject extends qObject
     {
