@@ -8,6 +8,7 @@
     class qAction extends qObject
     {
         var $_controllerParams;
+        var $_errors;
 
         /**
          * Constructor.
@@ -19,6 +20,31 @@
         {
             $this->qObject();
             $this->_controllerParams = &$controllerParams;
+            $this->_errors           = array();
+        }
+
+        /**
+        *    Add function info here
+        **/
+        function &getErrors()
+        {
+            return $this->_errors;
+        }
+
+        /**
+        *    Add function info here
+        **/
+        function addError($error)
+        {
+            $this->_errors[] = $error;
+        }
+
+        /**
+        *    Add function info here
+        **/
+        function resetErrors()
+        {
+            $this->_errors = array();
         }
 
         /**

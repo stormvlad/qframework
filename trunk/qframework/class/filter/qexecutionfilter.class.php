@@ -89,13 +89,19 @@
             $validations = new qValidationsList();
             $action->registerValidations($validations);
 
-            if ($validations->validate($httpRequest->getAsArray()) && $action->validate())
+            if (!$validations->validate($httpRequest->getAsArray()))
             {
-                $view = $action->performAfterValidation();
+                $view = $action->handleValidateError($validations->getErrors());
                 return $view;
             }
 
-            $view = $action->handleValidateError($validations->getErrors());
+            if (!$action->validate())
+            {
+                $view = $action->handleValidateError($action->getErrors());
+                return $view;
+            }
+
+            $view = $action->performAfterValidation();
             return $view;
         }
 
@@ -112,7 +118,7 @@
 
             if (empty($view))
             {
-                throw(new qException("qExecutionFilter::run: '" . $action->getClassName() . "' class should return a view after executing perform method."));
+                //throw(new qException("qExecutionFilter::run: '" . $action->getClassName() . "' class should return a view after executing perform method."));
             }
             else
             {
