@@ -118,12 +118,12 @@
         */
         function selectCount($whereClause = null)
         {
-            $result = $this->select($whereClause);
-            if ($result)
+            if (!($result = $this->select($whereClause)))
             {
-                return $result->recordCount();
-            }            
-            return false;
+                return false;
+            }
+
+            return $result->RecordCount();
         }
 
         /**
@@ -266,9 +266,9 @@
             {
                 $numRows = -1;
             }
-            
+
             $result = $this->_db->SelectLimit($sql, $numRows, $offset);
-            
+
             if (!$result)
             {
                 return false;
