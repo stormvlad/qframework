@@ -1,7 +1,7 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/file/qfile.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/file/qfile.class.php" );
 
     /**
      * This class helps to find specific commands. It takes an array of paths

@@ -1,6 +1,6 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
 
     /**
      * Operating system detection functions. This class provides a bunch of functions in order to detect

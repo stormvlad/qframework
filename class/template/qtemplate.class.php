@@ -1,6 +1,6 @@
 <?php
 
-    include_once("framework/class/template/smarty/Smarty.class.php" );
+    include_once("qframework/class/template/smarty/Smarty.class.php" );
 
     /**
      * Wrapper around the Smarty class, inspired by the article

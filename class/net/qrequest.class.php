@@ -1,6 +1,6 @@
 <?php
 
-    include_once("framework/class/config/qproperties.class.php" );
+    include_once("qframework/class/config/qproperties.class.php" );
 
     /**
      * Represents a request in our system. Doing so we can in the future

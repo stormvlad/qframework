@@ -1,7 +1,7 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/misc/qosdetect.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/misc/qosdetect.class.php" );
 
     /**
      * Implementation of an alternative version of the checkdnsrr and getmxrr functions which

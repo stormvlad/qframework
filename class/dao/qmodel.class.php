@@ -1,9 +1,9 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/config/qconfig.class.php" );
-    include_once("framework/class/database/adodb/adodb.inc.php" );
-    include_once("framework/class/database/qdb.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/config/qconfig.class.php" );
+    include_once("qframework/class/database/adodb/adodb.inc.php" );
+    include_once("qframework/class/database/qdb.class.php" );
 
     define( DEFAULT_DB_PREFIX, "plog_" );
 

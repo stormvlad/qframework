@@ -1,7 +1,7 @@
 <?php
 
-    include_once("framework/class/net/qhttpvars.class.php");
-    include_once("framework/class/net/qhttp.class.php");
+    include_once("qframework/class/net/qhttpvars.class.php");
+    include_once("qframework/class/net/qhttp.class.php");
 
     /**
      * Inherits from Properties but just to add some default

@@ -1,10 +1,10 @@
 <?php
 
-    include_once("framework/class/security/qpipelinefilter.class.php");
-    include_once("framework/class/security/qpipelineresult.class.php");
-    include_once("framework/class/security/qblockedhost.class.php");
-    include_once("framework/class/net/qclient.class.php");
-    include_once("framework/class/data/qipmatchvalidator.class.php");
+    include_once("qframework/class/security/qpipelinefilter.class.php");
+    include_once("qframework/class/security/qpipelineresult.class.php");
+    include_once("qframework/class/security/qblockedhost.class.php");
+    include_once("qframework/class/net/qclient.class.php");
+    include_once("qframework/class/data/qipmatchvalidator.class.php");
 
     define(HOSTS_BLACKLIST_BLOCKED_HOST_FOUND, 300);
 

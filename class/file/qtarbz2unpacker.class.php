@@ -1,8 +1,8 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/file/qbaseunpacker.class.php" );
-    include_once("framework/class/config/qconfig.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/file/qbaseunpacker.class.php" );
+    include_once("qframework/class/config/qconfig.class.php" );
 
     // default paths where 'tar' and 'gzip' can be found... this should be true
     // for at least linux-based machines (this is where they are located in

@@ -1,9 +1,9 @@
 <?php
 
-    include_once("framework/class/view/qview.class.php" );
-    include_once("framework/class/template/qtemplateservice.class.php" );
-    include_once("framework/class/locale/qlocale.class.php" );
-    include_once("framework/class/net/qclient.class.php" );
+    include_once("qframework/class/view/qview.class.php" );
+    include_once("qframework/class/template/qtemplateservice.class.php" );
+    include_once("qframework/class/locale/qlocale.class.php" );
+    include_once("qframework/class/net/qclient.class.php" );
 
     /**
      * Extends the original 'View' class to provide support for common operations, for example

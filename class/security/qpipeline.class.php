@@ -1,7 +1,7 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/security/qpipelineresult.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/security/qpipelineresult.class.php" );
 
     /**
      * Implementation of a basic security framework based on a

@@ -1,8 +1,8 @@
 <?php
 
-    include_once("framework/class/file/qfile.class.php" );
-    include_once("framework/class/config/qproperties.class.php" );
-    include_once("framework/class/config/qconfigabstractstorage.class.php" );
+    include_once("qframework/class/file/qfile.class.php" );
+    include_once("qframework/class/config/qproperties.class.php" );
+    include_once("qframework/class/config/qconfigabstractstorage.class.php" );
 
     /**
      * Extends the Properties class so that our own configuration file is automatically loaded.

@@ -1,7 +1,7 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/net/qhttp.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/net/qhttp.class.php" );
 
     define(DEFAULT_ABSOLUTE_URL, false);
 

@@ -1,7 +1,7 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/object/qexception.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/object/qexception.class.php" );
 
     /**
      * <b>Very</b> modest attempt to recreate some kind of Reflection API

@@ -1,7 +1,7 @@
 <?php
 
-    include_once("framework/class/object/qobject.class.php" );
-    include_once("framework/class/template/qtemplate.class.php" );
+    include_once("qframework/class/object/qobject.class.php" );
+    include_once("qframework/class/template/qtemplate.class.php" );
 
     /**
      * Generic template rendering service that takes care of providing the Template objects

@@ -1,7 +1,7 @@
 <?php
 
-    include_once("framework/class/controller/qcontroller.class.php" );
-    include_once("framework/class/net/qrequestparser.class.php" );
+    include_once("qframework/class/controller/qcontroller.class.php" );
+    include_once("qframework/class/net/qrequestparser.class.php" );
 
     class qPrettyRequestParser extends qRequestParser {
 

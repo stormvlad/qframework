@@ -1,6 +1,6 @@
 <?php
 
-    include_once("framework/class/data/qvalidator.class.php" );
+    include_once("qframework/class/data/qvalidator.class.php" );
 
     /**
      * Checks that a string is not empty. That could be because it is

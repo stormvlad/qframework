@@ -1,6 +1,6 @@
 <?php
 
-    include_once("framework/class/net/qrequestgenerator.class.php" );
+    include_once("qframework/class/net/qrequestgenerator.class.php" );
 
     /**
      * Generates 'pretty' URLs
