@@ -292,6 +292,25 @@
 
             return $this->_db->Execute($sql);
         }
+
+        /**
+        * Add function info here
+        */
+        function getDbObjects($where, $order, $offset, $numRows)
+        {
+            $objClassName = str_replace("dao", "dbobject", $this->getClassName());
+            $result       = $this->select($where, $order, $offset, $numRows);
+            $items        = array();
+
+            while ($row = $result->FetchRow())
+            {
+                $obj = new $objClassName();
+                $obj->map($row);
+                $items[] = $obj;
+            }
+
+            return $items;
+        }
     }
 
 ?>
