@@ -52,7 +52,7 @@
         /**
          * Add function info here
          */
-        function getNormalizedSize()
+        function getNormalizedSize($decimals = 0)
         {
             $size  = $this->_size;
             $sizes = array("B", "KB", "MB", "GB", "TB", "PB", "EB");

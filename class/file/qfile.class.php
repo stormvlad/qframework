@@ -324,7 +324,7 @@
         /**
         * Add function info here
         */
-        function getNormalizedSize($file = null)
+        function getNormalizedSize($decimals = null, $file = null)
         {
             $size  = $this->getSize($file);
             $sizes = array("B", "KB", "MB", "GB", "TB", "PB", "EB");
@@ -506,10 +506,10 @@
         function delete($file = NULL)
         {
             if (empty($file) && !empty($this->_fileName))
-            {                
+            {
                 $file = $this->_fileName;
             }
-            
+
             return unlink($file);
         }
     }
