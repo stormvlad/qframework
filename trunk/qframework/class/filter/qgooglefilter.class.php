@@ -75,8 +75,17 @@
                 }
 
                 $terms       = explode(" ", $query_array["q"]);
+                $terms       = array("el");
                 $totalTerms  = count($terms);
                 $totalColors = count($this->_colors);
+                $stringTerms = "";
+
+                for ($i = 0; $i < $totalTerms; $i++)
+                {
+                    $term         = trim($terms[$i]);
+                    $color        = $this->_colors[$i % $totalColors];
+                    $stringTerms .= "<span style=\"background:" . $color . "\">" . $term . "</span> ";
+                }
 
                 for ($i = 0; $i < $totalTerms; $i++)
                 {
@@ -84,6 +93,12 @@
                     $color = $this->_colors[$i % $totalColors];
                     $text  = preg_replace("/(?!<.*?)(\b" . $term . "\b)(?![^<>]*?>)/si", "<span style=\"background:" . $color . "\">$1</span>", $text);
                 }
+
+                $text = str_replace("[GOOGLE_FILTER_TERMS]", $stringTerms, $text);
+            }
+            else
+            {
+                $text  = preg_replace("/<div class=\"google\">.+?<\\/div>/si", "", $text);
             }
 
             print $text;
