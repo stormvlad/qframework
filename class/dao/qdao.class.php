@@ -144,10 +144,10 @@
 
             foreach ($fields as $field => $value)
             {
-                $value = qDb::qstr($value);
-
                 if (!empty($value))
                 {
+                    $value = qDb::qstr($value);
+
                     $sql .= "'" . $value . "', ";
                 }
                 else
@@ -187,10 +187,10 @@
 
             foreach ($fields as $field => $value)
             {
-                $value = qDb::qstr($value);
-
                 if (!empty($value))
                 {
+                    $value = qDb::qstr($value);
+
                     $sql .= "`" . $field . "`='" . $value . "', ";
                 }
                 else if ($obj->hasNullValue($field))
@@ -215,6 +215,7 @@
             }
 
             $sql = substr($sql, 0, -2) . " WHERE " . $this->_getWhereClause($obj);
+
             return $this->_update($sql);
         }
 
