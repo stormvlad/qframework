@@ -135,15 +135,17 @@
          */
         function info ($message, $class = NULL, $function = NULL, $file = NULL, $line = NULL)
         {
-            $message =& new qMessage(array('m' => $message,
-                                           'c' => $class,
-                                           'F' => $function,
-                                           'f' => $file,
-                                           'l' => $line,
-                                           'N' => 'INFO',
-                                           'p' => 2000));
-
-            $this->log($message);
+            if ((substr($message, 0, 17) != "Undefined index: ")) // Don't show this error
+            {
+                $message =& new qMessage(array('m' => $message,
+                                               'c' => $class,
+                                               'F' => $function,
+                                               'f' => $file,
+                                               'l' => $line,
+                                               'N' => 'INFO',
+                                               'p' => 2000));
+                $this->log($message);
+            }
         }
 
         /**
