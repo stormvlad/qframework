@@ -103,7 +103,7 @@
         **/
         function _validateValue($name, $value)
         {
-            if (empty($value))
+            if ($value === "")
             {
                 if ($this->isRequired($name))
                 {
