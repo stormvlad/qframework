@@ -37,9 +37,14 @@
             $this->_mimeType    = DEFAULT_EMAIL_MESSAGE_MIME_TYPE;
         }
 
-        function addAttachment($attachment)
+        function addAttachment($attachment, $name = null)
         {
-            array_push($this->_attachments, $attachment);
+            if (empty($name))
+            {
+                $name = $attachment;
+            }
+
+            $this->_attachments[$name] = $attachment;
         }
 
         /**

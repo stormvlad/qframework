@@ -7,7 +7,7 @@
     define("DEFAULT_EMAIL_SERVICE_TYPE", "php");
 
     /**
-     * @brief Proporciona servicios para enviar emails 
+     * @brief Proporciona servicios para enviar emails
      * con la capacidades del nPHP
      * Provides services to send emails via PHPs built-in smtp capabilities.
      *
@@ -126,9 +126,16 @@
 
             $attachments = $message->getAttachments();
 
-            foreach ($attachments as $attachment)
+            foreach ($attachments as $name => $attachment)
             {
-                $mail->AddAttachment($attachment);
+                if ($name == $attachment)
+                {
+                    $mail->AddAttachment($attachment);
+                }
+                else
+                {
+                    $mail->AddAttachment($attachment, $name);
+                }
             }
 
             if (eregi("([^<]+)<([^>]+)>", $mail->From, $regs))
@@ -209,7 +216,7 @@
                 throw(new qException("qEmailService::sendMessage: Error sending message: " . $mail->ErrorInfo));
                 die();
             }
-            
+
             return true;
         }
     }
