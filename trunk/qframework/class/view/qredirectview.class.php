@@ -51,7 +51,7 @@
                 }
 
                 $uri    = str_replace("//", "/", $uri);
-                $result = "http://" . $uri . $url;
+                $result = $protocol . "://" . $uri . $url;
             }
             else
             {
