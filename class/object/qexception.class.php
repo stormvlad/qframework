@@ -46,7 +46,10 @@
 
                 foreach ($info as $trace)
                 {
-                    if (($trace["function"] != "_internalerrorhandler") && ($trace["file"] != __FILE__ ))
+                    if (($trace["function"] != "standard") 
+                         && (basename($trace["file"]) != "qerrorlogger.class.php" )
+                         && (basename($trace["file"]) != "qlogger.class.php" )
+                         && ($trace["file"] != __FILE__ ))
                     {
                         print($trace["file"] . "(" . $trace["line"] . "): ");
 
