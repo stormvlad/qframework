@@ -2,7 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qrule.class.php");
 
-    define(ERROR_RULE_IP_NOT_IN_RANGE, "error_rule_ip_not_in_range");
+    define("ERROR_RULE_IP_NOT_IN_RANGE", "error_rule_ip_not_in_range");
 
     /**
      * This is an implementation of the 'Strategy' pattern as it can be seen

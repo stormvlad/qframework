@@ -2,8 +2,8 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qregexprule.class.php");
 
-    define(IP_FORMAT_RULE_REG_EXP, "^([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})$");
-    define(ERROR_RULE_IP_FORMAT_WRONG, "error_rule_ip_format_wrong");
+    define("IP_FORMAT_RULE_REG_EXP", "^([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})$");
+    define("ERROR_RULE_IP_FORMAT_WRONG", "error_rule_ip_format_wrong");
 
     /**
      * This is an implementation of the 'Strategy' pattern as it can be seen

@@ -3,7 +3,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
 
-    define(DEFAULT_ABSOLUTE_URL, false);
+    define("DEFAULT_ABSOLUTE_URL", false);
 
     /**
      * Generates HTTP GET requests in a transparent way:

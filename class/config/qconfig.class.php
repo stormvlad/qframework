@@ -4,7 +4,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfigfilestorage.class.php");
 
-    define(DEFAULT_CONFIG_FILE_STORAGE, "config/config.properties.php");
+    define("DEFAULT_CONFIG_FILE_STORAGE", "config/config.properties.php");
 
     /**
      * Extends the Properties class so that our own configuration file is automatically loaded.

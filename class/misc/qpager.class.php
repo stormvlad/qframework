@@ -2,8 +2,8 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
-    define(DEFAULT_PAGER_REGS_FOR_PAGE, 25);
-    define(DEFAULT_PAGER_MAX_PAGES, 10);
+    define("DEFAULT_PAGER_REGS_FOR_PAGE", 25);
+    define("DEFAULT_PAGER_MAX_PAGES", 10);
 
     /**
      * Operating system detection functions. This class provides a bunch of functions in order to detect

@@ -10,9 +10,9 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/qusersessionstorage.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qdate.class.php");
 
-    define(DEFAULT_ACTION_PARAM, "op");
-    define(DEFAULT_ACTION_NAME, "default");
-    define(DEFAULT_ACTIONS_CLASS_PATH, "class/action/");
+    define("DEFAULT_ACTION_PARAM", "op");
+    define("DEFAULT_ACTION_NAME", "default");
+    define("DEFAULT_ACTIONS_CLASS_PATH", "class/action/");
 
     /**
      * This is how MVC works, using the pattern of the 'Front Controller'. With this pattern, we have

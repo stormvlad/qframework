@@ -2,7 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
-    define(DEFAULT_TIMER_PRECISION, 6);
+    define("DEFAULT_TIMER_PRECISION", 6);
 
     class qTimer extends qObject
     {

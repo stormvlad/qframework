@@ -2,8 +2,8 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qrule.class.php");
 
-    define(ERROR_RULE_TOO_SMALL, "error_rule_too_small");
-    define(ERROR_RULE_TOO_LARGE, "error_rule_too_large");
+    define("ERROR_RULE_TOO_SMALL", "error_rule_too_small");
+    define("ERROR_RULE_TOO_LARGE", "error_rule_too_large");
 
     /**
      * This is an implementation of the 'Strategy' pattern as it can be seen

@@ -2,8 +2,8 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qregexprule.class.php");
 
-    define(EMAIL_FORMAT_RULE_REG_EXP, "^[a-z0-9]+([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,4}");
-    define(ERROR_RULE_EMAIL_FORMAT_WRONG, "error_rule_email_format_wrong");
+    define("EMAIL_FORMAT_RULE_REG_EXP", "^[a-z0-9]+([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,4}");
+    define("ERROR_RULE_EMAIL_FORMAT_WRONG", "error_rule_email_format_wrong");
 
     /**
      * This is an implementation of the 'Strategy' pattern as it can be seen

@@ -3,9 +3,9 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/misc/qutils.class.php");
 
-    define(DEFAULT_PASSWORD_GENERATOR_VALID_CHARS, "abcdefghijklmnopqrstuvwxyz0123456789");
-    define(DEFAULT_PASSWORD_GENERATOR_MIN_LENGTH, 6);
-    define(DEFAULT_PASSWORD_GENERATOR_MAX_LENGTH, 0);
+    define("DEFAULT_PASSWORD_GENERATOR_VALID_CHARS", "abcdefghijklmnopqrstuvwxyz0123456789");
+    define("DEFAULT_PASSWORD_GENERATOR_MIN_LENGTH", 6);
+    define("DEFAULT_PASSWORD_GENERATOR_MAX_LENGTH", 0);
 
     /**
      * Operating system detection functions. This class provides a bunch of functions in order to detect

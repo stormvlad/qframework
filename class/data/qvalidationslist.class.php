@@ -2,7 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
-    define(ERROR_RULE_IS_EMPTY, "error_rule_is_empty");
+    define("ERROR_RULE_IS_EMPTY", "error_rule_is_empty");
 
     /**
      * This is an implementation of the 'Strategy' pattern as it can be seen

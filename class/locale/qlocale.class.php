@@ -3,8 +3,8 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/locale/qlocalefilestorage.class.php");
 
-    define(DEFAULT_LOCALE_CODE, "es_ES");
-    define(DEFAULT_LOCALE_FILE_STORAGE, "locale/" . DEFAULT_LOCALE_CODE . ".php");
+    define("DEFAULT_LOCALE_CODE", "es_ES");
+    define("DEFAULT_LOCALE_FILE_STORAGE", "locale/" . DEFAULT_LOCALE_CODE . ".php");
 
     /**
      * Extends the Properties class so that our own configuration file is automatically loaded.

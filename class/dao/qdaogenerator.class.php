@@ -3,10 +3,10 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qsmartyview.class.php");
 
-    define(DEFAULT_DAO_GENERATOR_OUTPUT_DIR, "tmp/");
-    define(DEFAULT_DAO_GENERATOR_TEMPLATE_DAO, "dao");
-    define(DEFAULT_DAO_GENERATOR_TEMPLATE_DB_OBJECT, "db_object");
-    define(DEFAULT_DAO_GENERATOR_TEMPLATES_DIR, "templates/dao_generator/");
+    define("DEFAULT_DAO_GENERATOR_OUTPUT_DIR", "tmp/");
+    define("DEFAULT_DAO_GENERATOR_TEMPLATE_DAO", "dao");
+    define("DEFAULT_DAO_GENERATOR_TEMPLATE_DB_OBJECT", "db_object");
+    define("DEFAULT_DAO_GENERATOR_TEMPLATES_DIR", "templates/dao_generator/");
 
     /**
     *  Base class for data access objects

@@ -5,11 +5,11 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qfilelistentry.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/ftp/FTP.php");
 
-    define(DEFAULT_FTP_PORT,           21);
-    define(DEFAULT_FTP_OVERWRITE,      false);
-    define(DEFAULT_FTP_CASE_SENSITIVE, true);
-    define(FTP_MODE_ASCII,             FTP_ASCII);
-    define(FTP_MODE_BINARY,            FTP_BINARY);
+    define("DEFAULT_FTP_PORT",           21);
+    define("DEFAULT_FTP_OVERWRITE",      false);
+    define("DEFAULT_FTP_CASE_SENSITIVE", true);
+    define("FTP_MODE_ASCII",             FTP_ASCII);
+    define("FTP_MODE_BINARY",            FTP_BINARY);
 
     /**
      * HttpVars compatibility package, which allows to fetch some of php's basic

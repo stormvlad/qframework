@@ -2,8 +2,8 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
-    define(MAX_LINE_LENGTH, 998);
-    define(DEFAULT_EMAIL_MESSAGE_MIME_TYPE, "text/plain");
+    define("MAX_LINE_LENGTH", 998);
+    define("DEFAULT_EMAIL_MESSAGE_MIME_TYPE", "text/plain");
 
     /**
      * Represents an email message.
