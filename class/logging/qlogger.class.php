@@ -194,8 +194,7 @@
             // should we exit?
             if ($this->exitPriority > 0 && $msgPriority >= $this->exitPriority)
             {
-                $e = new qException($message->getParameter("m"), $message->getParameter("p"));
-                $e->qthrow();
+                throw(new qException($message->getParameter("m"), $message->getParameter("p")));
                 // sayonara baby
                 exit;
             }

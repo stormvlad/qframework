@@ -576,6 +576,11 @@
             {
                 return "";
             }
+        
+            if (!checkdate($month, $day, $year))
+            {
+                return "";
+            }
 
             $hour2       = $hour % 12;
             $week        = Date_Calc::weekOfYear($day, $month, $year);
@@ -609,7 +614,7 @@
             {
                 $offset2 = "Z";
             }
-
+            	
             $days        = array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
             $daysShort   = array("Mo", "Tu", "We", "Th", "Fr", "Sa", "Su");
             $months      = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
