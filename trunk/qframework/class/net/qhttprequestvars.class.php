@@ -30,8 +30,11 @@
         }
 
         /**
-        *    Add function info here
-        */
+         * Devuelve el método de la petición
+         *
+         * @see qRequest::getMethod
+         * @deprecated Existe una clase específica para representar la petición del cliente
+         */
         function getRequestMethod()
         {
             return $this->getValue("__method__");

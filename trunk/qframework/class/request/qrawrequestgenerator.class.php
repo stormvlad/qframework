@@ -1,6 +1,6 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qrequestgenerator.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/request/qrequestgenerator.class.php");
 
     define("DEFAULT_INDEX_FILE", "index.php");
 
