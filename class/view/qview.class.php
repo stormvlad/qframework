@@ -19,7 +19,7 @@
         {
             $this->qObject();
 
-            $this->_renderer = $renderer;
+            $this->_renderer = &$renderer;
             $this->_params   = new qProperties();
         }
 
