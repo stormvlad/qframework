@@ -50,14 +50,14 @@
         function _calculateFields()
         {
             $parts           = parse_url($this->_url);
-            $this->_scheme   = $parts["scheme"];
-            $this->_host     = $parts["host"];
-            $this->_port     = $parts["port"];
-            $this->_user     = $parts["user"];
-            $this->_pass     = $parts["pass"];
-            $this->_path     = $parts["path"];
-            $this->_query    = $parts["query"];
-            $this->_fragment = $parts["fragment"];
+            $this->_scheme   = empty($parts["scheme"]) ? "" : $parts["scheme"];
+            $this->_host     = empty($parts["host"]) ? "" : $parts["host"];
+            $this->_port     = empty($parts["port"]) ? "" : $parts["port"];
+            $this->_user     = empty($parts["user"]) ? "" : $parts["user"];
+            $this->_pass     = empty($parts["pass"]) ? "" : $parts["pass"];
+            $this->_path     = empty($parts["path"]) ? "" : $parts["path"];
+            $this->_query    = empty($parts["query"]) ? "" : $parts["query"];
+            $this->_fragment = empty($parts["fragment"]) ? "" : $parts["fragment"];
         }
 
         /**

@@ -32,7 +32,14 @@
         */
         function getClause($name)
         {
-            return $this->_clauses[strtoupper($name)];
+            $key = strtoupper($name);
+
+            if (empty($this->_clauses[$key]))
+            {
+                return false;
+            }
+
+            return $this->_clauses[$key];
         }
 
         /**
@@ -41,6 +48,14 @@
         function setClause($name, $value)
         {
             $this->_clauses[strtoupper($name)] = $value;
+        }
+
+        /**
+        * Add function info here
+        */
+        function resetClauses()
+        {
+            $this->_clauses = array();
         }
 
         /**
@@ -305,7 +320,7 @@
 
             return new $objClassName();
         }
-        
+
         /**
         * Add function info here
         */
@@ -389,7 +404,7 @@
             }
 
             $row = $result->FetchRow();
-            
+
             if (!isset($row["total"]))
             {
                 return false;
@@ -412,7 +427,7 @@
             }
 
             return $this->_update($sql);
-        }        
+        }
 
         /*
          * Retrieve a single object by pkey.
@@ -423,9 +438,9 @@
         {
             $obj      = $this->getDbObjectClass();
             $pkFields = $obj->getPrimaryKeyFields();
-            
+
             return $this->getDbObject($pkFields[0] . "='" . $pk . "'");
-        }     
+        }
 
         /*
          * Retrieve a single object by primary keys.
@@ -436,7 +451,7 @@
         {
             $obj      = $this->getDbObjectClass();
             $pkFields = $obj->getPrimaryKeyFields();
-            
+
             $clause   = "1=1";
             foreach($pks as $field => $value)
             {
@@ -447,7 +462,7 @@
             }
 
             return $this->getDbObject($clause);
-        }              
+        }
     }
 
 ?>
