@@ -2,8 +2,9 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/action/qaction.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qexception.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidationslist.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/security/qfilterschain.class.php");
 
     define(DEFAULT_ACTION_PARAM, "op");
     define(DEFAULT_ACTION_NAME, "default");
@@ -237,15 +238,52 @@
          *
          * @param httpRequest HTTP request sent by the client
          */
+        function &_execute(&$action, &$httpRequest)
+        {
+            $filters = new qFiltersChain();
+            $action->registerFilters($this, $httpRequest, $filters);
+
+            if (!$filters->filter($this, $httpRequest))
+            {
+                $view = $action->handleFilterError($this, $httpRequest, $filters->getError());
+                return $view;
+            }
+
+            $method = $httpRequest->getValue("__method__");
+
+            if (($action->getValidationMethod() & $method) != $method)
+            {
+                $view = $action->perform($this, $httpRequest);
+                return $view;
+            }
+
+            $validations = new qValidationsList();
+            $action->registerValidations($this, $httpRequest, $validations);
+
+            if ($validations->validate($httpRequest->getAsArray()) && $action->validate($this, $httpRequest))
+            {
+                $view = $action->performAfterValidation($this, $httpRequest);
+                return $view;
+            }
+
+            $view = $action->handleValidateError($this, $httpRequest, $validations->getErrors());
+            return $view;
+        }
+
+        /**
+         * Processess the HTTP request sent by the client
+         *
+         * @param httpRequest HTTP request sent by the client
+         */
         function process($httpRequest = null)
         {
             if ($this->_sessionEnabled)
             {
                 session_start();
-                $session = &Http::getSessionVars();
+                $session = &qHttp::getSessionVars();
             }
 
-            if ($httpRequest === null)
+            if (empty($httpRequest))
             {
                 $httpRequest = &qHttp::getRequestVars();
             }
@@ -260,21 +298,7 @@
                 $actionObject     = new $actionClassName();
                 $this->_forwarded = 0;
 
-                if ($actionObject->filter($this, $httpRequest))
-                {
-                    if ($actionObject->validate($this, $httpRequest))
-                    {
-                        $view = $actionObject->perform($this, $httpRequest);
-                    }
-                    else
-                    {
-                        $view = $actionObject->handleValidateError($this, $httpRequest);
-                    }
-                }
-                else
-                {
-                    $view = $actionObject->handleFilterError($this, $httpRequest);
-                }
+                $view = &$this->_execute($actionObject, $httpRequest);
             }
 
             if ($this->_sessionEnabled)

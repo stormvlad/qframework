@@ -126,5 +126,15 @@
         {
             return count($this->_props);
         }
+
+        /**
+         *
+         * Add function info here
+         *
+         */
+        function reset()
+        {
+            $this->_props = array();
+        }
     }
 ?>
