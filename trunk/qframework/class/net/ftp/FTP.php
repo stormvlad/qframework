@@ -16,7 +16,7 @@
 //
 // $Id: FTP.php,v 1.16 2004/03/19 10:26:48 toby Exp $
 
-require_once 'PEAR.php';
+require_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/pear/PEAR.php");
 
 define("NET_FTP_FILES_ONLY", 0, true);
 define("NET_FTP_DIRS_ONLY",  1, true);
