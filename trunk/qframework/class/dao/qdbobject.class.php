@@ -79,7 +79,14 @@
         */
         function getValue($fieldName)
         {
-            return $this->_fields->getValue($fieldName);
+            if ($this->fieldExists($fieldName))
+            {
+                return $this->_fields->getValue($fieldName);
+            }
+            else
+            {
+                return $this->_outerFields->getValue($fieldName);
+            }
         }
 
         /**
