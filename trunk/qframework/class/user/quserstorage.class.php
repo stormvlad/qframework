@@ -3,8 +3,15 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-     * Inherits from Properties but just to add some default
-     * values to some settings
+     * @brief Servicio de almacenaje abstracto para los datos de usuario
+     *
+     * Esta clase es la base para definir el servicio de almacenaje para los
+     * datos de qUser, sessión del usuario o visitante.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    18/03/2005 20:42
+     * @version 1.0
+     * @ingroup core
      */
     class qUserStorage extends qObject
     {

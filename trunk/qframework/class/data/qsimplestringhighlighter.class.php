@@ -1,10 +1,19 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qstringhighlighter.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qstringhighlighter.class.php");
 
     /**
-    * Add function info here
-    */
+     * @brief Resaltador simple de terminos encontrados en una cadena
+     * 
+     * Añade en una cadena el código HTML necesario para resaltar el fondo 
+     * de los terminos que se especifiquen y se encuentren en la misma cadena.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:25
+     * @version 1.0
+     * @ingroup data
+     * @note Se puede usar como un modificador de Smarty
+     */
     class qSimpleStringHighlighter extends qStringHighlighter
     {
         /**

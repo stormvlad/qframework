@@ -6,7 +6,12 @@
     define("DEFAULT_EMAIL_MESSAGE_MIME_TYPE", "text/plain");
 
     /**
-     * Represents an email message.
+     * @brief Representa un mensaje de correo electrónico
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 15:59
+     * @version 1.0
+     * @ingroup net
      */
     class qEmailMessage extends qObject
     {

@@ -3,7 +3,16 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     define("DEFAULT_UTILS_DECIMALS", 8);
-
+    
+    /**
+     * @brief Grupo de varias funciones útiles
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:53
+     * @version 1.0
+     * @ingroup misc
+     * @note Débe usarse de forma estática
+     */
     class qUtils extends qObject
     {
         /**

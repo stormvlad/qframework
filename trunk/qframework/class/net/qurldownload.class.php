@@ -1,12 +1,17 @@
-<?php
+ <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qurl.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qurldownloaderfilewrapper.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qurldownloaderbysocket.class.php");
 
     /**
-    * qUrlDownloader Base Class
-    */
+     * @brief Descarga de ficheros remotos según una URL
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 13:04
+     * @version 1.0
+     * @ingroup net
+     */
     class qUrlDownload extends qUrl
     {
         var $_outputFileName;

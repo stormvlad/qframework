@@ -2,6 +2,14 @@
 
      include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qdate.class.php");
 
+    /**
+     * @brief Encapsula el tipo qTimestamp para fecha y hora
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:28
+     * @version 1.0
+     * @ingroup data
+     */
     class qTimestamp extends qDate
     {
         var $_timestamp;

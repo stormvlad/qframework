@@ -6,15 +6,25 @@
     define("DEFAULT_ABSOLUTE_URL", false);
 
     /**
-     * Generates HTTP GET requests in a transparent way:
+     * @brief Generador de cadenas con una petición HTTP GET
      *
-     * <i>
-     * $g = new RequestGenerator()<br>
-     * $g->addParameter( "op", "ViewArticle" );<br>
-     * $g->addParameter( "articleId", 1 );<br>
-     * $request = $g->getRequest();<br>
-     * </i><br>
-     * Doing so we can easily change the format of the urls in the future if necessary.
+     * Generación de forma transparente de una cadena de parámetros para realizar
+     * una URL con una petición de formato HTTP GET.
+     *
+     * El uso de esta clase proporciona una forma fácil de modificar el formato 
+     * de las URL en un futuro si fuera necesario de forma fácil.
+     *
+     * <pre>
+     * $g = new RequestGenerator();
+     * $g->addParameter( "op", "ViewArticle" );
+     * $g->addParameter( "articleId", 1 );
+     * $request = $g->getRequest();
+     * </pre>
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 18:21
+     * @version 1.0
+     * @ingroup net
      */
     class qRequestGenerator extends qObject
     {

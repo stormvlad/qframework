@@ -3,8 +3,16 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-    * qSearchRequestParser base class
-    */
+     * @brief Base del analizador de cadenas de busqueda 
+     * 
+     * Descompone una cadena de carácteres compleja en terminos 
+     * simples para realizar una búsqueda.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:03
+     * @version 1.0
+     * @ingroup data
+     */
     class qSearchRequestParser extends qObject
     {
         var $_colors;

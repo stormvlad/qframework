@@ -3,8 +3,15 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php" );
 
     /**
-    * MimeTypes Class
-    */
+     * @brief Representa a un tipo MIME
+     *
+     * Mas información: http://www.iana.org/assignments/media-types/
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 16:28
+     * @version 1.0
+     * @ingroup data
+     */
     class qMimeTypes extends qObject
     {
         var $_mimeTypes = array(

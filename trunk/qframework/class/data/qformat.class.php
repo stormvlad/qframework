@@ -3,9 +3,12 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-     * qFormat provides a package of functions to format and unformat quite type of values.
+     * @brief Formateo i desformateo de cadenas y valores
      *
-     * @since   1.0
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 16:16
+     * @version 1.0
+     * @ingroup data
      */
     class qFormat extends qObject
     {

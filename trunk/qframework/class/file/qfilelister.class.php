@@ -3,9 +3,13 @@
      include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-     * Encapsulation of a class to manage files. It is basically a wrapper
-     * to some of the php functions.
-     * http://www.php.net/manual/en/ref.filesystem.php
+     * @brief Servicio de listado de archivos
+     * 
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 13:59
+     * @version 1.0
+     * @ingroup file
+     * @see qFileList
      */
      class qFileLister extends qObject
      {

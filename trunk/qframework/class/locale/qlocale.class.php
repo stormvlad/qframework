@@ -7,14 +7,42 @@
 
     define("DEFAULT_LOCALE_CODE", "es_ES");
     define("DEFAULT_LOCALE_PATH", APP_ROOT_PATH . "locale/");
-
-    /**
-     * Extends the Properties class so that our own configuration file is automatically loaded.
-     * The configuration file is under config/config.properties.php
+    
+    /** 
+     * @defgroup i18n Internacionalización
      *
-     * It is recommented to use this function as a singleton rather than as an object.
-     * @see Config
-     * @see getConfig
+     * qFramework proporciona un método estándard para hacer que las aplicaciones sean internacionalizables y 
+     * localizables, esto se puede llevar a cabo con este grupo de clases.
+     *
+     * Todas las cadenas o frases mostradas por la aplicación susceptibles de traducirse deberan ser 
+     * estableciadas con un identificador único ya sea con un idioma base de partida, o una abreviación 
+     * o combinación que sea fácil de relacionar con su contenido.
+     * 
+     * Además se añadira en todas las cadenas una simple función de internacionalización de qLocale 
+     * que se puede usar directamente, por ejemplo, des de una plantilla de contenido.
+     *
+     * Para mostrar el idioma concreto qLocale usara un diccionario de traducción que relacionará
+     * el identificador con la palabra/frase traducida.
+     *
+     * Para llevar a cabo la localalización completa de la aplicación deberemos usar una serie de funciones y classes
+     * adicionales que nos daran soporte para mostrar correctamte cadenas con fechas, horas, numeros y monedas.
+     *
+     */
+         
+    /**
+     * @brief Interfície de internacionalización 
+     *
+     * Esta clase nos da soporte para internacionalizar nuestras aplicaciones
+     * conocido también como soporte de lenguage nativo (NLS).
+     *
+     * qLocale puede verse como un diccionario de traducción para varios idiomas,
+     * en el qual le passamos identificadores o lenguage inicial y nos devuelve
+     * la traducción según el idioma deseado.
+     * 
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:33
+     * @version 1.0
+     * @ingroup i18n
      */
     class qLocale extends qObject
     {

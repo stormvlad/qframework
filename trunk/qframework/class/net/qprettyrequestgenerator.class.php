@@ -3,7 +3,12 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qrequestgenerator.class.php");
 
     /**
-     * Generates 'pretty' URLs
+     * @brief Generador mejorado de cadenas con una petición HTTP GET
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 18:21
+     * @version 1.0
+     * @ingroup net     
      */
     class qPrettyRequestGenerator extends qRequestGenerator
     {

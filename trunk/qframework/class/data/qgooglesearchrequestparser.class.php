@@ -3,8 +3,27 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qsearchrequestparser.class.php");
 
     /**
-    * qGoogleSearchRequestParser base class
-    */
+     * @brief Analizador de cadenas tipo Google de búsqueda 
+     * 
+     * Descompone la cadena en terminos deshechando los espacios encontrados entre palabras.
+     * Cada palabra equivale a un termino de búsqueda. Estas pueden contener signos como '+'
+     * para diferenciar distintos tipos de consultas.
+     *
+     * Se diferencian terminos opcionales, textuales, obligatorios, excluidos y excluidos por el idioma.
+     *
+     * Condiciones de búsqueda soportadas:
+     * - <b>+palabra</b>: para especificar un termino obligatorio
+     * - <b>-palabra</b>: para especificar un termino excluido
+     * - <b>"palabra"</b>: para especificar una frase o termino textual
+     *
+     * Mas información:
+     * http://www.google.es/intl/es/help.html
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:03
+     * @version 1.0
+     * @ingroup data
+     */
     class qGoogleSearchRequestParser extends qSearchRequestParser
     {
         var $_allTerms;

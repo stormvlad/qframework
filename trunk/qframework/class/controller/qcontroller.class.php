@@ -14,37 +14,48 @@
     define("DEFAULT_ACTION_PARAM", "op");
     define("DEFAULT_ACTION_NAME", "default");
     define("DEFAULT_ACTIONS_CLASS_PATH", "class/action/");
-
+    
     /**
      * @brief Gestiona todas las peticiones del cliente
      *
-     * Así es como MVC funciona, usando el patrón 'Front Controller'. Este patrón tiene una única classe
-     * de controlador que recibe totas las peticiones del cliente, identifica la acción a tomar
-     * y traspasa la ejecución a la acción que mejor corresponde según la petición.
-     * La classe 'qAction' usa la logica de la aplicación (qModel) para hacer las operaciones necesarias.
+     * El sistema está dotado de un punto de acceso centralizado para que las peticiones de servicio, 
+     * recuperación de contenido, control de vistas i navegación se controlen desde un único sitio.
      *
-     * (according to http://java.sun.com/blueprints/guidelines/designing_enterprise_applications_2e/web-tier/web-tier5.html)
+     * El contralador sigue el patron de diseño llamado <b>Front Controller</b>.
      *
-     * 1. The controller receives a POST from the client.
-     * 2. The controller creates an Action corresponding to the requested operation (as described in the previous section).
-     * 3. The controller calls the Action's perform method.
-     * perform calls a model business method.
-     * 4. The controller calls the screen flow manager to select the next view to display.
-     * 5. The screen flow manager determines the next view and returns its name to the controller.
-     * 6. The controller forwards the request to the templating service, which assembles and delivers the selected view to the client.
+     * Así pues, utilizamos un controlador como punto inicial de contacto para gestionar las peticiones.
+     * El controlador gestiona el control de peticiones, incluyendo la invocación de servicios de seguridad como
+     * la autenticación i autorización, delegación del proceso de negocio, controlar la elección de una vista
+     * apropiada, la manipulación de errores, y el control de la selección de estrategias de creación de contenido.
      *
-     * In our particular case, we have two kinds of Actions: Action and ActionForm. The first is the
-     * one that should be normally used, while the second should be used when receiving data from
-     * forms, since it provides an additional method, validate() that will allow the developer
-     * to validate the data that came from the form. If the result of validate() is 'false',
-     * the controller will <b>not</b> call the perform() method and stop execution. However, the
-     * validate method should also generate a valid view containing probably the error message.
+     * El controlador se coordina con un componente dispatcher. Los dispatcher son responsables del control
+     * de la vista y de la navegación. Así un dispatcher elige la siguiente vista para el usuario i dirige el control
+     * al recurso.
+     *
+     * Aunque el patrón Front Controller sugiere la centralización del manejo de peticiones, 
+     * no limita el número de manejadores en el sistema, como lo hace Singleton. Una aplicación
+     * podría utilizar varios controladores en un sistema, cada uno mapeado a un conjunto de 
+     * servicios distintos.
+     *
+     * @image html qcontroller1.gif
+     *
+     * Diagrama de seqüencia del patró Front Controller:
+     * -# El controlador rep una petició del client
+     * -# El controlador crea l'acció corresponent a l'operació sol·licitada (tal com es descriu a la secció anterior).
+     * -# El controlador fa una crida al mètode "perform" de l'acció.
+     * -# El controlador fa una crida al administrador de flux de vistes per sel·leccionar la següent vista a mostrar.
+     * -# El administrador de flux de vistes determina la següent vista i retorna el nom al controlador.
+     * -# El controlador processa la petició al servei de plantilles, i prepara i proporciona la vista seleccionada al client.
+     *
+     * Mas información:
+     * - Front Controller - http://java.sun.com/blueprints/corej2eepatterns/Patterns/FrontController.html
+     * - The Front Controller and PHP - http://www.phppatterns.com/index.php/article/articleview/81/1/1/  
      *
      * @author  qDevel - info@qdevel.com
      * @date    26/02/2005 14:46
      * @version 1.0
      * @ingroup core
-     **/
+     */
 
     class qController extends qObject
     {

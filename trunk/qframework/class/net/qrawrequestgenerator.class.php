@@ -5,15 +5,12 @@
     define("DEFAULT_INDEX_FILE", "index.php");
 
     /**
-     * Generates HTTP GET requests in a transparent way:
+     * @brief Generador simple de cadenas con una petición HTTP GET
      *
-     * <i>
-     * $g = new RequestGenerator()<br>
-     * $g->addParameter( "op", "ViewArticle" );<br>
-     * $g->addParameter( "articleId", 1 );<br>
-     * $request = $g->getRequest();<br>
-     * </i><br>
-     * Doing so we can easily change the format of the urls in the future if necessary.
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 18:21
+     * @version 1.0
+     * @ingroup net     
      */
     class qRawRequestGenerator extends qRequestGenerator
     {

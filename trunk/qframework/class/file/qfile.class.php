@@ -11,7 +11,7 @@
      * @defgroup file Ficheros
      *
      * @author  qDevel - info@qdevel.com
-     * @date    13/03/2005 04:40
+     * @date    22/03/2005 13:55
      * @version 1.0
      */
 
@@ -25,6 +25,7 @@
      * @author  qDevel - info@qdevel.com
      * @date    13/03/2005 04:40
      * @version 1.0
+     * @ingroup file
      */
      class qFile extends qObject
      {

@@ -3,6 +3,14 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
 
+    /**
+     * @brief Base del analizador de cadenas de petición HTTP GET
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 18:19
+     * @version 1.0
+     * @ingroup net
+     */
     class qRequestParser extends qObject
     {
         var $_function;

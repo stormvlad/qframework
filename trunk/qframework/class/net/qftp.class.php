@@ -13,14 +13,25 @@
     define("FTP_MODE_BINARY",            FTP_BINARY);
 
     /**
-     * HttpVars compatibility package, which allows to fetch some of php's basic
-     * global variables without having to worry about which version of php we're using.
-     * The problem here is that since PHP 4.1.0 things like $_REQUEST, $_POST, $_GET, etc
-     * are available, and before that their equivalents were $HTTP_GET_VARS,
-     * $HTTP_POST_VARS and so on. By using this package and calling the functions
-     * getPostVars, getGetVars, getSessionVars/setSessionVars we will get rid of any
-     * incompatibility with the version of php we are running while having access to the
-     * variables we most need.
+     * @brief Encapsula el acceso a FTP
+     *
+     * Esta clase es un simple enmascaramiento para qFramework de la 
+     * libreria <a href="http://pear.php.net/package/Net_FTP/">Net_FTP</a> 
+     * de <a href="http://pear.php.net/">PEAR</a>.
+     * 
+     * qFtp nos permite comunicarnos con servidores FTP de una forma más comoda
+     * que con las funciones nativas en PHP y añade características como recursividad
+     * en subida y bajada, creacion de directorios y cambio de permisos. 
+     * 
+     * Mas información:
+     * - http://pear.php.net/package/Net_FTP/
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 16:19
+     * @version 1.0
+     * @ingroup net
+     * @note También implementa el patrón de diseño Observer para permitir por ejemplo 
+     *       una barra de progreso. (caracteristica aún sin adaptar)
      */
     class qFtp extends qObject
     {

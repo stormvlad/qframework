@@ -6,8 +6,28 @@
     define("DEFAULT_USER_PERMISSIONS_LEVEL", "__all__");
 
     /**
-     * Inherits from Properties but just to add some default
-     * values to some settings
+     * @brief Representa un cliente de la aplicación
+     *
+     * qUser es un objeto que representa un visitante del web usando el qFramework.
+     * Cada visita única en el web es representada con una instancia de la clase qUser
+     * y este objeto permanece persistente durante toda la sessión del cliente.
+     * Esta es una grande ventaja de qFramework en la qual se mantiene toda la información
+     * que pertenece a la sessión organizada de una forma lógica.
+     *
+     * El objeto qUser es especial ya que usa un objeto qUserStorage para obtener la persistencia.
+     * Se pueden guardar datos especificos de cada usuario con el método setAttribute y 
+     * guardar los datos allí.
+     * 
+     * Se puede guardar también la historia de un formulario de múltiples pasos.
+     *
+     * qUser también es usado para configurar la seguridad del web. Se pueden restringir
+     * el acceso a usuarios registrados o incluso definir permisos concretos para secciones
+     * del web.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    18/03/2005 20:42
+     * @version 1.0
+     * @ingroup core
      */
     class qUser extends qObject
     {

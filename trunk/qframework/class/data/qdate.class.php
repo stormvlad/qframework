@@ -2,6 +2,27 @@
 
     require_once 'Date.php'; // PEAR include
 
+    /**
+     * @brief Encapsula el tipo qDate para fechas
+     *
+     * Esta clase es un simple enmascaramiento para qFramework de la 
+     * libreria <a href="http://pear.php.net/package/Date">Date</a> 
+     * de <a href="http://pear.php.net/">PEAR</a>.
+     * 
+     * qDate nos permite la manipulacion de fechas, horas y zonas horarias
+     * sin la necesidad de timestamps -gran limitación en muchos programas PHP-.
+     * No se rige en el sistema de 32 bits de los timestamps con lo que
+     * podemos mostrar calendarios o comparar fechas anteriores a 1970 y 
+     * posteriores a 2038. 
+     * 
+     * Mas información:
+     * - http://pear.php.net/package/Date/
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:16
+     * @version 1.0
+     * @ingroup data
+     */
     class qDate extends Date
     {
         function qDate($date = null)

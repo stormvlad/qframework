@@ -4,6 +4,17 @@
 
     define("DEFAULT_CALENDAR_FIRST_DAY_OF_WEEK", 0);
 
+    /**
+     * @brief Generación de un calendario
+     *
+     * Esta clase genera una matriz de valores con los dias de un mes
+     * concreto, segun el mes y año especificados.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:18
+     * @version 1.0
+     * @ingroup data
+     */
     class qCalendar extends qObject
     {
         var $_date;

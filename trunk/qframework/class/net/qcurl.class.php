@@ -3,10 +3,20 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-    * qCurl class to CURL.
-    *
-    * CURL support in PHP is not enabled by default. You will need to compile PHP with CURL support.
-    */
+     * @brief Encapsula el soporte CURL en PHP
+     *
+     * PHP soporta libcurl, una biblioteca creada por Danile Stenberg, que permite conexión y comunicación
+     * con varios tipos de servidores diferentes con varios tipos de protocolos diferentes
+     *
+     * Mas información:
+     * - http://es.php.net/manual/es/ref.curl.php
+     * - http://curl.haxx.se/
+     *
+     * @author  Isaac
+     * @date    22/03/2005 14:08
+     * @version 1.0
+     * @ingroup net
+     */
     class qCurl extends qObject
     {
         var $_curlSession;

@@ -8,9 +8,12 @@
     define("DEFAULT_PASSWORD_GENERATOR_MAX_LENGTH", 0);
 
     /**
-     * Operating system detection functions. This class provides a bunch of functions in order to detect
-     * on which operating system our php parser is running. Please bear in mind that this has not been
-     * thoroughly tested and that at the moment it only provides detection for windows and linux.
+     * @brief Generación de contraseñas
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:55
+     * @version 1.0
+     * @ingroup misc
      */
     class qPasswordGenerator extends qObject
     {

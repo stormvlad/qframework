@@ -3,8 +3,14 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-    * File upload class
-    */
+     * @brief Manejador de subida de ficheros 
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 16:14
+     * @version 1.0
+     * @ingroup misc
+     * @see qFileUploadValidator
+     */
     class qFileUpload extends qObject
     {
         var $_name;
