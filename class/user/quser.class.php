@@ -14,6 +14,7 @@
         var $_sid;
         var $_storage;
         var $_authenticated;
+        var $_loginName;
         var $_lastActionTime;
         var $_attributes;
         var $_permissions;
@@ -28,6 +29,7 @@
             $this->_sid            = $sid;
             $this->_storage        = &$storage;
             $this->_authenticated  = false;
+            $this->_loginName      = null;
             $this->_lastActionTime = null;
             $this->_attributes     = new qProperties();
             $this->_permissions    = array();
@@ -79,6 +81,22 @@
         function setAuthenticated($auth = true)
         {
             $this->_authenticated = $auth;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getLoginName()
+        {
+            return $this->_loginName;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setLoginName($name)
+        {
+            $this->_loginName = $name;
         }
 
         /**

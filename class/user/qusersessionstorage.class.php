@@ -23,6 +23,7 @@
         {
             $session        = &qHttp::getSessionVars();
             $auth           = $session->getValue("auth");
+            $loginName      = $session->getValue("loginName");
             $lastActionTime = $session->getValue("lastActionTime");
             $attributes     = $session->getValue("attributes");
             $permissions    = $session->getValue("permissions");
@@ -33,6 +34,7 @@
             }
 
             $user->setAuthenticated($auth);
+            $user->setLoginName($loginName);
             $user->setLastActionTime($lastActionTime);
             $user->setAttributes($attributes);
             $user->setPermissions($permissions);
@@ -50,6 +52,7 @@
             $permissions = &$user->getPermissions();
 
             $session->setValue("auth", $user->isAuthenticated());
+            $session->setValue("loginName", $user->getLoginName());
             $session->setValue("lastActionTime", $user->getLastActionTime());
             $session->setValue("attributes", $attributes);
             $session->setValue("permissions", $permissions);
