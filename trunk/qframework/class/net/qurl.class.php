@@ -50,7 +50,6 @@
         function _calculateFields()
         {
             $parts           = parse_url($this->_url);
-            $this->_url      = $parts["url"];
             $this->_scheme   = $parts["scheme"];
             $this->_host     = $parts["host"];
             $this->_port     = $parts["port"];
@@ -200,6 +199,14 @@
         {
             $this->_path = $path;
             $this->_glueUrl();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getBaseName()
+        {
+            return basename($this->_path);
         }
 
         /**
