@@ -34,7 +34,7 @@
         {
             if (empty($value))
             {
-                $this->_setError(false);
+                $this->setError(false);
                 return true;
             }
 
@@ -43,7 +43,7 @@
 
             if (!qDns::checkdnsrr($domain, "A"))
             {
-                $this->_setError(ERROR_RULE_EMAIL_DNS_SERVER_UNREACHABLE);
+                $this->setError(ERROR_RULE_EMAIL_DNS_SERVER_UNREACHABLE);
                 return false;
             }
 
@@ -73,14 +73,14 @@
 
                     if (!ereg("^250", $from) || !ereg ("^250", $to))
                     {
-                         $this->_setError(ERROR_RULE_EMAIL_DNS_NOT_PERMITTED);
+                         $this->setError(ERROR_RULE_EMAIL_DNS_NOT_PERMITTED);
                          return false;
                     }
                 }
             }
             else
             {
-                $this->_setError(ERROR_RULE_EMAIL_DNS_SERVER_UNREACHABLE);
+                $this->setError(ERROR_RULE_EMAIL_DNS_SERVER_UNREACHABLE);
                 return false;
             }
 

@@ -10,7 +10,6 @@
     class qFilter extends qObject
     {
         var $_controllerParams;
-        var $_error;
 
         /**
         * Add function info here
@@ -18,33 +17,15 @@
         function qFilter(&$controllerParams)
         {
             $this->qObject();
-
             $this->_controllerParams = &$controllerParams;
-            $this->_error            = false;
-        }
-
-        /**
-         * Add function info here
-         */
-        function _setError($error)
-        {
-            $this->_error = $error;
-        }
-
-        /**
-         * Add function info here
-         */
-        function getError()
-        {
-            return $this->_error;
         }
 
         /**
         * Add function info here
         */
-        function filter()
+        function run(&$filtersChain)
         {
-            throw(new qException("qFilter::filter: This method must be implemented by child classes."));
+            throw(new Exception("qFilter::run: This method must be implemented by child classes."));
             die();
         }
     }

@@ -4,8 +4,8 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/action/qaction.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/controller/qcontrollerparams.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidationslist.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/security/qfilterschain.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qexecutionfilter.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qfilterschain.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/quser.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/qusersessionstorage.class.php");
 
@@ -45,8 +45,7 @@
         var $_actionsClassPath;
         var $_defaultAction;
         var $_sessionEnabled;
-        var $_actionsChain;
-        var $_forwarded;
+        var $_controllerParams;
         var $_user;
 
         /**
@@ -70,8 +69,7 @@
             $this->_actionsClassPath = DEFAULT_ACTIONS_CLASS_PATH;
             $this->_defaultAction    = DEFAULT_ACTION_NAME;
             $this->_sessionEnabled   = false;
-            $this->_actionsChain     = array();
-            $this->_forwarded        = 0;
+            $this->_controllerParams = null;
             $this->_user             = null;
         }
 
@@ -203,27 +201,6 @@
         /**
          * Add function info here
          */
-        function forward($actionName)
-        {
-            $actionClassName = $this->_getActionClassName($actionName);
-
-            if  ($this->_forwarded == 0)
-            {
-                array_push($this->_actionsChain, $actionClassName);
-            }
-            else
-            {
-                $left  = array_slice($this->_actionsChain, 0, count($this->_actionsChain) - $this->_forwarded);
-                $right = array_slice($this->_actionsChain, count($this->_actionsChain) - $this->_forwarded, $this->_forwarded);
-                $this->_actionsChain = array_merge($left, array($actionClassName), $right);
-            }
-
-            $this->_forwarded++;
-        }
-
-        /**
-         * Add function info here
-         */
         function _getActionClassName($actionName)
         {
             if (empty($actionName))
@@ -255,84 +232,22 @@
         }
 
         /**
-         *    Add function info here
+         * Add function info here
          */
-        function _checkSecurityAction(&$action)
+        function forward($actionName)
         {
-            $result = true;
+            $actionClassName  = $this->_getActionClassName($actionName);
+            $this->loadActionClass($actionClassName);
 
-            if ($action->isSecure())
-            {
-                if (!$this->_user->isAuthenticated())
-                {
-                    $result = false;
-                }
-                else
-                {
-                    $perm = $action->getPermissions();
+            $filtersChain     = new qFiltersChain();
+            $executionFilter  = new qExecutionFilter($this->controllerParams);
+            $action           = new $actionClassName($this->controllerParams);
 
-                    if (is_string($perm))
-                    {
-                        $result = $this->_user->hasPermission($perm);
-                    }
-                    elseif (is_array($perm))
-                    {
-                        if (count($perm) == 1)
-                        {
-                            $result = $this->_user->hasPermission($perm[0]);
-                        }
-                        elseif (count($perm) == 2)
-                        {
-                            $result = $this->_user->hasPermission($perm[0], $perm[1]);
-                        }
-                    }
-                }
-            }
+            $action->registerFilters($filtersChain);
+            $executionFilter->addAction($action);
 
-            return $result;
-        }
-
-        /**
-         * Processess the HTTP request sent by the client
-         *
-         * @param httpRequest HTTP request sent by the client
-         */
-        function &_execute(&$action, &$httpRequest, &$controllerParams)
-        {
-            $filters = new qFiltersChain($controllerParams);
-            $action->registerFilters($filters);
-
-            if (!$filters->filter())
-            {
-                $view = $action->handleFilterError($filters->getError());
-                return $view;
-            }
-
-            if (!$this->_checkSecurityAction($action))
-            {
-                $view = $action->handleSecureError();
-                return $view;
-            }
-
-            $method = $httpRequest->getValue("__method__");
-
-            if (($action->getValidationMethod() & $method) != $method)
-            {
-                $view = $action->perform();
-                return $view;
-            }
-
-            $validations = new qValidationsList();
-            $action->registerValidations($validations);
-
-            if ($validations->validate($httpRequest->getAsArray()) && $action->validate())
-            {
-                $view = $action->performAfterValidation();
-                return $view;
-            }
-
-            $view = $action->handleValidateError($validations->getErrors());
-            return $view;
+            $filtersChain->addFilter($executionFilter);
+            $filtersChain->run();
         }
 
         /**
@@ -360,32 +275,12 @@
                 $httpRequest = &qHttp::getRequestVars();
             }
 
-            $actionClassName = $this->_getActionClassName($httpRequest->getValue($this->_actionParam));
-            array_push($this->_actionsChain, $actionClassName);
-
-            while (count($this->_actionsChain) > 0)
-            {
-                $actionClassName  = array_pop($this->_actionsChain);
-                $this->loadActionClass($actionClassName);
-                $controllerParams = new qControllerParams($this, $httpRequest, $this->_user);
-                $actionObject     = new $actionClassName($controllerParams);
-                $this->_forwarded = 0;
-
-                $view = &$this->_execute($actionObject, $httpRequest, $controllerParams);
-            }
+            $this->controllerParams = new qControllerParams($this, $httpRequest, $this->_user);
+            $this->forward($httpRequest->getValue($this->_actionParam));
 
             if ($this->_sessionEnabled)
             {
                 $this->_user->store();
-            }
-
-            if (empty($view))
-            {
-                throw(new qException("qController::process: '" . $actionObject->getClassName() . "' class should return a view after executing perform method."));
-            }
-            else
-            {
-                print $view->render();
             }
         }
     }

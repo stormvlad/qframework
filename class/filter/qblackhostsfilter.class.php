@@ -1,18 +1,17 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/security/qfilter.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/security/qblackhost.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qfilter.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qblackhost.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qclient.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidator.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qipformatrule.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qipcidrformatrule.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qiprangerule.class.php");
 
-    define(ERROR_FILTER_BLACK_HOST_MATCHED, "error_filter_black_host_matched");
-
     class qBlackHostsFilter extends qFilter
     {
         var $_blackHosts;
+        var $_view;
 
         /**
         * Add function info here
@@ -21,6 +20,23 @@
         {
             $this->qFilter($controllerParams);
             $this->_blackHosts = array();
+            $this->_view       = null;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getView()
+        {
+            return $this->_view;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setView($view)
+        {
+            $this->_view = $view;
         }
 
         /**
@@ -67,8 +83,14 @@
         /**
         * Add function info here
         */
-        function filter()
+        function run(&$filtersChain)
         {
+            if (empty($this->_view))
+            {
+                throw(new qException("qBlackHostsFilter::run: you should assign a view with qBlackHostFilter::setView method."));
+                return;
+            }
+
             $clientIp = qClient::getIp();
 
             foreach ($this->_blackHosts as $host)
@@ -78,12 +100,12 @@
 
                 if ($rangeValidator->validate($clientIp))
                 {
-                    $this->_setError(ERROR_FILTER_BLACK_HOST_MATCHED);
-                    return false;
+                    print $this->_view->render();
+                    return;
                 }
             }
 
-            return true;
+            $filtersChain->run();
         }
     }
 ?>

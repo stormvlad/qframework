@@ -22,9 +22,9 @@
 /**@#+
  * Include supporting classes
  */
-require_once 'Date/TimeZone.php';
-require_once 'Date/Calc.php';
-require_once 'Date/Span.php';
+include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/Date/Date/TimeZone.php");
+include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/Date/Date/Calc.php");
+include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/Date/Date/Span.php");
 /**@#-*/
 
 /**@#+
@@ -426,17 +426,17 @@ class Date
      * convertTZ().
      *
      * @access public
-     * @param object Date_TimeZone $tz the Date_TimeZone object to use, if called 
+     * @param object Date_TimeZone $tz the Date_TimeZone object to use, if called
      * with a paramater that is not a Date_TimeZone object, will fall through to
-     * setTZbyID(). 
+     * setTZbyID().
      */
     function setTZ($tz)
     {
-    	if(is_a($tz, 'Date_Timezone')) {
-        	$this->tz = $tz;
-    	} else {
-    		$this->setTZbyID($tz);
-    	}
+        if(is_a($tz, 'Date_Timezone')) {
+            $this->tz = $tz;
+        } else {
+            $this->setTZbyID($tz);
+        }
     }
 
     /**

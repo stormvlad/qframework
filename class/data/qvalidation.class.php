@@ -27,7 +27,7 @@
         /**
         *    Add function info here
         **/
-        function _setError($error)
+        function setError($error)
         {
             $this->_error = $error;
         }

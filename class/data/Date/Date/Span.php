@@ -19,8 +19,7 @@
 // $Id: Span.php,v 1.4 2003/04/30 03:56:26 llucax Exp $
 //
 
-require_once 'Date.php';
-require_once 'Date/Calc.php';
+include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/Date/Date.php");
 
 /**
  * Non Numeric Separated Values (NNSV) Input Format.
@@ -451,7 +450,7 @@ class Date_Span {
      *
      * Set the span from the elapsed time between two dates. The time span
      * is allways positive, so the date's order is not important.
-     * 
+     *
      * @param  object Date $date1 First Date.
      * @param  object Date $date2 Second Date.
      *
