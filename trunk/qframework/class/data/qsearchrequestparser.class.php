@@ -3,18 +3,19 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-    * Add function info here
+    * qSearchRequestParser base class
     */
-    class qStringHighlighter extends qObject
+    class qSearchRequestParser extends qObject
     {
         var $_colors;
 
         /**
-        * Add function info here
+        * Constructor
         */
-        function qStringHighlighter($colors = null)
+        function qSearchRequestParser($colors = null)
         {
             $this->qObject();
+
             $this->_colors = $colors;
 
             if (empty($colors))
@@ -42,9 +43,27 @@
         /**
         * Add function info here
         */
-        function highlight($str, $terms, $exactWords = false, $caseSensitive = false)
+        function reset()
         {
-            throw(new qException("qStringHighlighter::highlight: This method must be implemented by child classes."));
+            throw(new qException("qSearchRequestParser::reset: This method must be implemented by child classes."));
+            die();
+        }
+
+        /**
+        * Add function info here
+        */
+        function getSearchTermsString()
+        {
+            throw(new qException("qSearchRequestParser::getSearchTermsString: This method must be implemented by child classes."));
+            die();
+        }
+
+        /**
+        * Add function info here
+        */
+        function parse($request)
+        {
+            throw(new qException("qSearchRequestParser::parse: This method must be implemented by child classes."));
             die();
         }
     }
