@@ -81,6 +81,9 @@
             $logger     = &$logManager->getLogger("default");
 
             set_error_handler(array(&$logger, "standard"));
+
+            $this->registerEvent(1, "CONTROLLER_PROCESS_STARTS");
+            $this->registerEvent(2, "CONTROLLER_PROCESS_ENDS");
         }
 
         /**
@@ -340,6 +343,16 @@
          */
         function process($httpRequest = null)
         {
+            $server = &qHttp::getServerVars();
+            $params = array(
+                "ip"         => qClient::getIp(),
+                "class"      => $this->getClassName(),
+                "script"     => basename($server->getValue("PHP_SELF")),
+                "uri"        => $server->getValue("REQUEST_URI")
+                );
+
+            $this->sendEvent(1, $params);
+
             if ($this->_sessionEnabled)
             {
                 if (empty($this->_user))
@@ -362,6 +375,8 @@
                 $this->_user->setLastActionTime($d->getDate(DATE_FORMAT_TIMESTAMP));
                 $this->_user->store();
             }
+
+            $this->sendEvent(2, $params);
         }
     }
 ?>
