@@ -41,14 +41,13 @@
             }
 
             foreach ($urlpattern as $name => $pattern)
-            {
-                $er    = preg_replace("/\{(.*)\}/", "([_0-9a-zA-Z-]+)", $pattern);
-                $count = preg_match_all("#$er#", $path_info, $matches);
+            {                
+                $er    = preg_replace("/\{[_0-9a-zA-Z-]+\}/", "([_0-9a-zA-Z-]+)", $pattern);
+                $count = preg_match("#$er#", $path_info, $paramValues);
 
                 if ($count)
                 {
-                    print $pattern;
-                    $paramValues = $matches[1];
+                    array_shift($paramValues);
                     $op          = $name;
                     break;
                 }                                
@@ -65,7 +64,7 @@
             preg_match_all("/\{([_0-9a-zA-Z-]+)?\}/", $urlpattern[$op], $matches);
             $paramNames = $matches[1];
 
-            for ($i = 0; $i < $count; $i++)
+            for ($i = 0; $i < count($paramValues); $i++)
             {
                 $request->setValue($paramNames[$i], (isset($paramValues[$i]) ? $paramValues[$i] : ""));
             }
