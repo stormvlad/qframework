@@ -168,7 +168,7 @@
          * @param value Value of the setting.
          * @return True if success or false otherwise.
          */
-        function saveValue(&$config, $name, $value)
+        function saveValue(&$config, $name, $value = null)
         {
             throw(new qException("qConfigStorage::saveValue: This method must be implemented by child classes."));
             die();

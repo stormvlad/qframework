@@ -179,8 +179,13 @@
          * @param The value.
          * @return True if successful or false otherwise
          */
-        function saveValue(&$config, $key, $value)
+        function saveValue(&$config, $key, $value = null)
         {
+            if (empty($value))
+            {
+                $value = $config->getValue($name);
+            }
+
             if ($this->_keyExists($key))
             {
                 $result = $this->_updateValue($config, $key, $value);

@@ -62,7 +62,7 @@
 
             for ($i = 0; $i < count($contents); $i++)
             {
-                $contents[$i] = trim($contents[$i]);
+                $contents[$i] = rtrim($contents[$i], "\r\n");
             }
 
             return $contents;

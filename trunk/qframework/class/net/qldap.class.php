@@ -16,10 +16,8 @@
         var $_port;
         var $_baseDn;
 
-        var $_result;
         var $_curIndex;
         var $_entries;
-        var $_entriesCount;
 
         var $_fp;
 
@@ -32,14 +30,12 @@
         */
         function qLdap($host = "localhost", $port = 389)
         {
-            $this->_host         = $host);
+            $this->_host         = $host;
             $this->_port         = $port;
             $this->_baseDn       = null;
 
-            $this->_result       = null;
             $this->_curIndex     = 0;
             $this->_entries      = array();
-            $this->_entriesCount = 0;
 
             $this->_fp           = null;
         }
@@ -81,7 +77,7 @@
         */
         function getEntriesCount()
         {
-            return $this->_entriesCount;
+            return $this->_entries["count"];
         }
 
         /**
@@ -136,10 +132,12 @@
         */
         function close()
         {
-            if ($this->_fp)
+            if (!$this->_fp)
             {
-                ldap_close($this->_fp);
+                return false;
             }
+
+            return ldap_close($this->_fp);
         }
 
         /*
@@ -150,11 +148,14 @@
         * @return boolean Returns TRUE on success or FALSE on failure.
         * @access public
         */
-        function bind($userName, $password)
+        function bind($userName = null, $password = null)
         {
-            $bind = @ldap_bind($this->_fp, $userName, $password);
+            if (!$this->_fp)
+            {
+                return false;
+            }
 
-            return $bind;
+            return ldap_bind($this->_fp, $userName, $password);
         }
 
         /**
@@ -173,16 +174,13 @@
                 $baseDn = $this->_baseDn;
             }
 
-            $this->_result = ldap_search($this->_fp, $baseDn, $search);
-
-            if ($this->_result)
+            if ($result = ldap_search($this->_fp, $baseDn, $search))
             {
                 $this->_current      = 0;
-                $this->_entries      = ldap_get_entries($this->_fp, $this->_result);
-                $this->_entriesCount = count($this->_entries);
+                $this->_entries      = ldap_get_entries($this->_fp, $result);
             }
 
-            return $this->result;
+            return $result;
         }
 
         /**
@@ -190,7 +188,7 @@
         */
         function fetch()
         {
-            if (!$this->_fp || !$this->_result || $this->_curIndex >= $this->_entriesCount)
+            if (!$this->_fp || $this->_curIndex >= $this->_entries["count"])
             {
                 return false;
             }
@@ -199,15 +197,32 @@
 
             foreach ($this->_entries[$this->_curIndex] as $key => $value)
             {
-                if (gettype($value) == "array" && count($value) == 2)
+                if (is_array($value))
                 {
-                    $value = $value[0];
+                    $values = array();
+
+                    for ($i = 0; $i < $value["count"]; $i++)
+                    {
+                        $values[$i] = $value[$i];
+                    }
+
+                    if (count($values) == 1)
+                    {
+                        $values = $values[0];
+                    }
+
+                    $value = $values;
                 }
 
-                $result[$key] = $value;
+                if (!is_int($key))
+                {
+                    $result[$key] = $value;
+                }
             }
 
+            unset($result["count"]);
             $this->_curIndex++;
+
             return $result;
         }
 
@@ -222,22 +237,17 @@
         /**
         * Add function info here
         */
-        function update($oldDn, $newDn, $options)
+        function update($dn, $values)
         {
-            if (!($result = $this->delete($oldDn)))
-            {
-                return false;
-            }
-
-            return $this->add($newDn, $options);
+            return ldap_modify($this->_fp, $dn, $values);
         }
 
         /**
         * Add function info here
         */
-        function add($dn, $options)
+        function add($dn, $values)
         {
-            return ldap_add($this->_fp, $dn, $options);
+            return ldap_add($this->_fp, $dn, $values);
         }
     }
 ?>
