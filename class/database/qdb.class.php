@@ -133,6 +133,22 @@
         }
 
         /**
+        * Add function info here
+        */
+        function GetOne($sql, $inputarr = false)
+        {
+            return $this->_db->GetOne($sql, $inputarr);
+        }
+
+        /**
+        * Add function info here
+        */
+        function GetRow($sql, $inputarr = false)
+        {
+            return $this->_db->GetRow($sql, $inputarr);
+        }
+
+        /**
         * Prepares a string for an SQL query by escaping apostrophe
         * characters. If the PHP configuration setting 'magic_quotes_gpc'
         * is set to ON, it will first strip the added slashes. Apostrophe
