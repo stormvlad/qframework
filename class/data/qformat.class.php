@@ -43,6 +43,19 @@
         /**
         * Add function info here
         */
+        function truncateUrl($url, $maxLength)
+        {
+            while (strlen($url) > $maxLength)
+            {
+                $url = preg_replace("|/([^/]+)/([^/]*)$|", "/.../$2", $url);
+            }
+
+            return $url;
+        }
+
+        /**
+        * Add function info here
+        */
         function removeAccents($string)
         {
             $chars['in']  = chr(128).chr(131).chr(138).chr(142).chr(154).chr(158)
