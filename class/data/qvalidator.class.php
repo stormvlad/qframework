@@ -1,6 +1,6 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidation.class.php");
 
     /**
      * This is an implementation of the 'Strategy' pattern as it can be seen
@@ -11,20 +11,17 @@
      *`change the format of the postId parameter, we only have to change the code of the
      * class that validates it and it will be automatically used everywhere.
      */
-    class qValidator extends qObject
+    class qValidator extends qValidation
     {
         var $_rules;
-        var $_error;
 
         /**
          * The constructor does nothing.
          */
         function qValidator()
         {
-            $this->qObject();
-
+            $this->qValidation();
             $this->_rules = array();
-            $this->_error = false;
         }
 
         /**
@@ -49,27 +46,11 @@
         /**
         *    Add function info here
         **/
-        function _setError($error)
-        {
-            $this->_error = $error;
-        }
-
-        /**
-        *    Add function info here
-        **/
-        function getError()
-        {
-            return $this->_error;
-        }
-
-        /**
-        *    Add function info here
-        **/
         function validate($value)
         {
             foreach ($this->_rules as $rule)
             {
-                if (!$rule->check($value))
+                if (!$rule->validate($value))
                 {
                     $this->_setError($rule->getError());
                     return false;

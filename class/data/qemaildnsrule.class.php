@@ -30,11 +30,11 @@
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.
          */
-        function check($value)
+        function validate($value)
         {
             if (empty($value))
             {
-                $this->setError(false);
+                $this->_setError(false);
                 return true;
             }
 
@@ -43,7 +43,7 @@
 
             if (!qDns::checkdnsrr($domain, "A"))
             {
-                $this->setError(ERROR_RULE_EMAIL_DNS_SERVER_UNREACHABLE);
+                $this->_setError(ERROR_RULE_EMAIL_DNS_SERVER_UNREACHABLE);
                 return false;
             }
 
@@ -73,14 +73,14 @@
 
                     if (!ereg("^250", $from) || !ereg ("^250", $to))
                     {
-                         $this->setError(ERROR_RULE_EMAIL_DNS_NOT_PERMITTED);
+                         $this->_setError(ERROR_RULE_EMAIL_DNS_NOT_PERMITTED);
                          return false;
                     }
                 }
             }
             else
             {
-                $this->setError(ERROR_RULE_EMAIL_DNS_SERVER_UNREACHABLE);
+                $this->_setError(ERROR_RULE_EMAIL_DNS_SERVER_UNREACHABLE);
                 return false;
             }
 

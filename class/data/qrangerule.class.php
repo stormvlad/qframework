@@ -66,23 +66,23 @@
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.
          */
-        function check($value)
+        function validate($value)
         {
             $len = strlen($value);
 
             if ($len < $this->_minValue)
             {
-                $this->setError(ERROR_RULE_TOO_SMALL);
+                $this->_setError(ERROR_RULE_TOO_SMALL);
                 return false;
             }
             else if ($this->_maxValue != 0 && $len > $this->_maxValue)
             {
-                $this->setError(ERROR_RULE_TOO_LARGE);
+                $this->_setError(ERROR_RULE_TOO_LARGE);
                 return false;
             }
             else
             {
-                $this->setError(false);
+                $this->_setError(false);
                 return true;
             }
         }

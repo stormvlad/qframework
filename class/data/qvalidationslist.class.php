@@ -63,12 +63,11 @@
         **/
         function _validateValue($name, $value)
         {
-            $i            = 0;
-            $result       = true;
-            $nonEmptyRule = false;
-
             if (array_key_exists($name, $this->_validations) && is_array($this->_validations[$name]))
             {
+                $i            = 0;
+                $nonEmptyRule = false;
+
                 foreach ($this->_validations[$name] as $validation)
                 {
                     if ($validation->typeOf("qNonEmptyRule") || $validation->typeOf("qRangeRule"))
@@ -82,16 +81,7 @@
 
                 foreach ($this->_validations[$name] as $validation)
                 {
-                    if ($validation->typeOf("qValidator"))
-                    {
-                        $result = $validation->validate($value);
-                    }
-                    else if ($validation->typeOf("qRule"))
-                    {
-                        $result = $validation->check($value);
-                    }
-
-                    if (!$result)
+                    if (!$validation->validate($value))
                     {
                         if (empty($value) && $nonEmptyRule === false)
                         {
@@ -101,14 +91,14 @@
                         else
                         {
                             $this->_setError($name, $validation->getError());
-                            return $result;
+                            return false;
                         }
                     }
                 }
             }
 
 
-            return $result;
+            return true;
         }
 
         /**

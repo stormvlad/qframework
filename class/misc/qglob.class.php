@@ -32,7 +32,7 @@
          * folder or false if there was an error.
          * @static
          */
-        function qGlob($folder = DEFAULT_GLOB_FOLDER, $pattern = "*", $flags = 0)
+        function glob($folder = DEFAULT_GLOB_FOLDER, $pattern = "*", $flags = 0)
         {
             if (function_exists("glob"))
             {
@@ -49,7 +49,7 @@
             }
             else
             {
-                return qGlob::_myGlob($folder, $pattern);
+                return qGlob::_glob($folder, $pattern);
             }
         }
 
@@ -72,7 +72,7 @@
             }
             else
             {
-                return qGlob::_myFnmatch($pattern, $file);
+                return qGlob::_fnmatch($pattern, $file);
             }
         }
 
@@ -87,7 +87,7 @@
          * files will match and which will not.
          * @return An array with the matching files and false if error.
          */
-        function _myGlob($folder = DEFAULT_GLOB_FOLDER, $pattern = "*")
+        function _glob($folder = DEFAULT_GLOB_FOLDER, $pattern = "*")
         {
             if (!($handle = opendir($folder)))
             {
@@ -127,7 +127,7 @@
          * Based on a user-contributed code for the fnmatch php function here:
          * http://www.php.net/manual/en/function.fnmatch.php
          */
-        function _myFnmatch($pattern, $file)
+        function _fnmatch($pattern, $file)
         {
             for ($i = 0; $i < strlen($pattern); $i++)
             {

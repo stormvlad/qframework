@@ -28,16 +28,16 @@
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.
          */
-        function check($value)
+        function validate($value)
         {
-            if (parent::check($value))
+            if (parent::validate($value))
             {
-                $this->setError(false);
+                $this->_setError(false);
                 return true;
             }
             else
             {
-                $this->setError(ERROR_RULE_EMAIL_FORMAT_WRONG);
+                $this->_setError(ERROR_RULE_EMAIL_FORMAT_WRONG);
                 return false;
             }
         }

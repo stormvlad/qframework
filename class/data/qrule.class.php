@@ -1,6 +1,6 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidation.class.php");
 
     /**
      * This is an implementation of the 'Strategy' pattern as it can be seen
@@ -11,46 +11,23 @@
      *`change the format of the postId parameter, we only have to change the code of the
      * class that validates it and it will be automatically used everywhere.
      */
-    class qRule extends qObject
+    class qRule extends qValidation
     {
-        var $_error;
-
         /**
          * The constructor does nothing.
          */
         function qRule()
         {
-            $this->qObject();
-            $this->_error = false;
-        }
-
-        /**
-         * Returns the error message set by the validate() method.
-         *
-         * @return The error message set by the validate() method.
-         */
-        function getError()
-        {
-            return $this->_error;
-        }
-
-        /**
-         * Sets the error message that will be returned in case there is an error.
-         *
-         * @param message The error message.
-         */
-        function setError($error)
-        {
-            $this->_error = $error;
+            $this->qValidation();
         }
 
         /**
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.
          */
-        function check()
+        function validate($value)
         {
-            throw(new Exception("qRule::check: This method must be implemented by child classes."));
+            throw(new Exception("qRule::validate: This method must be implemented by child classes."));
             die();
         }
     }

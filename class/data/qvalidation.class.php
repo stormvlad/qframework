@@ -1,9 +1,6 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qregexprule.class.php");
-
-    define(NUMERIC_RULE_REG_EXP, "^[0-9]+$");
-    define(ERROR_RULE_NUMERIC_FORMAT_WRONG, "error_rule_numeric_format_wrong");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
      * This is an implementation of the 'Strategy' pattern as it can be seen
@@ -14,32 +11,43 @@
      *`change the format of the postId parameter, we only have to change the code of the
      * class that validates it and it will be automatically used everywhere.
      */
-    class qNumericRule extends qRegExpRule
+    class qValidation extends qObject
     {
+        var $_error;
+
         /**
          * The constructor does nothing.
          */
-        function qNumericRule()
+        function qValidation()
         {
-            $this->qRegExpRule(NUMERIC_RULE_REG_EXP, false);
+            $this->qObject();
+            $this->_error = false;
         }
 
         /**
-         * Validates the data. Does nothing here and it must be reimplemented by
-         * every child class.
-         */
+        *    Add function info here
+        **/
+        function _setError($error)
+        {
+            $this->_error = $error;
+        }
+
+        /**
+        *    Add function info here
+        **/
+        function getError()
+        {
+            return $this->_error;
+        }
+
+        /**
+        *    Add function info here
+        **/
         function validate($value)
         {
-            if (parent::validate($value))
-            {
-                $this->_setError(false);
-                return true;
-            }
-            else
-            {
-                $this->_setError(ERROR_RULE_NUMERIC_FORMAT_WRONG);
-                return false;
-            }
+            throw(new Exception("qValidation::validate: This method must be implemented by child classes."));
+            die();
         }
     }
+
 ?>

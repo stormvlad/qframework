@@ -27,16 +27,16 @@
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.
          */
-        function check($value)
+        function validate($value)
         {
             if (empty($value))
             {
-                $this->setError(ERROR_RULE_IS_EMPTY);
+                $this->_setError(ERROR_RULE_IS_EMPTY);
                 return false;
             }
             else
             {
-                $this->setError(false);
+                $this->_setError(false);
                 return true;
             }
         }

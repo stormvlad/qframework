@@ -28,21 +28,21 @@
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.
          */
-        function check($value)
+        function validate($value)
         {
             if (!ereg($this->_regExp, $value, $regs))
             {
-                $this->setError(ERROR_RULE_IP_FORMAT_WRONG);
+                $this->_setError(ERROR_RULE_IP_FORMAT_WRONG);
                 return false;
             }
             else if ($regs[1] > 255 || $regs[2] > 255 || $regs[3] > 255 || $regs[4] > 255)
             {
-                $this->setError(ERROR_RULE_IP_FORMAT_WRONG);
+                $this->_setError(ERROR_RULE_IP_FORMAT_WRONG);
                 return false;
             }
             else
             {
-                $this->setError(false);
+                $this->_setError(false);
                 return true;
             }
         }
