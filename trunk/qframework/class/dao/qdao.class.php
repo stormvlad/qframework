@@ -319,9 +319,9 @@
         /**
         * Add function info here
         */
-        function getDbObject($whereClause = null)
+        function getDbObject($whereClause = null, $orderClause = null)
         {
-            if (!($items = $this->getDbObjects($whereClause)))
+            if (!($items = $this->getDbObjects($whereClause, $orderClause)))
             {
                 return false;
             }
