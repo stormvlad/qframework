@@ -106,7 +106,7 @@
                 }
             }
 
-            if (is_array($this->_events[$event]))
+            if (!empty($this->_events[$event]) && is_array($this->_events[$event]))
             {
                 foreach ($this->_events[$event] as $eventHandler)
                 {
