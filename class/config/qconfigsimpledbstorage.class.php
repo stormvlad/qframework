@@ -175,8 +175,9 @@
          * It is done so that we first check if the key exists. If it does, we then
          * send an update query and update it. Otherwise, we add it.
          *
-         * @param key The name of the key
-         * @param The value.
+         * @param config
+         * @param key    The name of the key
+         * @param value  The value.
          * @return True if successful or false otherwise
          */
         function saveValue(&$config, $key, $value = null)
@@ -204,8 +205,7 @@
          * It is done so that we first check if the key exists. If it does, we then
          * send an update query and update it. Otherwise, we add it.
          *
-         * @param key The name of the key
-         * @param The value.
+         * @param config
          * @return True if successful or false otherwise
          */
         function save(&$config)

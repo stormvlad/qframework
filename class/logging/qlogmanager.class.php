@@ -8,7 +8,6 @@
     /**
      * qLogManager manages all loggers.
      *
-     * @package qframework
      * @since   1.0
      */
     class qLogManager extends qObject
@@ -23,14 +22,9 @@
         var $loggers;
 
         /**
-         * Create a new LogManager instance.
+         * Constructor
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     This should never be called manually.
-         * </note>
-         *
+         * @note This should never be called manually.
          * @private
          * @since  1.0
          */
@@ -52,15 +46,9 @@
         /**
          * Add a logger.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     If a logger with the given name already exists, an error will be
-         *     reported.
-         * </note>
-         *
-         * @param string A logger name.
-         * @param Logger A Logger instance.
+         * @note If a logger with the given name already exists, an error will be reported.
+         * @param name string A logger name.
+         * @param logger A Logger instance.
          *
          * @public
          * @since  1.0
@@ -80,13 +68,7 @@
         /**
          * Cleanup all loggers.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     If a logger with the given name already exists, an error will be
-         *     reported.
-         * </note>
-         *
+         * @note If a logger with the given name already exists, an error will be reported.
          * @public
          * @since  1.0
          */
@@ -125,13 +107,8 @@
         /**
          * Retrieve a logger.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     If a name is not specified, the default logger is returned.
-         * </note>
-         *
-         * @param string A logger name.
+         * @note If a name is not specified, the default logger is returned.
+         * @param name string A logger name.
          *
          * @return Logger A Logger instance, if the given Logger exists, otherwise
          *                <b>NULL</b>.
@@ -165,13 +142,8 @@
         /**
          * Remove a logger.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     You cannot remove the default logger.
-         * </note>
-         *
-         * @param string A logger name.
+         * @note You cannot remove the default logger.
+         * @param name string A logger name.
          *
          * @return Logger A Logger instance, if the given logger exists and has been
          *                removed, otherwise <b>NULL</b>.

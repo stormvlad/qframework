@@ -5,7 +5,6 @@
     /**
      * qFileAppender allows a logger to write a message to file.
      *
-     * @package qframework
      * @since   1.0
      */
     class qFileAppender extends qAppender
@@ -49,8 +48,6 @@
         /**
          * Create a new FileAppender instance.
          *
-         * <br/><br/>
-         *
          * Conversion characters:
          *
          * <ul>
@@ -58,10 +55,10 @@
          *     <li><b>%d{format}</b>   - a date (uses date() format)</li>
          * </ul>
          *
-         * @param Layout A Layout instance.
-         * @param string An absolute file-system path to the log file.
-         * @param bool   Whether or not the file pointer should be opened in
-         *               appending mode (if false, all data is truncated).
+         * @param layout Layout A Layout instance.
+         * @param file string   An absolute file-system path to the log file.
+         * @param append bool   Whether or not the file pointer should be opened in
+         *                      appending mode (if false, all data is truncated).
          *
          * @public
          * @since  1.0
@@ -80,14 +77,9 @@
         /**
          * ConversionPattern callback method.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     This should never be called manually.
-         * </note>
-         *
-         * @param string A conversion character.
-         * @param string A conversion parameter.
+         * @note This should never be called manually.
+         * @param char string A conversion character.
+         * @param param string A conversion parameter.
          *
          * @return string A replacement for the given data.
          *
@@ -118,12 +110,7 @@
         /**
          * Close the file pointer.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     This should never be called manually.
-         * </note>
-         *
+         * @note This should never be called manually.
          * @public
          * @since  1.0
          */
@@ -141,12 +128,7 @@
         /**
          * Open the file pointer.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     This should never be called manually.
-         * </note>
-         *
+         * @note This should never be called manually.
          * @private
          * @since  1.0
          */
@@ -170,14 +152,8 @@
         /**
          * Write a message to the log file.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     This should never be called manually.
-         * </note>
-         *
-         * @param string The message to write.
-         *
+         * @note This should never be called manually.
+         * @param message string The message to write.
          * @public
          * @since  1.0
          */

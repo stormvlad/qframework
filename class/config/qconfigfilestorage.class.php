@@ -54,6 +54,7 @@
          * we are writing the whole file to disk... Bad ;) But it works, so we'll leave it as it
          * is for the time being...
          *
+         * @param config
          * @param name Name of the setting.
          * @param value Value of the setting.
          * @return True if success or false otherwise.

@@ -113,7 +113,7 @@
         /**
          * Establece el cliente de la aplicación
          * 
-         * @param qUser Cliente de la aplicación
+         * @param user qUser Cliente de la aplicación
          */
         function setUser(&$user)
         {

@@ -5,18 +5,14 @@
     /**
      * qStdoutAppender logs a message directly to the requesting client.
      *
-     * @package qframework
      * @since   1.0
      */
     class qStdoutAppender extends qAppender
     {
         /**
-         * Create a new FileAppender instance.
+         * Constructor
          *
-         * @param Layout A Layout instance.
-         *
-         * @public
-         * @since  1.0
+         * @param layout A Layout instance.
          */
         function &qStdoutAppender ($layout)
         {
@@ -26,13 +22,8 @@
         /**
          * Write a message directly to the requesting client.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     This should never be called manually.
-         * </note>
-         *
-         * @param string The message to be written.
+         * @note This should never be called manually.
+         * @param message string The message to be written.
          *
          * @public
          * @since  1.0

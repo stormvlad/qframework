@@ -5,7 +5,6 @@
     /**
      * qLogger provides an interface for logging messages to multiple appenders.
      *
-     * @package qframework
      * @since   1.0
      */
     class qLogger extends qObject
@@ -65,15 +64,9 @@
         /**
          * Add an appender.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     If an appender with the given name already exists, an error will be
-         *     reported.
-         * </note>
-         *
-         * @param string   An appender name.
-         * @param Appender An Appender instance.
+         * @note If an appender with the given name already exists, an error will be reported.
+         * @param name string   An appender name.
+         * @param appender An Appender instance.
          *
          * @public
          * @since  1.0
@@ -93,12 +86,7 @@
         /**
          * Cleanup all appenders.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     This should never be called manually.
-         * </note>
-         *
+         * @note This should never be called manually.
          * @public
          * @since  1.0
          */
@@ -116,7 +104,7 @@
         /**
          * Retrieve an appender.
          *
-         * @param string An appender name.
+         * @param name string An appender name.
          *
          * @return Appender An Appender instance, if the given appender exists,
          *                  otherwise <b>NULL</b>.
@@ -165,7 +153,7 @@
         /**
          * Log a message.
          *
-         * @param Message A Message instance.
+         * @param message A Message instance.
          *
          * @public
          * @since  1.0
@@ -203,7 +191,7 @@
         /**
          * Remove an appender.
          *
-         * @param string An appender name.
+         * @param name string An appender name.
          *
          * @public
          * @since  1.0
@@ -223,13 +211,8 @@
          * Set the priority level that must be met or exceeded in order for qframework
          * to exit upon the logging of a message.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     A priority level of 0 will turn of exiting.
-         * </note>
-         *
-         * @param int A priority level.
+         * @note A priority level of 0 will turn of exiting.
+         * @param priority int A priority level.
          *
          * @public
          * @since  1.0
@@ -243,13 +226,8 @@
          * Set the priority level that must be met or exceeded in order for this
          * logger to log a message.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     A priority level of 0 will log any message.
-         * </note>
-         *
-         * @param int A priority level.
+         * @note A priority level of 0 will log any message.
+         * @param priority int A priority level.
          *
          * @public
          * @since  1.0

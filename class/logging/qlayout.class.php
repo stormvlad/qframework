@@ -3,7 +3,6 @@
     /**
      * qLayout provides a customizable way to format data for an appender.
      *
-     * @package qframework
      * @since   1.0
      */
     class qLayout extends qObject
@@ -22,13 +21,8 @@
         /**
          * Format a message.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     This should never be called manually.
-         * </note>
-         *
-         * @param qMessage A qMessage instance.
+         * @note This should never be called manually.
+         * @param message qMessage A qMessage instance.
          *
          * @public
          * @since  1.0

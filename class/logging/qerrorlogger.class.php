@@ -6,16 +6,12 @@
     /**
      * qErrorLogger provides a default logging mechanism for errors.
      *
-     * @package qFramework
      * @since   1.0
      */
     class qErrorLogger extends qLogger
     {
         /**
-         * Create a new qErrorLogger instance.
-         *
-         * @public
-         * @since  1.0
+         * Constructor
          */
         function &qErrorLogger ()
         {
@@ -25,17 +21,12 @@
         /**
          * Log a message with a debug priority.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     This has a priority level of 1000.
-         * </note>
-         *
-         * @param string An error message.
-         * @param string The class where message was logged.
-         * @param string The function where message was logged.
-         * @param string The file where message was logged.
-         * @param int    The line where message was logged.
+         * @note This has a priority level of 1000.
+         * @param message string An error message.
+         * @param class string The class where message was logged.
+         * @param function string The function where message was logged.
+         * @param file string The file where message was logged.
+         * @param line int    The line where message was logged.
          *
          * @public
          * @since  1.0
@@ -56,17 +47,12 @@
         /**
          * Log a message with an error priority.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     This has a priority level of 3000.
-         * </note>
-         *
-         * @param string An error message.
-         * @param string The class where message was logged.
-         * @param string The function where message was logged.
-         * @param string The file where message was logged.
-         * @param int    The line where message was logged.
+         * @note This has a priority level of 3000.
+         * @param message  string An error message.
+         * @param class    string The class where message was logged.
+         * @param function string The function where message was logged.
+         * @param file     string The file where message was logged.
+         * @param line     int    The line where message was logged.
          *
          * @public
          * @since  1.0
@@ -87,17 +73,12 @@
         /**
          * Log a message with a fatal priority.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     This has a priority level of 5000.
-         * </note>
-         *
-         * @param string An error message.
-         * @param string The class where message was logged.
-         * @param string The function where message was logged.
-         * @param string The file where message was logged.
-         * @param int    The line where message was logged.
+         * @note This has a priority level of 5000.
+         * @param message  string An error message.
+         * @param class    string The class where message was logged.
+         * @param function string The function where message was logged.
+         * @param file     string The file where message was logged.
+         * @param line     int    The line where message was logged.
          *
          * @public
          * @since  1.0
@@ -118,17 +99,12 @@
         /**
          * Log a message with a info priority.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     This has a priority level of 2000.
-         * </note>
-         *
-         * @param string An error message.
-         * @param string The class where message was logged.
-         * @param string The function where message was logged.
-         * @param string The file where message was logged.
-         * @param int    The line where message was logged.
+         * @note This has a priority level of 2000.
+         * @param message  string An error message.
+         * @param class    string The class where message was logged.
+         * @param function string The function where message was logged.
+         * @param file     string The file where message was logged.
+         * @param line     int    The line where message was logged.
          *
          * @public
          * @since  1.0
@@ -151,17 +127,12 @@
         /**
          * Log an error handled by PHP.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     Do not call this method directly. Call the standard PHP function
-         *     <i>trigger_error()</i>.
-         * </note>
-         *
-         * @param int    A priority level.
-         * @param string An error message.
-         * @param string The file where the error occured.
-         * @param int    The line where the error occured.
+         * @note Do not call this method directly. Call the standard PHP function
+         *       <i>trigger_error()</i>.
+         * @param level   int    A priority level.
+         * @param message string An error message.
+         * @param file    string The file where the error occured.
+         * @param line    int    The line where the error occured.
          *
          * @public
          * @since  1.0
@@ -197,17 +168,12 @@
         /**
          * Log a message with a warning priority.
          *
-         * <br/><br/>
-         *
-         * <note>
-         *     This has a priority level of 4000.
-         * </note>
-         *
-         * @param string An error message.
-         * @param string The class where message was logged.
-         * @param string The function where message was logged.
-         * @param string The file where message was logged.
-         * @param int    The line where message was logged.
+         * @note This has a priority level of 4000.
+         * @param message  string An error message.
+         * @param class    string The class where message was logged.
+         * @param function string The function where message was logged.
+         * @param file     string The file where message was logged.
+         * @param line     int    The line where message was logged.
          *
          * @public
          * @since  1.0
