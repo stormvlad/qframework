@@ -9,13 +9,14 @@
     class qDbObject extends qObject
     {
         var $_fields;
+
         /**
         * Add function info here
         */
-        function qDbObject($params = null)
+        function qDbObject($fields = null)
         {
             $this->qObject();
-            $this->_fields = new qProperties($params);
+            $this->_fields = new qProperties($fields);
         }
 
         /**

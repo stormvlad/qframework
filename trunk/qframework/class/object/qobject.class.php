@@ -1,6 +1,8 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qexception.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qeventhandler.class.php");
+
 
     /**
      * This is the highest class on the top of our hierarchy. Provides some common methods
@@ -12,17 +14,19 @@
     class qObject
     {
         var $_objId;
+        var $_events;
 
         /**
          * Constructor
          */
         function qObject()
         {
+            $this->_events = array();
             // removed for performance reasons!
             //$this->_objId = uniqid($this->className()."__");
         }
 
-        function __getObjectId()
+        function _getObjectId()
         {
             return $this->_objId;
         }
@@ -33,46 +37,41 @@
          */
         function toString()
         {
-            // returns the name of the class
-            $ret_str = get_class( $this )." ".$this->_dumpVars();
-
-            return $ret_str;
+            return get_class($this) . " " . $this->_dumpVars();
         }
 
+        /**
+         * Add function info here
+         */
         function _dumpVars()
         {
-            $vars = get_object_vars( $this );
+            $vars = get_object_vars($this);
+            $res  = "[";
 
-            $keys = array_keys( $vars );
+            foreach ($vars as $key => $value)
+            {
+                $res .= " " . $key . "=" . $value;
+            }
 
-            $res = "[";
-
-            foreach( $keys as $key )
-                $res .= " ".$key."=".$vars[$key];
-
-            $res .= " ]";
-
-            return $res;
+            return $res .= " ]";
         }
 
         /**
          * Returns the name of the class
          * @return String with the name of the class
          */
-        function className()
+        function getClassName()
         {
-            return get_class( $this );
+            return get_class($this);
         }
 
         /**
          * Returns the name of the parent class
          * @return String containing the name of the parent class
          */
-        function getParentClass()
+        function getParentClassName()
         {
-            $parent_class_name = get_parent_class( $this );
-
-            return $parent_class_name;
+            return get_parent_class($this);
         }
 
         /**
@@ -81,9 +80,20 @@
          * @param $object The object.
          * @return True if the object is a subclass of the given object or false otherwise.
          */
-        function isSubclass( $object )
+        function isSubclass($mixed)
         {
-            return is_subclass_of( $this, $object->className());
+            if (is_object($mixed))
+            {
+                return is_subclass_of($this, $mixed->getClassName());
+            }
+            else if (is_string($mixed))
+            {
+                return is_subclass_of($this, $mixed);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /**
@@ -92,7 +102,7 @@
          */
         function getMethods()
         {
-            return get_class_methods( $this );
+            return get_class_methods($this);
         }
 
         /**
@@ -101,9 +111,65 @@
          * @param object Object
          * @return Returns true if they are of the same type or false otherwise.
          */
-        function typeOf( $object )
+        function typeOf($mixed)
         {
-            return is_a( $this, $object->className());
+            if (is_object($mixed))
+            {
+                return is_a($this, $mixed->getClassName());
+            }
+            else if (is_string($mixed))
+            {
+                return is_a($this, $mixed);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /**
+         * Add function info here
+         */
+        function registerEvent($event)
+        {
+            if (array_key_exists($event, $this->_events))
+            {
+                return false;
+            }
+
+            $this->_events[$event] = array();
+        }
+
+        /**
+         * Add function info here
+         */
+        function addEventHandler($event, &$obj, $method)
+        {
+            if (!array_key_exists($event, $this->_events))
+            {
+                return false;
+            }
+
+            array_push($this->_events[$event], new qEventHandler($event, $obj, $method));
+            return true;
+        }
+
+        /**
+         * Add function info here
+         */
+        function sendEvent($event, $eventArgs)
+        {
+            if (!array_key_exists($event, $this->_events))
+            {
+                return false;
+            }
+
+            foreach ($this->_events[$event] as $eventHandler)
+            {
+                $eventHandler->perform($this, $eventArgs);
+            }
+
+            return true;
         }
     }
 ?>

@@ -4,11 +4,10 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/action/qaction.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qexception.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/security/qpipeline.class.php");
 
-
-    define("DEFAULT_ACTION_PARAM", "op");
-    define("DEFAULT_ACTION_NAME", "default");
+    define(DEFAULT_ACTION_PARAM, "op");
+    define(DEFAULT_ACTION_NAME, "default");
+    define(DEFAULT_ACTIONS_CLASS_PATH, "class/action/");
 
     /**
      * This is how MVC works, using the pattern of the 'Front Controller'. With this pattern, we have
@@ -40,6 +39,8 @@
         var $_actionMap;
         var $_actionParam;
 
+        var $_actionsClassPath;
+
         var $_sessionEnabled;
 
         var $_actionsChain;
@@ -61,11 +62,44 @@
         {
             $this->qObject();
 
-            $this->_actionMap       = $actionMap;
-            $this->_actionParam     = $actionParam;
-            $this->_sessionEnabled  = false;
-            $this->_actionsChain    = array();
-            $this->_forwarded       = 0;
+            $this->_actionMap        = $actionMap;
+            $this->_actionParam      = $actionParam;
+            $this->_actionsClassPath = DEFAULT_ACTIONS_CLASS_PATH;
+            $this->_sessionEnabled   = false;
+            $this->_actionsChain     = array();
+            $this->_forwarded        = 0;
+        }
+
+        /**
+         * Add function info here
+         */
+        function getActionParam()
+        {
+            return $this->_actionParam;
+        }
+
+        /**
+         * Add function info here
+         */
+        function setActionParam($actionParam)
+        {
+            $this->_actionParam = $actionParam;
+        }
+
+        /**
+         * Add function info here
+         */
+        function getActionsClassPath()
+        {
+            return $this->_actionsClassPath;
+        }
+
+        /**
+         * Add function info here
+         */
+        function setActionsClassPath($path)
+        {
+            $this->_actionsClassPath = $path;
         }
 
         /**
@@ -89,7 +123,13 @@
          */
         function registerAction($actionKey, $actionClassName)
         {
+            if (array_key_exists($this->actionMap))
+            {
+                return false;
+            }
+
             $this->_actionMap[$actionKey] = $actionClassName;
+            return true;
         }
 
         /**
@@ -142,10 +182,8 @@
         {
             if (!class_exists($actionClassName))
             {
-                include_once("class/action/" . strtolower($actionClassName) . ".class.php");
+                include_once($this->_actionsClassPath . strtolower($actionClassName) . ".class.php");
             }
-
-            $this->_forwarded = 0;
         }
 
         /**
@@ -171,9 +209,10 @@
 
             while (count($this->_actionsChain) > 0)
             {
-                $actionClassName = array_pop($this->_actionsChain);
+                $actionClassName  = array_pop($this->_actionsChain);
                 $this->loadActionClass($actionClassName);
-                $actionObject = new $actionClassName();
+                $actionObject     = new $actionClassName();
+                $this->_forwarded = 0;
 
                 if ($actionObject->validate())
                 {
@@ -190,8 +229,7 @@
 
             if (empty($view))
             {
-                $e = new qException("qController::process: The view is empty after calling the perform method.");
-                throw($e);
+                throw(new qException("qController::process: The view is empty after calling the perform method."));
             }
             else
             {
