@@ -318,14 +318,14 @@
 
             if ($this->getValidationMethod() == REQUEST_METHOD_GET)
             {
-                $vars = &qHttp::getGetVars();
+                $varsObj = &qHttp::getGetVars();
             }
             else if ($this->getValidationMethod() == REQUEST_METHOD_POST)
             {
-                $vars = &qHttp::getPostVars();
+                $varsObj = &qHttp::getPostVars();
             }
 
-            $vars = $vars->getAsArray();
+            $vars = $varsObj->getAsArray();
 
             foreach ($vars as $key => $value)
             {

@@ -46,6 +46,7 @@
         var $_actionMap;
         var $_actionParam;
         var $_actionsClassPath;
+        var $_currentAction;
         var $_defaultAction;
         var $_sessionEnabled;
         var $_controllerParams;
@@ -70,6 +71,7 @@
             $this->_actionMap        = array();
             $this->_actionParam      = DEFAULT_ACTION_PARAM;
             $this->_actionsClassPath = DEFAULT_ACTIONS_CLASS_PATH;
+            $this->_currentAction    = null;
             $this->_defaultAction    = DEFAULT_ACTION_NAME;
             $this->_sessionEnabled   = false;
             $this->_controllerParams = null;
@@ -142,6 +144,14 @@
         function setActionsClassPath($path)
         {
             $this->_actionsClassPath = $path;
+        }
+
+        /**
+         * Add function info here
+         */
+        function &getCurrentAction()
+        {
+            return $this->_currentAction;
         }
 
         /**
@@ -299,6 +309,8 @@
             $filtersChain     = new qFiltersChain();
             $executionFilter  = new qExecutionFilter($this->controllerParams);
             $action           = new $actionClassName($this->controllerParams);
+
+            $this->_currentAction = &$action;
 
             $action->registerFilters($filtersChain);
             $executionFilter->addAction($action);
