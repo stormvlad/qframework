@@ -149,6 +149,14 @@
         /**
         * Add function info here
         */
+        function resetPermissions()
+        {
+            $this->_permissions = array();
+        }
+
+        /**
+        * Add function info here
+        */
         function removePermission($name, $level = DEFAULT_USER_PERMISSIONS_LEVEL)
         {
             unset($this->_permissions[$level][$name]);
