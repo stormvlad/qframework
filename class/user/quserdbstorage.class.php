@@ -6,14 +6,14 @@
      * Inherits from Properties but just to add some default
      * values to some settings
      */
-    class qDbUserStorage extends qUserStorage
+    class qUserDbStorage extends qUserStorage
     {
         var $_db;
 
         /**
         * Add function info here
         */
-        function qDbUserStorage(&$db)
+        function qUserDbStorage(&$db)
         {
             $this->qUserStorage();
             $this->_db = &$db;
@@ -24,7 +24,7 @@
         */
         function _getSqlLoadStatement(&$user)
         {
-            throw(new Exception("qSqlUserStorage::_getSqlLoadStatement: This method must be implemented by child classes."));
+            throw(new Exception("qUserDbStorage::_getSqlLoadStatement: This method must be implemented by child classes."));
             die();
         }
 
@@ -33,7 +33,7 @@
         */
         function _getSqlStoreStatement(&$user)
         {
-            throw(new Exception("qSqlUserStorage::_getSqlLoadStatement: This method must be implemented by child classes."));
+            throw(new Exception("qUserDbStorage::_getSqlLoadStatement: This method must be implemented by child classes."));
             die();
         }
 
