@@ -11,6 +11,7 @@
         var $_fields;
         var $_idFields;
         var $_outerFields;
+        var $_nullFields;
 
         /**
         * Add function info here
@@ -22,6 +23,7 @@
             $this->_fields      = new qProperties($fields);
             $this->_idFields    = array();
             $this->_outerFields = new qProperties();
+            $this->_nullFields  = array();
         }
 
         /**
@@ -40,6 +42,7 @@
             foreach ($fields as $fieldName => $fieldValue)
             {
                 $this->_fields->setValue($fieldName, $fieldValue);
+                $this->_nullFields[$fieldName] = false;
             }
         }
 
@@ -49,6 +52,7 @@
         function addField($fieldName, $fieldValue = null)
         {
             $this->_fields->setValue($fieldName, $fieldValue);
+            $this->_nullFields[$fieldName] = false;
         }
 
         /**
@@ -92,6 +96,11 @@
         function setValue($fieldName, $value)
         {
             $this->_fields->setValue($fieldName, $value);
+
+            if (empty($value))
+            {
+                $this->_nullFields[$fieldName] = true;
+            }
         }
 
         /**
@@ -174,6 +183,14 @@
         function getOuterFieldsCount()
         {
             $this->_outerFields->count();
+        }
+
+        /**
+        * Add function info here
+        */
+        function hasNullValue($fieldName)
+        {
+            return $this->_nullFields[$fieldName];
         }
     }
 ?>

@@ -117,6 +117,14 @@
         /**
         * Add function info here
         */
+        function removeAttribute($name)
+        {
+            $this->_attributes->removeValue($name);
+        }
+
+        /**
+        * Add function info here
+        */
         function hasAttribute($name)
         {
             return $this->_attributes->keyExists($name);
