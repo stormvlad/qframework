@@ -32,7 +32,7 @@
          */
         function save()
         {
-            throw(new Exception("qHttpVars::save: This method must be implemented by child classes."));
+            throw(new qException("qHttpVars::save: This method must be implemented by child classes."));
             die();
         }
     }

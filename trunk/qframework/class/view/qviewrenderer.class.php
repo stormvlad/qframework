@@ -21,7 +21,7 @@
         */
         function render(&$view)
         {
-            throw(new Exception("qViewRenderer::render: This method must be implemented by child classes."));
+            throw(new qException("qViewRenderer::render: This method must be implemented by child classes."));
             die();
         }
     }

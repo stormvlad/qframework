@@ -48,13 +48,13 @@
 
             if (!array_key_exists($start, $this->_marks))
             {
-                throw(new Exception("qTimer::get: Start mark '" . $start . "' doesn't exist."));
+                throw(new qException("qTimer::get: Start mark '" . $start . "' doesn't exist."));
                 die();
             }
 
             if (!empty($stop) && !array_key_exists($stop, $this->_marks))
             {
-                throw(new Exception("qTimer::get: Stop mark '" . $stop . "' doesn't exist."));
+                throw(new qException("qTimer::get: Stop mark '" . $stop . "' doesn't exist."));
                 die();
             }
 

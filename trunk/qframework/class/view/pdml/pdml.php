@@ -657,7 +657,7 @@ class PDML extends FPDF {
                 $this->Ellipse($x1, $y1, $xradius, $yradius, $style);
                 break;
             case "DIV":
-                $this->wPt = $this->wPt-$this->right_margin[0];
+                //$this->wPt = $this->wPt-$this->right_margin[0];
                 $this->_enforceState(50,50);
                 $save_x = $this->GetX();
                 $x = $this->_getAttrUnit($save_x, $attr, "LEFT", $this->wPt);
@@ -701,12 +701,13 @@ class PDML extends FPDF {
                 break;
             case "MULTICELL":
             case "CELL":
+                //$this->wPt = $this->wPt-;
                 $this->_enforceState(50,51);
                 $save_x = $this->GetX();
                 $x = $this->_getAttrUnit($save_x, $attr, "LEFT", $this->wPt);
                 $save_y = $this->GetY();
                 $y = $this->_getAttrUnit($save_y, $attr, "TOP", $this->hPt);
-                $width = $this->_getAttrUnit($this->wPt-$x, $attr, "WIDTH", $this->wPt);
+                $width = $this->_getAttrUnit($this->wPt-$x-$this->right_margin[0], $attr, "WIDTH", $this->wPt);
                 // used by multicell only
                 $inter = $this->_getAttrUnit($this->font_size[0], $attr, "INTER", $this->font_size[0]);
                 // used by cell only.

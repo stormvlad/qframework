@@ -45,7 +45,7 @@
         **/
         function validate($value)
         {
-            throw(new Exception("qValidation::validate: This method must be implemented by child classes."));
+            throw(new qException("qValidation::validate: This method must be implemented by child classes."));
             die();
         }
     }
