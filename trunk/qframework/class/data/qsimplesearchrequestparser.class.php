@@ -1,6 +1,6 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/data/qsearchrequestparser.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qsearchrequestparser.class.php");
 
     /**
     * qSimpleSearchRequestParser class
