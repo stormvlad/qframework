@@ -80,7 +80,7 @@
          */
         function perform(&$sender, $eventArgs)
         {
-            call_user_func(array($this->_objHandler, $this->_objMethodName), $sender, $eventArgs);
+            call_user_func(array(&$this->_objHandler, $this->_objMethodName), $sender, $eventArgs);
         }
     }
 ?>
