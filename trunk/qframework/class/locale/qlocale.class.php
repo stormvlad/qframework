@@ -348,6 +348,11 @@
         */
         function i18n($id)
         {
+            if ($this->isDebug())
+            {
+                return $id;
+            }
+
             if (is_array($id))
             {
                 $translated = array();
