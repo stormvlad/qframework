@@ -58,7 +58,7 @@
                 $this->_eventMap = array();
             }
 
-            $this->_eventMap[$index] = $code;
+            $this->_eventMap[$index] = strtoupper($this->getClassName()) . "::" . $code;
         }
 
         /**
@@ -186,11 +186,13 @@
          */
         function unregisterEvent($event)
         {
-            $eventCode = $event;
-
-            if (is_int($eventCode))
+            if (is_string($event))
             {
-                $eventCode = $this->getEventCode($eventCode);
+                $eventCode = strtoupper($this->getClassName()) . "::" . $event;
+            }
+            else
+            {
+                $eventCode = $this->getEventCode($event);
             }
 
             $eventManager = &qEventManager::getInstance();
@@ -212,7 +214,7 @@
             }
 
             $eventManager = &qEventManager::getInstance();
-            return $eventManager->registerEvent($this, $eventCode);
+            return $eventManager->registerEvent($this, strtoupper($this->getClassName()) . "::" . $eventCode);
         }
 
         /**
@@ -236,11 +238,13 @@
          */
         function sendEvent($event, $eventArgs = array())
         {
-            $eventCode = $event;
-
-            if (is_int($eventCode))
+            if (is_string($event))
             {
-                $eventCode = $this->getEventCode($eventCode);
+                $eventCode = strtoupper($this->getClassName()) . "::" . $event;
+            }
+            else
+            {
+                $eventCode = $this->getEventCode($event);
             }
 
             $eventArgs    = array_merge(array("event" => $eventCode), $eventArgs);

@@ -83,8 +83,8 @@
 
             set_error_handler(array(&$logger, "standard"));
 
-            $this->registerEvent(1, "CONTROLLER_PROCESS_STARTS");
-            $this->registerEvent(2, "CONTROLLER_PROCESS_ENDS");
+            $this->registerEvent(1, "PROCESS_METHOD_STARTS");
+            $this->registerEvent(2, "PROCESS_METHOD_ENDS");
         }
 
         /**
