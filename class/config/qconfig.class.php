@@ -12,7 +12,7 @@
      *
      * It is recommented to use this function as a singleton rather than as an object.
      * @see Config
-     * @see getConfig
+     * @see getInstance
      */
     class qConfig extends qObject
     {
@@ -20,8 +20,10 @@
         var $_props;
 
         /**
-        *    Add function info here
-        */
+         * Constructor
+         *
+         * @param storage Objeto del tipo qConfigStorage que define la forma de almacenamiento de la configuración
+         */
         function qConfig(&$storage)
         {
             $this->qObject();
@@ -32,8 +34,8 @@
         }
 
         /**
-        *    Add function info here
-        */
+         *    Add function info here
+         */
         function &getInstance()
         {
             static $configInstance;

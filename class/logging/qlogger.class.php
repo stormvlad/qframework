@@ -13,7 +13,7 @@
         /**
          * An associative array of appenders.
          *
-         * @access private
+         * @private
          * @since  1.0
          * @type   array
          */
@@ -23,7 +23,7 @@
          * The priority level that must be met or exceeded in order for qframework
          * to exit upon the logging of a message.
          *
-         * @access private
+         * @private
          * @since  1.0
          * @type   int
          */
@@ -33,7 +33,7 @@
          * The priority level that must be met or exceeded in order for this logger
          * to log a message.
          *
-         * @access private
+         * @private
          * @since  1.0
          * @type   int
          */
@@ -42,7 +42,7 @@
         /**
          * Create a new Logger instance.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &qLogger()
@@ -75,7 +75,7 @@
          * @param string   An appender name.
          * @param Appender An Appender instance.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function addAppender ($name, &$appender)
@@ -99,7 +99,7 @@
          *     This should never be called manually.
          * </note>
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function cleanup ()
@@ -121,7 +121,7 @@
          * @return Appender An Appender instance, if the given appender exists,
          *                  otherwise <b>NULL</b>.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &getAppender ($name)
@@ -140,7 +140,7 @@
          *
          * @return int A priority level.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function getExitPriority ()
@@ -154,7 +154,7 @@
          *
          * @return int A priority level.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function getPriority ()
@@ -167,7 +167,7 @@
          *
          * @param Message A Message instance.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function log (&$message)
@@ -205,7 +205,7 @@
          *
          * @param string An appender name.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function removeAppender ($name)
@@ -231,7 +231,7 @@
          *
          * @param int A priority level.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function setExitPriority ($priority)
@@ -251,7 +251,7 @@
          *
          * @param int A priority level.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function setPriority ($priority)

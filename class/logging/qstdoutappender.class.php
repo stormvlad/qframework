@@ -15,7 +15,7 @@
          *
          * @param Layout A Layout instance.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &qStdoutAppender ($layout)
@@ -34,7 +34,7 @@
          *
          * @param string The message to be written.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function write ($message)

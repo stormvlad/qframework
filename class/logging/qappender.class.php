@@ -5,7 +5,7 @@
     /**
      * qAppender allows you to log messags to any location.
      *
-     * @package qframework
+     * @package logger
      * @since   1.0
      */
     class qAppender extends qObject
@@ -13,7 +13,7 @@
         /**
          * The layout to be used for this appender.
          *
-         * @access private
+         * @private
          * @since  1.0
          * @type   Layout
          */
@@ -24,7 +24,7 @@
          *
          * @param Layout A Layout instance.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &qAppender (&$layout)
@@ -43,7 +43,7 @@
          *     This should never be called manually.
          * </note>
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function cleanup ()
@@ -56,7 +56,7 @@
          *
          * @return Layout A Layout instance.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function & getLayout ()
@@ -69,7 +69,7 @@
          *
          * @param Layout A Layout instance.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function setLayout (&$layout)
@@ -88,7 +88,7 @@
          *
          * @param message The message to write.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function write ($message)

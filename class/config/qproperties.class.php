@@ -36,8 +36,7 @@
         /**
          * Sets a value in our hash table.
          *
-         * @param key Name of the value in the hash table
-         * @param value Value that we want to assign to the key '$key'
+         * @param values Array asociativo con los nombres y valores
          */
         function setValues($values)
         {
@@ -79,6 +78,7 @@
          * Returns the value associated to a key
          *
          * @param key Key whose value we want to fetch
+         * @param slashes int Método para tratar con las barras
          * @return Value associated o that key
          */
         function getValue($key, $slashes = PROPERTIES_SLASHES_NONE)
@@ -104,8 +104,11 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Devuelve un valor asociado a la clave especificada
+         *
+         * @param key Key whose value we want to fetch
+         * @return Referencia al valor asociado
+         */
         function &getValueRef($key)
         {
             if (array_key_exists($key, $this->_props))

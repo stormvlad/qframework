@@ -18,7 +18,7 @@
         /**
          * The message to be formatted.
          *
-         * @access private
+         * @private
          * @since  1.0
          * @type   object
          */
@@ -27,7 +27,7 @@
         /**
          * The conversion pattern to use with this layout.
          *
-         * @access private
+         * @private
          * @since  1.0
          * @type   ConversionPattern
          */
@@ -38,7 +38,7 @@
          *
          * @param string A message layout.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &qPatternLayout ($layout)
@@ -60,7 +60,7 @@
          *
          * @return string A replacement for the given data.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &callback ($char, $param)

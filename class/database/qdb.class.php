@@ -171,7 +171,7 @@
         *
         * @param  string $string
         * @return string
-        * @access public
+        * @public
         */
         function qstr($string)
         {

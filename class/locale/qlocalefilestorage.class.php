@@ -17,7 +17,7 @@
          * is the file the constructor will try to open.
          * If no file name is specified, it defaults to config/config.properties.php.
          *
-         * @param configFile The name of the file we would like to use.
+         * @param localeFile string The name of the file we would like to use.
          */
         function qLocaleFileStorage($localeFile)
         {
@@ -28,6 +28,7 @@
         /**
          * Reloads the contents from the configuration file.
          *
+         * @param locale qLocale
          * @return Returns always true.
          */
         function load(&$locale)
@@ -54,6 +55,7 @@
          * we are writing the whole file to disk... Bad ;) But it works, so we'll leave it as it
          * is for the time being...
          *
+         * @param locale qLocale
          * @param name Name of the setting.
          * @param value Value of the setting.
          * @return True if success or false otherwise.
@@ -65,8 +67,10 @@
         }
 
         /**
-        *    Add function info here
-        */
+         *    Add function info here
+         *
+         * @param locale qLocale
+         */
         function save(&$locale)
         {
             throw(new qException("qLocaleFileStorage::save: This method has not implemented yet."));

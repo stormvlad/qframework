@@ -16,9 +16,6 @@
 
         /**
          * Constructor
-         *
-         * @param httpRequest The HTTP request
-         * that is currently executing this pipeline
          */
         function qFiltersChain()
         {

@@ -87,8 +87,7 @@
         * Gets the "true" IP address of the current user
         *
         * @return  string   the ip of the user
-        *
-        * @access  private
+        * @private
         */
         function getIp()
         {

@@ -2,6 +2,12 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
+    /**
+     * qFormat provides a package of functions to format and unformat quite type of values.
+     *
+     * @package qframework
+     * @since   1.0
+     */
     class qFormat extends qObject
     {
         /**
@@ -74,7 +80,7 @@
         // by bmorel at ssi dot fr
         function seemsUtf8($Str)
         {
-            for ($i=0; $i<strlen($Str); $i++)
+            for ($i = 0; $i < strlen($Str); $i++)
             {
                 if (ord($Str[$i]) < 0x80)
                 {
@@ -105,7 +111,7 @@
                     return false; // Does not match any model
                 }
 
-                for ($j=0; $j<$n; $j++) // n bytes matching 10bbbbbb follow ?
+                for ($j = 0; $j < $n; $j++) // n bytes matching 10bbbbbb follow ?
                 {
                     if ((++$i == strlen($Str)) || ((ord($Str[$i]) & 0xC0) != 0x80))
                     return false;

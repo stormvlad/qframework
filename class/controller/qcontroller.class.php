@@ -18,17 +18,16 @@
     define("DEFAULT_ACTIONS_CLASS_PATH", "class/action/");
 
     /**
-     * This is how MVC works, using the pattern of the 'Front Controller'. With this pattern, we have
-     * a single controller class that receives all the requests from the client, identifies the
-     * action to be taken and the relays the execution of the action to the most suitable Action class.
-     * The 'Action' class then will use the application business logic (the Model) to carry out the
-     * operations necessary.
+     * Así es como MVC funciona, usando el patrón 'Front Controller'. Este patrón tiene una única classe
+     * de controlador que recibe totas las peticiones del cliente, identifica la acción a tomar
+     * y traspasa la ejecución a la acción que mejor corresponde según la petición.
+     * La classe 'qAction' usa la logica de la aplicación (qModel) para hacer las operaciones necesarias.
      *
      * (according to http://java.sun.com/blueprints/guidelines/designing_enterprise_applications_2e/web-tier/web-tier5.html)
      *
      * 1. The controller receives a POST from the client.
      * 2. The controller creates an Action corresponding to the requested operation (as described in the previous section).
-      * 3. The controller calls the Action's perform method.
+     * 3. The controller calls the Action's perform method.
      * perform calls a model business method.
      * 4. The controller calls the screen flow manager to select the next view to display.
      * 5. The screen flow manager determines the next view and returns its name to the controller.
@@ -40,7 +39,11 @@
      * to validate the data that came from the form. If the result of validate() is 'false',
      * the controller will <b>not</b> call the perform() method and stop execution. However, the
      * validate method should also generate a valid view containing probably the error message.
-     */
+     *
+     * @author qDevel - info@qdevel.com
+     * @date 26/02/2005 14:46
+     * @version 1.0
+    **/
 
     class qController extends qObject
     {
@@ -54,16 +57,7 @@
         var $_user;
 
         /**
-         * $ActionsMap is an associative array of the form:
-         *
-         * ($actionName, $actionClassName)
-         *
-         * Where for every different possible value of the 'action' parameter in the request,
-         * there is an object inheriting form the Action class that will take care of
-         * that requested action.
-         *
-         * @param actionMap is the associative array with the mappings
-         * @param actionParam is the name of the parameter in the request that will be used
+         * Constructor
          */
         function qController()
         {
@@ -88,7 +82,11 @@
         }
 
         /**
-         * Add function info here
+         * El objectivo de este método es asegurar que exista sólo una instancia de esta clase 
+         * y proveer de un punto global de accesso a ella.
+         * Basado en el patrón Singleton.
+         *
+         * @return qController - devuelve una instancia de esta classe
          */
         function &getInstance()
         {
@@ -103,7 +101,9 @@
         }
 
         /**
-         * Add function info here
+         * Devuelve el objeto que representa al cliente de la aplicación
+         *
+         * @return qUser
          */
         function &getUser()
         {
@@ -111,7 +111,9 @@
         }
 
         /**
-         * Add function info here
+         * Establece el cliente de la aplicación
+         * 
+         * @param qUser Cliente de la aplicación
          */
         function setUser(&$user)
         {
@@ -119,7 +121,9 @@
         }
 
         /**
-         * Add function info here
+         * Devuelve el nombre del parámetro (de la petición) que define la acción a ejecutar por el controlador.
+         *
+         * @return string
          */
         function getActionParam()
         {
@@ -127,7 +131,9 @@
         }
 
         /**
-         * Add function info here
+         * Establece el nombre del parámetro que define la acción a ejecutar por el controlador
+         *
+         * @param actionParam string 
          */
         function setActionParam($actionParam)
         {
@@ -135,7 +141,9 @@
         }
 
         /**
-         * Add function info here
+         * Devuelve la ruta dónde se encuentran las classes de acción <i>qAction</i>
+         *
+         * @return string
          */
         function getActionsClassPath()
         {
@@ -143,7 +151,10 @@
         }
 
         /**
-         * Add function info here
+         * Establece la ruta dónde se encuentran la classes de acción <i>qAction</i>.
+         * Por defecto en "class/action/"
+         *
+         * @param path string
          */
         function setActionsClassPath($path)
         {
@@ -151,7 +162,9 @@
         }
 
         /**
-         * Add function info here
+         * Devuelve la acción que se está ejecutando por el controlador
+         *
+         * @return qAction
          */
         function &getCurrentAction()
         {
@@ -159,7 +172,10 @@
         }
 
         /**
-         * Add function info here
+         * Devuelve el nombre de la acción que se ejecuta por defecto. Por ejemplo cuando no especificamos
+         * ningúna acción en la petición.
+         *
+         * @return string
          */
         function getDefaultAction()
         {
@@ -167,7 +183,10 @@
         }
 
         /**
-         * Add function info here
+         * Establece el nombre de la acción que se ejecuta por defecto. 
+         * Por defecto "default"
+         *
+         * @param actionClassName string
          */
         function setDefaultAction($actionClassName)
         {
@@ -175,7 +194,9 @@
         }
 
         /**
-         * Add function info here
+         * Devuelve si la session está habilitada.
+         *
+         * @return boolean
          */
         function isSessionEnabled()
         {
@@ -183,7 +204,9 @@
         }
 
         /**
-         * Add function info here
+         * Establece si la session está habilitada.
+         *
+         * @param enabled boolean - opcional - por defecto: true
          */
         function setSessionEnabled($enabled = true)
         {
@@ -191,7 +214,11 @@
         }
 
         /**
-         * Add function info here
+         * Devuelve el nombre de la sesión actual. 
+         *
+         * El nombre de la sesión hace referencia al session id utilizado en las cookies y en las URLs. 
+         *
+         * @return string
          */
         function getSessionName()
         {
@@ -199,7 +226,14 @@
         }
 
         /**
-         * Add function info here
+         * Establece el nombre de la sesión actual.
+         * 
+         * Debería contener únicamente caracteres alfanuméricos; también debería ser corto y descriptivo 
+         * (p.ej. para usuarios con los avisos de las cookies activados). El nombre de la sesión se restaura 
+         * al valor guardado por defecto en session.name al comenzar la petición. 
+         * Así, pues, es necesario llamar a session_name() en cada petición (y antes de llamar a session_start() o a session_register()). 
+         *
+         * @param name string
          */
         function setSessionName($name)
         {
@@ -207,7 +241,11 @@
         }
 
         /**
-         * Add function info here
+         * Devuelve la ruta donde se guardan los datos de la sesión actual
+         *
+         * Devuelve la ruta del directorio usado actualmente para guardar los datos de la sesión. 
+         *
+         * @return string
          */
         function getSessionPath()
         {
@@ -215,7 +253,11 @@
         }
 
         /**
-         * Add function info here
+         * Cambia la ruta donde se guardan los datos de la sesión actual
+         *
+         * Nota: En algunos sistemas operativos, puede que quiera especificar una ruta en un sistema de archivos que maneja muchos archivos pequeños de forma eficiente. Por ejemplo, en Linux, reiserfs puede dar un rendimiento mejor que ext2fs. 
+         *
+         * @param path string
          */
         function setSessionPath($path)
         {
@@ -223,7 +265,28 @@
         }
 
         /**
-         * Add function info here
+         * Registra las acciones en el controlador
+         *
+         * $ActionsMap is an associative array of the form:
+         *
+         * ($actionName, $actionClassName)
+         *
+         * Where for every different possible value of the 'action' parameter in the request,
+         * there is an object inheriting form the Action class that will take care of
+         * that requested action.
+         *
+         * Añade un mapa de acciones a ejecutar por el controlador. Se especifican en una matriz associativa
+         * tal como el ejemplo siguiente:
+         *
+         * @verbatim
+           $actions = Array(   
+             "default" => "DefaultAction",
+             "login"   => "LoginAction",
+             "error"   => "ErrorAction",
+           );
+           @endverbatim
+         *
+         * @param actions array tabla asociativa con el nombre de las acciones y classes
          */
         function registerActions($actions)
         {
@@ -238,7 +301,10 @@
         }
 
         /**
-         * Add function info here
+         * Registra una acción en el controlador
+         *
+         * @param actionKey string Nombre associado a una acción
+         * @param actionClassName string Nombre de la classe a ejecutar por esta acción
          */
         function registerAction($actionKey, $actionClassName)
         {
@@ -253,7 +319,12 @@
         }
 
         /**
-         * Add function info here
+         * Devuelve el nombre de la classe de acción a ejecutar en caso de no encontrarse
+         * el archivo con la acción esperada.
+         * Por defecto se usa la acción por defecto, en otro caso redefinir esta función y
+         * usar el parámetro $actionName.
+         *
+         * @param actionName string Nombre de la acción esperada
          */
         function actionClassFileNotFound($actionName)
         {
@@ -261,7 +332,16 @@
         }
 
         /**
-         * Add function info here
+         * Devuelve el nombre de la classe de la acción associada a un nombre
+         * 
+         * Si no se especifica ningún nombre se devuelve la acción por defecto.
+         * Si tenemos acciones registradas se consulta el mapa de acciones y se devuelve
+         * el nombre de la classe associado a este nombre.
+         * En otro caso se busca si existe un archivo con este nombre seguido por "action.class.php"
+         * en el directorio de acciones y se devuelve el nombre de la acción.
+         *
+         * @param actionName string Nombre associado a una acción
+         * @return string Nombre de la classe de la acción
          */
         function getActionClassName($actionName)
         {
@@ -292,7 +372,11 @@
         }
 
         /**
-         * Add function info here
+         * Carga el fichero associado al nombre de la classe de acción. Se busca el archivo en el 
+         * directorio especificado con setActionsClassPath
+         *
+         * @param actionClassName string Nombre de la classe de la acción
+         * @see setActionsClassPath
          */
         function loadActionClass($actionClassName)
         {
@@ -303,7 +387,9 @@
         }
 
         /**
-         * Add function info here
+         * Segueix la execució de la petició a una altra acció.
+         *
+         * @param actionName string
          */
         function forward($actionName)
         {
@@ -324,8 +410,10 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Redirecciona la petición a otra URL
+         *
+         * @param url string Una URL existente
+         */
         function redirect($url)
         {
             if (!empty($this->_user))
@@ -338,9 +426,9 @@
         }
 
         /**
-         * Processess the HTTP request sent by the client
+         * Se procesa la petición HTTP enviada por el cliente
          *
-         * @param httpRequest HTTP request sent by the client
+         * @param httpRequest petición HTTP personalizada, por defecto se recupera automáticamente <i>(opcional)</i>
          */
         function process($httpRequest = null)
         {

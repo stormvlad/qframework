@@ -37,6 +37,9 @@
 
         /**
         * Add function info here
+        *
+        * @param index 
+        * @return an event code
         */
         function getEventCode($index)
         {
@@ -50,6 +53,9 @@
 
         /**
         * Add function info here
+        *
+        * @param index
+        * @param code
         */
         function setEventCode($index, $code)
         {
@@ -87,22 +93,6 @@
         }
 
         /**
-         * Add function info here
-         */
-        function _dumpVars()
-        {
-            $vars = get_object_vars($this);
-            $res  = "[";
-
-            foreach ($vars as $key => $value)
-            {
-                $res .= " " . $key . "=" . $value;
-            }
-
-            return $res .= " ]";
-        }
-
-        /**
          * Returns the name of the class
          * @return String with the name of the class
          */
@@ -123,7 +113,7 @@
         /**
          * Returns true if the current class is a subclass of the given
          * class
-         * @param $object The object.
+         * @param mixed The object.
          * @return True if the object is a subclass of the given object or false otherwise.
          */
         function isSubclass($mixed)
@@ -143,8 +133,9 @@
         }
 
         /**
-         * Returns an array containing the methods available in this class
-         * @return Array containing all the methods available in the object.
+         * Devuelve un vector (matriz unidimensional) con todos los métodos disponibles en esta clase
+         *
+         * @return array
          */
         function getMethods()
         {
@@ -152,7 +143,9 @@
         }
 
         /**
-        * Add function info here
+        * Devuelve si existe un método con el nombre especificado
+        *
+        * @param method 
         */
         function hasMethod($method)
         {
@@ -160,10 +153,10 @@
         }
 
         /**
-         * Returns true if the class is of the given type.
+         * Devuelve si la classe es del tipo especificado
          *
-         * @param object Object
-         * @return Returns true if they are of the same type or false otherwise.
+         * @param mixed object / string - objeto tipo o nombre de una classe
+         * @return boolean true si son del mismo tipo
          */
         function typeOf($mixed)
         {
@@ -182,7 +175,10 @@
         }
 
         /**
-         * Add function info here
+         * Quitar evento de la lista del manipulador de eventos.
+         *
+         * @param event object / string - objeto tipo o nombre de una classe
+         * @returns boolean
          */
         function unregisterEvent($event)
         {
@@ -252,5 +248,23 @@
 
             return $eventManager->sendEvent($this, $eventCode, $eventArgs);
         }
+
+        //// \privatesection
+        /**
+         * Add function info here
+         */
+        function _dumpVars()
+        {
+            $vars = get_object_vars($this);
+            $res  = "[";
+
+            foreach ($vars as $key => $value)
+            {
+                $res .= " " . $key . "=" . $value;
+            }
+
+            return $res .= " ]";
+        }
+
     }
 ?>
