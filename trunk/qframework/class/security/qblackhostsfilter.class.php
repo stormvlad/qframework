@@ -1,6 +1,6 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/security/qfilterschain.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/security/qfilter.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/security/qblackhost.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qclient.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidator.class.php");
@@ -9,16 +9,16 @@
 
     define(ERROR_FILTER_BLACK_HOST_MATCHED, "error_filter_black_host_matched");
 
-    class qBlackHostsFilter extends qFiltersChain
+    class qBlackHostsFilter extends qFilter
     {
         var $_blackHosts;
 
         /**
         * Add function info here
         */
-        function qBlackHostsFilter()
+        function qBlackHostsFilter(&$controllerParams)
         {
-            $this->qFiltersChain();
+            $this->qFilter($controllerParams);
             $this->_blackHosts = array();
         }
 
@@ -66,7 +66,7 @@
         /**
         * Add function info here
         */
-        function filter(&$controller, &$httpRequest, &$user)
+        function filter()
         {
             $clientIp = qClient::getIp();
 

@@ -3,6 +3,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/action/qaction.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/controller/qcontrollerparams.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidationslist.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/security/qfilterschain.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/quser.class.php");
@@ -256,11 +257,11 @@
         /**
          *    Add function info here
          */
-        function _checkSecurity(&$action, &$httpRequest)
+        function _checkSecurityAction(&$action)
         {
             $result = true;
 
-            if ($perm = $action->isSecure())
+            if ($action->isSecure())
             {
                 if (!$this->_user->isAuthenticated())
                 {
@@ -268,13 +269,22 @@
                 }
                 else
                 {
+                    $perm = $action->getPermissions();
+
                     if (is_string($perm))
                     {
                         $result = $this->_user->hasPermission($perm);
                     }
                     elseif (is_array($perm))
                     {
-                        $result = $this->_user->hasPermission($perm[0], $perm[1]);
+                        if (count($perm) == 1)
+                        {
+                            $result = $this->_user->hasPermission($perm[0]);
+                        }
+                        elseif (count($perm) == 2)
+                        {
+                            $result = $this->_user->hasPermission($perm[0], $perm[1]);
+                        }
                     }
                 }
             }
@@ -287,20 +297,20 @@
          *
          * @param httpRequest HTTP request sent by the client
          */
-        function &_execute(&$action, &$httpRequest)
+        function &_execute(&$action, &$httpRequest, &$controllerParams)
         {
-            $filters = new qFiltersChain();
-            $action->registerFilters($this, $httpRequest, $this->_user, $filters);
+            $filters = new qFiltersChain($controllerParams);
+            $action->registerFilters($filters);
 
-            if (!$filters->filter($this, $httpRequest, $this->_user))
+            if (!$filters->filter())
             {
-                $view = $action->handleFilterError($this, $httpRequest, $this->_user, $filters->getError());
+                $view = $action->handleFilterError($filters->getError());
                 return $view;
             }
 
-            if (!$this->_checkSecurity(&$action, &$httpRequest))
+            if (!$this->_checkSecurityAction($action))
             {
-                $view = $action->handleSecureError($this, $httpRequest, $this->_user);
+                $view = $action->handleSecureError();
                 return $view;
             }
 
@@ -308,20 +318,20 @@
 
             if (($action->getValidationMethod() & $method) != $method)
             {
-                $view = $action->perform($this, $httpRequest, $this->_user);
+                $view = $action->perform();
                 return $view;
             }
 
             $validations = new qValidationsList();
-            $action->registerValidations($this, $httpRequest, $this->_user, $validations);
+            $action->registerValidations($validations);
 
-            if ($validations->validate($httpRequest->getAsArray()) && $action->validate($this, $httpRequest, $this->_user))
+            if ($validations->validate($httpRequest->getAsArray()) && $action->validate())
             {
-                $view = $action->performAfterValidation($this, $httpRequest, $this->_user);
+                $view = $action->performAfterValidation();
                 return $view;
             }
 
-            $view = $action->handleValidateError($this, $httpRequest, $this->_user, $validations->getErrors());
+            $view = $action->handleValidateError($validations->getErrors());
             return $view;
         }
 
@@ -357,10 +367,11 @@
             {
                 $actionClassName  = array_pop($this->_actionsChain);
                 $this->loadActionClass($actionClassName);
-                $actionObject     = new $actionClassName();
+                $controllerParams = new qControllerParams($this, $httpRequest, $this->_user);
+                $actionObject     = new $actionClassName($controllerParams);
                 $this->_forwarded = 0;
 
-                $view = &$this->_execute($actionObject, $httpRequest);
+                $view = &$this->_execute($actionObject, $httpRequest, $controllerParams);
             }
 
             if ($this->_sessionEnabled)
