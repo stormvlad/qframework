@@ -63,15 +63,15 @@
         **/
         function _validateValue($name, $value)
         {
-            $i      = 0;
-            $result = true;
+            $i            = 0;
+            $result       = true;
             $nonEmptyRule = false;
 
             if (array_key_exists($name, $this->_validations) && is_array($this->_validations[$name]))
             {
                 foreach ($this->_validations[$name] as $validation)
                 {
-                    if ($validation->typeOf("qNonEmptyRule"))
+                    if ($validation->typeOf("qNonEmptyRule") || $validation->typeOf("qRangeRule"))
                     {
                         $nonEmptyRule = $i;
                         break;
