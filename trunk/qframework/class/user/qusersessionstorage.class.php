@@ -6,12 +6,12 @@
      * Inherits from Properties but just to add some default
      * values to some settings
      */
-    class qSessionUserStorage extends qUserStorage
+    class qUserSessionStorage extends qUserStorage
     {
         /**
         * Add function info here
         */
-        function qSessionUserStorage()
+        function qUserSessionStorage()
         {
             $this->qUserStorage();
         }
