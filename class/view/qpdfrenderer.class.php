@@ -18,12 +18,12 @@
         /**
         * Add function info here
         */
-        function qPdfRenderer()
+        function qPdfRenderer($templatesDir = DEFAULT_PDF_TEMPLATES_DIR, $templatesExtension = DEFAULT_PDF_TEMPLATES_EXTENSION)
         {
             $this->qViewRenderer();
 
-            $this->_pdfTemplatesDir       = DEFAULT_PDF_TEMPLATES_DIR;
-            $this->_pdfTemplatesExtension = DEFAULT_PDF_TEMPLATES_EXTENSION;
+            $this->_pdfTemplatesDir       = $templatesDir;
+            $this->_pdfTemplatesExtension = $templatesExtension;
         }
 
         /**

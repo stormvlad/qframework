@@ -22,14 +22,14 @@
         /**
         * Add function info here
         */
-        function qSmartyRenderer()
+        function qSmartyRenderer($templatesDir = DEFAULT_SMARTY_TEMPLATES_DIR, $templatesExtension = DEFAULT_SMARTY_TEMPLATES_EXTENSION)
         {
             $this->qViewRenderer();
 
+            $this->_templatesDir       = $templatesDir;
+            $this->_templatesExtension = $templatesExtension;
             $this->_cacheDir           = DEFAULT_SMARTY_CACHE_DIR;
             $this->_compileDir         = DEFAULT_SMARTY_COMPILE_DIR;
-            $this->_templatesDir       = DEFAULT_SMARTY_TEMPLATES_DIR;
-            $this->_templatesExtension = DEFAULT_SMARTY_TEMPLATES_EXTENSION;
         }
 
         /**
