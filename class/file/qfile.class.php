@@ -322,6 +322,25 @@
         }
 
         /**
+        * Add function info here
+        */
+        function getNormalizedSize($file = null)
+        {
+            $size  = $this->getSize($file);
+            $sizes = array("B", "KB", "MB", "GB", "TB", "PB", "EB");
+            $ext   = $sizes[0];
+            $count = count($sizes);
+
+            for ($i = 1; ($i < $count) && ($size >= 1024); $i++)
+            {
+                $size = $size / 1024;
+                $ext  = $sizes[$i];
+            }
+
+            return round($size, $decimals). " " . $ext;
+        }
+
+        /**
          * renames a file
          *
          * http://www.php.net/manual/en/function.rename.php
@@ -349,11 +368,16 @@
         /**
         *    Add function info here
         */
-        function getExtension($fileName)
+        function getExtension($file = null)
         {
-            if (($pos = strrpos($fileName, ".")) !== false)
+            if (empty($file))
             {
-                return substr($fileName, $pos + 1, strlen($fileName) - $pos - 1);
+                $file = $this->_fileName;
+            }
+
+            if (($pos = strrpos($file, ".")) !== false)
+            {
+                return substr($file, $pos + 1, strlen($file) - $pos - 1);
             }
             else
             {

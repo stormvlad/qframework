@@ -52,6 +52,25 @@
         /**
          * Add function info here
          */
+        function getNormalizedSize()
+        {
+            $size  = $this->_size;
+            $sizes = array("B", "KB", "MB", "GB", "TB", "PB", "EB");
+            $ext   = $sizes[0];
+            $count = count($sizes);
+
+            for ($i = 1; ($i < $count) && ($size >= 1024); $i++)
+            {
+                $size = $size / 1024;
+                $ext  = $sizes[$i];
+            }
+
+            return round($size, $decimals). " " . $ext;
+        }
+
+        /**
+         * Add function info here
+         */
         function getPermissions()
         {
             return $this->_permissions;
@@ -79,6 +98,23 @@
         function getTimeStamp()
         {
             return $this->_timeStamp;
+        }
+
+        /**
+         * Add function info here
+         */
+        function getExtension()
+        {
+            $fileName = $this->getName();
+
+            if (($pos = strrpos($fileName, ".")) !== false)
+            {
+                return substr($fileName, $pos + 1, strlen($fileName) - $pos - 1);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /**
