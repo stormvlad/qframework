@@ -133,9 +133,9 @@
             $idFields   = $this->_db->MetaPrimaryKeys($tableName);
 
             $smartyView = new qSmartyView($this->_dbObjectTemplate, "");
-            $renderer   = &$smartyView->getRenderer();
 
-            $renderer->setTemplatesDir($this->_templatesDir);
+            $smarty = &$smartyView->getRendererEngine();
+            $smarty->template_dir = $this->_templatesDir;
 
             $className  = $this->_getTableNameToClassName($tableName . "DbObject");
 
@@ -158,9 +158,9 @@
         function _outputDaoTemplate($tableName)
         {
             $smartyView = new qSmartyView($this->_daoTemplate, "");
-            $renderer   = &$smartyView->getRenderer();
 
-            $renderer->setTemplatesDir($this->_templatesDir);
+            $smarty = &$smartyView->getRendererEngine();
+            $smarty->template_dir = $this->_templatesDir;
 
             $className  = $this->_getTableNameToClassName($tableName . "Dao");
 
