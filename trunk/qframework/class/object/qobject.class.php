@@ -9,8 +9,8 @@
      * All the objects should inherit from this one and call this constructor manually, due
      * to PHP not automatically calling the parent's class constructor when inheriting.
      */
-    class qObject {
-
+    class qObject
+    {
         var $_objId;
 
         /**
