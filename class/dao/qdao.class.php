@@ -18,6 +18,15 @@
         {
             $this->qObject();
 
+            if (defined("_DEBUG_DAO_"))
+            {
+                $this->setDebug(_DEBUG_DAO_);
+            }
+            else
+            {
+                $this->setDebug(false); // disable generic debug by default
+            }
+
             $this->_db        = &$db;
             $this->_tableName = $tableName;
         }
@@ -297,7 +306,8 @@
         */
         function getDbObjects($whereClause = null, $orderClause = null, $offset = null, $numRows = null)
         {
-            $objClassName = str_replace("dao", "dbobject", $this->getClassName());
+            $objClassName = str_replace("dao", "dbobject", $this->getClassName()); // PHP4
+            $objClassName = str_replace("Dao", "DbObject", $this->getClassName()); // PHP5
 
             if (!($result = $this->select($whereClause, $orderClause, $offset, $numRows)))
             {
