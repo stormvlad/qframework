@@ -166,8 +166,7 @@
         function update($obj)
         {
             $fields = $obj->getFields();
-
-            $sql = "UPDATE " . $this->_tableName . " SET ";
+            $sql    = "UPDATE " . $this->_tableName . " SET ";
 
             foreach ($fields as $field => $value)
             {
@@ -179,7 +178,7 @@
                 }
                 else if ($obj->hasNullValue($field))
                 {
-                    if ($value === 0)
+                    if ($value === 0 || $value === "0")
                     {
                         $sql .= $field . "='0', ";
                     }

@@ -34,9 +34,16 @@
         /**
         *    Add function info here
         **/
-        function addError($error)
+        function addError($error, $key = null)
         {
-            $this->_errors[] = $error;
+            if (empty($key))
+            {
+                $this->_errors[] = $error;
+            }
+            else
+            {
+                $this->_errors[$key] = $error;
+            }
         }
 
         /**

@@ -22,7 +22,7 @@
         /**
          * The constructor does nothing.
          */
-        function qRangeRule($minValue, $maxValue)
+        function qRangeRule($minValue, $maxValue = 0)
         {
             $this->qRule();
 
