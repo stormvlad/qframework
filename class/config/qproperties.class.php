@@ -2,6 +2,10 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
+    define("PROPERTIES_SLASHES_NONE", 0);
+    define("PROPERTIES_SLASHES_ADD", 1);
+    define("PROPERTIES_SLASHES_STRIP", 2);
+
     /**
      * Class inspired by the java class Properties
      */
@@ -75,13 +79,23 @@
          * Returns the value associated to a key
          *
          * @param key Key whose value we want to fetch
-         * @return Value associated to that key
+         * @return Value associated o that key
          */
-        function getValue($key)
+        function getValue($key, $slashes = PROPERTIES_SLASHES_NONE)
         {
             if (array_key_exists($key, $this->_props))
             {
-                return $this->_props[$key];
+                switch ($slashes)
+                {
+                    case PROPERTIES_SLASHES_ADD:
+                        return addSlashes($this->_props[$key]);
+
+                    case PROPERTIES_SLASHES_STRIP:
+                        return stripSlashes($this->_props[$key]);
+
+                    default:
+                        return $this->_props[$key];
+                }
             }
             else
             {
