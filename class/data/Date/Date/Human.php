@@ -16,7 +16,7 @@
 // | Author: Allan Kent <allan@lodestone.co.za>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Human.class.php,v 1.1 2003/11/26 14:43:09 phunkphorce Exp $
+// $Id: Human.php,v 1.3 2003/01/04 11:54:54 mj Exp $
 //
 
 /**

@@ -16,11 +16,11 @@
 // | Author: Leandro Lucarella <llucax@php.net>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Span.class.php,v 1.2 2004/01/28 17:48:28 phunkphorce Exp $
+// $Id: Span.php,v 1.4 2003/04/30 03:56:26 llucax Exp $
 //
 
-require_once 'qframework/class/data/Date/Date.class.php';
-require_once 'qframework/class/data/Date/Calc.class.php';
+require_once 'Date.php';
+require_once 'Date/Calc.php';
 
 /**
  * Non Numeric Separated Values (NNSV) Input Format.
@@ -63,7 +63,7 @@ $_DATE_SPAN_INPUT_FORMAT = DATE_SPAN_INPUT_FORMAT_NNSV;
  *
  * @package Date
  * @author  Leandro Lucarella <llucax@php.net>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.4 $
  * @since   1.4
  * @todo    Get and set default local input and output formats?
  * @access  public
@@ -451,7 +451,7 @@ class Date_Span {
      *
      * Set the span from the elapsed time between two dates. The time span
      * is allways positive, so the date's order is not important.
-     *
+     * 
      * @param  object Date $date1 First Date.
      * @param  object Date $date2 Second Date.
      *
