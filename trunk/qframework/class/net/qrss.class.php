@@ -1,7 +1,7 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/magpierss/rss_fetch.inc");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/libs/magpierss/rss_fetch.inc");
 
     /**
      * Encapsulates a definition of an object representing a URL

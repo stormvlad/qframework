@@ -1,8 +1,8 @@
-<?php
+ <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/mail/qemailmessage.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/mail/phpmailer/class.phpmailer.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/libs/phpmailer/class.phpmailer.php");
 
     define("DEFAULT_EMAIL_SERVICE_TYPE", "php");
 
