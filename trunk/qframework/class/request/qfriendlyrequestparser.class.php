@@ -14,18 +14,30 @@
      */
     class qFriendlyRequestParser extends qRequestParser
     {
+        var $_pathInfo;
+        var $_action;
+        var $_paramNames;
+        var $_paramValues;
+              
         function qFriendlyRequestParser()
         {            
             $this->qRequestParser("");
+            
+            $httpVars        = &qHttp::getRequestVars();
+            $this->_pathInfo = $httpVars->getValue(FRIENDLY_PATHINFO_PARAM);  
+             
+             if (substr($this->_pathInfo, 0, 1) == "/")
+            {
+                $this->_pathInfo = substr($this->_pathInfo, 1);
+            }         
         }
 
         function parse(&$request)
         {
-            $httpVars  = &qHttp::getRequestVars();
-            $path_info = $httpVars->getValue(FRIENDLY_PATHINFO_PARAM);           
+            $httpVars = &qHttp::getRequestVars();
             $request->setValuesByRef($httpVars->getAsArray());
             
-            $file      = APP_ROOT_PATH . "config/controllermap.properties.php";
+            $file = APP_ROOT_PATH . "config/controllermap.properties.php";
 
             if (!is_file($file) || !is_readable($file))
             {
@@ -34,45 +46,85 @@
             
             include($file);
 
-            $result = Array();
-            $count  = 0;
-
-            if (substr($path_info, 0, 1) == "/")
-            {
-                $path_info = substr($path_info, 1);
-            }
-
-            foreach ($urlpattern as $name => $pattern)
-            {                
-                $er    = preg_replace("/\{[_0-9a-zA-Z-]+\}/", "([_0-9a-zA-Z-]+)", $pattern);
-                $count = preg_match("#$er#", $path_info, $paramValues);
-
-                if ($count)
-                {
-                    array_shift($paramValues);
-                    $op          = $name;
-                    break;
-                }                                
-            }
-
-            if ($count == 0)
+            if (!$this->getParameters($urlpattern))
             {
                 if (!$request->keyExists("op"))
                 {
-                    $request->setValue("op", $path_info);
+                    $request->setValue("op", $this->_pathInfo);
                 }
                 return;
             }
-            
-            $request->setValue("op", $op);
 
-            preg_match_all("/\{([_0-9a-zA-Z-]+)?\}/", $urlpattern[$op], $matches);
-            $paramNames = $matches[1];
+            $request->setValue("op", $this->_action);
 
-            for ($i = 0; $i < count($paramValues); $i++)
+            for ($i = 0; $i < count($this->_paramNames); $i++)
             {
-                $request->setValue($paramNames[$i], (isset($paramValues[$i]) ? $paramValues[$i] : ""));
+                $request->setValue($this->_paramNames[$i], (isset($this->_paramValues[$i]) ? $this->_paramValues[$i] : ""));
             }
+        }
+        
+        function checkPatterns($urlPatterns)
+        {
+            foreach($urlPatterns as $action => $patterns)
+            {
+                if (is_array($patterns))
+                {
+                    foreach($patterns as $number => $pattern)
+                    {
+                        if ($this->checkPattern($pattern))
+                        {
+                            return array($action, $number);
+                        }
+                    }
+                }
+                else
+                {
+                    if ($this->checkPattern($patterns))
+                    {
+                        return array($name, null);
+                    }
+                }
+            }
+            
+            return array(null, null);
+        }
+
+        function checkPattern($pattern)
+        {
+            $er = preg_replace("/\{[_0-9a-zA-Z-]+\}/", "([_0-9a-zA-Z-]+)", $pattern);
+
+            return preg_match("#^$er$#", $this->_pathInfo);
+        }
+        
+        function getParameters($urlPatterns)
+        {
+            list($action, $number) = $this->checkPatterns($urlPatterns);
+
+            if ($action === null)
+            {
+                return false;
+            }
+            elseif ($number !== null)
+            {
+                $pattern = $urlPatterns[$action][$number];            
+            }
+            else
+            {
+                $pattern = $urlPatterns[$action];
+            }
+
+            $er = preg_replace("/\{[_0-9a-zA-Z-]+\}/", "([_0-9a-zA-Z-]+)", $pattern);
+            preg_match("#^$er$#", $this->_pathInfo, $values);
+            array_shift($values);
+
+            preg_match_all("/\{([_0-9a-zA-Z-]+)?\}/", $pattern, $matches);
+            $names = $matches[1];
+            
+            $this->_action      = $action;
+            $this->_paramNames  = $names;
+            $this->_paramValues = $values;
+            
+            return true;
         }
     }
 ?>

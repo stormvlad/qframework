@@ -245,9 +245,9 @@
          */
         function setAttributesByRef (&$attributes)
         {
-            foreach ($attributes as $key => &$value)
+            foreach ($attributes as $key => $value)
             {
-                $this->attributes[$key] =& $value;
+                $this->attributes[$key] =& $attributes[$value];
             }
         }
         
