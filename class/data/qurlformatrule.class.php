@@ -68,7 +68,7 @@
          */
         function qUrlFormatRule()
         {
-            $this->qRegExpRule(URL_FORMAT_RULE_REG_EXP, true);
+            $this->qRegExpRule(URL_FORMAT_RULE_REG_EXP, false);
         }
 
         /**
