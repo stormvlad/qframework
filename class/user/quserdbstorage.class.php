@@ -24,7 +24,7 @@
         */
         function _getSqlLoadStatement(&$user)
         {
-            throw(new Exception("qUserDbStorage::_getSqlLoadStatement: This method must be implemented by child classes."));
+            throw(new qException("qUserDbStorage::_getSqlLoadStatement: This method must be implemented by child classes."));
             die();
         }
 

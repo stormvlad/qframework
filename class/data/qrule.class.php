@@ -27,7 +27,7 @@
          */
         function validate($value)
         {
-            throw(new Exception("qRule::validate: This method must be implemented by child classes."));
+            throw(new qException("qRule::validate: This method must be implemented by child classes."));
             die();
         }
     }

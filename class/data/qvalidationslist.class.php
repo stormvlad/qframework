@@ -103,10 +103,17 @@
         **/
         function _validateValue($name, $value)
         {
-            if (empty($value) && $this->isRequired($name))
+            if (empty($value))
             {
-                $this->setError($name, ERROR_RULE_IS_EMPTY);
-                return false;
+                if ($this->isRequired($name))
+                {
+                    $this->setError($name, ERROR_RULE_IS_EMPTY);
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
 
             if (array_key_exists($name, $this->_validations) && is_array($this->_validations[$name]))

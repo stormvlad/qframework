@@ -505,6 +505,10 @@
             {
                 $timeStamp = mktime();
             }
+            else
+            {
+                $timeStamp = mktime(substr($timeStamp, 8, 2), substr($timeStamp, 10, 2), substr($timeStamp, 12, 2), substr($timeStamp, 4, 2), substr($timeStamp, 6, 2), substr($timeStamp, 0, 4));
+            }
 
             $hour        = (int) strftime("%H", $timeStamp);
             $hour2       = (int) strftime("%I", $timeStamp);
