@@ -249,7 +249,7 @@
         /**
         * Add function info here
         */
-        function getIdFields()
+        function &getIdFields()
         {
             return $this->_idFields;
         }

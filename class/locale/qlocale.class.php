@@ -656,5 +656,18 @@
 
             return $result;
         }
+
+        /**
+        * Add function info here
+        */
+        function today($format = null)
+        {
+            if (empty($format))
+            {
+                $format = $this->getDateFormat();
+            }
+
+            return $this->format($format);
+        }
     }
 ?>
