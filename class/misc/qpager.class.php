@@ -12,6 +12,8 @@
      */
     class qPager extends qObject
     {
+        var $_baseUrl;
+
         var $_offset;
         var $_totalRegs;
         var $_regsForPage;
@@ -34,14 +36,23 @@
          * @return The OS string.
          * @static
          */
-        function qPager($offset, $totalRegs, $regsForPage = DEFAULT_PAGER_REGS_FOR_PAGE, $maxPages = DEFAULT_PAGER_MAX_PAGES)
+        function qPager($baseUrl, $offset, $totalRegs, $regsForPage = DEFAULT_PAGER_REGS_FOR_PAGE, $maxPages = DEFAULT_PAGER_MAX_PAGES)
         {
+            $this->_baseUrl     = $baseUrl;
             $this->_offset      = $offset;
             $this->_totalRegs   = $totalRegs;
             $this->_regsForPage = $regsForPage;
             $this->_maxPages    = $maxPages;
 
             $this->_init();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setBaseUrl($url)
+        {
+            $this->_baseUrl = $url;
         }
 
         /**
@@ -69,6 +80,14 @@
         {
             $this->_regsForPage = $regs;
             $this->_init();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getBaseUrl()
+        {
+            return $this->_baseUrl;
         }
 
         /**
