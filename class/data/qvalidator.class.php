@@ -2,8 +2,6 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
-    define("DEFAULT_TRIM", true);
-
     /**
      * This is an implementation of the 'Strategy' pattern as it can be seen
      * http://www.phppatterns.com/index.php/article/articleview/13/1/1/. Here we use
@@ -15,74 +13,12 @@
      */
     class qValidator extends qObject
     {
-        var $value;
-        var $_valid;
-        var $_message;
-
         /**
          * The constructor does nothing.
          */
-        function qValidator($value = "", $trim = DEFAULT_TRIM)
+        function qValidator()
         {
             $this->qObject();
-
-            if ($trim)
-            {
-                $this->_value   = trim($value);
-            }
-            else
-            {
-                $this->_value   = $value;
-            }
-
-            $this->_valid   = false;
-            $this->_message = "";
-        }
-
-        function getValue()
-        {
-            return $this->_value;
-        }
-
-        function setValue($value)
-        {
-            $this->_value = $value;
-        }
-
-        function isEmpty()
-        {
-            return empty($this->_value);
-        }
-
-        /**
-         * Returns true if the condition imposed on the parameters is true. This method
-         * must be called after calling the validate() method.
-         *
-         * @return True if the parameter is correct or false otherwhise.
-         */
-        function isValid()
-        {
-            return $this->_valid;
-        }
-
-        /**
-         * Returns the error message set by the validate() method.
-         *
-         * @return The error message set by the validate() method.
-         */
-        function getMessage()
-        {
-            return $this->_message;
-        }
-
-        /**
-         * Sets the error message that will be returned in case there is an error.
-         *
-         * @param message The error message.
-         */
-        function setMessage( $message )
-        {
-            $this->_message = $message;
         }
 
         /**

@@ -129,22 +129,22 @@
          * @return Always returns true.
          * @static
          */
-        function setSession($sessionVars)
+        function setSession($sessionArray)
         {
             if (phpversion() >= "4.1.0")
             {
-                foreach ($sessionVars as $key => $value)
+                foreach ($sessionArray as $key => $value)
                 {
-                    $_SESSION["$key"] = $value;
+                    $_SESSION[$key] = $value;
                 }
             }
             else
             {
                 global $HTTP_SESSION_VARS;
 
-                foreach ($sessionVars as $key => $value)
+                foreach ($sessionArray as $key => $value)
                 {
-                    $HTTP_SESSION_VARS["$key"] = $value;
+                    $HTTP_SESSION_VARS[$key] = $value;
                 }
             }
 
@@ -221,61 +221,6 @@
             }
 
             return $requestVarsInstance;
-        }
-
-        /**
-         * Sets the value of the $_REQUEST array in PHP 4.1.0 or higher. If using a lower version,
-         * then the content of this array will be copied into $HTTP_GET_VARS
-         *
-         * @param requestArray An associative array with the contents of our future $_REQUEST
-         * array
-         * @return Returns always true.
-         */
-        function setRequest($requestArray)
-        {
-            if (phpversion() >= "4.1.0")
-            {
-                foreach ($requestArray as $key => $value)
-                {
-                    $_REQUEST["$key"] = $value;
-                }
-            }
-            else
-            {
-                HttpVars::setGet($requestArray);
-            }
-
-            return true;
-        }
-
-        /**
-         * Sets the value of the $_GET array in PHP 4.1.0 or higher and of the
-         * $HTTP_GET_VARS if lower.
-         *
-         * @param getArray An associative array with the contents of our future $_GET
-         * array
-         * @return Returns always true.
-         */
-        function setGet($getArray)
-        {
-            if (phpversion() >= "4.1.0")
-            {
-                foreach ($getArray as $key => $value)
-                {
-                    $_GET["$key"] = $value;
-                }
-            }
-            else
-            {
-                global $HTTP_GET_VARS;
-
-                foreach ($getArray as $key => $value)
-                {
-                    $HTTP_GET_VARS["$key"] = $value;
-                }
-            }
-
-            return true;
         }
 
         /**

@@ -13,10 +13,5 @@
         {
             $this->qHttpVars($params);
         }
-
-        function save()
-        {
-            qHttp::setGet($this->getAsArray());
-        }
     }
 ?>

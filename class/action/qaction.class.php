@@ -1,13 +1,12 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qrequest.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobservable.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
      * Abstract class representing an qAction.
      */
-    class qAction extends qObservable {
-
+    class qAction extends qObject
+    {
         // this is the pointer to the view associated with this action
         var $_view;
 
@@ -19,7 +18,7 @@
          */
         function qAction()
         {
-            $this->qObservable();
+            $this->qObject();
             $this->_view = null;
         }
 
