@@ -12,7 +12,7 @@
         /**
         * Add function info here
         */
-        function Db()
+        function qDb()
         {
             $this->qObject();
         }

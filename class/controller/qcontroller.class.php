@@ -5,6 +5,8 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidationslist.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/security/qfilterschain.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/quser.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/qusersessionstorage.class.php");
 
     define(DEFAULT_ACTION_PARAM, "op");
     define(DEFAULT_ACTION_NAME, "default");
@@ -44,6 +46,7 @@
         var $_sessionEnabled;
         var $_actionsChain;
         var $_forwarded;
+        var $_user;
 
         /**
          * $ActionsMap is an associative array of the form:
@@ -68,6 +71,7 @@
             $this->_sessionEnabled   = false;
             $this->_actionsChain     = array();
             $this->_forwarded        = 0;
+            $this->_user             = null;
         }
 
         /**
@@ -83,6 +87,22 @@
             }
 
             return $controllerInstance;
+        }
+
+        /**
+         * Add function info here
+         */
+        function &getUser()
+        {
+            return $this->_user;
+        }
+
+        /**
+         * Add function info here
+         */
+        function setUser(&$user)
+        {
+            $this->_user = $user;
         }
 
         /**
@@ -241,11 +261,17 @@
         function &_execute(&$action, &$httpRequest)
         {
             $filters = new qFiltersChain();
-            $action->registerFilters($this, $httpRequest, $filters);
+            $action->registerFilters($this, $httpRequest, $this->_user, $filters);
 
-            if (!$filters->filter($this, $httpRequest))
+            if (!$filters->filter($this, $httpRequest, $this->_user))
             {
-                $view = $action->handleFilterError($this, $httpRequest, $filters->getError());
+                $view = $action->handleFilterError($this, $httpRequest, $this->_user, $filters->getError());
+                return $view;
+            }
+
+            if ($action->isSecure() && !$this->_user->isAuthenticated())
+            {
+                $view = $action->handleSecureError($this, $httpRequest, $this->_user);
                 return $view;
             }
 
@@ -253,20 +279,20 @@
 
             if (($action->getValidationMethod() & $method) != $method)
             {
-                $view = $action->perform($this, $httpRequest);
+                $view = $action->perform($this, $httpRequest, $this->_user);
                 return $view;
             }
 
             $validations = new qValidationsList();
-            $action->registerValidations($this, $httpRequest, $validations);
+            $action->registerValidations($this, $httpRequest, $this->_user, $validations);
 
-            if ($validations->validate($httpRequest->getAsArray()) && $action->validate($this, $httpRequest))
+            if ($validations->validate($httpRequest->getAsArray()) && $action->validate($this, $httpRequest, $this->_user))
             {
-                $view = $action->performAfterValidation($this, $httpRequest);
+                $view = $action->performAfterValidation($this, $httpRequest, $this->_user);
                 return $view;
             }
 
-            $view = $action->handleValidateError($this, $httpRequest, $validations->getErrors());
+            $view = $action->handleValidateError($this, $httpRequest, $this->_user, $validations->getErrors());
             return $view;
         }
 
@@ -280,7 +306,13 @@
             if ($this->_sessionEnabled)
             {
                 session_start();
-                $session = &qHttp::getSessionVars();
+
+                if (empty($this->_user))
+                {
+                    $this->_user = new qUser(session_id(), new qUserSessionStorage());
+                }
+
+                $this->_user->load();
             }
 
             if (empty($httpRequest))
@@ -303,7 +335,7 @@
 
             if ($this->_sessionEnabled)
             {
-                $session->save();
+                $this->_user->store();
             }
 
             if (empty($view))

@@ -64,11 +64,11 @@
          * Processes the pipeline, using the request and blogInfo
          * objects as given in the constructor.
          */
-        function filter(&$controller, &$httpRequest)
+        function filter(&$controller, &$httpRequest, &$user)
         {
             foreach ($this->_filters as $filter)
             {
-                if (!$filter->filter($controller, $httpRequest))
+                if (!$filter->filter($controller, $httpRequest, &$user))
                 {
                     $this->_setError($filter->getError());
                     return false;

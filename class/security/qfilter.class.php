@@ -39,7 +39,7 @@
         /**
         * Add function info here
         */
-        function filter(&$controller, &$httpRequest)
+        function filter(&$controller, &$httpRequest, &$user)
         {
             throw(new qException("qFilter::filter: This method must be implemented by child classes."));
             die();
