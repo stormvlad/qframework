@@ -3,7 +3,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-     * @brief Manejador de subida de ficheros 
+     * @brief Manejador de subida de ficheros
      *
      * @author  qDevel - info@qdevel.com
      * @date    22/03/2005 16:14
