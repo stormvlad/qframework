@@ -21,26 +21,27 @@
         var $_attributesVolatile;
         var $_formValues;
         var $_permissions;
+        var $_lifeTime;
 
         /**
         * Add function info here
         */
-        function qUser($sid, &$storage)
+        function qUser($sid, &$storage, $lifeTime = 0)
         {
             $this->qObject();
 
-            $this->_sid                = $sid;
-            $this->_loaded             = false;
-            $this->_storage            = &$storage;
-            $this->_authenticated      = false;
-            $this->_loginName          = null;
-            $this->_lastActionTime     = null;
-            $this->_attributes         = new qProperties();
-            $this->_attributesVolatile = array();
-            $this->_formValues         = array();
-            $this->_permissions        = array();
+            $this->_sid      = $sid;
+            $this->_storage  = &$storage;
+            $this->_lifeTime = $lifeTime;
 
+            $this->reset();
             $this->load();
+
+            if ($this->isLifeTimeExpired())
+            {
+                $this->reset();
+                $this->destroy();
+            }
         }
 
         /**
@@ -69,6 +70,40 @@
         /**
         * Add function info here
         */
+        function reset()
+        {
+            $this->_loaded             = false;
+            $this->_authenticated      = false;
+            $this->_loginName          = null;
+            $this->_lastActionTime     = null;
+            $this->_attributes         = new qProperties();
+            $this->_attributesVolatile = array();
+            $this->_formValues         = array();
+            $this->_permissions        = array();
+        }
+
+        /**
+        * Add function info here
+        */
+        function isLifeTimeExpired()
+        {
+            if (empty($this->_lifeTime))
+            {
+                return false;
+            }
+
+            $time = $this->getLastActionTime();
+            $d1   = new qDate($time);
+            $sec1 = $d1->getDate(DATE_FORMAT_UNIXTIME);
+            $d2   = new qDate();
+            $sec2 = $d2->getDate(DATE_FORMAT_UNIXTIME);
+
+            return ($sec2 - $sec1 >= $this->_lifeTime) && !empty($time);
+        }
+
+        /**
+        * Add function info here
+        */
         function getSid()
         {
             return $this->_sid;
@@ -80,6 +115,28 @@
         function setSid($sid)
         {
             $this->_sid = $sid;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getLifeTime()
+        {
+            return $this->_lifeTime;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setLifeTime($time)
+        {
+            $this->_lifeTime = $time;
+
+            if ($this->isLifeTimeExpired())
+            {
+                $this->reset();
+                $this->destroy();
+            }
         }
 
         /**
@@ -443,7 +500,7 @@
             }
 
             unset($_COOKIE[session_name()]);
-            session_destroy();
+            @session_destroy();
         }
     }
 ?>
