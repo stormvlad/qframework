@@ -2,6 +2,8 @@
 
      include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
      include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/misc/qutils.class.php");
+     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qfilelist.class.php");
+     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qfilelocallister.class.php");
 
      define("DEFAULT_FILE_DIRECTORY_UMASK", 0777);
 
