@@ -4,8 +4,13 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qfile.class.php");
 
     /**
-    * File upload class
-    */
+     * @brief Creación de previsualizaciones (thumbnails)
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:53
+     * @version 1.0
+     * @ingroup misc
+     */
     class qImage extends qObject
     {
         var $_fileName;

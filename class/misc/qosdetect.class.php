@@ -3,9 +3,15 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-     * Operating system detection functions. This class provides a bunch of functions in order to detect
-     * on which operating system our php parser is running. Please bear in mind that this has not been
-     * thoroughly tested and that at the moment it only provides detection for windows and linux.
+     * @brief Detección del Sistema Operativo
+     *
+     * Proporciona funciones para detectar el operatio en el cual el sistema se
+     * esta ejecutando. Actualmente sólo se implementa para Windows y Linux.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:54
+     * @version 1.0
+     * @ingroup misc
      */
     class qOsDetect extends qObject
     {

@@ -7,11 +7,26 @@
     define("DEFAULT_EMAIL_SERVICE_TYPE", "php");
 
     /**
+     * @brief Proporciona servicios para enviar emails 
+     * con la capacidades del nPHP
      * Provides services to send emails via PHPs built-in smtp capabilities.
      *
-     * This service can be enabled or disabled by using the "email_service_enabled" from
-     * the configuration file. It also requires PHP to be built with the smtp handling
-     * libraries and those must be enabled.
+     * Este servicio tiene dependencias externas según el método que empleemos
+     * para mandar los emails. Existen los siguientes métodos:
+     *
+     * - smtp - soporte sockets incluido en el nucleo de PHP
+     * - php - soporte mail() que requiere sendmail en Linux, o la configuración adecuada de php.ini en Windows
+     * - sendmail MTA - requiere la configuración adecuada de este agente
+     * - qmail MTA - requiere la configuración adecuada de este agente
+     *
+     * Mas información:
+     * - http://phpmailer.sourceforge.net/
+     * - http://es2.php.net/mail
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 14:13
+     * @version 1.0
+     * @ingroup net
      */
     class qEmailService extends qObject
     {

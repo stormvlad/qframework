@@ -3,23 +3,25 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-     * Encapsulates a definition of an object representing a URL
+     * @brief Encapsula la definición de un objeto que representa una URL
+     * 
+     * Proporciona métodos para establecer y recuperar todas las partes de una URL:
+     * - url (the complete url)
+     * - scheme
+     * - host     
+     * - user
+     * - password
+     * - path
+     * - query
+     * - fragment
      *
-     * Provides getters and setters for all the parts of the url:
-     * <ul>
-     * <li>url (the complete url)</li>
-     * <li>scheme</li>
-     * <li>host</li>
-     * <li>user</li>
-     * <li>password</li>
-     * <li>path</li>
-     * <li>query</li>
-     * <li>fragment</li>
+     * Cada vez que se efectua un cambio en uno de los campos la cadena URL
+     * se recalcula y cuando llamamos a la función getUrl devuleve la correta.
      *
-     * </ul>
-     * Every time a change is made in one of the fields the
-     * url string is recalculated so that any call to getUrl
-     * will return the right one.
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 13:04
+     * @version 1.0
+     * @ingroup net
      */
     class qUrl extends qObject
     {

@@ -9,9 +9,14 @@
     define("GETTEXT_LANGUAGE_TEAM", "qDevel <info@qdevel.com>");
 
     /**
-     * Extends the Properties class so that our own configuration file is automatically loaded.
-     * The configuration file is under config/config.properties.php
+     * @brief Servicio de almacenaje en un fichero de formato Gettext
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:49
+     * @version 1.0
+     * @ingroup i18n
      */
+
     class qLocaleGettextStorage extends qLocaleStorage
     {
         var $_meta;

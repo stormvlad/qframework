@@ -3,8 +3,16 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qsearchrequestparser.class.php");
 
     /**
-    * qSimpleSearchRequestParser class
-    */
+     * @brief Analizador de cadenas de búsqueda
+     * 
+     * Descompone la cadena en terminos deshechando los espacios encontrados entre palabras.
+     * Cada palabra equivale a un termino de búsqueda.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:03
+     * @version 1.0
+     * @ingroup data
+     */
     class qSimpleSearchRequestParser extends qSearchRequestParser
     {
         var $_terms;

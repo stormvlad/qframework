@@ -13,11 +13,7 @@
      */
     
     /**
-     * This is the highest class on the top of our hierarchy. Provides some common methods
-     * useful to deal with objects, an also some commodity methods for debugging such as
-     * toString, which will dump the names and the values of the attributes of the object.
-     * All the objects should inherit from this one and call this constructor manually, due
-     * to PHP not automatically calling the parent's class constructor when inheriting.
+     * @brief Manipulador de eventos
      *
      * @author  qDevel - info@qdevel.com
      * @date    05/03/2005 19:19

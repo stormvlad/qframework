@@ -4,23 +4,27 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/libs/magpierss/rss_fetch.inc");
 
     /**
-     * Encapsulates a definition of an object representing a URL
+     * @brief Encapsula el acceso a una recurso RSS
      *
-     * Provides getters and setters for all the parts of the url:
-     * <ul>
-     * <li>url (the complete url)</li>
-     * <li>scheme</li>
-     * <li>host</li>
-     * <li>user</li>
-     * <li>password</li>
-     * <li>path</li>
-     * <li>query</li>
-     * <li>fragment</li>
+     * Esta clase es un simple enmascaramiento para qFramework de la 
+     * libreria funciones <a href="http://magpierss.sourceforge.net/">MagpieRSS</a>.
+     * 
+     * <a href="http://es.wikipedia.org/wiki/RSS">RSS</a> es un acrónimo que tiene diferentes significados, 
+     * pero el más aceptado es Really Simple Syndication (sindicación realmente simple). Es un formato XML indicado 
+     * especialmente para sitios de noticias que cambien con relativa frecuencia, cuyos documentos
+     * están estructurados en canales que a su vez se componen de artículos. Se ha popularizado
+     * especialmente como un formato alternativo de difusión de weblogs.
      *
-     * </ul>
-     * Every time a change is made in one of the fields the
-     * url string is recalculated so that any call to getUrl
-     * will return the right one.
+     * Mas información sobre la libreria MagpieRSS:
+     * - http://magpierss.sourceforge.net/
+     *
+     * Mas información sobre RSS:
+     * - http://es.wikipedia.org/wiki/RSS
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 18:00
+     * @version 1.0
+     * @ingroup net
      */
     class qRss extends qObject
     {

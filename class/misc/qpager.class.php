@@ -6,9 +6,12 @@
     define("DEFAULT_PAGER_MAX_PAGES", 10);
 
     /**
-     * Operating system detection functions. This class provides a bunch of functions in order to detect
-     * on which operating system our php parser is running. Please bear in mind that this has not been
-     * thoroughly tested and that at the moment it only provides detection for windows and linux.
+     * @brief Generación de un páginador para listados
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:55
+     * @version 1.0
+     * @ingroup misc
      */
     class qPager extends qObject
     {

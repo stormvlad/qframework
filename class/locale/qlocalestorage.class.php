@@ -3,9 +3,13 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-    * Interface class that defines the methods that should be implemented
-    * by child classes wishing to implement a configuratino settings storage backend.
-    */
+     * @brief Servicio de almacenaje de ficheros de idioma
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:49
+     * @version 1.0
+     * @ingroup i18n
+     */
     class qLocaleStorage extends qObject
     {
         /**

@@ -7,7 +7,27 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qclient.class.php");
 
     /**
-     * Provides a singleton for accessing the db.
+     * @brief Libreria de abstracción de la base de datos
+     * 
+     * Esta clase es un simple enmascaramiento para qFramework de la 
+     * libreria ADOdb (Database Abstraction Library for PHP).
+     *
+     * Se ha elejido esta libreria por sus ventajas:
+     * - Diseñada para ser veloz
+     * - Proporciona portabilidad 
+     * - Fácil de aprender
+     * - Calidad del código fuente
+     * - Su uso implantado y extenso
+     * - Licencia LGPL
+     *
+     * Mas información:    
+     * http://adodb.sourceforge.net/
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    06/03/2005 19:36
+     * @version 1.0
+     * @ingroup dao
+     * @see qDao Se usa conjuntamnte con los objetos de acceso a datos
      */
     class qDb extends qObject
     {
@@ -15,8 +35,8 @@
         var $_queryCount;
 
         /**
-        * Add function info here
-        */
+         * Constructor
+         */
         function qDb(&$db)
         {
             $this->qObject();

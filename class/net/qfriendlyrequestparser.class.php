@@ -4,6 +4,14 @@
     
     define("FRIENDLY_PATHINFO_PARAM", "q");
 
+    /**
+     * @brief Analizador fácil de cadenas de petición HTTP GET
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 18:19
+     * @version 1.0
+     * @ingroup net
+     */
     class qFriendlyRequestParser extends qRequestParser
     {
         function qFriendlyRequestParser($function, $path_info = null)

@@ -5,8 +5,15 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qvalidator.class.php");
 
     /**
-    * qUrlDownloader Base Class
-    */
+     * @brief Servicio de descarga de ficheros con sockets
+     *
+     * Nota: No se necesitan bibliotecas externas para construir esta clase, son parte del núcleo de PHP.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 13:04
+     * @version 1.0
+     * @ingroup net
+     */
     class qUrlDownloaderBySocket extends qUrlDownloader
     {
         /**

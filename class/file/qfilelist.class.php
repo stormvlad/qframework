@@ -11,10 +11,13 @@
     define("FILE_LIST_SORT_DESC", 2);
 
     /**
-    * Encapsulation of a class to manage files. It is basically a wrapper
-    * to some of the php functions.
-    * http://www.php.net/manual/en/ref.filesystem.php
-    */
+     * @brief Lista los archivos de un directorio
+     * 
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 13:58
+     * @version 1.0
+     * @ingroup file
+     */
     class qFileList extends qObject
     {
         var $_lister;

@@ -3,13 +3,28 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-    * qLdap class to a LDAP server database.
-    *
-    * LDAP is the Lightweight Directory Access Protocol, and is a protocol used to access "Directory Servers".
-    * The Directory is a special kind of database that holds information in a tree structure.
-    *
-    * LDAP support in PHP is not enabled by default. You will need to compile PHP with LDAP support.
-    */
+     * @brief Encapsula el acceso a una base de datos LDAP
+     *
+     * Esta clase es un simple enmascaramiento para qFramework de las 
+     * funciones de LDAP incluidas en PHP.
+     * 
+     * LDAP es el protocolo de acceso a directorios ligero (Lightweight Directory Access Protocol), 
+     * un protocolo usado para acceder a "Servidores de Directorio". El directorio es una clase especial
+     * de base de datos que contiene información estructurada en forma de árbol.
+     *
+     * Mas inormación sobre las funciones LDAP:     
+     * - http://es.php.net/ldap
+     *
+     * Mas información sobre LDAP se puede encontrar en:
+     * - <a href="http://developer.netscape.com/tech/directory/" target="_blank">Netscape</a>
+     * - <a href="http://www.openldap.org/" target="_blank">OpenLDAP Project</a>
+     * - <a href="http://www.innosoft.com/ldapworld/" target="_blank">LDAP World</a>
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 18:00
+     * @version 1.0
+     * @ingroup net
+     */
     class qLdap extends qObject
     {
         var $_host;

@@ -3,8 +3,12 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/quserstorage.class.php");
 
     /**
-     * Inherits from Properties but just to add some default
-     * values to some settings
+     * @brief Servicio de almacenaje para los datos de usuario en base de datos 
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    18/03/2005 20:42
+     * @version 1.0
+     * @ingroup core
      */
     class qUserDbStorage extends qUserStorage
     {

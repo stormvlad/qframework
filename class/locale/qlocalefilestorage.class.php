@@ -4,8 +4,12 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/locale/qlocalestorage.class.php");
 
     /**
-     * Extends the Properties class so that our own configuration file is automatically loaded.
-     * The configuration file is under config/config.properties.php
+     * @brief Servicio de almacenaje en un fichero de texto de un idioma 
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:49
+     * @version 1.0
+     * @ingroup i18n
      */
     class qLocaleFileStorage extends qLocaleStorage
     {

@@ -7,10 +7,21 @@
     define("DEFAULT_MXRR_REG_EXP", "^%host\tMX preference = ([0-9]+), mail exchanger = (.*)$");
 
     /**
-     * Implementation of an alternative version of the checkdnsrr and getmxrr functions which
-     * are not available in the windows version of the php. The class detects wether we're
-     * running windows or linux and then depending on the result, we will use the faster and native
-     * version or the alternative one.
+     * @brief Comprueba registros DNS 
+     *
+     * Esta clase proporciona una implementación alternativa a las funciones checkdnsrr y getmxrr
+     * que no se encuentran disponibles en las versiones Windows de PHP. Esta clase detecta cuando
+     * el script se está ejecutando en Windows o Linux y dependiendo del resultado, usa la función
+     * nativa, más rápida, o la función alternativa.
+     *
+     * Mas información:
+     * - http://es.php.net/checkdnsrr
+     * - http://es.php.net/getmxrr
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 14:13
+     * @version 1.0
+     * @ingroup net
      */
     class qDns extends qObject
     {

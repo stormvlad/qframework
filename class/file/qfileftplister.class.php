@@ -3,10 +3,14 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qfilelister.class.php");
 
     /**
-    * Encapsulation of a class to manage files. It is basically a wrapper
-    * to some of the php functions.
-    * http://www.php.net/manual/en/ref.filesystem.php
-    */
+     * @brief Servicio para listar los archivos de un directorio remoto en FTP
+     * 
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 13:58
+     * @version 1.0
+     * @ingroup file
+     * @see qFileList
+     */
     class qFileFtpLister extends qFileLister
     {
         var $_ftp;

@@ -3,8 +3,14 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-    * Add function info here
-    */
+     * @brief Resaltador de terminos encontrados en una cadena
+     * 
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 17:03
+     * @version 1.0
+     * @ingroup data
+     * @note Se puede usar como un modificador de Smarty
+     */
     class qStringHighlighter extends qObject
     {
         var $_colors;

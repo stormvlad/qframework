@@ -15,14 +15,17 @@
     define("REQUEST_METHOD_ANY",  REQUEST_METHOD_GET | REQUEST_METHOD_POST);
 
     /**
-     * HttpVars compatibility package, which allows to fetch some of php's basic
-     * global variables without having to worry about which version of php we're using.
-     * The problem here is that since PHP 4.1.0 things like $_REQUEST, $_POST, $_GET, etc
-     * are available, and before that their equivalents were $HTTP_GET_VARS,
-     * $HTTP_POST_VARS and so on. By using this package and calling the functions
-     * getPostVars, getGetVars, getSessionVars/setSessionVars we will get rid of any
-     * incompatibility with the version of php we are running while having access to the
-     * variables we most need.
+     * @brief Acceso único a las variables predefinidas 
+     *
+     * Esta clase proporciona métodos basados en el patrón Singleton para
+     * asegurarnos el acceso global a la misma instancia de las variables 
+     * con un punto global de accesso a ellas.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 13:40
+     * @version 1.0
+     * @ingroup net
+     * @see qHttpVars
      */
     class qHttp extends qObject
     {

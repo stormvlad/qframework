@@ -5,8 +5,13 @@
     define("DEFAULT_URL_DOWNLOADER_DATA_BLOCK_SIZE", 8192);
 
     /**
-    * qUrlDownloader Base Class
-    */
+     * @brief Servicio de descarga remota según una URL
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    22/03/2005 13:04
+     * @version 1.0
+     * @ingroup net
+     */
     class qUrlDownloader extends qObject
     {
         var $_dataBlockSize;
