@@ -5,7 +5,7 @@
 
     define("DEFAULT_DAO_GENERATOR_OUTPUT_DIR", "tmp/");
     define("DEFAULT_DAO_GENERATOR_TEMPLATE_DAO", "dao");
-    define("DEFAULT_DAO_GENERATOR_TEMPLATE_DB_OBJECT", "db_object");
+    define("DEFAULT_DAO_GENERATOR_TEMPLATE_DB_OBJECT", "dbobject");
     define("DEFAULT_DAO_GENERATOR_TEMPLATES_DIR", "templates/dao_generator/");
 
     /**
