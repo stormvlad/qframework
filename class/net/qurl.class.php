@@ -33,160 +33,32 @@
         var $_query;
         var $_fragment;
 
-        function qUrl( $url )
+        /**
+        *    Add function info here
+        */
+        function qUrl($url)
         {
             $this->qObject();
 
             $this->_url = $url;
-
             $this->_calculateFields();
-        }
-
-        function _calculateFields()
-        {
-            $parts = parse_url( $this->_url );
-
-            $keys = Array( "scheme", "host", "port", "user", "pass",
-                          "path", "query", "fragment" );
-
-            // this saves us time ;)
-            foreach( $keys as $key ) {
-                $line = "\$this->_$key = \$parts[\"$key\"];";
-                eval($line);
-            }
-        }
-
-        function getUrl()
-        {
-            return $this->_url;
-        }
-
-        function setUrl( $url )
-        {
-            $this->_url = $url;
-
-            $this->_calculateFields();
-        }
-
-        function getScheme()
-        {
-            return $this->_scheme;
-        }
-
-        function setScheme( $scheme )
-        {
-            $this->_scheme = $scheme;
-
-            $this->glueUrl();
-        }
-
-        function getHost()
-        {
-            return $this->_host;
-        }
-
-        function setHost( $host )
-        {
-            $this->_host = $host;
-
-            $this->glueUrl();
-        }
-
-        function getPort()
-        {
-            return $this->_port;
-        }
-
-        function setPort( $port )
-        {
-            $this->_port = $port;
-
-            $this->glueUrl();
-        }
-
-        function getUser()
-        {
-            return $this->_user;
-        }
-
-        function setUser( $user )
-        {
-            $this->_user = $user;
-
-            $this->glueUrl();
-        }
-
-        function getPass()
-        {
-            return $this->_pass;
-        }
-
-        function setPass( $pass )
-        {
-            $this->_pass = $pass;
-
-            $this->glueUrl();
-        }
-
-        function getPath()
-        {
-            return $this->_path;
-        }
-
-        function setPath( $path )
-        {
-            $this->_path = $path;
-
-            $this->glueUrl();
-        }
-
-        function getQuery()
-        {
-            return $this->_query;
         }
 
         /**
-         * Returns the query as an array of items
-         *
-         * @return An associative array where the keys are the name
-         * of the parameters and the value is the value assigned to
-         * the parameter.
-         */
-        function getQueryArray()
+        *    Add function info here
+        */
+        function _calculateFields()
         {
-            // first, separate all the different parameters
-            $reqParams = explode( "&", $this->_query );
-
-            $results = Array();
-            foreach( $reqParams as $param ) {
-                // now, for every parameter, get rid of the '='
-                $parts = explode( "=", $param );
-                $var = $parts[0];
-                $value = urldecode($parts[1]);
-
-                $results[$var] = $value;
-            }
-
-            return $results;
-        }
-
-        function setQuery( $query )
-        {
-            $this->_query = $query;
-
-            $this->glueUrl();
-        }
-
-        function getFragment()
-        {
-            return $this->_fragment;
-        }
-
-        function setFragment( $fragment )
-        {
-            $this->_fragment = $fragment;
-
-            $this->glueUrl();
+            $parts           = parse_url($this->_url);
+            $this->_url      = $parts["url"];
+            $this->_scheme   = $parts["scheme"];
+            $this->_host     = $parts["host"];
+            $this->_port     = $parts["port"];
+            $this->_user     = $parts["user"];
+            $this->_pass     = $parts["pass"];
+            $this->_path     = $parts["path"];
+            $this->_query    = $parts["query"];
+            $this->_fragment = $parts["fragment"];
         }
 
         /**
@@ -198,19 +70,193 @@
          *
          * Extracted from http://www.php.net/manual/en/function.parse-url.php
          */
-        function glueUrl()
+        function _glueUrl()
         {
-             $uri = $this->_scheme ? $this->_scheme.':'.((strtolower($this->_scheme) == 'mailto') ? '':'//'): '';
-             $uri .= $this->_user ? $this->_user.($this->_pass? ':'.$this->_pass:'').'@':'';
-             $uri .= $this->_host ? $this->_host : '';
-             $uri .= $this->_port ? ':'.$this->_port : '';
-             $uri .= $this->_path ? $this->_path : '';
-             $uri .= $this->_query ? '?'.$this->_query : '';
-             $uri .= $this->_fragment ? '#'.$this->_fragment : '';
+             $uri  = $this->_scheme ? $this->_scheme . ":" . ((strtolower($this->_scheme) == "mailto") ? "" : "//") : "";
+             $uri .= $this->_user ? $this->_user . ($this->_pass ? ":" . $this->_pass : "") . "@" : "";
+             $uri .= $this->_host ? $this->_host : "";
+             $uri .= $this->_port ? ":" . $this->_port : "";
+             $uri .= $this->_path ? $this->_path : "";
+             $uri .= $this->_query ? "?" . $this->_query : "";
+             $uri .= $this->_fragment ? "#" . $this->_fragment : "";
 
             $this->_url = $uri;
+        }
 
-            return $uri;
+        /**
+        *    Add function info here
+        */
+        function getUrl()
+        {
+            return $this->_url;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setUrl($url)
+        {
+            $this->_url = $url;
+            $this->_calculateFields();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getScheme()
+        {
+            return $this->_scheme;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setScheme($scheme)
+        {
+            $this->_scheme = $scheme;
+            $this->_glueUrl();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getHost()
+        {
+            return $this->_host;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setHost($host)
+        {
+            $this->_host = $host;
+            $this->_glueUrl();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getPort()
+        {
+            return $this->_port;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setPort($port)
+        {
+            $this->_port = $port;
+            $this->_glueUrl();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getUser()
+        {
+            return $this->_user;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setUser($user)
+        {
+            $this->_user = $user;
+            $this->_glueUrl();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getPass()
+        {
+            return $this->_pass;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setPass($pass)
+        {
+            $this->_pass = $pass;
+            $this->_glueUrl();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getPath()
+        {
+            return $this->_path;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setPath($path)
+        {
+            $this->_path = $path;
+            $this->_glueUrl();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getQuery()
+        {
+            return $this->_query;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setQuery($query)
+        {
+            $this->_query = $query;
+            $this->_glueUrl();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getFragment()
+        {
+            return $this->_fragment;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setFragment($fragment)
+        {
+            $this->_fragment = $fragment;
+            $this->_glueUrl();
+        }
+
+        /**
+         * Returns the query as an array of items
+         *
+         * @return An associative array where the keys are the name
+         * of the parameters and the value is the value assigned to
+         * the parameter.
+         */
+        function getQueryArray()
+        {
+            $reqParams = explode("&", $this->_query);
+            $results   = array();
+
+            foreach ($reqParams as $param)
+            {
+                $parts         = explode("=", $param);
+                $var           = $parts[0];
+                $value         = urldecode($parts[1]);
+                $results[$var] = $value;
+            }
+
+            return $results;
         }
     }
 ?>
