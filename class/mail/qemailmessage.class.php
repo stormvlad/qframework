@@ -44,7 +44,12 @@
          */
         function addTo($to)
         {
-            array_push($this->_toAddrs, rtrim($to));
+            $addreces = explode(",", $to);
+
+            foreach ($addreces as $address)
+            {
+                array_push($this->_toAddrs, trim($address));
+            }
         }
 
         /**
@@ -54,7 +59,12 @@
          */
         function addCc($cc)
         {
-            array_push($this->_ccAddrs, rtrim($cc));
+            $addreces = explode(",", $cc);
+
+            foreach ($addreces as $address)
+            {
+                array_push($this->_ccAddrs, trim($address));
+            }
         }
 
         /**
@@ -64,7 +74,12 @@
          */
         function addBcc($bcc)
         {
-            array_push($this->_bccAddrs, rtrim($bcc));
+            $addreces = explode(",", $bcc);
+
+            foreach ($addreces as $address)
+            {
+                array_push($this->_bccAddrs, trim($address));
+            }
         }
 
         /**
