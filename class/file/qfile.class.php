@@ -29,6 +29,35 @@
         }
 
         /**
+        * Add function info here
+        */
+        function getFileName()
+        {
+            return $this->_fileName;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setFileName($name)
+        {
+            $this->_fileName = $name;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getAbsoluteFileName($file = null)
+        {
+            if (empty($file))
+            {
+                $file = $this->_fileName;
+            }
+
+            return realpath($file);
+        }
+
+        /**
          * Opens the file in the specified mode
          * http://www.php.net/manual/en/function.fopen.php
          * Mode by default is 'r' (read only)
