@@ -1,7 +1,6 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qfile.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfigstorage.class.php");
 
     /**
