@@ -10,6 +10,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/qusersessionstorage.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qdate.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/logging/qlogmanager.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qredirectview.class.php");
 
     define("DEFAULT_ACTION_PARAM", "op");
     define("DEFAULT_ACTION_NAME", "default");
@@ -302,6 +303,15 @@
         }
 
         /**
+        * Add function info here
+        */
+        function redirect($url)
+        {
+            $view = new qRedirectView($url);
+            print $view->render();
+        }
+
+        /**
          * Processess the HTTP request sent by the client
          *
          * @param httpRequest HTTP request sent by the client
@@ -309,8 +319,8 @@
         function process($httpRequest = null)
         {
             // register error handler as default logger's standard() method
-            $logManager =& qLogManager::getInstance();
-            $logger     =& $logManager->getLogger("default");
+            $logManager = &qLogManager::getInstance();
+            $logger     = &$logManager->getLogger("default");
 
             set_error_handler(array(&$logger, "standard"));
 
