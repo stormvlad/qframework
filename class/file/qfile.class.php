@@ -50,10 +50,15 @@
          * Read the whole file and put it into an array, where every position
          * of the array is a line of the file (new-line characters not included)
          */
-        function readFile()
+        function readFile($file = null)
         {
+            if (empty($file))
+            {
+                $file = $this->_fileName;
+            }
+
             $contents = Array();
-            $contents = file($this->_fileName);
+            $contents = file($file);
 
             for ($i = 0; $i < count($contents); $i++)
             {
