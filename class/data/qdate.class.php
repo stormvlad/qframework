@@ -1,6 +1,6 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/Date/Date.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/Date/Date.php");
 
     class qDate extends Date
     {
