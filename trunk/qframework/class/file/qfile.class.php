@@ -1,8 +1,9 @@
 <?php
 
      include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/misc/qutils.class.php");
 
-     define(FILE_DEFAULT_DIRECTORY_CREATION_MODE, 0700);
+     define(DEFAULT_FILE_DIRECTORY_UMASK, 0777);
 
     /**
      * Encapsulation of a class to manage files. It is basically a wrapper
@@ -13,7 +14,6 @@
      {
         var $_fileName;
         var $_handler;
-        var $_mode;
 
         /**
         *    Add function info here
@@ -23,6 +23,7 @@
             $this->qObject();
 
             $this->_fileName = $fileName;
+            $this->_handler  = null;
         }
 
         /**
@@ -34,8 +35,6 @@
         function open($mode = "r")
         {
             $this->_handler = fopen($this->_fileName, $mode);
-            $this->_mode    = $mode;
-
             return $this->_handler;
         }
 
@@ -107,7 +106,6 @@
          */
         function writeLines($lines)
         {
-            // truncate the file to remove the old contents
             $this->truncate();
 
             foreach ($lines as $line)
@@ -119,6 +117,25 @@
             }
 
             return true;
+        }
+
+        /**
+         * Returns true wether the file is a directory. See
+         * http://fi.php.net/manual/en/function.is-dir.php for more details.
+         *
+         * @param file The filename we're trying to check. If omitted, the current file
+         * will be used (note that this function can be used as static as long as the
+         * file parameter is provided)
+         * @return Returns true if the file is a directory.
+         */
+        function exists($file = null)
+        {
+            if (empty($file))
+            {
+                $file = $this->_fileName;
+            }
+
+            return file_exists($file);
         }
 
         /**
@@ -175,20 +192,86 @@
         /**
         *    Add function info here
         */
-        function delete($file = null)
+        function _rmDir($file)
+        {
+            $l       = new qFileList(new qFileLocalLister());
+            $entries = $l->ls($file);
+            $result  = true;
+
+            foreach ($entries as $entry)
+            {
+                $result &= qFile::rm($file . $entry->getName());
+            }
+
+            $result &= rmdir($file);
+            return $result;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function rm($file = null)
         {
             if (empty($file))
             {
                 $file = $this->_fileName;
             }
 
-            if (File::isDir($file))
+            if (qFile::isDir($file))
             {
-                $result = rmdir($file);
+                $result = qFile::_rmDir(qUtils::addDirSep($file));
             }
             else
             {
                 $result = unlink($file);
+            }
+
+            return $result;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function _cpDir($source, $dest)
+        {
+            if (!qFile::exists($dest))
+            {
+                if (!qFile::mkdir($dest))
+                {
+                    return false;
+                }
+            }
+
+            $l       = new qFileList(new qFileLocalLister());
+            $entries = $l->ls($source);
+            $result  = true;
+
+            foreach ($entries as $entry)
+            {
+                $result &= qFile::cp($source . $entry->getName(), $dest . $entry->getName());
+            }
+
+            return $result;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function cp($source, $dest = null)
+        {
+            if (empty($dest))
+            {
+                $dest   = $source;
+                $source = $this->_fileName;
+            }
+
+            if (qFile::isDir($source))
+            {
+                $result = qFile::_cpDir(qUtils::addDirSep($source), qUtils::addDirSep($dest));
+            }
+            else
+            {
+                $result = copy($source, $dest);
             }
 
             return $result;
@@ -201,7 +284,7 @@
          * @param dirName The name of the new folder
          * @return Returns true if no problem or false otherwise.
          */
-        function createDir($dirName, $mode = FILE_DEFAULT_DIRECTORY_CREATION_MODE)
+        function mkdir($dirName, $mode = DEFAULT_FILE_DIRECTORY_UMASK)
         {
             return mkdir($dirName, $mode);
         }
@@ -272,5 +355,120 @@
                 return false;
             }
         }
-     }
+
+        /**
+        *    Add function info here
+        */
+        function getPermissions($file = null)
+        {
+            if (empty($file))
+            {
+                $file = $this->_fileName;
+            }
+
+            $permissions = fileperms($file);
+            $perms       = "";
+
+            /*if (($permissions & 0x4000) === 0x4000)
+            {
+                $perms = "d";
+            }
+            else
+            {
+                $perms = "-";
+            }*/
+
+            $bin = substr(decbin($permissions), -9) ;
+            $a   = explode(".", substr(chunk_split($bin, 1, "."), 0, 17));
+            $i   = 0;
+
+            foreach ($a as $item)
+            {
+                if ($i % 3 == 0)
+                {
+                    $char = "r";
+                }
+                elseif ($i % 3 == 1)
+                {
+                    $char = "w";
+                }
+                else
+                {
+                    $char = "x";
+                }
+
+                if ($item == "1")
+                {
+                    $perms .= $char;
+                }
+                else
+                {
+                    $perms .= "-";
+                }
+
+                $i++;
+            }
+
+            return $perms;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getUid($file = null)
+        {
+            if (empty($file))
+            {
+                $file = $this->_fileName;
+            }
+
+            return fileowner($file);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getOwner($file = null)
+        {
+            $result = posix_getpwuid(qFile::getUid($file));
+
+            return $result["name"];
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getGid($file = null)
+        {
+            if (empty($file))
+            {
+                $file = $this->_fileName;
+            }
+
+            return filegroup($file);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getGroup($file = null)
+        {
+            $result = posix_getgrgid(qFile::getGid($file));
+
+            return $result["name"];
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getTimeStamp($file = null)
+        {
+            if (empty($file))
+            {
+                $file = $this->_fileName;
+            }
+
+            return filemtime($file);
+        }
+    }
 ?>
