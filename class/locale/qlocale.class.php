@@ -573,25 +573,25 @@
 
             $yearDayNum  = (int) strftime("%j", $timeStamp);
 
-            $days        = $this->i18n("_days");
-            $daysShort   = $this->i18n("_days_short");
-            $months      = $this->i18n("_months");
-            $monthsShort = $this->i18n("_months_short");
+            $days        = array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+            $daysShort   = array("Mo", "Tu", "We", "Th", "Fr", "Sa", "Su");
+            $months      = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+            $monthsShort = array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dic");
 
             $result      = $format;
             $result      = str_replace("%w3c", sprintf("%s-%02s-%02sT%02s:%02s.%02s%s", $year, $month, $day, $hour, $minute, $second, $offset2), $result);
-            $result      = str_replace("%a", $daysShort[$weekDayNum], $result);
-            $result      = str_replace("%A", $days[$weekDayNum], $result);
-            $result      = str_replace("%b", $monthsShort[$month - 1], $result);
-            $result      = str_replace("%B", $months[$month - 1], $result);
-            $result      = str_replace("%c", sprintf("%s %s %s %s %02s:%02s:%02s %s", $daysShort[$weekDayNum], $day, $months[$month - 1], $year, $hour, $minute, $second, $timeZone), $result);
+            $result      = str_replace("%a", $this->i18n($daysShort[$weekDayNum]), $result);
+            $result      = str_replace("%A", $this->i18n($days[$weekDayNum]), $result);
+            $result      = str_replace("%b", $this->i18n($monthsShort[$month - 1]), $result);
+            $result      = str_replace("%B", $this->i18n($months[$month - 1]), $result);
+            $result      = str_replace("%c", sprintf("%s %s %s %s %02s:%02s:%02s %s", $this->i18n($daysShort[$weekDayNum]), $day, $this->i18n($months[$month - 1]), $year, $hour, $minute, $second, $timeZone), $result);
             $result      = str_replace("%C", sprintf("%02s", $century), $result);
             $result      = str_replace("%d", sprintf("%02s", $day), $result);
             $result      = str_replace("%D", sprintf("%02s/%02s/%02s", $month, $day, $year2), $result);
             $result      = str_replace("%e", $day, $result);
             $result      = str_replace("%g", substr($year, 2, 2), $result);
             $result      = str_replace("%G", $year, $result);
-            $result      = str_replace("%h", $monthsShort[$month - 1], $result);
+            $result      = str_replace("%h", $this->i18n($monthsShort[$month - 1]), $result);
             $result      = str_replace("%H", sprintf("%02s", $hour), $result);
             $result      = str_replace("%I", $hour2, $result);
             $result      = str_replace("%j", sprintf("%03s", $yearDayNum), $result);
