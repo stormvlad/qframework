@@ -4,7 +4,7 @@
 
     class qFormat extends qObject
     {
-        function sanitize($str) 
+        function sanitize($str, $length = null) 
         {
             $str = qFormat::removeAccents($str);
             $str = strtolower($str);
@@ -14,6 +14,11 @@
             $str = str_replace(' ', '-', $str);
             $str = preg_replace('|-+|', '-', $str);
             $str = trim($str, '-');
+            
+            if (!empty($length))
+            {
+                $str = substr($str, 0, $length);
+            }
             
             return $str;
         }
