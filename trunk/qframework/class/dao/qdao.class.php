@@ -10,6 +10,7 @@
     {
         var $_db;
         var $_tableName;
+        var $_clauses;
 
         /**
         * Add function info here
@@ -18,17 +19,28 @@
         {
             $this->qObject();
 
-            if (defined("_DEBUG_DAO_"))
-            {
-                $this->setDebug(_DEBUG_DAO_);
-            }
-            else
-            {
-                $this->setDebug(false); // disable generic debug by default
-            }
-
             $this->_db        = &$db;
             $this->_tableName = $tableName;
+            $this->_clauses   = array();
+
+            $this->setClause("SELECT", "*");
+            $this->setClause("FROM", "`" . $this->_tableName . "`");
+        }
+
+        /**
+        * Add function info here
+        */
+        function getClause($name)
+        {
+            return $this->_clauses[strtoupper($name)];
+        }
+
+        /**
+        * Add function info here
+        */
+        function setClause($name, $value)
+        {
+            $this->_clauses[strtoupper($name)] = $value;
         }
 
         /**
@@ -68,14 +80,32 @@
         */
         function select($whereClause = null, $orderClause = null, $offset = null, $numRows = null)
         {
-            $sql = "SELECT * FROM `" . $this->_tableName . "`";
+            $sql = "SELECT " . $this->getClause("SELECT") . " FROM " . $this->getClause("FROM");
 
-            if (!empty($whereClause))
+            if (empty($whereClause))
+            {
+                $sql .= " WHERE " . $this->getClause("WHERE");
+            }
+            else
             {
                 $sql .= " WHERE " . $whereClause;
             }
 
-            if (!empty($orderClause))
+            if ($this->getClause("GROUP BY"))
+            {
+                $sql .= " GROUP BY " . $this->getClause("GROUP BY");
+            }
+
+            if ($this->getClause("HAVING"))
+            {
+                $sql .= " HAVING " . $this->getClause("HAVING");
+            }
+
+            if (empty($orderClause))
+            {
+                $sql .= " ORDER BY " . $this->getClause("ORDER BY");
+            }
+            else
             {
                 $sql .= " ORDER BY " . $orderClause;
             }
@@ -88,34 +118,8 @@
         */
         function selectCount($whereClause = null)
         {
-            $sql = "SELECT COUNT(*) AS totalregs FROM `" . $this->_tableName . "`";
-
-            if (!empty($whereClause))
-            {
-                $sql .= " WHERE " . $whereClause;
-            }
-
-            if (!($result = $this->_retrieve($sql)))
-            {
-                return false;
-            }
-
-            if (!($row = $result->FetchRow()))
-            {
-                return false;
-            }
-
-            return $row["totalregs"];
-        }
-
-        /**
-        * Add function here
-        */
-        function selectFromId($id)
-        {
-            $sql = "SELECT * FROM `" . $this->_tableName . "` WHERE id='" . $id . "'";
-
-            return $this->_retrieve($sql);
+            $result = $this->select($whereClause);
+            return $result->RecordCount();
         }
 
         /**
@@ -216,7 +220,6 @@
         function delete($obj)
         {
             $sql = "DELETE FROM `" . $this->_tableName . "` WHERE " . $this->_getWhereClause($obj);
-
             return $this->_update($sql);
         }
 
@@ -250,11 +253,6 @@
         */
         function _retrieve($sql, $offset = null, $numRows = null)
         {
-            if ($this->isDebug())
-            {
-                $this->_printSqlQueryDebug($sql);
-            }
-
             if (empty($offset))
             {
                 $offset = -1;
@@ -280,12 +278,7 @@
         */
         function _update($sql)
         {
-            if ($this->isDebug())
-            {
-                $this->_printSqlQueryDebug($sql);
-            }
-
-            return $result = $this->_db->Execute($sql);
+            return $this->_db->Execute($sql);
         }
 
         /**
@@ -293,11 +286,6 @@
         */
         function execute($sql)
         {
-            if ($this->isDebug())
-            {
-                $this->_printSqlQueryDebug($sql);
-            }
-
             return $this->_db->Execute($sql);
         }
 
