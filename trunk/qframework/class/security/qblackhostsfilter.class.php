@@ -6,6 +6,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidator.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qipformatrule.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qipcidrformatrule.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qiprangerule.class.php");
 
     define(ERROR_FILTER_BLACK_HOST_MATCHED, "error_filter_black_host_matched");
 

@@ -142,7 +142,7 @@
         */
         function hasPermission($name, $level = DEFAULT_USER_PERMISSIONS_LEVEL)
         {
-            return array_key_exists($name, $this->_permissions[$level]);
+            return is_array($this->_permissions[$level]) && array_key_exists($name, $this->_permissions[$level]);
         }
 
         /**
