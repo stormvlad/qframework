@@ -50,19 +50,16 @@
             parent::qObject();
 
             // set default minimum priority levels
-            $this->exitPriority = 1; // ERROR
 
-<<<<<<< .mine
             if (parent::isDebug())
-=======
-            if ($this->isDebug())
->>>>>>> .r515
             {
                 $this->priority     = 0; // SHOW ALL ERRORS
+                $this->exitPriority = 1; // EXIT ON ANY ERROR, ALSO NOTICES
             }
             else
             {
                 $this->priority     = 3000; // ERROR
+                $this->exitPriority = 3000; // ERROR
             }
         }
 

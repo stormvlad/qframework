@@ -42,7 +42,7 @@
 
             // create default logger
             $logger   =& new qErrorLogger();
-            $layout   =& new qPatternLayout("<b>%N</b> [%f:%l] %m%n");
+            $layout   =& new qPatternLayout("<b>%N</b> [%f{rel}:%l] %m%n");
             $appender =& new qStdoutAppender($layout);
 
             $logger->addAppender("stdout", $appender);
