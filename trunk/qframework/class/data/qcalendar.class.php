@@ -2,7 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
-    define(DEFAULT_CALENDAR_FIRST_DAY_OF_WEEK, 0);
+    define("DEFAULT_CALENDAR_FIRST_DAY_OF_WEEK", 0);
 
     class qCalendar extends qObject
     {

@@ -2,13 +2,13 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
-    define(DEFAULT_FILE_LIST_CASE_SENSITIVE, true);
-    define(FILE_LIST_SORT_NAME, 1);
-    define(FILE_LIST_SORT_SIZE, 2);
-    define(FILE_LIST_SORT_DATE, 4);
+    define("DEFAULT_FILE_LIST_CASE_SENSITIVE", true);
+    define("FILE_LIST_SORT_NAME", 1);
+    define("FILE_LIST_SORT_SIZE", 2);
+    define("FILE_LIST_SORT_DATE", 4);
 
-    define(FILE_LIST_SORT_ASC,  1);
-    define(FILE_LIST_SORT_DESC, 2);
+    define("FILE_LIST_SORT_ASC",  1);
+    define("FILE_LIST_SORT_DESC", 2);
 
     /**
     * Encapsulation of a class to manage files. It is basically a wrapper

@@ -9,10 +9,10 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpservervars.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpsessionvars.class.php");
 
-    define(REQUEST_METHOD_NONE, 0);
-    define(REQUEST_METHOD_GET,  2);
-    define(REQUEST_METHOD_POST, 4);
-    define(REQUEST_METHOD_ANY,  REQUEST_METHOD_GET | REQUEST_METHOD_POST);
+    define("REQUEST_METHOD_NONE", 0);
+    define("REQUEST_METHOD_GET",  2);
+    define("REQUEST_METHOD_POST", 4);
+    define("REQUEST_METHOD_ANY",  REQUEST_METHOD_GET | REQUEST_METHOD_POST);
 
     /**
      * HttpVars compatibility package, which allows to fetch some of php's basic

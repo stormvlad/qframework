@@ -3,10 +3,10 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/smarty/Smarty.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qviewrenderer.class.php");
 
-    define(DEFAULT_SMARTY_CACHE_DIR, "tmp/");
-    define(DEFAULT_SMARTY_COMPILE_DIR, "tmp/");
-    define(DEFAULT_SMARTY_TEMPLATES_DIR, "templates/");
-    define(DEFAULT_SMARTY_TEMPLATES_EXTENSION, ".template");
+    define("DEFAULT_SMARTY_CACHE_DIR", "tmp/");
+    define("DEFAULT_SMARTY_COMPILE_DIR", "tmp/");
+    define("DEFAULT_SMARTY_TEMPLATES_DIR", "templates/");
+    define("DEFAULT_SMARTY_TEMPLATES_EXTENSION", ".template");
 
     /**
      * Inherits from Properties but just to add some default

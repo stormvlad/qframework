@@ -2,8 +2,8 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qregexprule.class.php");
 
-    define(NUMERIC_RULE_REG_EXP, "^[0-9]+$");
-    define(ERROR_RULE_NUMERIC_FORMAT_WRONG, "error_rule_numeric_format_wrong");
+    define("NUMERIC_RULE_REG_EXP", "^[0-9]+$");
+    define("ERROR_RULE_NUMERIC_FORMAT_WRONG", "error_rule_numeric_format_wrong");
 
     /**
      * This is an implementation of the 'Strategy' pattern as it can be seen

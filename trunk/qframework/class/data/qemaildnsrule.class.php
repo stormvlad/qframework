@@ -4,8 +4,8 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qdns.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
 
-    define(ERROR_RULE_EMAIL_DNS_SERVER_UNREACHABLE, "error_rule_email_dns_server_unreachable");
-    define(ERROR_RULE_EMAIL_DNS_NOT_PERMITTED, "error_rule_email_dns_not_permitted");
+    define("ERROR_RULE_EMAIL_DNS_SERVER_UNREACHABLE", "error_rule_email_dns_server_unreachable");
+    define("ERROR_RULE_EMAIL_DNS_NOT_PERMITTED", "error_rule_email_dns_not_permitted");
 
     /**
      * This is an implementation of the 'Strategy' pattern as it can be seen

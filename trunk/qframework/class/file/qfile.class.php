@@ -3,7 +3,7 @@
      include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
      include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/misc/qutils.class.php");
 
-     define(DEFAULT_FILE_DIRECTORY_UMASK, 0777);
+     define("DEFAULT_FILE_DIRECTORY_UMASK", 0777);
 
     /**
      * Encapsulation of a class to manage files. It is basically a wrapper

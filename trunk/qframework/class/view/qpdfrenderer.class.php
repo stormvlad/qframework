@@ -3,8 +3,8 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/pdml/pdml.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qviewrenderer.class.php");
 
-    define(DEFAULT_PDF_TEMPLATES_DIR, "pdml/");
-    define(DEFAULT_PDF_TEMPLATES_EXTENSION, ".pdml");
+    define("DEFAULT_PDF_TEMPLATES_DIR", "pdml/");
+    define("DEFAULT_PDF_TEMPLATES_EXTENSION", ".pdml");
 
     /**
      * Inherits from Properties but just to add some default

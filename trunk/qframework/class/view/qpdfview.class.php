@@ -3,16 +3,16 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qview.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qpdfrenderer.class.php");
 
-    define(DEFAULT_PDF_VIEW_BASE_FONT, "courier");
-    define(DEFAULT_PDF_VIEW_BASE_FONT_SIZE, 10);
-    define(DEFAULT_PDF_VIEW_LEFT_MARGIN, 2.5);
-    define(DEFAULT_PDF_VIEW_RIGHT_MARGIN, 2);
-    define(DEFAULT_PDF_VIEW_TOP_MARGIN, 2);
-    define(DEFAULT_PDF_VIEW_BOTTOM_MARGIN, 2);
-    define(DEFAULT_PDF_VIEW_ORIENTATION, "portrait");
-    define(DEFAULT_PDF_VIEW_PAGE_SIZE, "A4");
-    define(DEFAULT_PDF_VIEW_CONTENT_DISPOSITION, "attachment");
-    define(DEFAULT_PDF_VIEW_CONTENT_FILENAME, "doc.pdf");
+    define("DEFAULT_PDF_VIEW_BASE_FONT", "courier");
+    define("DEFAULT_PDF_VIEW_BASE_FONT_SIZE", 10);
+    define("DEFAULT_PDF_VIEW_LEFT_MARGIN", 2.5);
+    define("DEFAULT_PDF_VIEW_RIGHT_MARGIN", 2);
+    define("DEFAULT_PDF_VIEW_TOP_MARGIN", 2);
+    define("DEFAULT_PDF_VIEW_BOTTOM_MARGIN", 2);
+    define("DEFAULT_PDF_VIEW_ORIENTATION", "portrait");
+    define("DEFAULT_PDF_VIEW_PAGE_SIZE", "A4");
+    define("DEFAULT_PDF_VIEW_CONTENT_DISPOSITION", "attachment");
+    define("DEFAULT_PDF_VIEW_CONTENT_FILENAME", "doc.pdf");
 
     /**
      * Extends the original 'View' class to provide support for common operations, for example

@@ -3,8 +3,8 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/misc/qosdetect.class.php");
 
-    define(DEFAULT_DNSRR_COMMAND, "nslookup -type=%type %host");
-    define(DEFAULT_MXRR_REG_EXP, "^%host\tMX preference = ([0-9]+), mail exchanger = (.*)$");
+    define("DEFAULT_DNSRR_COMMAND", "nslookup -type=%type %host");
+    define("DEFAULT_MXRR_REG_EXP", "^%host\tMX preference = ([0-9]+), mail exchanger = (.*)$");
 
     /**
      * Implementation of an alternative version of the checkdnsrr and getmxrr functions which

@@ -2,7 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qrequestgenerator.class.php");
 
-    define(DEFAULT_INDEX_FILE, "index.php");
+    define("DEFAULT_INDEX_FILE", "index.php");
 
     /**
      * Generates HTTP GET requests in a transparent way:

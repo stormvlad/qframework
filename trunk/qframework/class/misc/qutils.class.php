@@ -2,7 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
-    define(DEFAULT_UTILS_DECIMALS, 8);
+    define("DEFAULT_UTILS_DECIMALS", 8);
 
     class qUtils extends qObject
     {

@@ -2,7 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qrule.class.php");
 
-    define(ERROR_RULE_WRONG_SELECT_VALUE, "error_rule_wrong_select_value");
+    define("ERROR_RULE_WRONG_SELECT_VALUE", "error_rule_wrong_select_value");
 
     /**
      * This is an implementation of the 'Strategy' pattern as it can be seen

@@ -2,9 +2,9 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qrule.class.php");
 
-    define(ERROR_RULE_WRONG_FORMAT_VALUE, "error_rule_wrong_format_value");
-    define(ERROR_RULE_WRONG_DATE, "error_rule_wrong_date");
-    define(ERROR_RULE_UNKNOWN_FORMAT, "error_rule_unknown_format");
+    define("ERROR_RULE_WRONG_FORMAT_VALUE", "error_rule_wrong_format_value");
+    define("ERROR_RULE_WRONG_DATE", "error_rule_wrong_date");
+    define("ERROR_RULE_UNKNOWN_FORMAT", "error_rule_unknown_format");
 
     /**
      * This is an implementation of the 'Strategy' pattern as it can be seen

@@ -3,7 +3,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/qusersessionstorage.class.php");
 
-    define(DEFAULT_USER_PERMISSIONS_LEVEL, "__all__");
+    define("DEFAULT_USER_PERMISSIONS_LEVEL", "__all__");
 
     /**
      * Inherits from Properties but just to add some default
