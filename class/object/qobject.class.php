@@ -14,11 +14,30 @@
      */
     class qObject
     {
+        var $_debug;
+
         /**
          * Constructor
          */
         function qObject()
         {
+            $this->_debug = false;
+        }
+
+        /**
+        * Add function info here
+        */
+        function isDebug()
+        {
+            return $this->_debug;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setDebug($debug = true)
+        {
+            $this->_debug = $debug;
         }
 
         /**
