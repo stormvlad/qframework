@@ -6,6 +6,8 @@
     define("ERROR_RULE_UINT_FORMAT_WRONG", "error_rule_uint_format_wrong");
 
     /**
+     * @brief Determina si el dato es un nombre entero sin signo. 
+     *
      * This is an implementation of the 'Strategy' pattern as it can be seen
      * http://www.phppatterns.com/index.php/article/articleview/13/1/1/. Here we use
      * this pattern to validate data received from forms. Its is useful since for example

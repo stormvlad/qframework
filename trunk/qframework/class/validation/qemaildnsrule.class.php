@@ -8,6 +8,8 @@
     define("ERROR_RULE_EMAIL_DNS_NOT_PERMITTED", "error_rule_email_dns_not_permitted");
 
     /**
+     * @brief Comprueba que existe realmente el dominio y una cuenta con un nombre de una cuenta de correo electrónico.
+     *
      * This is an implementation of the 'Strategy' pattern as it can be seen
      * http://www.phppatterns.com/index.php/article/articleview/13/1/1/. Here we use
      * this pattern to validate data received from forms. Its is useful since for example

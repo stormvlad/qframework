@@ -5,6 +5,8 @@
     define("ERROR_RULE_IS_EMPTY", "error_rule_is_empty");
 
     /**
+     * @brief Conjunto de validadores y reglas.
+     *
      * This is an implementation of the 'Strategy' pattern as it can be seen
      * http://www.phppatterns.com/index.php/article/articleview/13/1/1/. Here we use
      * this pattern to validate data received from forms. Its is useful since for example

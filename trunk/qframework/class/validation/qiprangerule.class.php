@@ -5,6 +5,8 @@
     define("ERROR_RULE_IP_NOT_IN_RANGE", "error_rule_ip_not_in_range");
 
     /**
+     * @brief Comprueba que una IP se encuentra dentro un rango.
+     *
      * This is an implementation of the 'Strategy' pattern as it can be seen
      * http://www.phppatterns.com/index.php/article/articleview/13/1/1/. Here we use
      * this pattern to validate data received from forms. Its is useful since for example

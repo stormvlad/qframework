@@ -6,7 +6,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qurl.class.php");
 
     /**
-    * qUrlCheckRule class
+     * @brief Determina si existe una URL haciendo una comprobación online.
      *
      * @author  qDevel - info@qdevel.com
      * @date    05/03/2005 19:22

@@ -5,7 +5,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qiprangerule.class.php");
 
     /**
-     * Extends the validator class to determine wether an email address is valid or not.
+     * @brief Comprueba que el dato tiene formato de IP o IP/máscara.
      *
      * @author  qDevel - info@qdevel.com
      * @date    05/03/2005 19:22

@@ -7,7 +7,7 @@
     define("ERROR_VALIDATOR_NIF_LETTER_WRONG", "error_validator_nif_letter_wrong");
 
     /**
-     * Extends the validator class to determine wether an email address is valid or not.
+     * @brief Comprueba si el valor tiene el formato de un NIF.
      *
      * @author  qDevel - info@qdevel.com
      * @date    05/03/2005 19:22

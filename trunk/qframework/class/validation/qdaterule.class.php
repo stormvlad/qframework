@@ -7,6 +7,8 @@
     define("ERROR_RULE_UNKNOWN_FORMAT", "error_rule_unknown_format");
 
     /**
+     * @brief Valida el formato y valor de una fecha
+     *
      * This is an implementation of the 'Strategy' pattern as it can be seen
      * http://www.phppatterns.com/index.php/article/articleview/13/1/1/. Here we use
      * this pattern to validate data received from forms. Its is useful since for example

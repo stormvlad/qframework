@@ -13,7 +13,7 @@
       */
 
     /**
-     * Sistema de validación
+     * @brief Base del sistema de validación
      *
      * @author  qDevel - info@qdevel.com
      * @date    05/03/2005 19:22
