@@ -6,7 +6,7 @@
     define(DEFAULT_SMARTY_CACHE_DIR, "tmp/");
     define(DEFAULT_SMARTY_COMPILE_DIR, "tmp/");
     define(DEFAULT_SMARTY_TEMPLATES_DIR, "templates/");
-    define(DEFAULT_SMARTY_TEMPLATES_EXTENSION, ".templates");
+    define(DEFAULT_SMARTY_TEMPLATES_EXTENSION, ".template");
 
     /**
      * Inherits from Properties but just to add some default
@@ -28,7 +28,7 @@
 
             $this->_cacheDir           = DEFAULT_SMARTY_CACHE_DIR;
             $this->_compileDir         = DEFAULT_SMARTY_COMPILE_DIR;
-            $this->_templatesDir       = DEFAULT_SMARTY_CACHE_DIR;
+            $this->_templatesDir       = DEFAULT_SMARTY_TEMPLATES_DIR;
             $this->_templatesExtension = DEFAULT_SMARTY_TEMPLATES_EXTENSION;
         }
 
@@ -117,13 +117,12 @@
 
             $smarty = new Smarty();
 
-            $smarty->caching        = $cache;
-            $smarty->cache_lifetime = $cacheLifeTime;
+            $smarty->caching        = false;
+            $smarty->cache_lifetime = 300;
             $smarty->cache_dir      = $this->_cacheDir;
             $smarty->compile_dir    = $this->_compileDir;
             $smarty->template_dir   = $this->_templatesDir;
-
-            $smarty->_templateFile  = $templateFile;
+            $smarty->_templateFile  = $templateFileName;
 
             $smarty->php_handling   = false;
             $smarty->use_sub_dirs   = false;

@@ -29,26 +29,74 @@
         /**
         * Add function info here
         */
+        function getPdfTemplatesDir()
+        {
+            return $this->_pdfTemplatesDir;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getPdfTemplatesExtension()
+        {
+            return $this->_pdfTemplatesExtension;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setPdfTemplatesDir($dir)
+        {
+            $this->_pdfTemplatesDir = $dir;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setPdfTemplatesExtension($dir)
+        {
+            $this->_pdfTemplatesExtension = $dir;
+        }
+
+        /**
+        * Add function info here
+        */
         function render(&$view)
         {
-            $smartyView = new qSmartyView($view->getTemplateName());
-            $renderer   = &$smartyView->getRenderer();
+            $smartyView          = new qSmartyView($view->getTemplateName());
+            $renderer            = &$smartyView->getRenderer();
+
             $renderer->setTemplatesDir($this->_pdfTemplatesDir);
             $renderer->setTemplatesExtension($this->_pdfTemplatesExtension);
             $smartyView->setValues($view->getAsArray());
-            $output     = $smartyView->render();
 
-            $pdml = new PDML("P","pt","A4");
-            //$pdml->AddFont("Verdana", "", "verdana.php");
+            $output              = $smartyView->render();
 
+            $orientation         = substr($view->getOrientation(), 0, 1);
+            $pageSize            = $view->getPageSize();
+            $leftMargin          = $view->getLeftMargin() * 28.35;
+            $rightMargin         = $view->getRightMargin() * 28.35;
+            $topMargin           = $view->getTopMargin() * 28.35;
+            $bottomMargin        = $view->getBottomMargin() * 28.35;
+            $baseFont            = $view->getBaseFont();
+            $baseFontSize        = $view->getBaseFontSize();
 
-            $pdml->compress = 0;
+            $pdml                = new PDML($orientation, "pt", $pageSize);
+            $pdml->compress      = 0;
+            $pdml->left_margin   = array($leftMargin);
+            $pdml->right_margin  = array($rightMargin);
+            $pdml->bottom_margin = array($bottomMargin);
+            $pdml->font_face     = array($baseFont);
+            $pdml->font_size     = array($baseFontSize);
+
+            $pdml->SetTopMargin($topMargin);
+
             $pdml->ParsePDML($output);
-            $output = $pdml->Output("","S");
+            $output = $pdml->Output("", "S");
 
             header("Content-Type: application/pdf");
             header("Content-Length: " . strlen($output));
-            header("Content-disposition: inline; filename=doc.pdf");
+            header("Content-disposition: " . $view->getContentDisposition() . "; filename=" . $view->getContentFileName());
 
             return $output;
         }
