@@ -324,6 +324,11 @@
         */
         function redirect($url)
         {
+            if (!empty($this->_user))
+            {
+                $this->_user->store();
+            }
+
             $view = new qRedirectView($url);
             print $view->render();
         }
