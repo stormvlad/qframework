@@ -37,10 +37,21 @@
             if (!eregi("^http://", $url))
             {
                 $server = &qHttp::getServerVars();
-                $url = "http://" . $server->getValue("HTTP_HOST") . dirname($server->getValue("PHP_SELF")) . $url;
+                $result = "http://" . $server->getValue("HTTP_HOST") . dirname($server->getValue("PHP_SELF")) . "/";
+
+                if (substr($url, 0, 1) == "?")
+                {
+                    $result .= basename($server->getValue("PHP_SELF"));
+                }
+
+                $result .= $url;
+            }
+            else
+            {
+                $result = $url;
             }
 
-            $this->_url = $url;
+            $this->_url = $result;
         }
     }
 ?>

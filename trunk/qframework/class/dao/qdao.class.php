@@ -342,7 +342,7 @@
         */
         function getFromId($id)
         {
-            return $this->getDbObjects("id='" . $id . "'");
+            return $this->getDbObject("id='" . $id . "'");
         }
     }
 
