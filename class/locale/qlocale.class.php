@@ -3,6 +3,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/locale/qlocalefilestorage.class.php");
+    require_once 'Date/Calc.php';
 
     define("DEFAULT_LOCALE_CODE", "es_ES");
     define("DEFAULT_LOCALE_PATH", APP_ROOT_PATH . "locale/");
@@ -554,52 +555,47 @@
         */
         function format($format, $timeStamp = null)
         {
-            if (empty($timeStamp))
+            if (preg_match("/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(Z|[\+\-]\d{2}:?\d{2})?)?$/i", $timeStamp, $regs))
             {
-                $timeStamp = mktime();
-            }
-            else if (preg_match("/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(Z|[\+\-]\d{2}:?\d{2})?)?$/i", $timeStamp, $regs))
-            {
-                $year      = $regs[1];
-                $month     = $regs[2];
-                $day       = $regs[3];
-                $hour      = isset($regs[5]) ? $regs[5] : 0;
-                $minute    = isset($regs[6]) ? $regs[6] : 0;
-                $second    = isset($regs[7]) ? $regs[7] : 0;
-
-                $timeStamp = mktime($hour, $minute, $second, $month, $day, $year);
+                $year      = intval($regs[1]);
+                $month     = intval($regs[2]);
+                $day       = intval($regs[3]);
+                $hour      = isset($regs[5]) ? intval($regs[5]) : 0;
+                $minute    = isset($regs[6]) ? intval($regs[6]) : 0;
+                $second    = isset($regs[7]) ? intval($regs[7]) : 0;
             }
             else if (is_numeric($timeStamp))
             {
-                $temp      = date("Y-m-d H:i:s", $timeStamp);
-
-                $year      = substr($temp, 0, 4);
-                $month     = substr($temp, 5, 2);
-                $day       = substr($temp, 8, 2);
-                $hour      = substr($temp, 11, 2);
-                $minute    = substr($temp, 14, 2);
-                $second    = substr($temp, 17, 2);
-
-                $timeStamp = mktime($hour, $minute, $second, $month, $day, $year);
+                return $this->format($format, date("Y-m-d H:i:s", $timeStamp));
+            }
+            elseif ($timeStamp === null)
+            {
+                return $this->format($format, date("Y-m-d H:i:s"));
+            }
+            else
+            {
+                return "";
             }
 
-            $hour        = (int) strftime("%H", $timeStamp);
-            $hour2       = (int) strftime("%I", $timeStamp);
-            $minute      = (int) strftime("%M", $timeStamp);
-            $second      = (int) strftime("%S", $timeStamp);
+            $hour2       = $hour % 12;
+            $week        = Date_Calc::weekOfYear($day, $month, $year);
+            $year2       = $year % 100;
+            $century     = (int) ($year / 100);
+            $weekDayNum  = Date_Calc::dayOfWeek($day, $month, $year);
+            $weekDayNum2 = ($weekDayNum + 7) % 7;
+            $rTimeR      = sprintf("%02s:%02s", $hour, $minute);
+            $yearDayNum  = Date_Calc::julianDate($day, $month, $year);
 
-            $day         = (int) strftime("%d", $timeStamp);
-            $month       = (int) strftime("%m", $timeStamp);
-            $week        = (int) strftime("%V", $timeStamp);
+            // with timestamps only, dates > 1970
+            $timeStamp   = mktime ($hour, $minute, $second, $month, $day, $year);
             $week2       = (int) strftime("%W", $timeStamp);
             $week3       = (int) strftime("%U", $timeStamp);
-            $year        = (int) strftime("%Y", $timeStamp);
-            $year2       = (int) strftime("%y", $timeStamp);
-            $century     = (int) ($year / 100);
+            $timeZone    = strftime("%Z", $timeStamp);
+            $rTime       = strftime("%r", $timeStamp);
+            $amPm        = strftime("%p", $timeStamp);
 
             $lTime       = localtime($timeStamp, true);
             $offset      = str_replace("00", ":00", strftime("%z", $timeStamp));
-
             if ($lTime["tm_isdst"])
             {
                 $tmp    = intVal(substr($offset, 1, 2)) - 1;
@@ -613,17 +609,6 @@
             {
                 $offset2 = "Z";
             }
-
-            $timeZone    = strftime("%Z", $timeStamp);
-
-            $rTime       = strftime("%r", $timeStamp);
-            $rTimeR      = strftime("%R", $timeStamp);
-            $amPm        = strftime("%p", $timeStamp);
-
-            $weekDayNum  = (int) strftime("%w", $timeStamp);
-            $weekDayNum2 = (int) strftime("%u", $timeStamp);
-
-            $yearDayNum  = (int) strftime("%j", $timeStamp);
 
             $days        = array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
             $daysShort   = array("Mo", "Tu", "We", "Th", "Fr", "Sa", "Su");
