@@ -132,7 +132,7 @@
                 }
                 else
                 {
-                    if ($value === 0)
+                    if ($value === 0 || $value === "0")
                     {
                         $sql .= "'0', ";
                     }
@@ -186,6 +186,10 @@
                     {
                         $sql .= $field . "=NULL, ";
                     }
+                }
+                else
+                {
+                    $sql .= $field . "=" . $field . ", ";
                 }
             }
 
