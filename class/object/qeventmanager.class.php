@@ -66,7 +66,7 @@
          */
         function registerEvent(&$obj, $event)
         {
-            if (array_key_exists($event, $this->_registeredEvents))
+            if (array_key_exists($event, $this->_registeredEvents) && $obj->getClassName() != $this->_registeredEvents[$event])
             {
                 throw(new qException("qEventManager::registerEvent: '" . $obj->getClassName() . "' class cannot register the event with code '" . $event . "' because it's already registered to '" . $this->_registeredEvents[$event] . "' class."));
                 return false;
