@@ -194,6 +194,8 @@
                 throw(new qException("qEmailService::sendMessage: Error sending message: " . $mail->ErrorInfo));
                 die();
             }
+            
+            return true;
         }
     }
 ?>
