@@ -10,7 +10,7 @@
      * @author  qDevel - info@qdevel.com
      * @date    07/03/2005 23:46
      * @version 1.0
-     * @ingroup filter     
+     * @ingroup filter
      */
     class qSessionLifeTimeFilter extends qFilter
     {
@@ -68,7 +68,7 @@
         */
         function run(&$filtersChain)
         {
-            $user = &qUser::getInstance();
+            $user = &User::getInstance();
             $time = $user->getLastActionTime();
             $d1   = new qDate($time);
             $sec1 = $d1->getDate(DATE_FORMAT_UNIXTIME);
