@@ -2,16 +2,15 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qfile.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfigabstractstorage.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfigstorage.class.php");
 
     /**
      * Extends the Properties class so that our own configuration file is automatically loaded.
      * The configuration file is under config/config.properties.php
      */
-    class qConfigFileStorage extends qConfigAbstractStorage
+    class qConfigFileStorage extends qConfigStorage
     {
         var $_configFile;
-        var $_props;
 
         /**
          * Opens the configuration file. By default it is config/config.properties.php
@@ -23,10 +22,8 @@
          */
         function qConfigFileStorage($configFile)
         {
-            $this->qConfigAbstractStorage();
-
+            $this->qConfigStorage();
             $this->_configFile = $configFile;
-            $this->reload();
         }
 
         /**
@@ -34,12 +31,10 @@
          *
          * @return Returns always true.
          */
-        function reload()
+        function load(&$cfg)
         {
             include($this->_configFile);
-
-            $this->_props = new qProperties( $config );
-
+            $cfg->setValues($config);
             return true;
         }
 
@@ -54,86 +49,6 @@
         }
 
         /**
-         * Private function that given a piece of PHP data, will return an string representing
-         * it, literally. Examples:
-         *
-         * data is a boolean type. Result --> the string 'true'
-         * data is string type. Result --> string "value_of_the_string"
-         * data is an array. Result --> string containing "Array( "..", "...", "..") "
-         *
-         * Objects are saved serialized and since there is no way to detect if it's an object
-         * or not, it will be up to the user of the class to de-serialize it.
-         *
-         * <b>:TODO:</b> This function does not handle very well sparse arrays, but it does
-         * handles arrays within arrays.
-         *
-         * @private
-         * @param data The data we'd like to get the string representation
-         * @return An string representing the data, so that eval'ing it would yield
-         * the the same result as the $data parameter.
-         */
-        function _getDataString($data)
-        {
-            if ($this->_getType( $data ) == TYPE_INTEGER)
-            {
-                $dataString = $data;
-            }
-            elseif ($this->_getType( $data ) == TYPE_BOOLEAN)
-            {
-                if ($data)
-                {
-                    $dataString = "true";
-                }
-                else
-                {
-                    $dataString = "false";
-                }
-            }
-            elseif ($this->_getType( $data ) == TYPE_STRING)
-            {
-                $dataString = "\"$data\"";
-            }
-            elseif ($this->_getType($data) == TYPE_ARRAY)
-            {
-                $dataString = "Array (";
-
-                foreach ($data as $key => $item)
-                {
-                    if ($key != "")
-                    {
-                        if (!is_numeric($key))
-                        {
-                            $dataString .= "\"$key\" => ";
-                        }
-                        /*else
-                        {
-                            $dataString .= "$key => ";
-                        }*/
-                    }
-
-                    $dataString .= $this->_getDataString($item ) . ",";
-                }
-
-                if ($dataString[strlen($dataString)-1] == ",")
-                {
-                    $dataString[strlen($dataString)-1] = ")";
-                }
-                else
-                {
-                    $dataString .= ")";
-                }
-
-                print("dataString = ".$dataString."<br/>");
-            }
-            elseif ($this->_getType( $data ) == TYPE_OBJECT)
-            {
-                $dataString = serialize($data);
-            }
-
-            return $dataString;
-        }
-
-        /**
          * Saves a setting to the configuration file. If the setting already exists, the current
          * value is overwritten. Otherwise, it will be appended in the end of the file.
          * <b>NOTE:</b> This method is highly unoptimized because every time that we call saveValue,
@@ -144,9 +59,9 @@
          * @param value Value of the setting.
          * @return True if success or false otherwise.
          */
-        function saveValue($name, $value)
+        function saveValue(&$config, $name, $value)
         {
-            $f = new qFile( $this->_configFile );
+            $f = new qFile($this->_configFile);
 
             if (!$f->open("r+"))
             {
@@ -156,18 +71,17 @@
             $contents    = $f->readFile();
             $i           = 0;
             $result      = Array();
-            $valueString = $this->_getDataString($value);
+            $valueString = $this->getDataString($value);
 
-            if ($this->_getType($value) == TYPE_STRING)
+            if ($this->getType($value) == TYPE_STRING)
             {
-                $regexp      = "/( *)\\\$config\[\"$name\"\]( *)=( *)\"(.+)\";( *)/";
-                //$replaceWith = "\$config[\"$name\"] = $valueString;";
-                $replaceWith = "\\1\$config[\"$name\"]\\2=\\3$valueString;\\5";
+                $regexp      = "/( *)\\\$config\[\"" . $name. "\"\]( *)=( *)\"(.+)\";( *)/";
+                $replaceWith = "\\1\$config[\"" . $name . "\"]\\2=\\3" . $valueString . ";\\5";
             }
             else
             {
-                $regexp      = "/( *)\\\$config\[\"$name\"\]( *)=( *)(.+);( *)/";
-                $replaceWith = "\\1\$config[\"$name\"]\\2=\\3$valueString;\\5";
+                $regexp      = "/( *)\\\$config\[\"" . $name . "\"\]( *)=( *)(.+);( *)/";
+                $replaceWith = "\\1\$config[\"" . $name . "\"]\\2=\\3" . $valueString . ";\\5";
             }
 
             while ($i < count($contents))
@@ -189,59 +103,25 @@
             }
 
             $f->writeLines($result);
-            $this->setValue($name, $value);
+            $config->setValue($name, $value);
 
             return true;
         }
 
-        function keyExists($key)
+        /**
+        *    Add function info here
+        */
+        function save(&$config)
         {
-            return $this->_props->keyExists($key);
-        }
+            $result = true;
+            $data   = $config->getAsArray();
 
-        function getValue( $key, $defaultValue = null )
-        {
-            $value = $this->_props->getValue($key);
-
-            if ($value == "" || $value == null)
+            foreach($data as $key => $value)
             {
-                if ($defaulValue != null)
-                {
-                    $value = $defaultValue;
-                }
+                $result &= $this->saveValue($key, $value);
             }
 
-            return $value;
-        }
-
-        function setValue($key, $value )
-        {
-            return $this->_props->setValue( $key, $value );
-        }
-
-        function getKeys()
-        {
-            return $this->_props->getKeys();
-        }
-
-        function getValues()
-        {
-            return $this->_props->getValues();
-        }
-
-        function getAsArray()
-        {
-            return $this->_props->getAsArray();
-        }
-
-        function save()
-        {
-            foreach ($this->_props->getAsArray() as $key => $value)
-            {
-                $this->saveValue($key, $value);
-            }
-
-            return true;
+            return $result;
         }
     }
 ?>

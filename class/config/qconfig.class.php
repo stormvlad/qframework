@@ -1,6 +1,10 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfigfilestorage.class.php");
+
+    define(DEFAULT_CONFIG_FILE_STORAGE, "config/config.properties.php");
 
     /**
      * Extends the Properties class so that our own configuration file is automatically loaded.
@@ -12,44 +16,121 @@
      */
     class qConfig extends qObject
     {
+        var $_storage;
+        var $_props;
+
         /**
-         * Initializes the configuration back end.
-         *
-         * Unless strictly necessary, it is recommended to use the getConfig function,
-         * built around the idea of the Singleton pattern.
-         * It will also bring increased performance since then there is no need to create the
-         * whole ConfigXxxxStorage object. For instance, in the case of the ConfigDbStorage,
-         * the whole config table is retrieved in the constructor... Using a singleton will
-         * save us that work.
-         * @param storage One of the storage methods implemented. Available ones are
-         * "db" and "file", but any other can be implemented.
-         * @param params An array containing storage backend specific parameters. In the case
-         * of the file-based storage it could be the name of the file to use (for example)
-         */
-        function qConfig()
+        *    Add function info here
+        */
+        function qConfig(&$storage)
         {
             $this->qObject();
+
+            $this->_storage = &$storage;
+            $this->_props   = new qProperties();
+            $this->load();
         }
 
         /**
-         * Makes sure that there is <b>only one</b> instance of this class for everybody.
-         * It is not bad to call the constructor but using the getConfig we will
-         * save some work.
-         *
-         * @param storage One of the storage methods implemented. Available ones are
-         * "db" and "file", but any other can be implemented.
-         * @param params An array containing storage backend specific parameters. In the case
-         * of the file-based storage it could be the name of the file to use (for example)
-         * @return Returns an instance of the Config class, be it a new one if this is the first
-         * time we were calling it or an already created one if somebody else called
-         * this method before.
-         * @see ConfigDbStorage
-         * @see ConfigFileStorage
-         */
+        *    Add function info here
+        */
         function &getConfig()
         {
-            throw(new qException("qConfig::getConfig: This function must be implemented by child classes."));
-            die();
+            static $configInstance;
+
+            if (!isset($configInstance))
+            {
+                $configInstance = new qConfig(new qConfigFileStorage(DEFAULT_CONFIG_FILE_STORAGE));
+            }
+
+            return $configInstance;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function load()
+        {
+            return $this->_storage->load($this);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function saveValue($name, $value)
+        {
+            return $this->_storage->saveValue($this, $name, $value);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function save()
+        {
+            return $this->_storage->save($this);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getValue($key, $defaultValue = null)
+        {
+            $value = $this->_props->getValue($key);
+
+            if ($defaulValue !== null && empty($value))
+            {
+                $value = $defaultValue;
+            }
+
+            return $value;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setValues($values)
+        {
+            return $this->_props->setValues($values);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setValue($key, $value)
+        {
+            return $this->_props->setValue($key, $value);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getKeys()
+        {
+            return $this->_props->getKeys();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getValues()
+        {
+            return $this->_props->getValues();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getAsArray()
+        {
+            return $this->_props->getAsArray();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function keyExists($key)
+        {
+            return $this->_props->keyExists($key);
         }
     }
 ?>
