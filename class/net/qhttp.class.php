@@ -9,11 +9,16 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpservervars.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpsessionvars.class.php");
 
-    define("REQUEST_METHOD_NONE", 0);
-    define("REQUEST_METHOD_GET",  2);
-    define("REQUEST_METHOD_POST", 4);
-    define("REQUEST_METHOD_ANY",  REQUEST_METHOD_GET | REQUEST_METHOD_POST);
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpsessionvars.class.php");
 
+    define("REQUEST_METHOD_NONE",   0);
+    //define("REQUEST_METHOD_HEAD",   1);
+    define("REQUEST_METHOD_GET",    2);
+    define("REQUEST_METHOD_POST",   4);
+    //define("REQUEST_METHOD_PUT",    8);
+    //define("REQUEST_METHOD_DELETE", 16);
+    define("REQUEST_METHOD_ANY",  REQUEST_METHOD_GET | REQUEST_METHOD_POST);
+    
     /**
      * @brief Acceso único a las variables predefinidas 
      *
@@ -136,8 +141,11 @@
         }
 
         /**
-        *  Add function info here
-        */
+         * Devuelve el método de la petición
+         *
+         * @see qRequest::getMethod
+         * @deprecated Existe una clase específica para representar la petición del cliente
+         */
         function getRequestMethod()
         {
             $server = &qHttp::getServerVars();

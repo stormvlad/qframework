@@ -297,8 +297,8 @@
         function save()
         {
             $controller = &Controller::getInstance();
-            $request    = &qHttp::getRequestVars();
-            $method     = $request->getRequestMethod();
+            $request    = &Request::getInstance();
+            $method     = $request->getMethod();
 
             if (!$controller->_sessionEnabled || (($this->getValidationMethod() & $method) != $method))
             {
@@ -315,7 +315,7 @@
             }
             else if ($this->getValidationMethod() == REQUEST_METHOD_ANY)
             {
-                $varsObj = &qHttp::getRequestVars();
+                $varsObj = &Request::getInstance();
             }
 
             $user     = &User::getInstance();

@@ -438,7 +438,7 @@
 
             if (empty($httpRequest))
             {
-                $httpRequest = &qHttp::getRequestVars();
+                $httpRequest = &Request::getInstance();
             }
 
             $this->forward($httpRequest->getValue($this->_actionParam));

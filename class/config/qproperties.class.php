@@ -47,9 +47,30 @@
          */
         function setValues($values)
         {
-            $this->_props = $values;
+            foreach ($values as $key => $value)
+            {
+                $this->_props[$key] = $value;
+            }
         }
 
+        /**
+         * Establece una lista de valores por referencia (sin copia)
+         *
+         * La lista se añade a las propiedades existentes, si ya existiera
+         * una propiedad con este nombre previamente, el nuevo
+         * sobreescribiria el anterior.
+         *
+         * @param values <em>array</em> Vector unidimensional asociativo con los nombres
+         *                              y las referencias a los valores de las propiedades.
+         */
+        function setValuesByRef (&$values)
+        {
+            foreach ($values as $key => &$value)
+            {
+                $this->_props[$key] =& $value;
+            }
+        }
+        
         /**
          * Sets a value in our hash table.
          *
@@ -62,9 +83,22 @@
         }
 
         /**
+         * Establece un valor por referencia
          *
-         * Add function info here
+         * Si ya existe una propiedad con este nombre se sobreescribe el valor anterior.
          *
+         * @param name  <em>string</em> Nombre de la propiedad
+         * @param value <em>mixed</em>  Referencia al valor de la propiedad
+         */
+        function setValueByRef ($name, &$value)
+        {
+            $this->_props[$name] =& $value;
+        }
+        
+        /**
+         * Borra un valor
+         *
+         * @param key  <em>string</em> Nombre de la propiedad
          */
         function removeValue($key)
         {
@@ -175,6 +209,28 @@
         function reset()
         {
             $this->_props = array();
+        }
+        
+        /**
+         * Extrae una lista de propiedades 
+         *
+         * @param  keys  <em>array</em> Nombre/Identificador de las propiedades
+         * @return array Vector unidimensional asociativo con los nombres y valores, 
+         *               sólo las propiedades encontradas
+         */       
+        function & extract ($keys)
+        {
+            $array = array();
+    
+            foreach ($this->_props as $key => &$value)
+            {
+                if (in_array($key, $keys))
+                {
+                    $array[$key] =& $value;
+                }
+            }
+    
+            return $array;
         }
     }
 ?>

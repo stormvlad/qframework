@@ -86,6 +86,28 @@
         {
             $this->_params[$paramName] = $paramValue;
         }
+        
+        /**
+         * Extrae una lista de parametros 
+         *
+         * @param  keys  <em>array</em> Nombre/Identificador de las propiedades
+         * @return array Vector unidimensional asociativo con los nombres y valores, 
+         *               sólo las propiedades encontradas
+         */       
+        function & extract ($keys)
+        {
+            $array = array();
+    
+            foreach ($this->_params as $key => &$value)
+            {
+                if (in_array($key, $keys))
+                {
+                    $array[$key] =& $value;
+                }
+            }
+    
+            return $array;
+        }      
 
         /**
          * Establece modo de generación de URLs compatible con XHTML

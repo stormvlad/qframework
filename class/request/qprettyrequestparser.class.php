@@ -1,6 +1,6 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qrequestparser.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/request/qrequestparser.class.php");
 
     /**
      * @brief Analizador mejorado de cadenas de petición HTTP GET

@@ -20,8 +20,8 @@
         {
             if ($pathInfo === null)
             {
-                $server   = &Http::getServerVars();
-                $pathInfo = $server->getValue("PATH_INFO");
+                // $pathinfo = $_ENV["FILEPATH_INFO"] || $_SERVER["PATH_INFO"];
+                $pathinfo = $_SERVER["PATH_INFO"];
             }
 
             $this->qObject();
@@ -39,7 +39,12 @@
             return $this->_pathInfo;
         }
 
-        function parse()
+        function setPathInfo()
+        {
+            return $this->_pathInfo;
+        }
+        
+        function parse(&$request)
         {
             throw(new qException("RequestParser::parse: This method must be implemented by child classes."));
             die();

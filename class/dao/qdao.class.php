@@ -165,8 +165,8 @@
         }
 
         /**
-        * Add function here
-        */
+         * Add function here
+         */
         function insert($obj)
         {
             $fields = $obj->getFields();
@@ -391,8 +391,10 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Add function info here
+         * @deprecated Esta función obliga a llamar id al campo identificador de la tabla
+         * @see retrieveByPK Usar esta función en su lugar
+         */
         function getFromId($id)
         {
             return $this->getDbObject("id='" . $id . "'");
@@ -439,6 +441,9 @@
             return $row["total"];
         }
 
+        /**
+        * Add function here
+        */
         function doDelete($whereClause = null)
         {
             $sql = "DELETE FROM `" . $this->_tableName . "`";
@@ -455,7 +460,7 @@
             return $this->_update($sql);
         }
 
-        /*
+        /**
          * Retrieve a single object by pkey.
          *
          * @param mixed $pk
@@ -468,7 +473,7 @@
             return $this->getDbObject($pkFields[0] . "='" . $pk . "'");
         }
 
-        /*
+        /**
          * Retrieve a single object by primary keys.
          *
          * @param mixed $pk
