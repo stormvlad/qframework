@@ -195,6 +195,38 @@
         /**
         *    Add function info here
         */
+        function getDaysOfWeek()
+        {
+            return $this->getValue("_days");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getDaysOfWeekShort()
+        {
+            return $this->getValue("_days_short");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getMonths()
+        {
+            return $this->getValue("_months");
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getMonthsShort()
+        {
+            return $this->getValue("_months_short");
+        }
+
+        /**
+        *    Add function info here
+        */
         function setCode($code)
         {
             $this->setValue("__locale_code__", $code);
@@ -375,8 +407,8 @@
                 else
                 {
                     $translated = $id;
-                }                
-                
+                }
+
                 if( $this->getDirection() == "rtl" )
                 {
                     $translated = "<span dir=\"rtl\">" . $translated . "</span>";
