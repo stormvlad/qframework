@@ -1,23 +1,18 @@
 <?php
 
-include_once( PLOG_CLASS_PATH."class/object/object.class.php" );
+/*
+   IXR - The Inutio XML-RPC Library - (c) Incutio Ltd 2002
+   Version 1.61 - Simon Willison, 11th July 2003 (htmlentities -> htmlspecialchars)
+   Site:   http://scripts.incutio.com/xmlrpc/
+   Manual: http://scripts.incutio.com/xmlrpc/manual.php
+   Made available under the Artistic License: http://www.opensource.org/licenses/artistic-license.php
+*/
 
 
-/**
- * IXR - The Inutio XML-RPC Library - (c) Incutio Ltd 2002
- * Beta 1.5 - Simon Willison, September 4th 2002
- * Site:   http://scripts.incutio.com/xmlrpc/
- * Manual: http://scripts.incutio.com/xmlrpc/manual.php
- * Forum:  http://forums.incutio.com/viewforum.php?forum=ixr
- * Made available under the Artistic License: http://www.opensource.org/licenses/artistic-license.php
- * 
- * Modified by Oscar 05-06-2003 to make it inherit from the Object object
- */
-class IXR_Value extends Object {
+class IXR_Value {
     var $data;
     var $type;
     function IXR_Value ($data, $type = false) {
-    	$this->Object();
         $this->data = $data;
         if (!$type) {
             $type = $this->calculateType();
@@ -54,7 +49,7 @@ class IXR_Value extends Object {
         }
         // If it is a normal PHP object convert it in to a struct
         if (is_object($this->data)) {
-            
+
             $this->data = get_object_vars($this->data);
             return 'struct';
         }
@@ -81,15 +76,7 @@ class IXR_Value extends Object {
                 return '<double>'.$this->data.'</double>';
                 break;
             case 'string':
-                $val = $this->data;
-                // -mhe encoding modified
-                $val = str_replace('&', '&amp;', $val);
-                $val = str_replace("'", '&apos;', $val);
-                $val = str_replace('"', '&quot;', $val);
-                $val = str_replace('<', '&lt;', $val);
-                $val = str_replace('>', '&gt;', $val);
-                return '<string>'.$val.'</string>';
-                // return '<string>'.htmlentities($this->data).'</string>';
+                return '<string>'.htmlspecialchars($this->data).'</string>';
                 break;
             case 'array':
                 $return = '<array><data>'."\n";
@@ -129,17 +116,7 @@ class IXR_Value extends Object {
 }
 
 
-/**
- * IXR - The Inutio XML-RPC Library - (c) Incutio Ltd 2002
- * Beta 1.5 - Simon Willison, September 4th 2002
- * Site:   http://scripts.incutio.com/xmlrpc/
- * Manual: http://scripts.incutio.com/xmlrpc/manual.php
- * Forum:  http://forums.incutio.com/viewforum.php?forum=ixr
- * Made available under the Artistic License: http://www.opensource.org/licenses/artistic-license.php
- * 
- * Modified by Oscar 05-06-2003 to make it inherit from the Object object
- */
-class IXR_Message extends Object {
+class IXR_Message {
     var $message;
     var $messageType;  // methodCall / methodResponse / fault
     var $faultCode;
@@ -157,7 +134,6 @@ class IXR_Message extends Object {
     // The XML parser
     var $_parser;
     function IXR_Message ($message) {
-    	$this->Object();
         $this->message = $message;
     }
     function parse() {
@@ -224,7 +200,7 @@ class IXR_Message extends Object {
                 $valueFlag = true;
                 break;
             case 'string':
-                $value = (string)$this->_currentTagContents;
+                $value = (string)trim($this->_currentTagContents);
                 $this->_currentTagContents = '';
                 $valueFlag = true;
                 break;
@@ -272,9 +248,11 @@ class IXR_Message extends Object {
                 break;
         }
         if ($valueFlag) {
-            if (!is_array($value)) {
+            /*
+            if (!is_array($value) && !is_object($value)) {
                 $value = trim($value);
             }
+            */
             if (count($this->_arraystructs) > 0) {
                 // Add value to struct or array
                 if ($this->_arraystructstypes[count($this->_arraystructstypes)-1] == 'struct') {
@@ -289,30 +267,16 @@ class IXR_Message extends Object {
                 $this->params[] = $value;
             }
         }
-    }       
+    }
 }
 
 
-
-/**
- * IXR - The Inutio XML-RPC Library - (c) Incutio Ltd 2002
- * Beta 1.5 - Simon Willison, September 4th 2002
- * Site:   http://scripts.incutio.com/xmlrpc/
- * Manual: http://scripts.incutio.com/xmlrpc/manual.php
- * Forum:  http://forums.incutio.com/viewforum.php?forum=ixr
- * Made available under the Artistic License: http://www.opensource.org/licenses/artistic-license.php
- * 
- * Modified by Oscar 05-06-2003 to make it inherit from the Object object
- */
-class IXR_Server extends Object {
+class IXR_Server {
     var $data;
     var $callbacks = array();
     var $message;
     var $capabilities;
-    var $defencoding = "ISO-8859-1"; // -mhe added defencoding
-
     function IXR_Server($callbacks = false, $data = false) {
-    	$this->Object();
         $this->setCapabilities();
         if ($callbacks) {
             $this->callbacks = $callbacks;
@@ -397,8 +361,7 @@ EOD;
         $this->output($error->getXml());
     }
     function output($xml) {
-        // -mhe added defencoding for xml header
-        $xml = '<?xml version="1.0" encoding="' . $this->defencoding . '"?>'."\n".$xml;
+        $xml = '<?xml version="1.0"?>'."\n".$xml;
         $length = strlen($xml);
         header('Connection: close');
         header('Content-Length: '.$length);
@@ -425,7 +388,7 @@ EOD;
                 'specUrl' => 'http://www.xmlrpc.com/discuss/msgReader$1208',
                 'specVersion' => 1
             ),
-        );   
+        );
     }
     function getCapabilities($args) {
         return $this->capabilities;
@@ -464,22 +427,11 @@ EOD;
     }
 }
 
-/**
- * IXR - The Inutio XML-RPC Library - (c) Incutio Ltd 2002
- * Beta 1.5 - Simon Willison, September 4th 2002
- * Site:   http://scripts.incutio.com/xmlrpc/
- * Manual: http://scripts.incutio.com/xmlrpc/manual.php
- * Forum:  http://forums.incutio.com/viewforum.php?forum=ixr
- * Made available under the Artistic License: http://www.opensource.org/licenses/artistic-license.php
- * 
- * Modified by Oscar 05-06-2003 to make it inherit from the Object object
- */
-class IXR_Request extends Object {
+class IXR_Request {
     var $method;
     var $args;
     var $xml;
     function IXR_Request($method, $args) {
-    	$this->Object();
         $this->method = $method;
         $this->args = $args;
         $this->xml = <<<EOD
@@ -506,17 +458,7 @@ EOD;
 }
 
 
-/**
- * IXR - The Inutio XML-RPC Library - (c) Incutio Ltd 2002
- * Beta 1.5 - Simon Willison, September 4th 2002
- * Site:   http://scripts.incutio.com/xmlrpc/
- * Manual: http://scripts.incutio.com/xmlrpc/manual.php
- * Forum:  http://forums.incutio.com/viewforum.php?forum=ixr
- * Made available under the Artistic License: http://www.opensource.org/licenses/artistic-license.php
- * 
- * Modified by Oscar 05-06-2003 to make it inherit from the Object object
- */
-class IXR_Client extends Object {
+class IXR_Client {
     var $server;
     var $port;
     var $path;
@@ -527,7 +469,6 @@ class IXR_Client extends Object {
     // Storage place for an error message
     var $error = false;
     function IXR_Client($server, $path = false, $port = 80) {
-    	$this->Object();
         if (!$path) {
             // Assume we have been given a URL instead
             $bits = parse_url($server);
@@ -560,9 +501,9 @@ class IXR_Client extends Object {
         $request .= $xml;
         // Now send the request
         if ($this->debug) {
-            echo '<pre>'.htmlentities($request)."\n</pre>\n\n";
+            echo '<pre>'.htmlspecialchars($request)."\n</pre>\n\n";
         }
-        $fp = fsockopen($this->server, $this->port);
+        $fp = @fsockopen($this->server, $this->port);
         if (!$fp) {
             $this->error = new IXR_Error(-32300, 'transport error - could not open socket');
             return false;
@@ -589,7 +530,7 @@ class IXR_Client extends Object {
             }
         }
         if ($this->debug) {
-            echo '<pre>'.htmlentities($contents)."\n</pre>\n\n";
+            echo '<pre>'.htmlspecialchars($contents)."\n</pre>\n\n";
         }
         // Now parse what we've got back
         $this->message = new IXR_Message($contents);
@@ -622,21 +563,10 @@ class IXR_Client extends Object {
 }
 
 
-/**
- * IXR - The Inutio XML-RPC Library - (c) Incutio Ltd 2002
- * Beta 1.5 - Simon Willison, September 4th 2002
- * Site:   http://scripts.incutio.com/xmlrpc/
- * Manual: http://scripts.incutio.com/xmlrpc/manual.php
- * Forum:  http://forums.incutio.com/viewforum.php?forum=ixr
- * Made available under the Artistic License: http://www.opensource.org/licenses/artistic-license.php
- * 
- * Modified by Oscar 05-06-2003 to make it inherit from the Object object
- */
-class IXR_Error extends Object {
+class IXR_Error {
     var $code;
     var $message;
     function IXR_Error($code, $message) {
-    	$this->Object();
         $this->code = $code;
         $this->message = $message;
     }
@@ -657,7 +587,7 @@ class IXR_Error extends Object {
       </struct>
     </value>
   </fault>
-</methodResponse> 
+</methodResponse>
 
 EOD;
         return $xml;
@@ -665,17 +595,7 @@ EOD;
 }
 
 
-/**
- * IXR - The Inutio XML-RPC Library - (c) Incutio Ltd 2002
- * Beta 1.5 - Simon Willison, September 4th 2002
- * Site:   http://scripts.incutio.com/xmlrpc/
- * Manual: http://scripts.incutio.com/xmlrpc/manual.php
- * Forum:  http://forums.incutio.com/viewforum.php?forum=ixr
- * Made available under the Artistic License: http://www.opensource.org/licenses/artistic-license.php
- * 
- * Modified by Oscar 05-06-2003 to make it inherit from the Object object
- */
-class IXR_Date extends Object {
+class IXR_Date {
     var $year;
     var $month;
     var $day;
@@ -683,26 +603,24 @@ class IXR_Date extends Object {
     var $minute;
     var $second;
     function IXR_Date($time) {
-    	$this->Object();
         // $time can be a PHP timestamp or an ISO one
-        if (is_int($time) == $time) {
+        if (is_numeric($time)) {
             $this->parseTimestamp($time);
         } else {
             $this->parseIso($time);
         }
     }
     function parseTimestamp($timestamp) {
-        // -mhe corrected bug with 'Y''Y''Y' to 'Y''m''d'
         $this->year = date('Y', $timestamp);
-        $this->month = date('m', $timestamp);
-        $this->day = date('d', $timestamp);
+        $this->month = date('Y', $timestamp);
+        $this->day = date('Y', $timestamp);
         $this->hour = date('H', $timestamp);
         $this->minute = date('i', $timestamp);
         $this->second = date('s', $timestamp);
     }
     function parseIso($iso) {
         $this->year = substr($iso, 0, 4);
-        $this->month = substr($iso, 4, 2); 
+        $this->month = substr($iso, 4, 2);
         $this->day = substr($iso, 6, 2);
         $this->hour = substr($iso, 9, 2);
         $this->minute = substr($iso, 12, 2);
@@ -720,20 +638,9 @@ class IXR_Date extends Object {
 }
 
 
-/**
- * IXR - The Inutio XML-RPC Library - (c) Incutio Ltd 2002
- * Beta 1.5 - Simon Willison, September 4th 2002
- * Site:   http://scripts.incutio.com/xmlrpc/
- * Manual: http://scripts.incutio.com/xmlrpc/manual.php
- * Forum:  http://forums.incutio.com/viewforum.php?forum=ixr
- * Made available under the Artistic License: http://www.opensource.org/licenses/artistic-license.php
- * 
- * Modified by Oscar 05-06-2003 to make it inherit from the Object object
- */
-class IXR_Base64 extends Object {
+class IXR_Base64 {
     var $data;
     function IXR_Base64($data) {
-    	$this->Object();
         $this->data = $data;
     }
     function getXml() {
@@ -742,16 +649,6 @@ class IXR_Base64 extends Object {
 }
 
 
-/**
- * IXR - The Inutio XML-RPC Library - (c) Incutio Ltd 2002
- * Beta 1.5 - Simon Willison, September 4th 2002
- * Site:   http://scripts.incutio.com/xmlrpc/
- * Manual: http://scripts.incutio.com/xmlrpc/manual.php
- * Forum:  http://forums.incutio.com/viewforum.php?forum=ixr
- * Made available under the Artistic License: http://www.opensource.org/licenses/artistic-license.php
- * 
- * Modified by Oscar 05-06-2003 to make it inherit from the Object object
- */
 class IXR_IntrospectionServer extends IXR_Server {
     var $signatures;
     var $help;
@@ -763,27 +660,27 @@ class IXR_IntrospectionServer extends IXR_Server {
             'specVersion' => 1
         );
         $this->addCallback(
-            'system.methodSignature', 
-            'this:methodSignature', 
-            array('array', 'string'), 
+            'system.methodSignature',
+            'this:methodSignature',
+            array('array', 'string'),
             'Returns an array describing the return type and required parameters of a method'
         );
         $this->addCallback(
-            'system.getCapabilities', 
-            'this:getCapabilities', 
-            array('struct'), 
+            'system.getCapabilities',
+            'this:getCapabilities',
+            array('struct'),
             'Returns a struct describing the XML-RPC specifications supported by this server'
         );
         $this->addCallback(
-            'system.listMethods', 
-            'this:listMethods', 
-            array('array'), 
+            'system.listMethods',
+            'this:listMethods',
+            array('array'),
             'Returns an array of available methods on this server'
         );
         $this->addCallback(
-            'system.methodHelp', 
-            'this:methodHelp', 
-            array('string', 'string'), 
+            'system.methodHelp',
+            'this:methodHelp',
+            array('string', 'string'),
             'Returns a documentation string for the specified method'
         );
     }
@@ -897,17 +794,6 @@ class IXR_IntrospectionServer extends IXR_Server {
 }
 
 
-
-/**
- * IXR - The Inutio XML-RPC Library - (c) Incutio Ltd 2002
- * Beta 1.5 - Simon Willison, September 4th 2002
- * Site:   http://scripts.incutio.com/xmlrpc/
- * Manual: http://scripts.incutio.com/xmlrpc/manual.php
- * Forum:  http://forums.incutio.com/viewforum.php?forum=ixr
- * Made available under the Artistic License: http://www.opensource.org/licenses/artistic-license.php
- * 
- * Modified by Oscar 05-06-2003 to make it inherit from the Object object
- */
 class IXR_ClientMulticall extends IXR_Client {
     var $calls = array();
     function IXR_ClientMulticall($server, $path = false, $port = 80) {
@@ -928,7 +814,5 @@ class IXR_ClientMulticall extends IXR_Client {
         return parent::query('system.multicall', $this->calls);
     }
 }
-
-
 
 ?>
