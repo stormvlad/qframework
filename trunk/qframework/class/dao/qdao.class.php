@@ -296,11 +296,16 @@
         /**
         * Add function info here
         */
-        function getDbObjects($where, $order, $offset, $numRows)
+        function getDbObjects($whereClause = null, $orderClause = null, $offset = null, $numRows = null)
         {
             $objClassName = str_replace("dao", "dbobject", $this->getClassName());
-            $result       = $this->select($where, $order, $offset, $numRows);
-            $items        = array();
+
+            if (!($result = $this->select($whereClause, $orderClause, $offset, $numRows)))
+            {
+                return false;
+            }
+
+            $items = array();
 
             while ($row = $result->FetchRow())
             {
