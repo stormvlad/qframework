@@ -306,8 +306,9 @@
         {
             $controller = &$this->_controllerParams->getController();
             $request    = &$this->_controllerParams->getHttpRequest();
+            $method     = $request->getRequestMethod();
 
-            if (!$controller->_sessionEnabled || $request->getRequestMethod() != $this->getValidationMethod())
+            if (!$controller->_sessionEnabled || (($this->getValidationMethod() & $method) != $method))
             {
                 return;
             }
