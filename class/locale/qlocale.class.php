@@ -348,29 +348,44 @@
         */
         function i18n($id)
         {
-            if ($this->keyExists($id))
+            if (is_array($id))
             {
-                $string = $this->_messages->getValue($id);
+                $translated = array();
+
+                foreach ($id as $key => $value)
+                {
+                    $tKey   = $this->i18n($key);
+                    $tValue = $this->i18n($value);
+
+                    $translated[$tKey] = $tValue;
+                }
             }
             else
             {
-                $string = $id;
+                if ($this->keyExists($id))
+                {
+                    $translated = $this->_messages->getValue($id);
+                }
+                else
+                {
+                    $translated = $id;
+                }
+
+                if( $this->getDirection() == "rtl" )
+                {
+                    $translated = "<span dir=\"rtl\">" . $translated . "</span>";
+                }
+
+                $numArgs = func_num_args();
+                $argList = func_get_args();
+
+                for ($i = 1; $i < $numArgs; $i++)
+                {
+                    $translated = str_replace("%" . $i, $argList[$i], $translated);
+                }
             }
 
-            if( $this->getDirection() == "rtl" )
-            {
-                $string = "<span dir=\"rtl\">" . $string . "</span>";
-            }
-
-            $numArgs = func_num_args();
-            $argList = func_get_args();
-
-            for ($i = 1; $i < $numArgs; $i++)
-            {
-                $string = str_replace("%" . $i, $argList[$i], $string);
-            }
-
-            return $string;
+            return $translated;
         }
 
         /**
