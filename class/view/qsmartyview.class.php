@@ -1,7 +1,7 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qview.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/template/qsmartyrenderer.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qsmartyrenderer.class.php");
 
     /**
      * Extends the original 'View' class to provide support for common operations, for example

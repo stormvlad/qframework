@@ -1,7 +1,7 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/template/smarty/Smarty.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/template/qviewrenderer.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/smarty/Smarty.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qviewrenderer.class.php");
 
     define(DEFAULT_TEMPLATE_CACHE_DIR, "tmp/");
     define(DEFAULT_TEMPLATE_COMPILE_DIR, "tmp/");

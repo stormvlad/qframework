@@ -29,7 +29,7 @@
         /**
          * Add function info here
          */
-        function validate(&$controller, &$httpRequest)
+        function validate(&$controller, &$httpRequest, &$user)
         {
             return true;
         }
