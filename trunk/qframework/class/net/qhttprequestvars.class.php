@@ -17,6 +17,14 @@
         /**
         *    Add function info here
         */
+        function getRequestMethod()
+        {
+            return $this->getValue("__method__");
+        }
+
+        /**
+        *    Add function info here
+        */
         function save()
         {
             $this->_save($_REQUEST, $this->getAsArray());
