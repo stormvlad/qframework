@@ -38,7 +38,7 @@
         /**
         * Add function info here
         */
-        function &getUser()
+        function &getInstance()
         {
             static $user;
 

@@ -3,18 +3,32 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/libs/adodb/adodb.inc.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfig.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/timer/qtimer.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qclient.class.php");
 
     /**
      * Provides a singleton for accessing the db.
      */
     class qDb extends qObject
     {
+        var $_db;
+
         /**
         * Add function info here
         */
-        function qDb()
+        function qDb(&$db)
         {
             $this->qObject();
+            $this->_db = &$db;
+
+            overload("qdb");
+
+            if ($this->getClassName() != "qdb")
+            {
+                overload($this->getClassName());
+            }
+
+            $this->registerEvent("DB_SQL_QUERY_EVENT");
         }
 
         /**
@@ -47,6 +61,33 @@
             }
 
             return str_replace("'", "''", $string);
+        }
+
+        /**
+        * Add function info here
+        */
+        function __call($method, $args, &$return)
+        {
+            if ($method == "execute" || $method == "selectlimit")
+            {
+                $t = new qTimer();
+                $return = call_user_func_array(array(&$this->_db, $method), $args);
+                $t->stop();
+
+                $params = array(
+                    "ip"    => qClient::getIp(),
+                    "class" => $this->getClassName(),
+                    "sql"   => $args[0],
+                    "time"  => $t->get());
+
+                $this->sendEvent("DB_SQL_QUERY_EVENT", $params);
+            }
+            else
+            {
+                $return = call_user_func_array(array(&$this->_db, $method), $args);
+            }
+
+            return true;
         }
     }
 ?>

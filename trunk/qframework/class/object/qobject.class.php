@@ -148,7 +148,7 @@
          */
         function unregisterEvent($event)
         {
-            $eventManager = &qEventManager::getEventManager();
+            $eventManager = &qEventManager::getInstance();
             return $eventManager->unregisterEvent($this, $event);
         }
 
@@ -157,7 +157,7 @@
          */
         function registerEvent($event)
         {
-            $eventManager = &qEventManager::getEventManager();
+            $eventManager = &qEventManager::getInstance();
             return $eventManager->registerEvent($this, $event);
         }
 
@@ -166,7 +166,7 @@
          */
         function addEventHandler($event, &$obj, $method)
         {
-            $eventManager = &qEventManager::getEventManager();
+            $eventManager = &qEventManager::getInstance();
             return $eventManager->addEventHandler($event, $obj, $method);
         }
 
@@ -175,7 +175,7 @@
          */
         function sendEvent($event, $eventArgs = array())
         {
-            $eventManager = &qEventManager::getEventManager();
+            $eventManager = &qEventManager::getInstance();
             return $eventManager->sendEvent($this, $event, $eventArgs);
         }
     }
