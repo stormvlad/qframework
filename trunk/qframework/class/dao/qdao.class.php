@@ -322,7 +322,7 @@
         */
         function getDbObject($whereClause = null)
         {
-            if (!($items = $this->getDbObjects($where)))
+            if (!($items = $this->getDbObjects($whereClause)))
             {
                 return false;
             }
