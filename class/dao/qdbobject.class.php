@@ -9,6 +9,7 @@
     class qDbObject extends qObject
     {
         var $_fields;
+        var $_idFields;
 
         /**
         * Add function info here
@@ -16,7 +17,17 @@
         function qDbObject($fields = null)
         {
             $this->qObject();
-            $this->_fields = new qProperties($fields);
+
+            $this->_fields   = new qProperties($fields);
+            $this->_idFields = array();
+        }
+
+        /**
+        * Add function info here
+        */
+        function addIdField($fieldName)
+        {
+            $this->_idFields[] = $fieldName;
         }
 
         /**
@@ -74,6 +85,22 @@
                     $this->_fields->setValue($key, $value);
                 }
             }
+        }
+
+        /**
+        * Add function info here
+        */
+        function getFields()
+        {
+            return $this->_fields->getAsArray();
+        }
+
+        /**
+        * Add function info here
+        */
+        function getIdFields()
+        {
+            return $this->_idFields;
         }
 
         /**
