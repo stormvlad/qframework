@@ -4,25 +4,25 @@
 
     class qFormat extends qObject
     {
-        function sanitize($str, $length = null) 
+        function sanitize($str, $length = null)
         {
             $str = qFormat::removeAccents($str);
             $str = strtolower($str);
             $str = preg_replace('/&.+?;/', '', $str); // kill entities
             $str = preg_replace('/[^a-z0-9 _-]/', '', $str);
             $str = preg_replace('/\s+/', ' ', $str);
-            $str = str_replace(' ', '-', $str);
-            $str = preg_replace('|-+|', '-', $str);
+            $str = str_replace(' ', '_', $str);
+            $str = preg_replace('|-+|', '_', $str);
             $str = trim($str, '-');
-            
+
             if (!empty($length))
             {
                 $str = substr($str, 0, $length);
             }
-            
+
             return $str;
         }
-        
+
         function removeAccents($string)
         {
             $chars['in']  = chr(128).chr(131).chr(138).chr(142).chr(154).chr(158)
@@ -37,63 +37,63 @@
                             .chr(252).chr(253).chr(255);
             $chars['out'] = "EfSZszYcYuAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy";
 
-            if (qFormat::seemsUtf8($string)) 
+            if (qFormat::seemsUtf8($string))
             {
                 $invalid_latin_chars = array(chr(197).chr(146) => 'OE', chr(197).chr(147) => 'oe', chr(197).chr(160) => 'S', chr(197).chr(189) => 'Z', chr(197).chr(161) => 's', chr(197).chr(190) => 'z', chr(226).chr(130).chr(172) => 'E');
                 $string              = utf8_decode(strtr($string, $invalid_latin_chars));
             }
-            
+
             $string              = strtr($string, $chars['in'], $chars['out']);
             $double_chars['in']  = array(chr(140), chr(156), chr(198), chr(208), chr(222), chr(223), chr(230), chr(240), chr(254));
             $double_chars['out'] = array('OE', 'oe', 'AE', 'DH', 'TH', 'ss', 'ae', 'dh', 'th');
             $string              = str_replace($double_chars['in'], $double_chars['out'], $string);
 
             return $string;
-        }        
-        
+        }
+
         // by bmorel at ssi dot fr
-        function seemsUtf8($Str) 
+        function seemsUtf8($Str)
         {
-        	for ($i=0; $i<strlen($Str); $i++) 
-        	{
-        		if (ord($Str[$i]) < 0x80) 
-        		{
-        		    continue; // 0bbbbbbb
-        		}
-        		elseif ((ord($Str[$i]) & 0xE0) == 0xC0)
-        		{
-        		    $n=1; // 110bbbbb
-        		}
-        		elseif ((ord($Str[$i]) & 0xF0) == 0xE0)
-        		{
-        		    $n=2; // 1110bbbb
-        		}        		    
-        		elseif ((ord($Str[$i]) & 0xF8) == 0xF0)
-        		{
-        		    $n=3; // 11110bbb
-        		}        		    
-        		elseif ((ord($Str[$i]) & 0xFC) == 0xF8)
-        		{
-        		    $n=4; // 111110bb 
-        		}
-        		elseif ((ord($Str[$i]) & 0xFE) == 0xFC)
-        		{
-        		    $n=5; // 1111110b 
-        		}
-        		else 
-        		{
-        		    return false; // Does not match any model
-        		}
-        		
-        		for ($j=0; $j<$n; $j++) // n bytes matching 10bbbbbb follow ?
-        		{ 
-        			if ((++$i == strlen($Str)) || ((ord($Str[$i]) & 0xC0) != 0x80))
-        			return false;
-        		}
-        	}
-        	
-        	return true;
-        }        
+            for ($i=0; $i<strlen($Str); $i++)
+            {
+                if (ord($Str[$i]) < 0x80)
+                {
+                    continue; // 0bbbbbbb
+                }
+                elseif ((ord($Str[$i]) & 0xE0) == 0xC0)
+                {
+                    $n=1; // 110bbbbb
+                }
+                elseif ((ord($Str[$i]) & 0xF0) == 0xE0)
+                {
+                    $n=2; // 1110bbbb
+                }
+                elseif ((ord($Str[$i]) & 0xF8) == 0xF0)
+                {
+                    $n=3; // 11110bbb
+                }
+                elseif ((ord($Str[$i]) & 0xFC) == 0xF8)
+                {
+                    $n=4; // 111110bb
+                }
+                elseif ((ord($Str[$i]) & 0xFE) == 0xFC)
+                {
+                    $n=5; // 1111110b
+                }
+                else
+                {
+                    return false; // Does not match any model
+                }
+
+                for ($j=0; $j<$n; $j++) // n bytes matching 10bbbbbb follow ?
+                {
+                    if ((++$i == strlen($Str)) || ((ord($Str[$i]) & 0xC0) != 0x80))
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 
 ?>
