@@ -68,49 +68,4 @@
         }
     }
 
-    /**
-     * This error handler takes care of throwing exceptions whenever an error
-     * occurs.
-     */
-    function _internalErrorHandler($errorCode, $errorString, $errorFile, $errorLine)
-    {
-
-        if (error_reporting() == 0) // don't respond to the error if it was suppressed with a '@'
-        {
-            return;
-        }
-
-        if (($errorCode != E_NOTICE) && ($errorCode != E_WARNING) && ($errorCode != E_STRICT))
-        {
-            $e = new qException($errorString, $errorCode);
-            $e->qthrow();
-        }
-        elseif (defined("_DEBUG_") && _DEBUG_ && ($errorCode != E_STRICT) && (substr($errorString, 0, 17) != "Undefined index: "))
-        {
-            switch($errorCode)
-            {
-                case E_NOTICE:
-                    print("<b>NOTICE</b>");
-                    break;
-
-                case E_WARNING:
-                    print("<b>WARNING</b>");
-                    break;
-            }
-
-            print (": $errorString in line $errorLine of file $errorFile<br/>");
-        }
-    }
-
-    /**
-     * This error handler takes care of throwing exceptions whenever an error
-     * occurs.
-     */
-    function _internalErrorHandlerDummy($errorCode, $errorString, $errorFile, $errorLine)
-    {
-    }
-
-    error_reporting(E_ALL);
-    $old_error_handler = set_error_handler("_internalErrorHandler");
-
 ?>

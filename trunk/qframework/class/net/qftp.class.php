@@ -120,9 +120,7 @@
         */
         function cd($dir)
         {
-            $oldErrorHandler = set_error_handler("_internalErrorHandlerDummy");
-            $result          = ($this->_ftp->cd($dir) === true);
-            set_error_handler($oldErrorHandler);
+            $result = ($this->_ftp->cd($dir) === true);
 
             return $result;
         }
@@ -147,8 +145,6 @@
         */
         function put($localName, $remoteName, $overwrite = DEFAULT_FTP_OVERWRITE)
         {
-            $oldErrorHandler = set_error_handler("_internalErrorHandlerDummy");
-
             if (substr($localName, -1) == "/")
             {
                 $result = ($this->_ftp->putRecursive($localName, $remoteName, $overwrite) === true);
@@ -158,7 +154,6 @@
                 $result = ($this->_ftp->put($localName, $remoteName, $overwrite) === true);
             }
 
-            set_error_handler($oldErrorHandler);
             return $result;
         }
 
