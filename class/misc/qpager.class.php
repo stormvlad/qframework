@@ -46,7 +46,14 @@
 
             if ($regsForPage == 0)
             {
-                $this->_regsForPage = $totalRegs;
+                if ($totalRegs > 0)
+                {
+                    $this->_regsForPage = $totalRegs;
+                }
+                else
+                {
+                    $this->_regsForPage = DEFAULT_PAGER_REGS_FOR_PAGE;
+                }
             }
 
             $this->_init();
