@@ -316,6 +316,22 @@
 
             return $items;
         }
+
+        /**
+        * Add function info here
+        */
+        function getAll()
+        {
+            return $this->getDbObjects();
+        }
+
+        /**
+        * Add function info here
+        */
+        function getFromId($id)
+        {
+            return $this->getDbObjects("id='" . $id . "'");
+        }
     }
 
 ?>

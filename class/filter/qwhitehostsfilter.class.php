@@ -2,15 +2,15 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qhostsfilter.class.php");
 
-    class qBlackHostsFilter extends qHostsFilter
+    class qWhiteHostsFilter extends qHostsFilter
     {
         /**
         * Add function info here
         */
-        function qBlackHostsFilter(&$controllerParams)
+        function qWhiteHostsFilter(&$controllerParams)
         {
             $this->qHostsFilter($controllerParams);
-            $this->setOrder("Deny,Allow");
+            $this->setOrder("Allow,Deny");
         }
 
         /**
