@@ -41,21 +41,5 @@ $this->addIdField("{$idField}");
         {literal}{{/literal}
             return parent::getValue($fieldName);
         {literal}}{/literal}
-
-        /**
-        * setValue method override
-        */
-        function setOuterValue($fieldName, $value)
-        {literal}{{/literal}
-            parent::setOuterValue($fieldName, $value);
-        {literal}}{/literal}
-
-        /**
-        * setValue method override
-        */
-        function getOuterValue($fieldName)
-        {literal}{{/literal}
-            return parent::getOuterValue($fieldName);
-        {literal}}{/literal}
     {literal}}{/literal}
 ?>
