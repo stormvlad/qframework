@@ -4,16 +4,22 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qredirectrenderer.class.php");
 
     /**
-     * Extends the original 'View' class to provide support for common operations, for example
-     * to automatically add support for locale. It is recommended
-     * that all classes that generate a view extend from this unless strictly necessary
-     */
+     * @brief Simple vista de redirección
+     *
+     * Redirecciona el navegador a otra URL
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    06/03/2005 19:45
+     * @version 1.0
+     * @ingroup view
+     * @see qRedirectRenderer
+     */     
     class qRedirectView extends qView
     {
         var $_url;
 
         /**
-         * Add function info here
+         * Constructor
          */
         function qRedirectView($url)
         {

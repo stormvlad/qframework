@@ -4,14 +4,23 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
 
     /**
-     * Una vista qView representa la capa de presentació de la acció.  
-     * La sortida pot ser emplenada omplint atributs, que la plantilla 
-     * pot manipular i mostrar.
-     *
-     * Methods provided by the View object that every object inheriting from this
-     * should implement
-     * 
+     * @defgroup view Vista
+     * @ingroup core
      */
+
+    /**
+     * @brief Representa la capa de presentación
+     *
+     * Cada vista qView representa la capa de presentación de una acción.
+     * La salida puede ser rellenada con atributos, que la plantilla puede
+     * manipular i mostrar libremente.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    06/03/2005 19:36
+     * @version 1.0
+     * @ingroup core view
+     */
+     
     class qView extends qObject
     {
         var $_renderer;

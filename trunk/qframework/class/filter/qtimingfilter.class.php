@@ -12,9 +12,9 @@
         /**
         * Add function info here
         */
-        function qTimingFilter(&$controllerParams)
+        function qTimingFilter()
         {
-            $this->qFilter($controllerParams);
+            $this->qFilter();
         }
 
         /**

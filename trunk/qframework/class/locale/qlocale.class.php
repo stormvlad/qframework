@@ -35,8 +35,11 @@
         }
 
         /**
-        *    Add function info here
-        */
+         * Devuelve la única instancia de qLocale
+         *
+         * @note Basado en el patrón Singleton. El objectivo de este método es asegurar que exista sólo una instancia de esta clase y proveer de un punto global de accesso a ella.
+         * @return qLocale
+         */
         function &getInstance()
         {
             static $localeInstance;

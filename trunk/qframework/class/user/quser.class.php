@@ -44,8 +44,11 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Devuelve una instancia de la clase qUser
+         *
+         * @note Basado en el patrón Singleton. El objectivo de este método es asegurar que exista sólo una instancia de esta clase y proveer de un punto global de accesso a ella.
+         * @return qUser
+         */
         function &getInstance()
         {
             static $user;

@@ -20,8 +20,11 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Devuelve la sentencia SQL para cargar los datos de la sesión
+         *
+         * @private
+         * @exception qUserDbStorage::_getSqlLoadStatement: This method must be implemented by child classes.
+         */
         function _getSqlLoadStatement(&$user)
         {
             throw(new qException("qUserDbStorage::_getSqlLoadStatement: This method must be implemented by child classes."));
@@ -29,8 +32,11 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Devuelve la sentencia SQL para salvar los datos de la sesión
+         *
+         * @private
+         * @exception qUserDbStorage::_getSqlLoadStatement: This method must be implemented by child classes.
+         */
         function _getSqlStoreStatement(&$user)
         {
             throw(new Exception("qUserDbStorage::_getSqlLoadStatement: This method must be implemented by child classes."));

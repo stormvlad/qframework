@@ -15,10 +15,16 @@
     define("DEFAULT_PDF_VIEW_CONTENT_FILENAME", "doc.pdf");
 
     /**
-     * Extends the original 'View' class to provide support for common operations, for example
-     * to automatically add support for locale. It is recommended
-     * that all classes that generate a view extend from this unless strictly necessary
-     */
+     * @brief Visualización en PDF
+     *
+     * Vista en formato de archivo intercanviable PDF
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    06/03/2005 19:47
+     * @version 1.0
+     * @ingroup view
+     * @see qPdfRenderer
+     */      
     class qPdfView extends qView
     {
         var $_templateName;

@@ -13,9 +13,9 @@
         /**
         * Add function info here
         */
-        function qGoogleFilter(&$controllerParams, $colors = null)
+        function qGoogleFilter($colors = null)
         {
-            $this->qFilter($controllerParams);
+            $this->qFilter();
 
             if (empty($colors))
             {

@@ -1,8 +1,8 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qurldownloader.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qipformatrule.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidator.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qipformatrule.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qvalidator.class.php");
 
     /**
     * qUrlDownloader Base Class

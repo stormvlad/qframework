@@ -9,10 +9,16 @@
     define("DEFAULT_DAO_GENERATOR_TEMPLATES_DIR", "templates/dao_generator/");
 
     /**
-    *  Base class for data access objects
-    */
-    class qDaoGenerator extends qObject
-    {
+     * @brief Generador de clases DAO
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    06/03/2005 19:36
+     * @version 1.0
+     * @ingroup dao
+     * @see qDao Objetos generados
+     */
+     class qDaoGenerator extends qObject
+     {
         var $_db;
         var $_outputDir;
         var $_daoTemplate;

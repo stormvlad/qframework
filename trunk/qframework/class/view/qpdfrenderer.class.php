@@ -7,11 +7,16 @@
     define("DEFAULT_PDF_TEMPLATES_EXTENSION", ".pdml");
 
     /**
-     * Inherits from Properties but just to add some default
-     * values to some settings
-     */
-    class qPdfRenderer extends qViewRenderer
-    {
+     * @brief Motor de renderizado en PDF
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    06/03/2005 19:50
+     * @version 1.0
+     * @ingroup view
+     * @see qPdfView
+     */ 
+     class qPdfRenderer extends qViewRenderer
+     {
         var $_pdfTemplatesDir;
         var $_pdfTemplatesExtension;
 

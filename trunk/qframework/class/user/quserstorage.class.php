@@ -9,16 +9,20 @@
     class qUserStorage extends qObject
     {
         /**
-        * Add function info here
-        */
+         * Constructor
+         */
         function qUserStorage()
         {
             $this->qObject();
         }
 
         /**
-        * Add function info here
-        */
+         * Carga los datos de la sesión del usuario
+         *
+         * @param user <em>qUser</em> Referencia al objeto usuario donde cargar los datos
+         * @exception qUserStorage::load: This method must be implemented by child classes.
+         * @private
+         */
         function load(&$user)
         {
             throw(new qException("qUserStorage::load: This method must be implemented by child classes."));
@@ -26,8 +30,12 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Salva los datos de la sesión del usuario
+         *
+         * @param user <em>qUser</em> Referencia al objeto usuario donde salvar los datos
+         * @exception qUserStorage::store: This method must be implemented by child classes.
+         * @private
+         */
         function store(&$user)
         {
             throw(new qException("qUserStorage::store: This method must be implemented by child classes."));
