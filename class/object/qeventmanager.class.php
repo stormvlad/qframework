@@ -43,6 +43,27 @@
         /**
          * Add function info here
          */
+        function unregisterEvent(&$obj, $event)
+        {
+            if (array_key_exists($event, $this->_registeredEvents))
+            {
+                if ($this->_registeredEvents[$event] == $obj->getClassName())
+                {
+                    unset($this->_registeredEvents[$event]);
+                }
+                else
+                {
+                    throw(new qException("qEventManager::unregisterEvent: '" . $obj->getClassName() . "' class cannot unregister the event with code '" . $event . "' because it's registered to '" . $this->_registeredEvents[$event] . "' class."));
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /**
+         * Add function info here
+         */
         function registerEvent(&$obj, $event)
         {
             if (array_key_exists($event, $this->_registeredEvents))
