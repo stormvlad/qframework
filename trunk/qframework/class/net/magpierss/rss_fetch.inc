@@ -60,6 +60,7 @@ require_once( MAGPIE_EXTLIB . 'Snoopy.class.inc');
  *
 */
 
+define(MAGPIE_CACHE_DIR, "tmp/");
 
 /*=======================================================================*\
     Function: fetch_rss:
