@@ -21,10 +21,11 @@
         */
         function load(&$user)
         {
-            $session     = &qHttp::getSessionVars();
-            $auth        = $session->getValue("auth");
-            $attributes  = $session->getValue("attributes");
-            $permissions = $session->getValue("permissions");
+            $session        = &qHttp::getSessionVars();
+            $auth           = $session->getValue("auth");
+            $lastActionTime = $session->getValue("lastActionTime");
+            $attributes     = $session->getValue("attributes");
+            $permissions    = $session->getValue("permissions");
 
             if (empty($attributes))
             {
@@ -32,6 +33,7 @@
             }
 
             $user->setAuthenticated($auth);
+            $user->setLastActionTime($lastActionTime);
             $user->setAttributes($attributes);
             $user->setPermissions($permissions);
 
@@ -48,6 +50,7 @@
             $permissions = &$user->getPermissions();
 
             $session->setValue("auth", $user->isAuthenticated());
+            $session->setValue("lastActionTime", $user->getLastActionTime());
             $session->setValue("attributes", $attributes);
             $session->setValue("permissions", $permissions);
             $session->save();

@@ -8,6 +8,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qfilterschain.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/quser.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/qusersessionstorage.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qdate.class.php");
 
     define(DEFAULT_ACTION_PARAM, "op");
     define(DEFAULT_ACTION_NAME, "default");
@@ -289,6 +290,8 @@
 
             if ($this->_sessionEnabled)
             {
+                $d = new qDate();
+                $this->_user->setLastActionTime($d->getDate(DATE_FORMAT_TIMESTAMP));
                 $this->_user->store();
             }
         }
