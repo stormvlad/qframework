@@ -14,14 +14,11 @@
      */
     class qObject
     {
-        var $_eventManager;
-
         /**
          * Constructor
          */
         function qObject()
         {
-            $this->_eventManager = &qEventManager::getEventManager();
         }
 
         /**
@@ -125,7 +122,8 @@
          */
         function registerEvent($event)
         {
-            return $this->_eventManager->registerEvent($this, $event);
+            $eventManager = &qEventManager::getEventManager();
+            return $eventManager->registerEvent($this, $event);
         }
 
         /**
@@ -133,7 +131,8 @@
          */
         function addEventHandler($event, &$obj, $method)
         {
-            return $this->_eventManager->addEventHandler($event, $obj, $method);
+            $eventManager = &qEventManager::getEventManager();
+            return $eventManager->addEventHandler($event, $obj, $method);
         }
 
         /**
@@ -141,7 +140,8 @@
          */
         function sendEvent($event, $eventArgs = array())
         {
-            return $this->_eventManager->sendEvent($this, $event, $eventArgs);
+            $eventManager = &qEventManager::getEventManager();
+            return $eventManager->sendEvent($this, $event, $eventArgs);
         }
     }
 ?>

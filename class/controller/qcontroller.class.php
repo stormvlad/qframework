@@ -385,7 +385,7 @@
             }
             else
             {
-                $view->render();
+                print $view->render();
             }
         }
     }
