@@ -1,9 +1,7 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qview.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/template/qtemplateservice.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/locale/qlocale.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qclient.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/template/qsmartyrenderer.class.php");
 
     /**
      * Extends the original 'View' class to provide support for common operations, for example
@@ -12,24 +10,50 @@
      */
     class qSmartyView extends qView
     {
-        var $_templateService;
-        var $_template;
+        var $_templateName;
+        var $_layout;
 
+        /**
+        *    Add function info here
+        */
         function qSmartyView($templateName, $layout)
         {
-            $this->qView();
+            $this->qView(new qSmartyRenderer());
 
-            $this->_templateService = new qTemplateService();
-            $this->_template        = $this->_templateService->Template($templateName, $layout);
+            $this->_templateName = $templateName;
+            $this->_layout       = $layout;
         }
 
-        function render()
+        /**
+        *    Add function info here
+        */
+        function getTemplateName()
         {
-            $this->setValue("client", new qClient());
-            $this->setValue("templateFileName", $this->_template->getTemplateFile());
-            $this->_template->assign($this->_params->getAsArray());
-            print $this->_template->fetch();
+            return $this->_templateName;
         }
 
+        /**
+        *    Add function info here
+        */
+        function setTemplateName($templateName)
+        {
+            $this->_templateName = $templateName;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getLayout()
+        {
+            return $this->_layout;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setLayout($layout)
+        {
+            $this->_layout = $layout;
+        }
     }
 ?>
