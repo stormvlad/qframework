@@ -74,5 +74,28 @@
 
             return $file;
         }
+
+        /**
+         * Add function info here
+         */
+        function explode($separator, $string)
+        {
+            if (empty($separator))
+            {
+                $len   = strlen($string);
+                $items = array();
+
+                for ($i = 0; $i < $len; $i++)
+                {
+                    $items[] = substr($string, $i, 1);
+                }
+
+                return $items;
+            }
+            else
+            {
+                return explode($separator, $string);
+            }
+        }
     }
 ?>

@@ -214,7 +214,16 @@
             }
             else
             {
-                $actionClassName = ucfirst($actionName) . "Action";
+                $classFile = $this->_actionsClassPath . strtolower($actionName) . "action.class.php";
+
+                if (is_file($classFile) && is_readable($classFile))
+                {
+                    $actionClassName = ucfirst($actionName) . "Action";
+                }
+                else
+                {
+                    $actionClassName = $this->_getActionClassName($this->_defaultAction);
+                }
             }
 
             return $actionClassName;
