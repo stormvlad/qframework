@@ -146,7 +146,7 @@
 
             $output = $smartyView->render();
 
-            $f = new qFile("tmp/" . strtolower($tableName) . "dbobject.class.php");
+            $f = new qFile("tmp/" . strtolower($className) . ".class.php");
             $f->open("w");
             $f->write($output);
             $f->close();
@@ -169,7 +169,7 @@
 
             $output = $smartyView->render();
 
-            $f = new qFile("tmp/" . strtolower($tableName) . "dao.class.php");
+            $f = new qFile("tmp/" . strtolower($className) . ".class.php");
             $f->open("w");
             $f->write($output);
             $f->close();
@@ -195,7 +195,7 @@
 
                 foreach ($tables as $table)
                 {
-                    $this->_ouputTable($table);
+                    $this->_outputTable($table);
                 }
             }
             else

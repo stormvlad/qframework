@@ -154,7 +154,6 @@
             }
 
             $sql = substr($sql, 0, -2) . " WHERE " . $this->_getWhereClause($obj);
-
             return $this->_update($sql);
         }
 
