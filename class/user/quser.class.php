@@ -18,6 +18,7 @@
         var $_loginName;
         var $_lastActionTime;
         var $_attributes;
+        var $_attributesVolatile;
         var $_formValues;
         var $_permissions;
 
@@ -28,15 +29,16 @@
         {
             $this->qObject();
 
-            $this->_sid            = $sid;
-            $this->_loaded         = false;
-            $this->_storage        = &$storage;
-            $this->_authenticated  = false;
-            $this->_loginName      = null;
-            $this->_lastActionTime = null;
-            $this->_attributes     = new qProperties();
-            $this->_formValues     = array();
-            $this->_permissions    = array();
+            $this->_sid                = $sid;
+            $this->_loaded             = false;
+            $this->_storage            = &$storage;
+            $this->_authenticated      = false;
+            $this->_loginName          = null;
+            $this->_lastActionTime     = null;
+            $this->_attributes         = new qProperties();
+            $this->_attributesVolatile = array();
+            $this->_formValues         = array();
+            $this->_permissions        = array();
 
             $this->load();
         }
@@ -160,19 +162,24 @@
         /**
         * Add function info here
         */
-        function setAttributes($attributes)
+        function setAttributes($attributes, $volatile = false)
         {
             foreach ($attributes as $name => $value)
             {
-                $this->_attributes->setValue($name, $value);
+                $this->setAttribute($name, $value, $volatile);
             }
         }
 
         /**
         * Add function info here
         */
-        function setAttribute($name, $value)
+        function setAttribute($name, $value, $volatile = false)
         {
+            if ($volatile)
+            {
+                $this->setVolatile($name, $volatile);
+            }
+
             $this->_attributes->setValue($name, $value);
         }
 
@@ -190,6 +197,22 @@
         function hasAttribute($name)
         {
             return $this->_attributes->keyExists($name);
+        }
+
+        /**
+        * Add function info here
+        */
+        function isVolatile($name)
+        {
+            return !empty($this->_attributesVolatile[$name]);
+        }
+
+        /**
+        * Add function info here
+        */
+        function setVolatile($name, $volatile = true)
+        {
+            $this->_attributesVolatile[$name] = $volatile;
         }
 
         /**
@@ -386,6 +409,11 @@
             if (!$this->isLoaded())
             {
                 $this->load();
+            }
+
+            foreach ($this->_attributesVolatile as $key => $value)
+            {
+                $this->removeAttribute($key);
             }
 
             $this->_storage->store($this);
