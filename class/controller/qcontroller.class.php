@@ -42,9 +42,7 @@
 
         var $_sessionEnabled;
 
-        var $_forwardAction;
-
-        var $_pipeline;
+        var $_actionsChain;
 
         /**
          * $ActionsMap is an associative array of the form:
@@ -65,8 +63,7 @@
             $this->_actionMap       = $actionMap;
             $this->_actionParam     = $actionParam;
             $this->_sessionEnabled  = false;
-            $this->_forwardAction   = null;
-            $this->_pipeline        = null;
+            $this->_actionsChain    = array();
         }
 
         /**
@@ -80,32 +77,26 @@
         /**
          * Add function info here
          */
-        function setPipeline(&$pipeline)
-        {
-            $this->_pipeline = &$pipeline;
-        }
-
-        /**
-         * Add function info here
-         */
-        function &getPipeline()
-        {
-            return $this->_pipeline;
-        }
-
-        /**
-         * Add function info here
-         */
         function setSessionEnabled($enabled = true)
         {
             $this->_sessionEnabled = $enabled;
         }
+
+        /**
+         * Add function info here
+         */
+        function registerAction($actionKey, $actionClassName)
+        {
+            $this->_actionMap[$actionKey] = $actionClassName;
+        }
+
         /**
          * Add function info here
          */
         function forward($actionName)
         {
-            $this->_forwardAction = $actionName;
+            $actionClassName = $this->_getActionClassName($actionName);
+            array_push($this->_actionsChain, $actionClassName);
         }
 
         /**
@@ -131,6 +122,17 @@
         }
 
         /**
+         * Add function info here
+         */
+        function loadActionClass($actionClassName)
+        {
+            if (!class_exists($actionClassName))
+            {
+                include_once("class/action/" . strtolower($actionClassName) . ".class.php");
+            }
+        }
+
+        /**
          * Processess the HTTP request sent by the client
          *
          * @param httpRequest HTTP request sent by the client
@@ -148,46 +150,18 @@
                 $httpRequest = &qHttp::getRequestVars();
             }
 
-            if (!empty($this->_pipeline))
+            $actionClassName = $this->_getActionClassName($httpRequest->getValue($this->_actionParam));
+            array_push($this->_actionsChain, $actionClassName);
+
+            while (count($this->_actionsChain) > 0)
             {
-                $result = $this->_pipeline->process();
+                $actionClassName = array_shift($this->_actionsChain);
+                $this->loadActionClass($actionClassName);
+                $actionObject = new $actionClassName();
 
-                if (!$result->isValid())
+                if ($actionObject->validate())
                 {
-                    die("www.qdevel.com");
-                }
-            }
-
-            $i = 0;
-            $performed = false;
-
-            while (!$performed)
-            {
-                if ($i == 0)
-                {
-                    $actionClass = $this->_getActionClassName($httpRequest->getValue($this->_actionParam));
-                }
-                elseif (!empty($this->_forwardAction))
-                {
-                    $actionClass = $this->_getActionClassName($this->_forwardAction);
-                    $this->_forwardAction = null;
-                }
-                else
-                {
-                    $performed = true;
-                }
-
-                if (!$performed)
-                {
-                    include_once("class/action/" . strtolower($actionClass) . ".class.php");
-                    $actionObject = new $actionClass();
-
-                    if ($actionObject->validate())
-                    {
-                        $actionObject->perform($this, $httpRequest);
-                    }
-
-                    $i++;
+                    $actionObject->perform($this, $httpRequest);
                 }
             }
 
@@ -200,7 +174,7 @@
 
             if (empty($view))
             {
-                $e = new qException("Controller::process: The view is empty after calling the perform method.");
+                $e = new qException("qController::process: The view is empty after calling the perform method.");
                 throw($e);
             }
             else

@@ -2,6 +2,8 @@
 
     include_once("qframework/class/net/qrequestgenerator.class.php" );
 
+    define(DEFAULT_INDEX_FILE, "index.php");
+
     /**
      * Generates HTTP GET requests in a transparent way:
      *
@@ -39,7 +41,7 @@
 
         function getIndexUrl($abs = DEFAULT_ABSOLUTE_URL)
         {
-            return $this->getBaseUrl($abs) . "index.php";
+            return $this->getBaseUrl($abs) . DEFAULT_INDEX_FILE;
         }
 
         /**
