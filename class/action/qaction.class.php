@@ -181,40 +181,12 @@
         /**
         * Add function info here
         */
-        function _getNormalizedStep($step)
-        {
-            $user       = &$this->_controllerParams->getUser();
-            $formValues = &$user->getAttributeRef("formValues");
-            $formName   = $this->getFormName();
-
-            if (empty($step))
-            {
-                $step = count($formValues[$formName]) - 1;
-            }
-            else if ($step < 0)
-            {
-                $step = count($formValues[$formName]) -1 + $step;
-            }
-
-            if ($step <  0)
-            {
-                $step = 0;
-            }
-
-            return $step;
-        }
-
-        /**
-        * Add function info here
-        */
         function formValueExists($name, $step = null)
         {
-            $user       = &$this->_controllerParams->getUser();
-            $formValues = &$user->getAttributeRef("formValues");
-            $formName   = $this->getFormName();
-            $step       = $this->_getNormalizedStep($step);
+            $user     = &$this->_controllerParams->getUser();
+            $formName = $this->getFormName();
 
-            return array_key_exists($name, $formValues[$formName][$step]);
+            return $user->formValueExists($formName, $name, $step);
         }
 
         /**
@@ -222,12 +194,10 @@
         */
         function getFormValue($name, $step = null)
         {
-            $user       = &$this->_controllerParams->getUser();
-            $formValues = &$user->getAttributeRef("formValues");
-            $formName   = $this->getFormName();
-            $step       = $this->_getNormalizedStep($step);
+            $user     = &$this->_controllerParams->getUser();
+            $formName = $this->getFormName();
 
-            return $formValues[$formName][$step][$name];
+            return $user->getFormValue($formName, $name, $step);
         }
 
         /**
@@ -235,17 +205,10 @@
         */
         function &getFormValues($step = null)
         {
-            $user       = &$this->_controllerParams->getUser();
-            $formValues = &$user->getAttributeRef("formValues");
-            $formName   = $this->getFormName();
-            $step       = $this->_getNormalizedStep($step);
+            $user     = &$this->_controllerParams->getUser();
+            $formName = $this->getFormName();
 
-            if (empty($formValues[$formName][$step]))
-            {
-                return false;
-            }
-
-            return $formValues[$formName][$step];
+            return $user->getFormValues($formName, $step);
         }
 
         /**
@@ -253,14 +216,10 @@
         */
         function setFormValue($name, $value, $step = null)
         {
-            $user       = &$this->_controllerParams->getUser();
-            $formValues = &$user->getAttributeRef("formValues");
-            $formName   = $this->getFormName();
-            $step       = $this->_getNormalizedStep($step);
+            $user     = &$this->_controllerParams->getUser();
+            $formName = $this->getFormName();
 
-            $formValues[$formName][$step][$name] = $value;
-
-            $user->setAttribute("formValues", $formValues);
+            $user->setFormValue($formName, $name, $value, $step);
         }
 
         /**
@@ -268,10 +227,10 @@
         */
         function setFormValues($values, $step = null)
         {
-            foreach ($values as $key => $value)
-            {
-                $this->setFormValue($key, $value, $step);
-            }
+            $user     = &$this->_controllerParams->getUser();
+            $formName = $this->getFormName();
+
+            $user->setFormValues($formName, $values, $step);
         }
 
         /**
@@ -279,12 +238,10 @@
         */
         function removeFormValue($name, $step = null)
         {
-            $user       = &$this->_controllerParams->getUser();
-            $formValues = &$user->getAttributeRef("formValues");
-            $formName   = $this->getFormName();
-            $step       = $this->_getNormalizedStep($step);
+            $user     = &$this->_controllerParams->getUser();
+            $formName = $this->getFormName();
 
-            unset($formValues[$formName][$step][$name]);
+            $user->removeFormValue($formName, $name, $step);
         }
 
         /**
@@ -292,11 +249,10 @@
         */
         function resetFormValues()
         {
-            $user       = &$this->_controllerParams->getUser();
-            $formValues = &$user->getAttributeRef("formValues");
-            $formName   = $this->getFormName();
+            $user     = &$this->_controllerParams->getUser();
+            $formName = $this->getFormName();
 
-            $formValues[$formName] = array();
+            $user->resetFormValues($formName);
         }
 
         /**
@@ -313,23 +269,6 @@
                 return;
             }
 
-            $user       = &$this->_controllerParams->getUser();
-            $formValues = $user->getAttribute("formValues");
-            $formName   = $this->getFormName();
-
-            if (empty($formValues))
-            {
-                $formValues = array();
-            }
-
-            if (empty($formValues[$formName]))
-            {
-                $formValues[$formName] = array();
-            }
-
-            $step = count($formValues[$formName]);
-            $formValues[$formName][$step] = array();
-
             if ($this->getValidationMethod() == REQUEST_METHOD_GET)
             {
                 $varsObj = &qHttp::getGetVars();
@@ -343,27 +282,30 @@
                 $varsObj = &qHttp::getRequestVars();
             }
 
-            $vars = $varsObj->getAsArray();
+            $user     = &$this->_controllerParams->getUser();
+            $formName = $this->getFormName();
+            $step     = $user->getNextStep($formName);
+            $vars     = $varsObj->getAsArray();
 
             foreach ($vars as $key => $value)
             {
-                $formValues[$formName][$step][$key] = $value;
+                $user->setFormValue($formName, $key, $value, $step);
             }
 
             $prevStep = $step - 1;
 
             if ($prevStep >= 0)
             {
-                foreach ($formValues[$formName][$prevStep] as $key => $value)
+                $prevValues = &$user->getFormValues($formName, $prevStep);
+
+                foreach ($prevValues as $key => $value)
                 {
-                    if (!isset($formValues[$formName][$step][$key]))
+                    if (!$user->formValueExists($formName, $key, $step))
                     {
-                        $formValues[$formName][$step][$key] = $value;
+                        $user->setFormValue($formName, $key, $value, $step);
                     }
                 }
             }
-
-            $user->setAttribute("formValues", $formValues);
         }
 
         /**
