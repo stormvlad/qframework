@@ -36,15 +36,22 @@
         {
             if (!eregi("^http://", $url))
             {
-                $server = &qHttp::getServerVars();
-                $result = "http://" . $server->getValue("HTTP_HOST") . dirname($server->getValue("PHP_SELF")) . "/";
+                $server   = &qHttp::getServerVars();
+                $protocol = "http";
+                $uri      = $server->getValue("HTTP_HOST") . dirname($server->getValue("PHP_SELF")) . "/";
 
                 if (substr($url, 0, 1) == "?")
                 {
-                    $result .= basename($server->getValue("PHP_SELF"));
+                    $uri .= basename($server->getValue("PHP_SELF"));
                 }
 
-                $result .= $url;
+                if ($server->getValue("HTTPS") == "on")
+                {
+                    $protocol = "https";
+                }
+
+                $uri    = str_replace("//", "/", $uri);
+                $result = "http://" . $uri . $url;
             }
             else
             {
