@@ -15,7 +15,7 @@
         */
         function qBlockedHost($host, $mask = 32)
         {
-            $this->Object();
+            $this->qObject();
 
             $this->_host = $host;
             $this->_mask = $mask;

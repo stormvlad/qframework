@@ -64,7 +64,7 @@
         */
         function filter()
         {
-            $clientIp = Client::getIp();
+            $clientIp = qClient::getIp();
 
             foreach ($this->_blockedHosts as $blockedHost)
             {
