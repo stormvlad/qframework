@@ -43,7 +43,7 @@
             $server              = &qHttp::getServerVars();
 
             $this->_params       = Array();
-            $this->_dirName      = dirname($server->getValue("SCRIPT_NAME"));
+            $this->_dirName      = dirname($server->getValue("PHP_SELF"));
             $this->_baseUrl      = "http://" . $server->getValue("SERVER_NAME") . $this->_dirName;
             $this->_xhtmlEnabled = true;
         }
@@ -98,11 +98,11 @@
         {
             $array = array();
     
-            foreach ($this->_params as $key => &$value)
+            foreach ($this->_params as $key => $value)
             {
                 if (in_array($key, $keys))
                 {
-                    $array[$key] =& $value;
+                    $array[$key] =& $this->_params[$key];
                 }
             }
     

@@ -50,15 +50,33 @@
             
             include($file);
 
-            $op       = $this->_params["op"];
+            $op = $this->_params["op"];
             
             if (isset($urlpattern[$op]))
-            {            
-                $pattern  = $urlpattern[$op];
-    
-                preg_match_all("/\{([_0-9a-zA-Z-]+)\}/", $pattern, $matches);
-                $values   = $this->extract($matches[1]);            
-                $pathinfo = str_replace($matches[0], $values, $pattern);
+            {   
+                $patterns = $urlpattern[$op];
+                
+                if (is_array($patterns))
+                {
+                    $ret = $urlpattern[$op][0];
+                    
+                    foreach($patterns as $pattern)
+                    {
+                        preg_match_all("/\{([_0-9a-zA-Z-]+)\}/", $pattern, $matches);
+                        if (count($matches[1]) == count($this->extract($matches[1])))
+                        {
+                            $ret = $pattern;
+                        }
+                    }
+                }         
+                else
+                {
+                    $ret = $patterns;
+                }
+
+                preg_match_all("/\{([_0-9a-zA-Z-]+)\}/", $ret, $matches);
+                $values   = $this->extract($matches[1]);
+                $pathinfo = str_replace($matches[0], $values, $ret);
             }
             else
             {
