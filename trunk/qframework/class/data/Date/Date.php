@@ -1,5 +1,5 @@
 <?php
-//
+/* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
 // +----------------------------------------------------------------------+
@@ -17,26 +17,40 @@
 // |                                                                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: Date.class.php,v 1.2 2004/01/28 17:48:28 phunkphorce Exp $
-//
-// Date Class
-//
-require_once 'qframework/class/data/Date/TimeZone.class.php';
-require_once 'qframework/class/data/Date/Calc.class.php';
-require_once 'qframework/class/data/Date/Span.class.php';
+// $Id: Date.php,v 1.27 2004/03/14 15:22:46 pajoye Exp $
 
+/**@#+
+ * Include supporting classes
+ */
+require_once 'Date/TimeZone.php';
+require_once 'Date/Calc.php';
+require_once 'Date/Span.php';
+/**@#-*/
+
+/**@#+
+ * Output formats.  Pass this to getDate().
+ */
 /**
  * "YYYY-MM-DD HH:MM:SS"
  */
 define('DATE_FORMAT_ISO', 1);
 /**
+ * "YYYYMMSSTHHMMSS(Z|(+/-)HHMM)?"
+ */
+define('DATE_FORMAT_ISO_BASIC', 2);
+/**
+ * "YYYY-MM-SSTHH:MM:SS(Z|(+/-)HH:MM)?"
+ */
+define('DATE_FORMAT_ISO_EXTENDED', 3);
+/**
  * "YYYYMMDDHHMMSS"
  */
-define('DATE_FORMAT_TIMESTAMP', 2);
+define('DATE_FORMAT_TIMESTAMP', 4);
 /**
  * long int, seconds since the unix epoch
  */
-define('DATE_FORMAT_UNIXTIME', 3);
+define('DATE_FORMAT_UNIXTIME', 5);
+/**@#-*/
 
 /**
  * Generic date handling class for PEAR.
@@ -48,7 +62,6 @@ define('DATE_FORMAT_UNIXTIME', 3);
  * @author Baba Buehler <baba@babaz.com>
  * @package Date
  * @access public
- * @version 1.1
  */
 class Date
 {
@@ -92,13 +105,14 @@ class Date
     /**
      * Constructor
      *
-     * Creates a new Date Object
-     * initialized to the current date/time in the
-     * system default time zone by default.  A date optionally
-     * passed in may be in the ISO, TIMESTAMP or UNIXTIME format,
-     * or another Date object.
+     * Creates a new Date Object initialized to the current date/time in the
+     * system-default timezone by default.  A date optionally
+     * passed in may be in the ISO 8601, TIMESTAMP or UNIXTIME format,
+     * or another Date object.  If no date is passed, the current date/time
+     * is used.
      *
      * @access public
+     * @see setDate()
      * @param mixed $date optional - date/time to initialize
      * @return object Date the new Date object
      */
@@ -106,19 +120,11 @@ class Date
     {
         $this->tz = Date_TimeZone::getDefault();
         if (is_null($date)) {
-            $this->setDate(date('Y-m-d H:i:s'));
-        } elseif (is_object($date) && (get_class($date) == 'date')) {
+            $this->setDate(date("Y-m-d H:i:s"));
+        } elseif (is_a($date, 'Date')) {
             $this->copy($date);
-        } elseif (preg_match('/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/', $date)) {
-            $this->setDate($date);
-        } elseif (preg_match('/\d{14}/',$date)) {
-            $this->setDate($date,DATE_FORMAT_TIMESTAMP);
-        } elseif (preg_match('/\d{4}-\d{2}-\d{2}/', $date)) {
-            $this->setDate($date.' 00:00:00');
-        } elseif (preg_match('/\d{8}/',$date)) {
-            $this->setDate($date.'000000',DATE_FORMAT_TIMESTAMP);
         } else {
-            $this->setDate($date,DATE_FORMAT_UNIXTIME);
+            $this->setDate($date);
         }
     }
 
@@ -130,48 +136,46 @@ class Date
      *
      * @access public
      * @param string $date input date
-     * @param int $format format constant (DATE_FORMAT_*) of the input date
+     * @param int $format Optional format constant (DATE_FORMAT_*) of the input date.
+     *                    This parameter isn't really needed anymore, but you could
+     *                    use it to force DATE_FORMAT_UNIXTIME.
      */
     function setDate($date, $format = DATE_FORMAT_ISO)
     {
-        switch ($format) {
-        case DATE_FORMAT_ISO:
-            if (ereg("([0-9]{4})-([0-9]{2})-([0-9]{2})[ ]([0-9]{2}):([0-9]{2}):([0-9]{2})",$date,$regs)) {
-                $this->year   = $regs[1];
-                $this->month  = $regs[2];
-                $this->day    = $regs[3];
-                $this->hour   = $regs[4];
-                $this->minute = $regs[5];
-                $this->second = $regs[6];
-            } else {
-                $this->year   = 0;
-                $this->month  = 1;
-                $this->day    = 1;
-                $this->hour   = 0;
-                $this->minute = 0;
-                $this->second = 0;
+
+        if (
+            preg_match('/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(Z|[\+\-]\d{2}:?\d{2})?)?$/i', $date, $regs)
+            && $format != DATE_FORMAT_UNIXTIME) {
+            // DATE_FORMAT_ISO, ISO_BASIC, ISO_EXTENDED, and TIMESTAMP
+            // These formats are extremely close to each other.  This regex
+            // is very loose and accepts almost any butchered format you could
+            // throw at it.  e.g. 2003-10-07 19:45:15 and 2003-10071945:15
+            // are the same thing in the eyes of this regex, even though the
+            // latter is not a valid ISO 8601 date.
+            $this->year   = $regs[1];
+            $this->month  = $regs[2];
+            $this->day    = $regs[3];
+            $this->hour   = isset($regs[5])?$regs[5]:0;
+            $this->minute = isset($regs[6])?$regs[6]:0;
+            $this->second = isset($regs[7])?$regs[7]:0;
+
+            // if an offset is defined, convert time to UTC
+            // Date currently can't set a timezone only by offset,
+            // so it has to store it as UTC
+            if (isset($regs[8])) {
+                $this->toUTCbyOffset($regs[8]);
             }
-            break;
-        case DATE_FORMAT_TIMESTAMP:
-            if (ereg("([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})",$date,$regs)) {
-                $this->year   = $regs[1];
-                $this->month  = $regs[2];
-                $this->day    = $regs[3];
-                $this->hour   = $regs[4];
-                $this->minute = $regs[5];
-                $this->second = $regs[6];
-            } else {
-                $this->year   = 0;
-                $this->month  = 1;
-                $this->day    = 1;
-                $this->hour   = 0;
-                $this->minute = 0;
-                $this->second = 0;
-            }
-            break;
-        case DATE_FORMAT_UNIXTIME:
+        } elseif (is_numeric($date)) {
+            // UNIXTIME
             $this->setDate(date("Y-m-d H:i:s", $date));
-            break;
+        } else {
+            // unknown format
+            $this->year   = 0;
+            $this->month  = 1;
+            $this->day    = 1;
+            $this->hour   = 0;
+            $this->minute = 0;
+            $this->second = 0;
         }
     }
 
@@ -191,11 +195,25 @@ class Date
         case DATE_FORMAT_ISO:
             return $this->format("%Y-%m-%d %T");
             break;
+        case DATE_FORMAT_ISO_BASIC:
+            $format = "%Y%m%dT%H%M%S";
+            if ($this->tz->getID() == 'UTC') {
+                $format .= "Z";
+            }
+            return $this->format($format);
+            break;
+        case DATE_FORMAT_ISO_EXTENDED:
+            $format = "%Y-%m-%dT%H:%M:%S";
+            if ($this->tz->getID() == 'UTC') {
+                $format .= "Z";
+            }
+            return $this->format($format);
+            break;
         case DATE_FORMAT_TIMESTAMP:
             return $this->format("%Y%m%d%H%M%S");
             break;
         case DATE_FORMAT_UNIXTIME:
-            return mktime($this->hour, $this->minute, $this->second, $this->month, $this->day, $this->year, 0);
+            return mktime($this->hour, $this->minute, $this->second, $this->month, $this->day, $this->year);
             break;
         }
     }
@@ -293,7 +311,7 @@ class Date
                     $output .= sprintf("%02d/%02d/%02d",$this->month,$this->day,$this->year);
                     break;
                 case "e":
-                    $output .= $this->day;
+                    $output .= $this->day * 1; // get rid of leading zero
                     break;
                 case "E":
                     $output .= Date_Calc::dateToDays($this->day,$this->month,$this->year);
@@ -408,11 +426,17 @@ class Date
      * convertTZ().
      *
      * @access public
-     * @param object Date_TimeZone $tz the Date_TimeZone object to use
+     * @param object Date_TimeZone $tz the Date_TimeZone object to use, if called 
+     * with a paramater that is not a Date_TimeZone object, will fall through to
+     * setTZbyID(). 
      */
     function setTZ($tz)
     {
-        $this->tz = $tz;
+    	if(is_a($tz, 'Date_Timezone')) {
+        	$this->tz = $tz;
+    	} else {
+    		$this->setTZbyID($tz);
+    	}
     }
 
     /**
@@ -517,6 +541,36 @@ class Date
        $this->convertTZ($tz);
     }
 
+    function toUTCbyOffset($offset)
+    {
+        if ($offset == "Z" || $offset == "+00:00" || $offset == "+0000") {
+            $this->toUTC();
+            return true;
+        }
+
+        if (preg_match('/([\+\-])(\d{2}):?(\d{2})/', $offset, $regs)) {
+            // convert offset to seconds
+            $hours  = (int) isset($regs[2])?$regs[2]:0;
+            $mins   = (int) isset($regs[3])?$regs[3]:0;
+            $offset = ($hours * 3600) + ($mins * 60);
+
+            if (isset($regs[1]) && $regs[1] == "-") {
+                $offset *= -1;
+            }
+
+            if ($offset > 0) {
+                $this->subtractSeconds(intval($offset));
+            } else {
+                $this->addSeconds(intval(abs($offset)));
+            }
+
+            $this->tz = new Date_TimeZone('UTC');
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Adds a given number of seconds to the date
      *
@@ -527,7 +581,7 @@ class Date
      */
     function addSeconds($sec)
     {
-        $this->addSpan(new Date_Span($sec));
+        $this->addSpan(new Date_Span((integer)$sec));
     }
 
     /**
@@ -540,6 +594,10 @@ class Date
      */
     function addSpan($span)
     {
+        if (!is_a($span, 'Date_Span')) {
+            return;
+        }
+
         $this->second += $span->second;
         if ($this->second >= 60) {
             $this->minute++;
@@ -597,6 +655,13 @@ class Date
      */
     function subtractSpan($span)
     {
+        if (!is_a($span, 'Date_Span')) {
+            return;
+        }
+        if ($span->isEmpty()) {
+            return;
+        }
+
         $this->second -= $span->second;
         if ($this->second < 0) {
             $this->minute--;
@@ -660,9 +725,9 @@ class Date
     }
 
     /**
-     * Test if this date/time is before a certian date/time
+     * Test if this date/time is before a certain date/time
      *
-     * Test if this date/time is before a certian date/time
+     * Test if this date/time is before a certain date/time
      *
      * @access public
      * @param object Date $when the date to test against
@@ -849,10 +914,10 @@ class Date
      * @param boolean $abbr abbrivate the name
      * @return string name of this day
      */
-    function getDayName($abbr = false)
+    function getDayName($abbr = false, $length = 3)
     {
         if ($abbr) {
-            return Date_Calc::getWeekdayAbbrname($this->day, $this->month, $this->year);
+            return Date_Calc::getWeekdayAbbrname($this->day, $this->month, $this->year, $length);
         } else {
             return Date_Calc::getWeekdayFullname($this->day, $this->month, $this->year);
         }
@@ -985,7 +1050,7 @@ class Date
      */
     function getDay()
     {
-        return $this->day;
+        return (int)$this->day;
     }
 
     /**

@@ -44,7 +44,7 @@ class Date_Calc
      * @return string the current date in specified format
      */
 
-    function dateNow($format = '%Y%m%d')
+    function dateNow($format='%Y%m%d')
     {
         return(strftime($format,time()));
 
@@ -90,15 +90,21 @@ class Date_Calc
             $year = Date_Calc::dateNow('%Y');
         }
 
-        if (strlen($year) != 4) {
-            return false;
-        }
-
         if (preg_match('/\D/',$year)) {
             return false;
         }
 
-        return (($year % 4 == 0 && $year % 100 != 0) || $year % 400 == 0);
+        if ($year < 1000) {
+            return false;
+        }
+
+        if ($year < 1582) {
+            // pre Gregorio XIII - 1582
+            return ($year % 4 == 0);
+        } else {
+            // post Gregorio XIII - 1582
+            return ( (($year % 4 == 0) and ($year % 100 != 0)) or ($year % 400 == 0) );
+        }
     } // end func isLeapYear
 
     /**
@@ -620,7 +626,7 @@ class Date_Calc
 
     /**
      * Returns date of the next specific day of the week
-     * on or before the given date.
+     * on or after the given date.
      *
      * @param int day of week, 0=Sunday
      * @param string day in format DD, default is current local day
@@ -813,6 +819,10 @@ class Date_Calc
             $month = Date_Calc::dateNow('%m');
         }
 
+        if ($year == 1582 && $month == 10) {
+            return 21;  // October 1582 only had 1st-4th and 15th-31st
+        }
+
         if ($month == 2) {
             if (Date_Calc::isLeapYear($year)) {
                 return 29;
@@ -847,19 +857,19 @@ class Date_Calc
         if (empty($month)) {
             $month = Date_Calc::dateNow('%m');
         }
-
-        if (DATE_CALC_BEGIN_WEEKDAY == 1) {
-            if (Date_Calc::firstOfMonthWeekday($month,$year) == 0) {
-                $first_week_days = 1;
-            } else {
-                $first_week_days =
-                    7 - (Date_Calc::firstOfMonthWeekday($month,$year) - 1);
-            }
+        $FDOM = Date_Calc::firstOfMonthWeekday($month, $year);
+        if (DATE_CALC_BEGIN_WEEKDAY==1 && $FDOM==0) {
+            $first_week_days = 7 - $FDOM + DATE_CALC_BEGIN_WEEKDAY;
+            $weeks = 1;
+        } elseif (DATE_CALC_BEGIN_WEEKDAY==0 && $FDOM == 6) {
+            $first_week_days = 7 - $FDOM + DATE_CALC_BEGIN_WEEKDAY;
+            $weeks = 1;
         } else {
-            $first_week_days = 7 - Date_Calc::firstOfMonthWeekday($month,$year);
+            $first_week_days = DATE_CALC_BEGIN_WEEKDAY - $FDOM;
+            $weeks = 0;
         }
-
-        return ceil(((Date_Calc::daysInMonth($month,$year) - $first_week_days) / 7) + 1);
+        $first_week_days %= 7;
+        return (ceil((Date_Calc::daysInMonth($month, $year) - $first_week_days) / 7) + $weeks);
     } // end func weeksInMonth
 
     /**
@@ -937,22 +947,9 @@ class Date_Calc
 
         $this_weekday = Date_Calc::dayOfWeek($day,$month,$year);
 
-        if (DATE_CALC_BEGIN_WEEKDAY == 1) {
-            if ($this_weekday == 0) {
-                $beginOfWeek = Date_Calc::dateToDays($day,$month,$year) - 6;
-            } else {
-                $beginOfWeek = Date_Calc::dateToDays($day,$month,$year)
-                    - $this_weekday + 1;
-            }
-        } else {
-                $beginOfWeek = (Date_Calc::dateToDays($day,$month,$year)
-                    - $this_weekday);
-        }
+        $interval = (7 - DATE_CALC_BEGIN_WEEKDAY + $this_weekday) % 7;
 
-       /*  $beginOfWeek = (Date_Calc::dateToDays($day,$month,$year)
-            - ($this_weekday - DATE_CALC_BEGIN_WEEKDAY)); */
-
-        return(Date_Calc::daysToDate($beginOfWeek,$format));
+        return(Date_Calc::daysToDate(Date_Calc::dateToDays($day,$month,$year) - $interval,$format));
     } // end of func beginOfWeek
 
     /**
@@ -982,12 +979,12 @@ class Date_Calc
             $day = Date_Calc::dateNow('%d');
         }
 
+
         $this_weekday = Date_Calc::dayOfWeek($day,$month,$year);
 
-        $last_dayOfWeek = (Date_Calc::dateToDays($day,$month,$year)
-            + (6 - $this_weekday + DATE_CALC_BEGIN_WEEKDAY));
+        $interval = (6 + DATE_CALC_BEGIN_WEEKDAY - $this_weekday) % 7;
 
-        return(Date_Calc::daysToDate($last_dayOfWeek,$format));
+        return(Date_Calc::daysToDate(Date_Calc::dateToDays($day,$month,$year) + $interval,$format));
     } // end func endOfWeek
 
     /**
@@ -1025,8 +1022,11 @@ class Date_Calc
         $next_week_day = substr($date,6,2);
 
         return Date_Calc::beginOfWeek(
-                            $next_week_day,$next_week_month,$next_week_year
+                            $next_week_day,$next_week_month,$next_week_year,
+                            $format
                         );
+
+        $date = Date_Calc::daysToDate(Date_Calc::dateToDays($day+7,$month,$year),"%Y%m%d");
     } // end func beginOfNextWeek
 
     /**
@@ -1063,7 +1063,10 @@ class Date_Calc
         $prev_week_month = substr($date,4,2);
         $prev_week_day = substr($date,6,2);
 
-        return Date_Calc::beginOfWeek($prev_week_day,$prev_week_month,$prev_week_year);
+        return Date_Calc::beginOfWeek($prev_week_day,$prev_week_month,$prev_week_year,$format);
+
+
+        $date = Date_Calc::daysToDate(Date_Calc::dateToDays($day-7,$month,$year),"%Y%m%d");
     } // end func beginOfPrevWeek
 
     /**
@@ -1671,8 +1674,7 @@ class Date_Calc
         // find if Y M D falls in YearNumber Y, WeekNumber 1 through 53
         if ($yearnumber == $year) {
             $j = $day_of_year_number + (7 - $weekday) + ($jan1_weekday - 1);
-            //$weeknumber = intval($j / 7) + 1; // kludge!!! - JMC
-            $weeknumber = intval($j / 7); // kludge!!! - JMC
+            $weeknumber = intval($j / 7);
             if ($jan1_weekday > 4) {
                 $weeknumber--;
             }
