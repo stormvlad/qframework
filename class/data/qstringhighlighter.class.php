@@ -1,6 +1,7 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qformat.class.php");
 
     /**
     * Add function info here
@@ -101,19 +102,20 @@
 
             for ($i = 0; $i < $totalTerms; $i++)
             {
-                $term  = trim($terms[$i]);
+                $term  = str_replace("/", "\\/", trim($terms[$i]));
+                $term  = qFormat::regexpSearchExpand($term);
                 $color = $this->_colors[$i % $totalColors];
 
                 if ($exactWords)
                 {
-                    $pattern = "/(?!<.*?)(\b" . $term . "\b)(?![^<>]*?>)/si";
+                    $pattern = "/(?!<.*?)([^[:alnum:]_]|^)(" . $term . ")([^[:alnum:]_]|$)(?![^<>]*?>)/si";
+                    $str = preg_replace($pattern, "$1<span style=\"background:" . $color . "\">$2</span>$3", $str);
                 }
                 else
                 {
                     $pattern = "/(?!<.*?)(" . $term . ")(?![^<>]*?>)/si";
+                    $str = preg_replace($pattern, "<span style=\"background:" . $color . "\">$1</span>", $str);
                 }
-
-                $str = preg_replace($pattern, "<span style=\"background:" . $color . "\">$1</span>", $str);
             }
 
             return $str;
