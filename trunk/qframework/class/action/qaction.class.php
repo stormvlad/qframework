@@ -277,6 +277,19 @@
         /**
         * Add function info here
         */
+        function removeFormValue($name, $step = null)
+        {
+            $user       = &$this->_controllerParams->getUser();
+            $formValues = &$user->getAttributeRef("formValues");
+            $formName   = $this->getFormName();
+            $step       = $this->_getNormalizedStep($step);
+
+            unset($formValues[$formName][$step][$name]);
+        }
+
+        /**
+        * Add function info here
+        */
         function resetFormValues()
         {
             $user       = &$this->_controllerParams->getUser();
@@ -315,7 +328,6 @@
 
             $step = count($formValues[$formName]);
             $formValues[$formName][$step] = array();
-
 
             if ($this->getValidationMethod() == REQUEST_METHOD_GET)
             {
