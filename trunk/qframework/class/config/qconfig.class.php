@@ -77,7 +77,7 @@
         {
             $value = $this->_props->getValue($key);
 
-            if ($defaulValue !== null && empty($value))
+            if ($defaultValue !== null && empty($value))
             {
                 $value = $defaultValue;
             }

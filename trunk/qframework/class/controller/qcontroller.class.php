@@ -309,8 +309,6 @@
         {
             if ($this->_sessionEnabled)
             {
-                session_start();
-
                 if (empty($this->_user))
                 {
                     $this->_user = &qUser::getUser();
