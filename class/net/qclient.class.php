@@ -23,7 +23,7 @@
         */
         function isIeBrowser()
         {
-            return strpos(Client::getBrowser(), "MSIE");
+            return strpos(qClient::getBrowser(), "MSIE");
         }
 
         /**
