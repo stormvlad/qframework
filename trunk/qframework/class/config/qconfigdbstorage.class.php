@@ -1,7 +1,7 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfigabstractstorage.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfigstorage.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/database/qdb.class.php");
 
     /**
@@ -25,10 +25,9 @@
      * Type detection is provided via the built-in mechanisms that PHP offers.
      * </ul>
      */
-    class qConfigDbStorage extends qConfigAbstractStorage
+    class qConfigDbStorage extends qConfigStorage
     {
         var $_db;
-        var $_data;
         var $_tableName;
 
         /**
@@ -37,11 +36,10 @@
          */
         function qConfigDbStorage(&$db, $tableName)
         {
-            $this->qConfigAbstractStorage();
+            $this->qConfigStorage();
 
             $this->_db        = &$db;
             $this->_tableName = $tableName;
-            $this->reload();
         }
 
         /**
@@ -51,15 +49,39 @@
          *
          * @private
          */
-        function reload()
+        function _keyExists($key)
         {
-            $this->_data = Array();
-            $query       = "SELECT * FROM " . $this->_tableName;
-            $result      = $this->_db->Execute($query);
+            $query  = "SELECT * FROM " . $this->_tableName . " WHERE config_key='" . $key . "'";
+            $result = $this->_db->Execute($query);
 
             if (!$result)
             {
-                throw(new qException("ConfigDbStorage::_loadData: There was an error loading the configuration data from the database. And this is bad ..."));
+                return false;
+            }
+
+            if (!$result->FetchRow())
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /**
+         * Internal function that loads all the data from the table and puts in into
+         * our array. It should be apparently faster that making an SQL query every time
+         * we need to get a value.
+         *
+         * @private
+         */
+        function load(&$config)
+        {
+            $query  = "SELECT * FROM " . $this->_tableName;
+            $result = $this->_db->Execute($query);
+
+            if (!$result)
+            {
+                throw(new qException("ConfigDbStorage::load: There was an error loading the configuration data from the database."));
                 die();
             }
 
@@ -71,72 +93,28 @@
 
                 if ($dataType == TYPE_OBJECT || $dataType == TYPE_ARRAY)
                 {
-                    $this->_data[$key] = unserialize( stripslashes($value));
+                    $config->setValue($key, unserialize(stripslashes($value)));
 
                     if ($dataType == TYPE_ARRAY && $this->_data[$key] == "")
                     {
-                        $this->_data[$key] = Array();
+                        $config->setValue($key, array());
                     }
                 }
                 else
                 {
-                    $this->_data[$key] = $value;
+                    $config->setValue($key, $value);
                 }
             }
 
             return true;
         }
 
-        function getValue($key, $defaultValue = null)
+        /**
+        *    Add function info here
+        */
+        function _updateValue(&$config, $key, $value)
         {
-            $value = $this->_data[$key];
-
-            if (empty($value))
-            {
-                if ($defaulValue !== null)
-                {
-                    $value = $defaultValue;
-                }
-            }
-
-            return $value;
-        }
-
-        function setValue($key, $value)
-        {
-            $this->_data[$key] = $value;
-
-            return true;
-        }
-
-        function getAsArray()
-        {
-            return $this->_data;
-        }
-
-        function getConfigFileName()
-        {
-            return "database";
-        }
-
-        function getKeys()
-        {
-            return array_keys($this->_data);
-        }
-
-        function getValues()
-        {
-            return array_values($this->_data);
-        }
-
-        function keyExists($key)
-        {
-            return isset($this->_data[$key]);
-        }
-
-        function _updateValue($key, $value)
-        {
-            $type = $this->_getType($value);
+            $type = $this->getType($value);
 
             switch ($type)
             {
@@ -147,7 +125,7 @@
                     break;
 
                  case TYPE_STRING:
-                     $query = "UPDATE " . $this->_tableName . " SET config_value ='" . Db::qstr($value) . "', value_type = $type WHERE config_key = '$key'";
+                     $query = "UPDATE " . $this->_tableName . " SET config_value ='" . qDb::qstr($value) . "', value_type = $type WHERE config_key = '$key'";
                     break;
 
                  case TYPE_ARRAY:
@@ -157,17 +135,19 @@
                     break;
 
                  default:
-                     throw( new qException( "ConfigDbStorage::_updateValue: _getType produced an unexpected value of $type when checking value \"$value\""));
+                     throw(new qException("ConfigDbStorage::_updateValue: getType produced an unexpected value of " . $type . " when checking value '" . $value . "'"));
                     die();
              }
 
-             //$this->_db->debug=true;
              return $this->_db->Execute($query);
         }
 
-        function _insertValue($key, $value)
+        /**
+        *    Add function info here
+        */
+        function _insertValue(&$config, $key, $value)
         {
-            $type = $this->_getType( $value );
+            $type = $this->getType($value);
 
             switch ($type)
             {
@@ -188,32 +168,11 @@
                     break;
 
                 default:
-                    throw(new qException("ConfigDbStorage::_insertValue: _getType produced an unexpected value of $type"));
+                    throw(new qException("ConfigDbStorage::_insertValue: getType produced an unexpected value of $type"));
                     die();
              }
 
-             return $this->_db->Execute( $query );
-        }
-
-        /**
-         * Puts all the settings back to the database.
-         *
-         * It is done so that we first check if the key exists. If it does, we then
-         * send an update query and update it. Otherwise, we add it.
-         *
-         * @param key The name of the key
-         * @param The value.
-         * @return True if successful or false otherwise
-         */
-        function save()
-        {
-            foreach($this->_data as $key => $value)
-            {
-                $this->saveValue($key, $value);
-            }
-
-            // saveValue is already reloading the data for us everytime!
-            return true;
+             return $this->_db->Execute($query);
         }
 
         /**
@@ -226,18 +185,39 @@
          * @param The value.
          * @return True if successful or false otherwise
          */
-        function saveValue( $key, $value )
+        function saveValue(&$config, $key, $value)
         {
-            if ($this->keyExists($key))
+            if ($this->_keyExists($key))
             {
-                $result = $this->_updateValue($key, $value);
+                $result = $this->_updateValue($config, $key, $value);
             }
             else
             {
-                 $result = $this->_insertValue($key, $value);
+                 $result = $this->_insertValue($config, $key, $value);
             }
 
-            $this->reload();
+            return $result;
+        }
+
+        /**
+         * Puts all the settings back to the database.
+         *
+         * It is done so that we first check if the key exists. If it does, we then
+         * send an update query and update it. Otherwise, we add it.
+         *
+         * @param key The name of the key
+         * @param The value.
+         * @return True if successful or false otherwise
+         */
+        function save(&$config)
+        {
+            $result = true;
+            $data   = $config->getAsArray();
+
+            foreach($data as $key => $value)
+            {
+                $result &= $this->saveValue($config, $key, $value);
+            }
 
             return $result;
         }
