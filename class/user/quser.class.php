@@ -116,6 +116,14 @@
         /**
         * Add function info here
         */
+        function &getAttributeRef($name)
+        {
+            return $this->_attributes->getValueRef($name);
+        }
+
+        /**
+        * Add function info here
+        */
         function setAttributes($attributes)
         {
             foreach ($attributes as $name => $value)
