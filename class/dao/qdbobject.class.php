@@ -253,6 +253,27 @@
         {
             return $this->_idFields;
         }
+        
+        /**
+        * An alias function for getIdFields
+        */
+        function &getPrimaryKeyFields()
+        {
+            return $this->getIdFields();
+        }
+
+        /**
+        * Returns an id that differentiates this object from others of its class.
+        */
+        function &getPrimaryKey()
+        {
+            if (!count($this->_idFields))
+            {
+                return false;
+            }
+            
+            return $this->getValue($this->_idFields[0]);
+        }        
 
         /**
         * Add function info here

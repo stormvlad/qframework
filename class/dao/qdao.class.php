@@ -346,6 +346,88 @@
         {
             return $this->getDbObject("id='" . $id . "'");
         }
+
+        /**
+        * Add function here
+        */
+        function count($whereClause = null)
+        {
+            $sql = "SELECT COUNT(" . $this->getClause("SELECT") . ") AS total FROM " . $this->getClause("FROM");
+
+            if (!empty($whereClause))
+            {
+                $sql .= " WHERE " . $whereClause;
+            }
+            else if ($this->getClause("WHERE"))
+            {
+                $sql .= " WHERE " . $this->getClause("WHERE");
+            }
+
+            if ($this->getClause("GROUP BY"))
+            {
+                $sql .= " GROUP BY " . $this->getClause("GROUP BY");
+            }
+
+            if ($this->getClause("HAVING"))
+            {
+                $sql .= " HAVING " . $this->getClause("HAVING");
+            }
+
+            if (!($result = $this->_retrieve($sql)))
+            {
+                return false;
+            }
+
+            $row = $result->FetchRow();
+            
+            if (!isset($row["total"]))
+            {
+                return false;
+            }
+
+            return $row["total"];
+        }
+
+        /*
+         * Retrieve a single object by pkey.
+         *
+         * @param mixed $pk
+         */
+        function retrieveByPK($pk)
+        {
+            $objClassName = str_replace("dao", "dbobject", $this->getClassName()); // PHP4
+            $objClassName = str_replace("Dao", "DbObject", $objClassName); // PHP5
+
+            $obj      = new $objClassName();
+            $pkFields = $obj->getPrimaryKeyFields();
+            
+            return $this->getDbObject($pkFields[0] . "='" . $pk . "'");
+        }     
+
+        /*
+         * Retrieve a single object by pkey.
+         *
+         * @param mixed $pk
+         */
+        function retrieveByPKs($pks)
+        {
+            $objClassName = str_replace("dao", "dbobject", $this->getClassName()); // PHP4
+            $objClassName = str_replace("Dao", "DbObject", $objClassName); // PHP5
+
+            $obj      = new $objClassName();
+            $pkFields = $obj->getPrimaryKeyFields();
+            
+            $clause   = "1=1";
+            foreach($pks as $field => $value)
+            {
+                if (in_array($field, $pkFields))
+                {
+                    $clause = $clause . " AND " . $field . "='" . $value . "' ";
+                }
+            }
+
+            return $this->getDbObject($clause);
+        }              
     }
 
 ?>
