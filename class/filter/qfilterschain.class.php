@@ -3,11 +3,12 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-     * Implementation of a basic security framework based on a
-     * pipeline. Every element of the pipeline implements a simple
-     * security mechanism. When one of the filters in the pipeline
-     * find a condition that is matched by the incoming request, the
-     * request will be blocked
+     * @brief Colección ordenada de filtros independientes
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    07/03/2005 23:46
+     * @version 1.0
+     * @ingroup filter     
      */
     class qFiltersChain extends qObject
     {

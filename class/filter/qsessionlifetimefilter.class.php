@@ -5,16 +5,24 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qredirectview.class.php");
 
     /**
-    * Add function info here
-    */
+     * @brief Control de máximo tiempo de sesión.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    07/03/2005 23:46
+     * @version 1.0
+     * @ingroup filter     
+     */
     class qSessionLifeTimeFilter extends qFilter
     {
         var $_lifeTime;
         var $_expiredUrl;
 
         /**
-        * Add function info here
-        */
+         * Constructor
+         *
+         * @param lifeTime
+         * @param expiredUrl
+         */
         function qSessionLifeTimeFilter($lifeTime = "3600", $expiredUrl = "/")
         {
             $this->qFilter();

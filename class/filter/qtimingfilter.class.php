@@ -5,13 +5,21 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/timer/qtimer.class.php");
 
     /**
-    * Add function info here
-    */
+     * @brief Cronometro de la ejecución
+     *
+     * Esta clase nos permite mostrar el tiempo requerido para procesar la petición
+     * y preparar la respuesta reemplazado una marca dentro del código HTML de salida.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    07/03/2005 23:46
+     * @version 1.0
+     * @ingroup filter     
+     */
     class qTimingFilter extends qFilter
     {
         /**
-        * Add function info here
-        */
+         * Constructor
+         */
         function qTimingFilter()
         {
             $this->qFilter();

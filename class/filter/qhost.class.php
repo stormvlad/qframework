@@ -3,7 +3,12 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-     * Represents a record from the plog_blocked_hosts table.
+     * @brief Representa una dirección IP o rango de direcciones.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    07/03/2005 23:46
+     * @version 1.0
+     * @ingroup filter     
      */
     class qHost extends qObject
     {

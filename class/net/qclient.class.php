@@ -4,14 +4,21 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
 
     /**
-     * Very basic functions related to client-side information such as
-     * retrieving the "real" ip, user-agent or accepted content type...
+     * @brief Recupera información básica del cliente Web.
+     *
+     * Clase estática con funciones muy básicas relacionados con la información al lado del cliente
+     * como recuperar la IP "real", el nombre del navegador o el tipo de contenido aceptado.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    08/03/2005 00:34
+     * @version 1.0
+     * @ingroup misc
      */
     class qClient extends qObject
     {
         /**
-        * Add function info here
-        */
+         * Add function info here
+         */
         function getBrowser()
         {
             $server = &qHttp::getServerVars();
