@@ -205,8 +205,7 @@
                 if (!empty($value))
                 {
                     $value = qDb::qstr($value);
-
-                    $sql .= "`" . $field . "`='" . $value . "', ";
+                    $sql  .= "`" . $field . "`='" . $value . "', ";
                 }
                 else if ($obj->hasNullValue($field))
                 {
@@ -225,7 +224,7 @@
                 }
                 else
                 {
-                    $sql .= "`" . $field . "`=" . $field . ", ";
+                    $sql .= "`" . $field . "`='" . $value . "', ";
                 }
             }
 
