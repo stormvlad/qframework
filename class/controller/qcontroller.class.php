@@ -38,11 +38,9 @@
     {
         var $_actionMap;
         var $_actionParam;
-
         var $_actionsClassPath;
-
+        var $_defaultAction;
         var $_sessionEnabled;
-
         var $_actionsChain;
         var $_forwarded;
 
@@ -58,16 +56,32 @@
          * @param actionMap is the associative array with the mappings
          * @param actionParam is the name of the parameter in the request that will be used
          */
-        function qController($actionMap = null, $actionParam = DEFAULT_ACTION_PARAM)
+        function qController()
         {
             $this->qObject();
 
-            $this->_actionMap        = $actionMap;
-            $this->_actionParam      = $actionParam;
+            $this->_actionMap        = array();
+            $this->_actionParam      = DEFAULT_ACTION_PARAM;
             $this->_actionsClassPath = DEFAULT_ACTIONS_CLASS_PATH;
+            $this->_defaultAction    = DEFAULT_ACTION_NAME;
             $this->_sessionEnabled   = false;
             $this->_actionsChain     = array();
             $this->_forwarded        = 0;
+        }
+
+        /**
+         * Add function info here
+         */
+        function &getController()
+        {
+            static $controllerInstance;
+
+            if (!isset($controllerInstance))
+            {
+                $controllerInstance = new qContoller();
+            }
+
+            return $controllerInstance;
         }
 
         /**
@@ -105,6 +119,22 @@
         /**
          * Add function info here
          */
+        function getDefaultAction()
+        {
+            return $this->_defaultAction;
+        }
+
+        /**
+         * Add function info here
+         */
+        function setDefaultAction($actionClassName)
+        {
+            $this->_defaultAction = $actionClassName;
+        }
+
+        /**
+         * Add function info here
+         */
         function getSessionEnabled()
         {
             return $this->_sessionEnabled;
@@ -121,10 +151,26 @@
         /**
          * Add function info here
          */
+        function registerActions($actions)
+        {
+            $result = true;
+
+            foreach ($actions as $actionKey => $actionClassName)
+            {
+                $result &= $this->registerAction($actionKey, $actionClassName);
+            }
+
+            return $result;
+        }
+
+        /**
+         * Add function info here
+         */
         function registerAction($actionKey, $actionClassName)
         {
-            if (array_key_exists($this->actionMap))
+            if (array_key_exists($actionKey, $this->_actionMap))
             {
+                throw(new qException("qController::registerAction: '" . $actionClassName . "' class cannot register '" . $actionKey . "' action because it's already registered to '" . $this->_actionMap[$actionKey] . "' class."));
                 return false;
             }
 
@@ -158,12 +204,12 @@
          */
         function _getActionClassName($actionName)
         {
-            if (($actionName == "") || (!empty($this->_actionMap) && !array_key_exists($actionName, $this->_actionMap)))
+            if (empty($actionName))
             {
-                $actionName = DEFAULT_ACTION_NAME;
+                $actionName = $this->_defaultAction;
             }
 
-            if (!empty($this->_actionMap))
+            if (array_key_exists($actionName, $this->_actionMap))
             {
                 $actionClassName = $this->_actionMap[$actionName];
             }
@@ -238,7 +284,7 @@
 
             if (empty($view))
             {
-                throw(new qException("qController::process: The view is empty after calling the perform method."));
+                throw(new qException("qController::process: '" . $actionObject->getClassName() . "' class should return a view after executing perform method."));
             }
             else
             {

@@ -2,6 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qexception.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qeventhandler.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qeventmanager.class.php");
 
 
     /**
@@ -13,14 +14,14 @@
      */
     class qObject
     {
-        var $_events;
+        var $_eventManager;
 
         /**
          * Constructor
          */
         function qObject()
         {
-            $this->_events = array();
+            $this->_eventManager = &qEventManager::getEventManager();
         }
 
         /**
@@ -124,12 +125,7 @@
          */
         function registerEvent($event)
         {
-            if (array_key_exists($event, $this->_events))
-            {
-                return false;
-            }
-
-            $this->_events[$event] = array();
+            return $this->_eventManager->registerEvent($this, $event);
         }
 
         /**
@@ -137,13 +133,7 @@
          */
         function addEventHandler($event, &$obj, $method)
         {
-            if (!array_key_exists($event, $this->_events))
-            {
-                return false;
-            }
-
-            array_push($this->_events[$event], new qEventHandler($event, $obj, $method));
-            return true;
+            return $this->_eventManager->addEventHandler($event, $obj, $method);
         }
 
         /**
@@ -151,17 +141,7 @@
          */
         function sendEvent($event, $eventArgs = array())
         {
-            if (!array_key_exists($event, $this->_events))
-            {
-                return false;
-            }
-
-            foreach ($this->_events[$event] as $eventHandler)
-            {
-                $eventHandler->perform($this, $eventArgs);
-            }
-
-            return true;
+            return $this->_eventManager->sendEvent($this, $event, $eventArgs);
         }
     }
 ?>
