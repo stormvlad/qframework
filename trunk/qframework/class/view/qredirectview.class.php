@@ -1,6 +1,7 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qview.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qredirectrenderer.class.php");
 
     /**
      * Extends the original 'View' class to provide support for common operations, for example
@@ -16,7 +17,7 @@
          */
         function qRedirectView($url)
         {
-            $this->qView();
+            $this->qView(new qRedirectRenderer());
             $this->setUrl($url);
         }
 
@@ -41,14 +42,5 @@
 
             $this->_url = $url;
         }
-
-        /**
-         * Add function info here
-         */
-        function render()
-        {
-            header("Location: " . $this->_url);
-        }
-
     }
 ?>
