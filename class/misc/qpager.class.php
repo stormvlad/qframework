@@ -44,6 +44,11 @@
             $this->_regsForPage = $regsForPage;
             $this->_maxPages    = $maxPages;
 
+            if ($regsForPage == 0)
+            {
+                $this->_regsForPage = $totalRegs;
+            }
+
             $this->_init();
         }
 
