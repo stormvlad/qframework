@@ -57,8 +57,13 @@
         /**
         *    Add function info here
         */
-        function saveValue($name, $value)
+        function saveValue($name, $value = null)
         {
+            if (!empty($value))
+            {
+                $this->setValue($name, $value);
+            }
+
             return $this->_storage->saveValue($this, $name, $value);
         }
 

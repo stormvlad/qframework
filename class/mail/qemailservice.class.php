@@ -1,4 +1,4 @@
- <?php
+<?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/mail/qemailmessage.class.php");
