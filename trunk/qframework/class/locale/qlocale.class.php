@@ -625,6 +625,7 @@
             }
 
             $hour2       = $hour % 12;
+            $amPm        = $hour < 12 ? $this->i18n("AM") : $this->i18n("PM");
             $week        = Date_Calc::weekOfYear($day, $month, $year);
             $year2       = $year % 100;
             $century     = (int) ($year / 100);
@@ -639,7 +640,6 @@
             $week3       = (int) strftime("%U", $timeStamp);
             $timeZone    = strftime("%Z", $timeStamp);
             $rTime       = strftime("%r", $timeStamp);
-            $amPm        = strftime("%p", $timeStamp);
 
             $lTime       = localtime($timeStamp, true);
             $offset      = str_replace("00", ":00", strftime("%z", $timeStamp));
