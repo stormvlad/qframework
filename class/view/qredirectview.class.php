@@ -45,7 +45,7 @@
                     $uri .= basename($server->getValue("PHP_SELF"));
                 }
 
-                if ($server->getValue("HTTPS") == "on")
+                if ($server->getValue("HTTPS") == "on" || eregi("^https", $server->getValue("HTTP_REFERER")))
                 {
                     $protocol = "https";
                 }
