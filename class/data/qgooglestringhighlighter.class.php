@@ -54,6 +54,8 @@
                         $term = qFormat::regexpSearchExpand($term, $caseSensitive);
                     }
 
+                    $term = str_replace("/", "\\/", $term);
+
                     if ($exactWords)
                     {
                         $pattern = "/(?!<.*?)([^[:alnum:]_]|^)(" . $term . ")([^[:alnum:]_]|$)(?![^<>]*?>)/si";

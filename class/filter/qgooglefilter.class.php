@@ -11,7 +11,7 @@
      * @author  qDevel - info@qdevel.com
      * @date    07/03/2005 23:46
      * @version 1.0
-     * @ingroup filter     
+     * @ingroup filter
      */
     class qGoogleFilter extends qFilter
     {
@@ -96,7 +96,7 @@
 
                 for ($i = 0; $i < $totalTerms; $i++)
                 {
-                    $term  = trim($terms[$i]);
+                    $term  = str_replace("/", "\\/", trim($terms[$i]));
                     $color = $this->_colors[$i % $totalColors];
                     $text  = preg_replace("/(?!<.*?)(\b" . $term . "\b)(?![^<>]*?>)/si", "<span style=\"background:" . $color . "\">$1</span>", $text);
                 }
