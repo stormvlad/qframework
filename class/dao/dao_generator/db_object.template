@@ -1,6 +1,6 @@
 <?php
 
-    include_once("class/dao/dbobject.class.php");
+    include_once(APP_ROOT_PATH . "class/dao/dbobject.class.php");
 
     /**
     * DbObject base class.
