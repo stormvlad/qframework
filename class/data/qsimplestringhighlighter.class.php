@@ -23,7 +23,7 @@
             $totalTerms  = count($terms);
             $totalColors = count($this->_colors);
 
-            if ($totalColors == 0)
+            if ($totalColors == 0 || $totalTerms == 0)
             {
                 return $str;
             }
