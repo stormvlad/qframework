@@ -86,6 +86,14 @@
         }
 
         /**
+        * Add function info here
+        */
+        function &getRendererEngine()
+        {
+            return $this->_renderer->getEngine();
+        }
+
+        /**
         * Renders the view. Here we would ideally call a template engine, using the
         * values in $this->_params to fill the template 'context' and then display
         * everything.

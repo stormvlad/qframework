@@ -8,12 +8,37 @@
      */
     class qViewRenderer extends qObject
     {
+        var $_engine;
+
         /**
         * Add function info here
         */
         function qViewRenderer()
         {
             $this->qObject();
+            $this->_engine = null;
+        }
+
+        /**
+        * Add function info here
+        */
+        function &getEngine()
+        {
+            if (empty($this->_engine))
+            {
+                throw(new qException("qViewRenderer::getEgine: This class do not work with any renderer engine."));
+                die();
+            }
+
+            return $this->_engine;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setEngine($engine)
+        {
+            $this->_engine = &$engine;
         }
 
         /**
