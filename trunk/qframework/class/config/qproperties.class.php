@@ -69,7 +69,7 @@
          */
         function getValue($key)
         {
-            if (isset($this->_props[$key]))
+            if (array_key_exists($key, $this->_props))
             {
                 return $this->_props[$key];
             }
@@ -77,15 +77,6 @@
             {
                 return false;
             }
-        }
-
-        /**
-         * Method overwritten from the Object class
-         * @return Returns a nicer representation of our contents
-         */
-        function toString()
-        {
-            print_r($this->_props);
         }
 
         /**
