@@ -156,7 +156,7 @@
         /**
          * Add function info here
          */
-        function getSessionEnabled()
+        function isSessionEnabled()
         {
             return $this->_sessionEnabled;
         }

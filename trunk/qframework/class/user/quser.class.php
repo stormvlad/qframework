@@ -212,5 +212,29 @@
         {
             $this->_storage->store($this);
         }
+
+        /**
+        * Add function info here
+        */
+        function destroy()
+        {
+            $cookieInfo = session_get_cookie_params();
+
+            if ((empty($cookieInfo["domain"])) && (empty($cookieInfo["secure"])))
+            {
+                setcookie(session_name(), "", time() - 3600, $cookieInfo["path"]);
+            }
+            else if (empty($cookieInfo["secure"]))
+            {
+                setcookie(session_name(), "", time() - 3600, $cookieInfo["path"], $cookieInfo["domain"]);
+            }
+            else
+            {
+                setcookie(session_name(), "", time() - 3600, $cookieInfo["path"], $cookieInfo["domain"], $cookieInfo["secure"]);
+            }
+
+            unset($_COOKIE[session_name()]);
+            session_destroy();
+        }
     }
 ?>
