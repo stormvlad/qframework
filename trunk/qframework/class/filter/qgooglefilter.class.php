@@ -4,8 +4,15 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qurl.class.php");
 
     /**
-    * Add function info here
-    */
+     * @brief Resalta las palabras búscadas mediante Google
+     *
+     * Filtro para resaltar las palabras buscadas con el motor Google si la petícion procede de allí.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    07/03/2005 23:46
+     * @version 1.0
+     * @ingroup filter     
+     */
     class qGoogleFilter extends qFilter
     {
         var $_colors;

@@ -7,12 +7,20 @@
     define("DEFAULT_CONFIG_FILE_STORAGE", "config/config.properties.php");
 
     /**
-     * Extends the Properties class so that our own configuration file is automatically loaded.
-     * The configuration file is under config/config.properties.php
+     * @defgroup config Configuración
+     */
+     
+    /**
+     * @brief Almacena la configuración de la aplicación
      *
-     * It is recommented to use this function as a singleton rather than as an object.
-     * @see Config
-     * @see getInstance
+     * Extiende la clase Properties dónde se cargan todos los datos de configuración.
+     * Los datos pueden almacenarse en un fichero, base de datos, ...
+     * según el objeto de almacenamiento definido.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    08/03/2005 00:34
+     * @version 1.0
+     * @ingroup config
      */
     class qConfig extends qObject
     {

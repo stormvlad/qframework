@@ -8,6 +8,14 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qipcidrformatrule.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qiprangerule.class.php");
 
+    /**
+     * @brief Control de seguridad para permitir y excluir nombres de host y IP.
+     *
+     * @author  qDevel - info@qdevel.com
+     * @date    07/03/2005 23:46
+     * @version 1.0
+     * @ingroup filter     
+     */
     class qHostsFilter extends qFilter
     {
         var $_blackHosts;
