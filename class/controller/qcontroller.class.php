@@ -9,6 +9,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/quser.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/qusersessionstorage.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qdate.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/logging/qlogmanager.class.php");
 
     define("DEFAULT_ACTION_PARAM", "op");
     define("DEFAULT_ACTION_NAME", "default");
@@ -307,6 +308,12 @@
          */
         function process($httpRequest = null)
         {
+            // register error handler as default logger's standard() method
+            $logManager =& qLogManager::getInstance();
+            $logger     =& $logManager->getLogger("default");
+
+            set_error_handler(array(&$logger, "standard"));
+
             if ($this->_sessionEnabled)
             {
                 if (empty($this->_user))

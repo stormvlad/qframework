@@ -79,9 +79,7 @@
         */
         function parse($url)
         {
-            $oldErrorHandler = set_error_handler("_internalErrorHandlerDummy");
-            $rss             = fetch_rss($url);
-            set_error_handler($oldErrorHandler);
+            $rss             = @fetch_rss($url);
 
             if (empty($rss))
             {
