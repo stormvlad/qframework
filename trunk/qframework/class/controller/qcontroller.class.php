@@ -344,6 +344,7 @@
          */
         function process($httpRequest = null)
         {
+            $timer  = new qTimer();
             $server = &qHttp::getServerVars();
             $params = array(
                 "ip"         => qClient::getIp(),
@@ -377,6 +378,7 @@
                 $this->_user->store();
             }
 
+            $params["seconds"] = $timer->get();
             $this->sendEvent(2, $params);
         }
     }
