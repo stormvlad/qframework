@@ -1,7 +1,7 @@
 <?php
 
-    include_once("qframework/class/net/qrequest.class.php" );
-    include_once("qframework/class/object/qobservable.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qrequest.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobservable.class.php");
 
     /**
      * Abstract class representing an qAction.

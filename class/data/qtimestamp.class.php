@@ -1,9 +1,9 @@
 <?php
 
-     include_once("qframework/class/data/qdate.class.php");
+     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qdate.class.php");
 
-    class qTimestamp extends qDate {
-
+    class qTimestamp extends qDate
+    {
         var $_timestamp;
 
         /*

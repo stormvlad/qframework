@@ -1,6 +1,6 @@
 <?php
 
-    include_once("qframework/class/data/qvalidator.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidator.class.php");
 
     /**
      * Checks that a string is not empty. That could be because it is
@@ -9,8 +9,8 @@
      *
      * Classes can extend this one to provide a custom error message.
      */
-    class qNonEmptyValidator extends qValidator {
-
+    class qNonEmptyValidator extends qValidator
+    {
         function qNonEmptyValidator($value)
         {
             $this->qValidator($value);

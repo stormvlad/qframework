@@ -1,13 +1,13 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php");
-    include_once("qframework/class/net/qhttpgetvars.class.php");
-    include_once("qframework/class/net/qhttppostvars.class.php");
-    include_once("qframework/class/net/qhttpsessionvars.class.php");
-    include_once("qframework/class/net/qhttpcookievars.class.php");
-    include_once("qframework/class/net/qhttpfilesvars.class.php");
-    include_once("qframework/class/net/qhttpservervars.class.php");
-    include_once("qframework/class/net/qhttprequestvars.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpgetvars.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttppostvars.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpsessionvars.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpcookievars.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpfilesvars.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpservervars.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttprequestvars.class.php");
 
     /**
      * HttpVars compatibility package, which allows to fetch some of php's basic
@@ -19,8 +19,8 @@
      * incompatibility with the version of php we are running while having access to the
      * variables we most need.
      */
-    class qHttp extends qObject {
-
+    class qHttp extends qObject
+    {
         /**
          * Returns an array with all the variables in the GET header, fetching them
          * either from $_GET (PHP >= 4.1.0) or $HTTP_GET_VARS (PHP < 4.1.0)
@@ -49,7 +49,7 @@
 
             if (!isset($getVarsInstance))
             {
-                $getVarsInstance = new qHttpGetVars(Http::getGet());
+                $getVarsInstance = new qHttpGetVars(qHttp::getGet());
             }
 
             return $getVarsInstance;
@@ -82,7 +82,7 @@
 
             if (!isset($postVarsInstance))
             {
-                $postVarsInstance = new qHttpPostVars(Http::getPost());
+                $postVarsInstance = new qHttpPostVars(qHttp::getPost());
             }
 
             return $postVarsInstance;
@@ -116,7 +116,7 @@
 
             if (!isset($sessionVarsInstance))
             {
-                $sessionVarsInstance = new qHttpSessionVars(Http::getSession());
+                $sessionVarsInstance = new qHttpSessionVars(qHttp::getSession());
             }
 
             return $sessionVarsInstance;
@@ -179,7 +179,7 @@
 
             if (!isset($cookieVarsInstance))
             {
-                $cookieVarsInstance = new qHttpCookieVars(Http::getCookie());
+                $cookieVarsInstance = new qHttpCookieVars(qHttp::getCookie());
             }
 
             return $cookieVarsInstance;
@@ -333,7 +333,7 @@
 
             if (!isset($filesVarsInstance))
             {
-                $filesVarsInstance = new qHttpFilesVars(Http::getFiles());
+                $filesVarsInstance = new qHttpFilesVars(qHttp::getFiles());
             }
 
             return $filesVarsInstance;

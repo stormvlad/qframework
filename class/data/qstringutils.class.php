@@ -1,9 +1,9 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
-    class qStringUtils extends qObject {
-
+    class qStringUtils extends qObject
+    {
         function htmlTranslate( $string )
         {
             return htmlspecialchars( $string );

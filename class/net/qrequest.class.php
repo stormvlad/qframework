@@ -1,6 +1,6 @@
 <?php
 
-    include_once("qframework/class/config/qproperties.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
 
     /**
      * Represents a request in our system. Doing so we can in the future
@@ -10,8 +10,8 @@
      * if the request was /index.php?op=Default&articleId=10 or
      * /index.php/op/Default/articleId/10.
      */
-    class qRequest extends qProperties {
-
+    class qRequest extends qProperties
+    {
         function qRequest($values = null)
         {
             $this->qProperties($values);

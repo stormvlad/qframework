@@ -1,9 +1,9 @@
 <?php
 
-    include_once("qframework/class/net/qrequestparser.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qrequestparser.class.php");
 
-    class qPrettyRequestParser extends qRequestParser {
-
+    class qPrettyRequestParser extends qRequestParser
+    {
         var $_paramsMap;
         var $_firstParamFromFunction;
 

@@ -1,7 +1,7 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/data/qtimestamp.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qtimestamp.class.php");
 
     define(DEFAULT_LOCALE_CODE, "es_ES");
     define(DEFAULT_LOCALE_FOLDER, "locale");
@@ -33,8 +33,8 @@
      * every time from disk.
      * @see Locales::getLocale()
      */
-    class qLocale extends qObject {
-
+    class qLocale extends qObject
+    {
         var $_code;
         var $_defaultFolder;
         var $_messages;

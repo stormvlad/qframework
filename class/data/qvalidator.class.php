@@ -1,6 +1,6 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     define("DEFAULT_TRIM", true);
 
@@ -13,8 +13,8 @@
      *`change the format of the postId parameter, we only have to change the code of the
      * class that validates it and it will be automatically used everywhere.
      */
-    class qValidator extends qObject {
-
+    class qValidator extends qObject
+    {
         var $value;
         var $_valid;
         var $_message;

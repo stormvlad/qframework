@@ -1,10 +1,10 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php");
-    include_once("qframework/class/net/qhttp.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
 
-    class qRequestParser extends qObject {
-
+    class qRequestParser extends qObject
+    {
         var $_function;
         var $_pathInfo;
 

@@ -1,14 +1,14 @@
 <?php
 
-    include_once("qframework/class/net/qhttpvars.class.php" );
-    include_once("qframework/class/net/qhttp.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpvars.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
 
     /**
      * Inherits from Properties but just to add some default
      * values to some settings
      */
-    class qHttpSessionVars extends qHttpVars {
-
+    class qHttpSessionVars extends qHttpVars
+    {
         function qHttpSessionVars($params = null)
         {
             $this->qProperties($params);

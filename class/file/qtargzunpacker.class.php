@@ -1,14 +1,14 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/file/qbaseunpacker.class.php" );
-    include_once("qframework/class/config/qconfig.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qbaseunpacker.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfig.class.php");
 
     // default paths where 'tar' and 'gzip' can be found... this should be true
     // for at least linux-based machines (this is where they are located in
     // my gentoo box)
-    define( "DEFAULT_TAR_PATH", "/bin/tar" );
-    define( "DEFAULT_GZIP_PATH", "/bin/gzip" );
+    define(DEFAULT_TAR_PATH, "/bin/tar");
+    define(DEFAULT_GZIP_PATH, "/bin/gzip");
 
     /**
      * Unpacks .tar.gz files.

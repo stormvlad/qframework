@@ -1,19 +1,25 @@
 <?php
 
-    include_once("qframework/class/database/adodb/adodb.inc.php" );
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/config/qconfig.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/database/adodb/adodb.inc.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfig.class.php");
 
     /**
      * Provides a singleton for accessing the db.
      */
-    class qDb extends qObject {
-
+    class qDb extends qObject
+    {
+        /**
+        * Add function info here
+        */
         function Db()
         {
             $this->qObject();
         }
 
+        /**
+        * Add function info here
+        */
         function &getDb()
         {
             throw(new qException("qDb::getDb: This function must be implemented by child classes."));

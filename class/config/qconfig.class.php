@@ -1,6 +1,6 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
      * Extends the Properties class so that our own configuration file is automatically loaded.
@@ -10,8 +10,8 @@
      * @see Config
      * @see getConfig
      */
-    class qConfig extends qObject {
-
+    class qConfig extends qObject
+    {
         /**
          * Initializes the configuration back end.
          *

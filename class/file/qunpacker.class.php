@@ -1,18 +1,18 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/file/qbaseunpacker.class.php" );
-    include_once("qframework/class/file/qtargzunpacker.class.php" );
-    include_once("qframework/class/file/qzipunpacker.class.php" );
-    include_once("qframework/class/file/qtarbz2unpacker.class.php" );
-    include_once("qframework/class/file/qrarunpacker.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qbaseunpacker.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qtargzunpacker.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qzipunpacker.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qtarbz2unpacker.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qrarunpacker.class.php");
 
-    define( "UNPACKER_AUTODETECT", "detect" );
-    define( "UNPACKER_TAR_GZ", "tar.gz" );
-    define( "UNPACKER_TAR_BZ2", "tar.bz2" );
-    define( "UNPACKER_ZIP", "zip" );
-    define( "UNPACKER_RAR", "rar" );
-    define( "UNPACKER_UNSUPPORTED", false );
+    define(UNPACKER_AUTODETECT, "detect");
+    define(UNPACKER_TAR_GZ, "tar.gz");
+    define(UNPACKER_TAR_BZ2, "tar.bz2");
+    define(UNPACKER_ZIP, "zip");
+    define(UNPACKER_RAR, "rar");
+    define(UNPACKER_UNSUPPORTED, false);
 
     /**
      * Class that implements an object capable of unpacking several different

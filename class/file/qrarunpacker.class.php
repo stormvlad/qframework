@@ -1,12 +1,12 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/file/qbaseunpacker.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qbaseunpacker.class.php");
 
-    define( "DEFAULT_UNRAR_PATH", "/usr/bin/unrar" );
+    define(DEFAULT_UNRAR_PATH, "/usr/bin/unrar");
 
-    class qRarUnpacker extends qBaseUnpacker {
-
+    class qRarUnpacker extends qBaseUnpacker
+    {
         function qRarUnpacker()
         {
             $this->qBaseUnpacker();

@@ -1,6 +1,6 @@
 <?php
 
-    include_once("qframework/class/net/qrequest.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qrequest.class.php");
 
     /**
      * This is the parameter that will be used in the pipeline, to communicate

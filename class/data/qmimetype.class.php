@@ -1,6 +1,6 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
 /**
  * Copyright (C) 2002 Jason Sheets <jsheets@shadonet.com>.
@@ -73,8 +73,8 @@
  *    types as an static variable inside the class, so that it does not have to be rebuilt
  *    everytime when calling getType.
  */
-class qMimeType extends qObject {
-
+class qMimeType extends qObject
+{
     var $mimetypes = Array(
          "ez" => "application/andrew-inset",
          "hqx" => "application/mac-binhex40",

@@ -1,7 +1,7 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/net/qhttp.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
 
     define(DEFAULT_ABSOLUTE_URL, false);
 
@@ -16,8 +16,8 @@
      * </i><br>
      * Doing so we can easily change the format of the urls in the future if necessary.
      */
-    class qRequestGenerator extends qObject {
-
+    class qRequestGenerator extends qObject
+    {
         var $_params;
         var $_baseUrl;
         var $_dirName;

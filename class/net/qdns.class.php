@@ -1,7 +1,7 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/misc/qosdetect.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/misc/qosdetect.class.php");
 
     /**
      * Implementation of an alternative version of the checkdnsrr and getmxrr functions which
@@ -9,8 +9,8 @@
      * running windows or linux and then depending on the result, we will use the faster and native
      * version or the alternative one.
      */
-    class qDns extends qObject {
-
+    class qDns extends qObject
+    {
         /**
          * Static function that acts as a wrapper for the native checkdnsrr function. It first detects
          * wether we're running in Windows or not and then uses the native version or the alternative one.

@@ -1,16 +1,16 @@
 <?php
 
-    include_once("qframework/class/object/qobject.class.php" );
-    include_once("qframework/class/object/qexception.class.php" );
-    include_once("qframework/class/security/qpipelineresult.class.php" );
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qexception.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/security/qpipelineresult.class.php");
 
     /**
      * This is the base class from which all the objects that will be used in the
      * pipeline will inherit. It defines the basic operations and methods
      * that they'll have to use
      */
-    class qPipelineFilter extends qObject {
-
+    class qPipelineFilter extends qObject
+    {
         /**
         * Add function info here
         */
