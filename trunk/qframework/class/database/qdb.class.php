@@ -24,7 +24,7 @@
             $this->_db         = &$db;
             $this->_queryCount = 0;
 
-            $this->registerEvent(1, "DB_SQL_EXECUTION");
+            $this->registerEvent(1, "SQL_STATEMENT_EXECUTION");
         }
 
         /**
