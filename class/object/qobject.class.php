@@ -13,7 +13,6 @@
      */
     class qObject
     {
-        var $_objId;
         var $_events;
 
         /**
@@ -22,13 +21,6 @@
         function qObject()
         {
             $this->_events = array();
-            // removed for performance reasons!
-            //$this->_objId = uniqid($this->className()."__");
-        }
-
-        function _getObjectId()
-        {
-            return $this->_objId;
         }
 
         /**
