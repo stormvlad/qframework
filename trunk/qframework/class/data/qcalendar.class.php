@@ -6,6 +6,7 @@
 
     class qCalendar extends qObject
     {
+        var $_date;
         var $_month;
         var $_year;
         var $_firstDayOfWeek;
@@ -14,11 +15,29 @@
         /**
         *    Add function info here
         */
-        function qCalendar($month, $year = null, $firstDayOfWeek = DEFAULT_CALENDAR_FIRST_DAY_OF_WEEK)
+        function qCalendar($date = null, $month = null, $year = null, $firstDayOfWeek = DEFAULT_CALENDAR_FIRST_DAY_OF_WEEK)
         {
             $this->qObject();
-            $this->_month          = $month;
-            $this->_year           = empty($year) ? strftime("%Y"): $year;
+
+            if (empty($date))
+            {
+                $date = strftime("%Y%m%d");
+            }
+
+            if (empty($month))
+            {
+                $month = (int) strftime("%m");
+            }
+
+            if (empty($year))
+            {
+                $year = (int) strftime("%Y");
+            }
+
+            $this->_date           = $date;
+            $this->_month          = (int) $month;
+            $this->_year           = (int) $year;
+
             $this->_firstDayOfWeek = $firstDayOfWeek;
             $this->_calendar       = array();
 
@@ -28,7 +47,15 @@
         /**
         *    Add function info here
         */
-        function getMonth($padding = true)
+        function getDate()
+        {
+            return $this->_date;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getMonth($padding = false)
         {
             $month = $this->_month;
 
@@ -43,7 +70,7 @@
         /**
         *    Add function info here
         */
-        function getYear($padding = false)
+        function getYear()
         {
             return $this->_year;
         }
@@ -59,9 +86,49 @@
         /**
         *    Add function info here
         */
+        function setDate($date)
+        {
+            $this->_date = $date;
+        }
+
+        /**
+        *    Add function info here
+        */
         function setMonth($month)
         {
             $this->_month = $month;
+            $this->_generate();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setPrevMonth()
+        {
+            $this->_month--;
+
+            if ($this->_month < 1)
+            {
+                $this->_month = 12;
+                $this->_year--;
+            }
+
+            $this->_generate();
+        }
+
+        /**
+        *    Add function info here
+        */
+        function setNextMonth()
+        {
+            $this->_month++;
+
+            if ($this->_month > 12)
+            {
+                $this->_month = 1;
+                $this->_year++;
+            }
+
             $this->_generate();
         }
 
