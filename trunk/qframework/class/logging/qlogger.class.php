@@ -52,7 +52,11 @@
             // set default minimum priority levels
             $this->exitPriority = 1; // ERROR
 
+<<<<<<< .mine
+            if (parent::isDebug())
+=======
             if ($this->isDebug())
+>>>>>>> .r515
             {
                 $this->priority     = 0; // SHOW ALL ERRORS
             }

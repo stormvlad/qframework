@@ -1,6 +1,6 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/pdml/pdml.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/libs/pdml/pdml.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/view/qviewrenderer.class.php");
 
     define("DEFAULT_PDF_TEMPLATES_DIR", "pdml/");
