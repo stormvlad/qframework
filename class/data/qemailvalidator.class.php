@@ -4,7 +4,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qemailformatrule.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qemaildnsrule.class.php");
 
-    define("DEFAULT_CHECK_EMAIL_ADDRESS", true);
+    define("DEFAULT_CHECK_EMAIL_ADDRESS", false);
 
     /**
      * Extends the validator class to determine wether an email address is valid or not.
