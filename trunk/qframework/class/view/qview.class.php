@@ -54,6 +54,16 @@
         }
 
         /**
+        * Sets a single parameter
+        * @param name Name of the parameter
+        * @param value Value of the parameter
+        */
+        function setValues($values)
+        {
+            $this->_params->setValues($values);
+        }
+
+        /**
         * Returns the value identified by the key $key
         *
         * @param name The key
@@ -84,7 +94,7 @@
         */
         function render()
         {
-            $this->_renderer->render($this);
+            return $this->_renderer->render($this);
         }
      }
 ?>

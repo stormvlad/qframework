@@ -16,7 +16,7 @@
         /**
         *    Add function info here
         */
-        function qSmartyView($templateName, $layout)
+        function qSmartyView($templateName, $layout = null)
         {
             $this->qView(new qSmartyRenderer());
 
