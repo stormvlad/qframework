@@ -1,16 +1,13 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/security/qfilterschain.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidationslist.class.php");
 
     /**
      * Abstract class representing an qAction.
      */
     class qAction extends qObject
     {
-        var $_filtersChain;
-        var $_validationsList;
+        var $_validationMethod;
 
         /**
          * Constructor.
@@ -18,50 +15,26 @@
          * @param actionInfo An qActionInfo object contaning information about the action
          * @param httpRequest the HTTP request.
          */
-        function qAction()
+        function qAction($validationMethod = VALIDATION_METHOD_NONE)
         {
             $this->qObject();
-            $this->_filtersChain    = null;
-            $this->_validationsList = null;
+            $this->_validationMethod = $validationMethod;
         }
 
         /**
         *    Add function info here
         **/
-        function addValidation($name, &$validation)
+        function getValidationMethod()
         {
-            if  (!is_object($this->_validationsList))
-            {
-                $this->_validationsList = new qValidationsList();
-            }
-
-            $this->_validationsList->addValidation($name, $validation);
+            return $this->_validationMethod;
         }
 
         /**
         *    Add function info here
         **/
-        function addFilter(&$filter)
+        function setValidationMethod($method)
         {
-            if  (!is_object($this->_filtersChain))
-            {
-                $this->_filtersChain = new qFiltersChain();
-            }
-
-            $this->_filtersChain->addFilter($filter);
-        }
-
-        /**
-        *    Add function info here
-        **/
-        function getValidateErrors()
-        {
-            if  (!is_object($this->_validationsList))
-            {
-                $this->_validationsList = new qValidationsList();
-            }
-
-            return $this->_validationsList->getErrors();
+            $this->_validationMethod = $method;
         }
 
         /**
@@ -69,56 +42,39 @@
          */
         function validate(&$controller, &$httpRequest)
         {
-            if (is_object($this->_validationsList))
-            {
-                return $this->_validationsList->validate($httpRequest->getAsArray());
-            }
-
             return true;
         }
 
         /**
          * Add function info here
          */
-        function handleValidateError(&$controller, &$httpRequest)
+        function handleValidateError(&$controller, &$httpRequest, &$errors)
         {
             throw(new qException("qAction::handleValidateError: This method must be implemented by child classes."));
             die();
         }
 
         /**
-        *    Add function info here
-        **/
-        function getFilterError()
+         * Add function info here
+         */
+        function registerValidations(&$controller, &$httpRequest, &$validationsList)
         {
-            if  (!is_object($this->_filtersChain))
-            {
-                $this->_filtersChain = new qFiltersChain();
-            }
-
-            return $this->_filtersChain->getError();
-        }
-
-        /**
-        *    Add function info here
-        **/
-        function filter(&$controller, &$httpRequest)
-        {
-            if  (is_object($this->_filtersChain))
-            {
-                return $this->_filtersChain->filter($controller, $httpRequest);
-            }
-
-            return true;
         }
 
         /**
          * Add function info here
          */
-        function handleFilterError(&$controller, &$httpRequest)
+        function handleFilterError(&$controller, &$httpRequest, $error)
         {
             throw(new qException("qAction::handleFilterError: This method must be implemented by child classes."));
             die();
+        }
+
+        /**
+         * Add function info here
+         */
+        function registerFilters(&$controller, &$httpRequest, &$filtersChain)
+        {
         }
 
         /**
@@ -135,6 +91,15 @@
         function perform(&$controller, &$httpRequest)
         {
             throw(new qException("qAction::perform: This method must be implemented by child classes."));
+            die();
+        }
+
+        /**
+         * Add function info here
+         */
+        function performAfterValidation(&$controller, &$httpRequest)
+        {
+            throw(new qException("qAction::performAfterValidation: This method must be implemented by child classes."));
             die();
         }
     }

@@ -1,7 +1,6 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpvars.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
 
     /**
      * Inherits from Properties but just to add some default
@@ -9,14 +8,17 @@
      */
     class qHttpSessionVars extends qHttpVars
     {
-        function qHttpSessionVars($params = null)
+        function qHttpSessionVars()
         {
-            $this->qProperties($params);
+            $this->qHttpVars($_SESSION);
         }
 
+        /**
+        *    Add function info here
+        */
         function save()
         {
-            qHttp::setSession($this->getAsArray());
+            $this->_save($_SESSION, $this->getAsArray());
         }
     }
 ?>

@@ -22,15 +22,5 @@
                 $this->addRule(new qEmailDnsRule());
             }
         }
-
-        /**
-         * Returns true if the email address is a valid one, or false otherwise.
-         *
-         * @return Returns true if it's a valid address or false otherwise.
-         */
-        function validate($value)
-        {
-            return parent::validate($value);
-        }
     }
 ?>

@@ -1,7 +1,6 @@
 <?php
 
     include_once("qframework/class/net/qhttpvars.class.php" );
-    include_once("qframework/class/net/qhttp.class.php" );
 
     /**
      * Inherits from Properties but just to add some default
@@ -9,9 +8,20 @@
      */
     class qHttpServerVars extends qHttpVars
     {
-        function qHttpServerVars($params = null)
+        /**
+        *    Add function info here
+        */
+        function qHttpServerVars()
         {
-            $this->qHttpVars($params);
+            $this->qHttpVars($_SERVER);
+        }
+
+        /**
+        *    Add function info here
+        */
+        function save()
+        {
+            $this->_save($_SERVER, $this->getAsArray());
         }
     }
 ?>

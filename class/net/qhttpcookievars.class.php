@@ -1,7 +1,6 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpvars.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
 
     /**
      * Inherits from Properties but just to add some default
@@ -9,14 +8,17 @@
      */
     class qHttpCookieVars extends qHttpVars
     {
-        function qHttpCookieVars($params = null)
+        function qHttpCookieVars()
         {
-            $this->qHttpVars($params);
+            $this->qHttpVars($_COOKIE);
         }
 
+        /**
+        *    Add function info here
+        */
         function save()
         {
-            qHttp::setCookie($this->getAsArray());
+            $this->_save($_COOKIE, $this->getAsArray());
         }
     }
 ?>

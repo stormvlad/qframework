@@ -1,7 +1,6 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qexception.class.php");
 
     /**
      * <b>Very</b> modest attempt to recreate some kind of Reflection API
@@ -24,9 +23,9 @@
          * @param methodName Name of the method we want to check
          * @return Returns true if method exists otherwise, false
          */
-        function methodExists( &$class, $methodName )
+        function methodExists(&$class, $methodName)
         {
-            return method_exists( $class, $methodName );
+            return method_exists($class, $methodName);
         }
 
         /**
@@ -36,9 +35,9 @@
          * @param class The class from which we would like to check the methods
          * @return An array containing all the methods available.
          */
-        function getClassMethods( &$class )
+        function getClassMethods(&$class)
         {
-            return get_class_methods( $class );
+            return get_class_methods($class);
         }
     }
 ?>

@@ -1,13 +1,18 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpgetvars.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttppostvars.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpsessionvars.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpcookievars.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpfilesvars.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpservervars.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpgetvars.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttppostvars.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttprequestvars.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpservervars.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttpsessionvars.class.php");
+
+    define(REQUEST_METHOD_NONE, 0);
+    define(REQUEST_METHOD_GET,  2);
+    define(REQUEST_METHOD_POST, 4);
+    define(REQUEST_METHOD_ANY,  REQUEST_METHOD_GET | REQUEST_METHOD_POST);
 
     /**
      * HttpVars compatibility package, which allows to fetch some of php's basic
@@ -21,267 +26,127 @@
      */
     class qHttp extends qObject
     {
+
         /**
-         * Returns an array with all the variables in the GET header, fetching them
-         * either from $_GET (PHP >= 4.1.0) or $HTTP_GET_VARS (PHP < 4.1.0)
-         *
-         * @return An associative array with the values of the GET header.
-         * @static
-         */
-        function getGet()
-        {
-            if (phpversion() >= "4.1.0")
-            {
-                $getVars = $_GET;
-            }
-            else
-            {
-                global $HTTP_GET_VARS;
-                $getVars = $HTTP_GET_VARS;
-            }
-
-            return $getVars;
-        }
-
+        *  Add function info here
+        */
         function &getGetVars()
         {
             static $getVarsInstance;
 
             if (!isset($getVarsInstance))
             {
-                $getVarsInstance = new qHttpGetVars(qHttp::getGet());
+                $getVarsInstance = new qHttpGetVars();
             }
 
             return $getVarsInstance;
         }
+
         /**
-         * Returns an array with all the variables in the GET header, fetching them
-         * either from $_POST (PHP >= 4.1.0) or $HTTP_POST_VARS (PHP < 4.1.0)
-         *
-         * @return An associative array with the values of the POST header.
-         * @static
-         */
-        function getPost()
-        {
-            if (phpversion() >= "4.1.0")
-            {
-                $postVars = $_POST;
-            }
-            else
-            {
-                global $HTTP_POST_VARS;
-                $postVars = $HTTP_POST_VARS;
-            }
-
-            return $postVars;
-        }
-
+        *  Add function info here
+        */
         function &getPostVars()
         {
             static $postVarsInstance;
 
             if (!isset($postVarsInstance))
             {
-                $postVarsInstance = new qHttpPostVars(qHttp::getPost());
+                $postVarsInstance = new qHttpPostVars();
             }
 
             return $postVarsInstance;
         }
 
         /**
-         * Returns an array with all the variables in the session, fetching them
-         * either from $_SESSION (PHP >= 4.1.0) or $HTTP_SESSION_VARS (PHP < 4.1.0)
-         *
-         * @return An associative array with the values of the session.
-         * @static
-         */
-        function getSession()
-        {
-            if (phpversion() >= "4.1.0")
-            {
-                $sessionVars = $_SESSION;
-            }
-            else
-            {
-                global $HTTP_SESSION_VARS;
-                $sessionVars = $HTTP_SESSION_VARS;
-            }
-
-            return $sessionVars;
-        }
-
+        *  Add function info here
+        */
         function &getSessionVars()
         {
             static $sessionVarsInstance;
 
             if (!isset($sessionVarsInstance))
             {
-                $sessionVarsInstance = new qHttpSessionVars(qHttp::getSession());
+                $sessionVarsInstance = new qHttpSessionVars();
             }
 
             return $sessionVarsInstance;
         }
 
         /**
-         * Saves the array in the session.
-         *
-         * @param sessionVars An array that will be used as the values for the http session.
-         * @return Always returns true.
-         * @static
-         */
-        function setSession($sessionArray)
-        {
-            if (phpversion() >= "4.1.0")
-            {
-                foreach ($sessionArray as $key => $value)
-                {
-                    $_SESSION[$key] = $value;
-                }
-            }
-            else
-            {
-                global $HTTP_SESSION_VARS;
-
-                foreach ($sessionArray as $key => $value)
-                {
-                    $HTTP_SESSION_VARS[$key] = $value;
-                }
-            }
-
-            return true;
-        }
-
-        /**
-         * Returns an array with the contents of the $_COOKIE global variable, if PHP version >= 4.1.0
-         * or the values of the array HTTP_COOKIE_VARS if we're using a lower version.
-         *
-         * @return An associative array with all the cookies created by our application.
-         * @static
-         */
-        function getCookie()
-        {
-            if (phpversion() >= "4.1.0")
-            {
-                $cookieVars = $_COOKIE;
-            }
-            else
-            {
-                global $HTTP_COOKIE_VARS;
-                $cookieVars = $HTTP_COOKIE_VARS;
-            }
-
-            return $cookieVars;
-        }
-
+        *  Add function info here
+        */
         function &getCookieVars()
         {
             static $cookieVarsInstance;
 
             if (!isset($cookieVarsInstance))
             {
-                $cookieVarsInstance = new qHttpCookieVars(qHttp::getCookie());
+                $cookieVarsInstance = new qHttpCookieVars();
             }
 
             return $cookieVarsInstance;
         }
 
         /**
-         * Returns the value of the $_REQUEST array. In PHP >= 4.1.0 it is defined as a mix
-         * of the $_POST, $_GET and $_COOKIE arrays, but it didn't exist in earlier versions.
-         * If we are running PHP < 4.1.0, then we will manually create it by merging the needed
-         * arrays.
-         *
-         * @return An associative array containing the variables in the GET, POST and COOKIES header.
-         * @static
-         */
-        function getRequest()
-        {
-            if (phpversion() >= "4.1.0")
-            {
-                $requestVars = $_REQUEST;
-            }
-            else
-            {
-                $postVars    = HttpVars::getPost();
-                $getVars     = HttpVars::getGet();
-                $cookieVars  = HttpVars::getCookie();
-                $requestVars = array_merge($getVars, $postVars, $cookieVars);
-            }
-
-            return $requestVars;
-        }
-
+        *  Add function info here
+        */
         function &getRequestVars()
         {
             static $requestVarsInstance;
 
             if (!isset($requestVarsInstance))
             {
-                $requestVarsInstance = new qHttpRequestVars(qHttp::getRequest());
+                $requestVarsInstance = new qHttpRequestVars();
             }
 
             return $requestVarsInstance;
         }
 
         /**
-         * Returns the $_SERVER array, otherwise known as $HTTP_SERVER_VARS in versions older
-         * than PHP 4.1.0
-         *
-         * @return An associative array with the contents of the $_SERVER array, or equivalent.
-         * @static
-         */
-        function getServer()
-        {
-            if (phpversion() >= "4.1.0")
-            {
-                $serverVars = $_SERVER;
-            }
-            else
-            {
-                global $HTTP_SERVER_VARS;
-                $serverVars = $HTTP_SERVER_VARS;
-            }
-
-            return $serverVars;
-        }
-
+        *  Add function info here
+        */
         function &getServerVars()
         {
             static $serverVarsInstance;
 
             if (!isset($serverVarsInstance))
             {
-                $serverVarsInstance = new qHttpServerVars(qHttp::getServer());
+                $serverVarsInstance = new qHttpServerVars();
             }
 
             return $serverVarsInstance;
         }
 
-        function getFiles()
-        {
-            if (phpversion() >= "4.1.0")
-            {
-                $files = $_FILES;
-            }
-            else
-            {
-                global $HTTP_POST_FILES;
-                $files = $HTTP_POST_FILES;
-            }
-
-            return $files;
-        }
-
+        /**
+        *  Add function info here
+        */
         function &getFilesVars()
         {
             static $filesVarsInstance;
 
             if (!isset($filesVarsInstance))
             {
-                $filesVarsInstance = new qHttpFilesVars(qHttp::getFiles());
+                $filesVarsInstance = new qHttpFilesVars();
             }
 
             return $filesVarsInstance;
+        }
+
+        /**
+        *  Add function info here
+        */
+        function getRequestMethod()
+        {
+            $server = &qHttp::getServerVars();
+
+            if ($server->getValue("REQUEST_METHOD") == "POST")
+            {
+                return REQUEST_METHOD_POST;
+            }
+            else
+            {
+                return REQUEST_METHOD_GET;
+            }
         }
     }
 ?>
