@@ -234,7 +234,15 @@
         /**
          * Add function info here
          */
-        function _getActionClassName($actionName)
+        function actionClassFileNotFound($actionName)
+        {
+            return $this->getActionClassName($this->_defaultAction);
+        }
+
+        /**
+         * Add function info here
+         */
+        function getActionClassName($actionName)
         {
             if (empty($actionName))
             {
@@ -255,7 +263,7 @@
                 }
                 else
                 {
-                    $actionClassName = $this->_getActionClassName($this->_defaultAction);
+                    return $this->actionClassFileNotFound($actionName);
                 }
             }
 
@@ -278,7 +286,7 @@
          */
         function forward($actionName)
         {
-            $actionClassName  = $this->_getActionClassName($actionName);
+            $actionClassName  = $this->getActionClassName($actionName);
             $this->loadActionClass($actionClassName);
 
             $filtersChain     = new qFiltersChain();
