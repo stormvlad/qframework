@@ -558,14 +558,29 @@
             {
                 $timeStamp = mktime();
             }
-            else
+            else if (preg_match("/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(Z|[\+\-]\d{2}:?\d{2})?)?$/i", $timeStamp, $regs))
             {
-                $timeStamp = mktime(substr($timeStamp, 8, 2), substr($timeStamp, 10, 2), substr($timeStamp, 12, 2), substr($timeStamp, 4, 2), substr($timeStamp, 6, 2), substr($timeStamp, 0, 4));
-            }
+                $year      = $regs[1];
+                $month     = $regs[2];
+                $day       = $regs[3];
+                $hour      = isset($regs[5]) ? $regs[5] : 0;
+                $minute    = isset($regs[6]) ? $regs[6] : 0;
+                $second    = isset($regs[7]) ? $regs[7] : 0;
 
-            if ($timeStamp < 1)
+                $timeStamp = mktime($hour, $minute, $second, $month, $day, $year);
+            }
+            else if (is_numeric($timeStamp))
             {
-                return "";
+                $temp      = date("Y-m-d H:i:s", $timeStamp);
+
+                $year      = substr($temp, 0, 4);
+                $month     = substr($temp, 5, 2);
+                $day       = substr($temp, 8, 2);
+                $hour      = substr($temp, 11, 2);
+                $minute    = substr($temp, 14, 2);
+                $second    = substr($temp, 17, 2);
+
+                $timeStamp = mktime($hour, $minute, $second, $month, $day, $year);
             }
 
             $hour        = (int) strftime("%H", $timeStamp);
