@@ -35,14 +35,9 @@
         /**
         * Add function info here
         */
-        function stripTags($str, $replaceWithSpace = true)
+        function stripTags($str, $allowedTags = array())
         {
-            if ($replaceWithSpace)
-            {
-                return preg_replace("!<[^>]*?>!", " ", $str);
-            }
-
-            return strip_tags($str);
+            return strip_tags($str, $allowedTags);
         }
 
         /**
