@@ -51,7 +51,15 @@
 
             // set default minimum priority levels
             $this->exitPriority = 3000; // ERROR
-            $this->priority     = 3000; // ERROR
+
+            if ($this->isDebug)
+            {
+                $this->priority     = 0; // SHOW ALL ERRORS
+            }
+            else
+            {
+                $this->priority     = 3000; // ERROR
+            }
         }
 
         /**
