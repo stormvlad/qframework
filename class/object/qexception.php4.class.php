@@ -1,5 +1,7 @@
 <?php
 
+    define ("E_STRICT", 2048);
+    
     /**
      * Throws an exception
      */
