@@ -14,7 +14,7 @@
         /**
          * Create a new qErrorLogger instance.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &qErrorLogger ()
@@ -37,7 +37,7 @@
          * @param string The file where message was logged.
          * @param int    The line where message was logged.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function debug($message, $class = NULL, $function = NULL, $file = NULL, $line = NULL)
@@ -68,7 +68,7 @@
          * @param string The file where message was logged.
          * @param int    The line where message was logged.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function error ($message, $class = NULL, $function = NULL, $file = NULL, $line = NULL)
@@ -99,7 +99,7 @@
          * @param string The file where message was logged.
          * @param int    The line where message was logged.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function fatal ($message, $class = NULL, $function = NULL, $file = NULL, $line = NULL)
@@ -130,7 +130,7 @@
          * @param string The file where message was logged.
          * @param int    The line where message was logged.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function info ($message, $class = NULL, $function = NULL, $file = NULL, $line = NULL)
@@ -163,7 +163,7 @@
          * @param string The file where the error occured.
          * @param int    The line where the error occured.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function standard ($level, $message, $file, $line)
@@ -209,7 +209,7 @@
          * @param string The file where message was logged.
          * @param int    The line where message was logged.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function warning ($message, $class = NULL, $function = NULL, $file = NULL, $line = NULL)

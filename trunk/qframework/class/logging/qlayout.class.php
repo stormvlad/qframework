@@ -11,7 +11,7 @@
         /**
          * Create a new Layout instance.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &qLayout()
@@ -30,7 +30,7 @@
          *
          * @param qMessage A qMessage instance.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &format (&$message)

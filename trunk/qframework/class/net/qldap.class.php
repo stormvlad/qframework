@@ -146,7 +146,7 @@
         * @param username user RDN
         * @param password user password
         * @return boolean Returns TRUE on success or FALSE on failure.
-        * @access public
+        * @public
         */
         function bind($userName = null, $password = null)
         {

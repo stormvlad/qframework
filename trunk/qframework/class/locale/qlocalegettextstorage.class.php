@@ -23,7 +23,7 @@
          * is the file the constructor will try to open.
          * If no file name is specified, it defaults to config/config.properties.php.
          *
-         * @param configFile The name of the file we would like to use.
+         * @param localeCode
          */
         function qLocaleGettextStorage($localeCode)
         {
@@ -103,9 +103,10 @@
          * we are writing the whole file to disk... Bad ;) But it works, so we'll leave it as it
          * is for the time being...
          *
+         * @param locale qLocale object
          * @param name Name of the setting.
          * @param value Value of the setting.
-         * @return True if success or false otherwise.
+         * @return boolean True if success or false otherwise.
          */
         function saveValue(&$locale, $name, $value)
         {
@@ -114,10 +115,11 @@
         }
 
         /**
-        * Save the localization PO file
-        *
-        * @return True if success or false otherwise.
-        */
+         * Save the localization PO file
+         *
+         * @param locale qLocale object
+         * @return True if success or false otherwise.
+         */
         function save(&$locale)
         {
             // Check the directory exists

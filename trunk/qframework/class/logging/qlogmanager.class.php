@@ -16,7 +16,7 @@
         /**
          * An associative array of loggers.
          *
-         * @access private
+         * @private
          * @since  1.0
          * @type   array
          */
@@ -31,7 +31,7 @@
          *     This should never be called manually.
          * </note>
          *
-         * @access private
+         * @private
          * @since  1.0
          */
         function &qLogManager()
@@ -62,7 +62,7 @@
          * @param string A logger name.
          * @param Logger A Logger instance.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function addLogger ($name, &$logger)
@@ -87,7 +87,7 @@
          *     reported.
          * </note>
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function cleanup ()
@@ -106,7 +106,7 @@
          *
          * @return qLogManager A qLogManager instance.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &getInstance()
@@ -136,7 +136,7 @@
          * @return Logger A Logger instance, if the given Logger exists, otherwise
          *                <b>NULL</b>.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &getLogger ($name = "default")
@@ -154,7 +154,7 @@
          *
          * @return array An array of loggers.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &getLoggers ()

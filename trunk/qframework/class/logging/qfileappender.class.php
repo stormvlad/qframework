@@ -13,7 +13,7 @@
         /**
          * Whether or not the file pointer is opened in append mode.
          *
-         * @access private
+         * @private
          * @since  1.0
          * @type   bool
          */
@@ -22,7 +22,7 @@
         /**
          * An absolute file-system path to the log file.
          *
-         * @access private
+         * @private
          * @since  1.0
          * @type   string
          */
@@ -31,7 +31,7 @@
         /**
          * A pointer to the log file.
          *
-         * @access private
+         * @private
          * @since  1.0
          * @type   resource
          */
@@ -40,7 +40,7 @@
         /**
          * The conversion pattern to use with this layout.
          *
-         * @access private
+         * @private
          * @since  1.0
          * @type   ConversionPattern
          */
@@ -63,7 +63,7 @@
          * @param bool   Whether or not the file pointer should be opened in
          *               appending mode (if false, all data is truncated).
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &qFileAppender ($layout, $file, $append = TRUE)
@@ -91,7 +91,7 @@
          *
          * @return string A replacement for the given data.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &callback ($char, $param)
@@ -124,7 +124,7 @@
          *     This should never be called manually.
          * </note>
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function cleanup ()
@@ -147,7 +147,7 @@
          *     This should never be called manually.
          * </note>
          *
-         * @access private
+         * @private
          * @since  1.0
          */
         function openFP ()
@@ -178,7 +178,7 @@
          *
          * @param string The message to write.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function write ($message)

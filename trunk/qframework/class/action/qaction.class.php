@@ -3,7 +3,11 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-     * Abstract class representing an qAction.
+     * Classe abstracta que representa una acción. 
+     *
+     * qAction permite separar la aplicación y la lógica de negocio de la presentación.
+     * Proveendo de un conjunto de métodos núcleo usados por el framework,
+     * automatización en los formularios en seguridad y validación.
      */
     class qAction extends qObject
     {
@@ -13,9 +17,6 @@
 
         /**
          * Constructor.
-         *
-         * @param actionInfo An qActionInfo object contaning information about the action
-         * @param httpRequest the HTTP request.
          */
         function qAction(&$controllerParams)
         {
@@ -26,32 +27,44 @@
         }
 
         /**
-        *    Add function info here
-        **/
+         * Devuelve el nombre del formulario
+         *
+         * @return string
+         */
         function getFormName()
         {
             return $this->_formName;
         }
 
         /**
-        *    Add function info here
-        **/
+         * Establece el nombre del formulario
+         *
+         * @param name string
+         */
         function setFormName($name)
         {
             $this->_formName = $name;
         }
 
         /**
-        *    Add function info here
-        **/
+         * Devuelve un array asociativo con los errores producidos por la validación del formulario.
+         *
+         * El array devuelto contiene como claves los campos en que se ha producido el error de validación
+         * y como valores los mensajes de error.
+         *
+         * @return array()
+         */
         function &getErrors()
         {
             return $this->_errors;
         }
 
         /**
-        *    Add function info here
-        **/
+         * Añade un error en la lista de errores
+         *
+         * @param error string Mensaje de error
+         * @param key string Identificador del error
+         */
         function addError($error, $key = null)
         {
             if (empty($key))
@@ -65,39 +78,43 @@
         }
 
         /**
-        *    Add function info here
-        **/
+         * Borra todos los errores almacenados previamente
+         */
         function resetErrors()
         {
             $this->_errors = array();
         }
 
         /**
-        *    Add function info here
-        **/
+         * Devuelve los parámetros del controlador.
+         */
         function &getControllerParams()
         {
             return $this->_controllerParams;
         }
 
         /**
-        *    Add function info here
-        **/
+         * Establece los parámetros del controlador.
+         */
         function setControllerParams(&$controllerParams)
         {
             $this->_controllerParams = &$controllerParams;
         }
 
         /**
-        *    Add function info here
-        **/
+         * Devuelve el método establecido en el que se validan los parámetros de la petición.
+         *
+         * @returns integer
+         */
         function getValidationMethod()
         {
             return REQUEST_METHOD_NONE;
         }
 
         /**
-         * Add function info here
+         * Método para validar manualmente ficheros y parámetros.
+         *
+         * @return boolean
          */
         function validate()
         {
@@ -105,7 +122,9 @@
         }
 
         /**
-         * Add function info here
+         * 
+         *
+         * @param errors array
          */
         function handleValidateError($errors)
         {
@@ -114,30 +133,39 @@
         }
 
         /**
-         * Add function info here
+         * Registra una lista de validadores para 
+         * 
+         * @param validationsList array
          */
         function registerValidations(&$validationsList)
         {
         }
 
         /**
+         
          * Add function info here
+         *
+         * @param filtersChain array
          */
         function registerFilters(&$filtersChain)
         {
         }
 
         /**
-        *    Add function info here
-        **/
+         * Devuelve si la acción necesita autentificación.
+         *
+         * @return boolean
+         */
         function isSecure()
         {
             return false;
         }
 
         /**
-        *    Add function info here
-        **/
+         * Devuelve los permisos que hacen falta para ejecutar esta acción.
+         *
+         * @return array
+         */
         function getPermissions()
         {
             return false;
@@ -179,8 +207,12 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Devuelve si existe un parámetro en el formulario
+         *
+         * @param name string Nombre del valor
+         * @param step integer opcional - Número de paso en formulario, en caso de que sea un formulario por pasos
+         * @return boolean
+         */
         function formValueExists($name, $step = null)
         {
             $user     = &$this->_controllerParams->getUser();
@@ -190,8 +222,12 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Devuelve un valor del formulario
+         *
+         * @param name string Nombre del valor
+         * @param step integer opcional - Número de paso en formulario, en caso de que sea un formulario por pasos
+         * @return object 
+         */
         function getFormValue($name, $step = null)
         {
             $user     = &$this->_controllerParams->getUser();
@@ -201,8 +237,11 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Devuelve un array associativo con todos los valores del formulario
+         *
+         * @param step integer opcional - Número de paso en formulario, en caso de que sea un formulario por pasos
+         * @return array
+         */
         function &getFormValues($step = null)
         {
             $user     = &$this->_controllerParams->getUser();
@@ -212,8 +251,12 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Establece y salva en la sessión un valor de formulario.
+         *
+         * @param name string Nombre del valor
+         * @param value object Valor
+         * @param step integer opcional - Número de paso en formulario, en caso de que sea un formulario por pasos
+         */
         function setFormValue($name, $value, $step = null)
         {
             $user     = &$this->_controllerParams->getUser();
@@ -223,8 +266,11 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Salva los valores del formulario
+         *
+         * @param values object Valor
+         * @param step integer opcional - Número de paso en formulario, en caso de que sea un formulario por pasos
+         */
         function setFormValues($values, $step = null)
         {
             $user     = &$this->_controllerParams->getUser();
@@ -234,8 +280,11 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Borra un valor del formulario
+         *
+         * @param name string Nombre del valor
+         * @param step integer opcional - Número de paso en formulario, en caso de que sea un formulario por pasos
+         */
         function removeFormValue($name, $step = null)
         {
             $user     = &$this->_controllerParams->getUser();
@@ -245,8 +294,8 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Borra todos los valores de un formulario
+         */
         function resetFormValues()
         {
             $user     = &$this->_controllerParams->getUser();
@@ -256,8 +305,8 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Desa els valors de la petició com a valors del formulari
+         */
         function save()
         {
             $controller = &$this->_controllerParams->getController();
@@ -309,8 +358,10 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Establece la siguiente acción a ejecutarse por el controlador actual
+         *
+         * @param actionName string Nombre de la acción a ejecutar
+         */
         function forward($actionName)
         {
             $controller = &$this->_controllerParams->getController();
@@ -318,8 +369,10 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Redirecciona la petición a otra URL
+         *
+         * @param url string Una URL existente
+         */
         function redirect($url)
         {
             $controller = &$this->_controllerParams->getController();

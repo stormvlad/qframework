@@ -13,7 +13,7 @@
         /**
          * The function that will be called when a conversion character is parsed.
          *
-         * @access private
+         * @private
          * @since  1.0
          * @type   string
          */
@@ -23,7 +23,7 @@
          * The object containing the function to be called when a conversion
          * character is parsed.
          *
-         * @access private
+         * @private
          * @since  1.0
          * @type   object
          */
@@ -32,7 +32,7 @@
         /**
          * A pattern containing conversion characters.
          *
-         * @access private
+         * @private
          * @since  1.0
          * @type   string
          */
@@ -45,7 +45,7 @@
          *
          * @return ConversionPattern A ConversionPattern instance.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &qConversionPattern ($pattern = NULL)
@@ -65,7 +65,7 @@
          * @return string A conversion character parameter if one one exists,
          *                otherwise <b>NULL</b>.
          *
-         * @access private
+         * @private
          * @since  1.0
          */
         function getParameter (&$index)
@@ -102,7 +102,7 @@
          *
          * @return string A conversion pattern.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function getPattern ()
@@ -116,7 +116,7 @@
          * @return string A string with conversion characters replaced with their
          *                respective values.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function &parse ()
@@ -181,7 +181,7 @@
          *
          * @param string A function name.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function setCallbackFunction ($function)
@@ -195,7 +195,7 @@
          * @param object An object holding a callback function.
          * @param string A function name.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function setCallbackObject (&$object, $function)
@@ -209,7 +209,7 @@
          *
          * @param string A pattern consisting of one or more conversion characters.
          *
-         * @access public
+         * @public
          * @since  1.0
          */
         function setPattern ($pattern)

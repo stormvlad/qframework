@@ -25,10 +25,6 @@
 
         /**
          * Constructor.
-         *
-         * @param mode The mode we are going to use.
-         * @param xhtml Wether or not requests have to be XHTML compliant. That is, all
-         * '&' will be turned into '&amp;'
          */
         function qRequestGenerator()
         {
@@ -82,10 +78,9 @@
         }
 
         /**
-         * Adds a parameter to the request
+         * Establece modo de generación de URLs compatible con XHTML
          *
-         * @param paramName Name of the parameter
-         * @param paramValue Value given to the parameter
+         * @param enable Name of the parameter
          */
         function setXhtml($enable = true)
         {
@@ -93,10 +88,9 @@
         }
 
         /**
-         * Adds a parameter to the request
+         * Devuelve si el generador está en modo de URLs compatible con XHTML
          *
-         * @param paramName Name of the parameter
-         * @param paramValue Value given to the parameter
+         * @returns boolean Devuelve true si está en modo XHTML
          */
         function isXhtml()
         {

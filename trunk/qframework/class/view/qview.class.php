@@ -4,8 +4,13 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
 
     /**
+     * Una vista qView representa la capa de presentació de la acció.  
+     * La sortida pot ser emplenada omplint atributs, que la plantilla 
+     * pot manipular i mostrar.
+     *
      * Methods provided by the View object that every object inheriting from this
      * should implement
+     * 
      */
     class qView extends qObject
     {
@@ -13,7 +18,9 @@
         var $_params;
 
         /**
-         * Constructor. By default, does nothing
+         * Constructor. Por defecto no hace nada
+         *
+         * @param renderer qViewRenderer Objeto de render
          */
         function qView(&$renderer)
         {
@@ -24,62 +31,64 @@
         }
 
         /**
-        * Sets a single parameter
-        * @param name Name of the parameter
-        * @param value Value of the parameter
-        */
+         * Establece el sistema de renderizado si existe
+         *
+         * @param renderer qViewRenderer Objeto de render
+         */
         function setRenderer(&$renderer)
         {
             $this->_renderer = &$renderer;
         }
 
         /**
-        * Sets a single parameter
-        * @param name Name of the parameter
-        * @param value Value of the parameter
-        */
+         * Recupera una referencia al sistema de renderizado
+         *
+         * @return qViewRenderer
+         */
         function &getRenderer()
         {
             return $this->_renderer;
         }
 
         /**
-        * Sets a single parameter
-        * @param name Name of the parameter
-        * @param value Value of the parameter
-        */
+         * Establece un sólo parámetro. 
+         *
+         * Este valor se podrá usar desde la plantilla
+         *
+         * @param name string Nombre del parámetro
+         * @param value object Valor del parámetro
+         */
         function setValue($name, $value)
         {
             $this->_params->setValue($name, $value);
         }
 
         /**
-        * Sets a single parameter
-        * @param name Name of the parameter
-        * @param value Value of the parameter
-        */
+         * Establece un array de valores para la vista
+         *
+         * @param values array Array asociativo con nombre y valor de los parámetros
+         */
         function setValues($values)
         {
             $this->_params->setValues($values);
         }
 
         /**
-        * Returns the value identified by the key $key
-        *
-        * @param name The key
-        * @return The value associated to that key
-        */
+         * Devuelve el valor que se identifica con este nombre
+         *
+         * @param name string Nombre del parámetro
+         * @return object
+         */
         function getValue($name)
         {
             return $this->_params->getValue($name);
         }
 
         /**
-        * Returns the value identified by the key $key
-        *
-        * @param name The key
-        * @return The value associated to that key
-        */
+         * Devuelve un array asociativo con los valores identificados con una clave
+         *
+         * @return array Array con nombre y valor de los parámetros
+         */
         function getAsArray()
         {
             return $this->_params->getAsArray();
@@ -94,12 +103,13 @@
         }
 
         /**
-        * Renders the view. Here we would ideally call a template engine, using the
-        * values in $this->_params to fill the template 'context' and then display
-        * everything.
-        *
-        * By default does nothing and it has no parameters
-        */
+         * Renderiza la vista. Here we would ideally call a template engine, using the
+         * values in $this->_params to fill the template 'context' and then display
+         * everything.
+         *
+         * By default does nothing and it has no parameters
+         */
+
         function render()
         {
             return $this->_renderer->render($this);

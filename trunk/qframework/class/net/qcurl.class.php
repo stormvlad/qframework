@@ -23,7 +23,7 @@
         *
         * @param url Establishes the url of a CURL session
         * @return void
-        * @access public
+        * @public
         */
         function qCurl($url = null)
         {
@@ -52,7 +52,7 @@
         * getUrl
         *
         * @return url
-        * @access public
+        * @public
         */
         function getUrl()
         {
@@ -64,7 +64,7 @@
         *
         * @param url
         * @return void
-        * @access public
+        * @public
         */
         function setUrl($url)
         {
