@@ -72,7 +72,7 @@
 
             $this->append  =  $append;
             $this->file    =  $file;
-            $this->pattern =& new ConversionPattern($file);
+            $this->pattern =& new qConversionPattern($file);
 
             $this->openFP();
         }

@@ -2,6 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/logging/qlayout.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/logging/qconversionpattern.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
 
     /**
      * PatternLayout allows a completely customizable layout that uses a conversion
@@ -108,11 +109,21 @@
 
                 case "f":
                     // get the file
-                    $data = $this->message->getParameter("f");
+                    $data   = $this->message->getParameter("f");
+                    $server = &qHttp::getServerVars();
 
-                    if ($param != NULL)
+                    switch($param)
                     {
-                        $data = ($param == "file") ? basename($data) : dirname($data);
+                        case "file":
+                            $data = basename($data);
+                            break;
+
+                        case "dir":
+                            $data = dirname($data);
+                            break;
+
+                        case "rel":
+                            $data = substr(dirname($data), strlen($server->getValue("DOCUMENT_ROOT")) + 1) . basename($data);
                     }
                     break;
 
@@ -132,22 +143,22 @@
          * <b>Conversion characters:</b>
          *
          * <ul>
-         *     <li><b>%c</b>           - the class where message was logged</li>
-         *     <li><b>%C{constant}</b> - the value of a PHP constant</li>
-         *     <li><b>%d{format}</b>   - a date (uses date() format)</li>
-         *     <li><b>%f{file|dir}</b> - the file where the message was logged</li>
-         *     <li><b>%F</b>           - the function where the message was
-         *                               logged</li>
-         *     <li><b>%l</b>           - the line where the message was logged</li>
-         *     <li><b>%m</b>           - the log message</li>
-         *     <li><b>%n</b>           - a newline</li>
-         *     <li><b>%N</b>           - the level name</li>
-         *     <li><b>%p</b>           - the level of priority</li>
-         *     <li><b>%r</b>           - a carriage return</li>
-         *     <li><b>%t</b>           - a horizontal tab</li>
-         *     <li><b>%T</b>           - a unix timestamp (seconds since January
-         *                               1st, 1970)</li>
-         *     <li><b>%x{param}</b>    - a custom message parameter name</li>
+         *     <li><b>%c</b>               - the class where message was logged</li>
+         *     <li><b>%C{constant}</b>     - the value of a PHP constant</li>
+         *     <li><b>%d{format}</b>       - a date (uses date() format)</li>
+         *     <li><b>%f{file|dir|rel}</b> - the file where the message was logged</li>
+         *     <li><b>%F</b>               - the function where the message was
+         *                                   logged</li>
+         *     <li><b>%l</b>               - the line where the message was logged</li>
+         *     <li><b>%m</b>               - the log message</li>
+         *     <li><b>%n</b>               - a newline</li>
+         *     <li><b>%N</b>               - the level name</li>
+         *     <li><b>%p</b>               - the level of priority</li>
+         *     <li><b>%r</b>               - a carriage return</li>
+         *     <li><b>%t</b>               - a horizontal tab</li>
+         *     <li><b>%T</b>               - a unix timestamp (seconds since January
+         *                                   1st, 1970)</li>
+         *     <li><b>%x{param}</b>        - a custom message parameter name</li>
          * </ul>
          *
          * @param Message A Message instance.

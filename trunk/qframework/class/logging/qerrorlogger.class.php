@@ -142,7 +142,7 @@
                                                'F' => $function,
                                                'f' => $file,
                                                'l' => $line,
-                                               'N' => 'INFO',
+                                               'N' => 'NOTICE',
                                                'p' => 2000));
                 $this->log($message);
             }
@@ -183,11 +183,11 @@
                         break;
 
                     case E_WARNING:
-                    case E_USER_ERROR:
                         $this->warning($message, NULL, NULL, $file, $line);
                         break;
 
                     case E_USER_WARNING:
+                    case E_USER_ERROR:
                     default:
                         $this->fatal($message, NULL, NULL, $file, $line);
                 }
