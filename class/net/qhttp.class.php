@@ -306,7 +306,7 @@
 
             if (!isset($serverVarsInstance))
             {
-                $serverVarsInstance = new qHttpServerVars(Http::getServer());
+                $serverVarsInstance = new qHttpServerVars(qHttp::getServer());
             }
 
             return $serverVarsInstance;

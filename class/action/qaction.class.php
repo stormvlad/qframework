@@ -19,7 +19,7 @@
          */
         function qAction()
         {
-            $this->Observable();
+            $this->qObservable();
             $this->_view = null;
         }
 

@@ -33,7 +33,7 @@
         {
             $this->qObject();
 
-            $server         = &Http::getServerVars();
+            $server         = &qHttp::getServerVars();
 
             $this->_params  = Array();
             $this->_dirName = dirname($server->getValue("SCRIPT_NAME"));
