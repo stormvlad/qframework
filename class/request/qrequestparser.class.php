@@ -9,7 +9,7 @@
      * @author  qDevel - info@qdevel.com
      * @date    22/03/2005 18:19
      * @version 1.0
-     * @ingroup net
+     * @ingroup request
      */
     class qRequestParser extends qObject
     {
