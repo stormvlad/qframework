@@ -84,6 +84,14 @@
         /**
          * Add function info here
          */
+        function isFile()
+        {
+            return !$this->_isDir;
+        }
+
+        /**
+         * Add function info here
+         */
         function isDir()
         {
             return $this->_isDir;

@@ -70,6 +70,13 @@
         }
 
         /**
+         * Add function info here
+         */
+        function registerFilters(&$filtersChain)
+        {
+        }
+
+        /**
         *    Add function info here
         **/
         function isSecure()
