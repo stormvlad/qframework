@@ -203,6 +203,12 @@
             $this->_localeExcludedTerms = array_intersect($this->_terms, $this->_localeStopWordsList);
             $this->_terms = array_diff($this->_terms, $this->_localeExcludedTerms);
 
+            if (count($this->_allTerms) == 1 && count($this->_localeExcludedTerms) == 1)
+            {
+                $this->_requiredTerms[]     = $this->_localeExcludedTerms[0];
+                $this->_localeExcludedTerms = array();
+            }
+
             return true;
         }
     }
