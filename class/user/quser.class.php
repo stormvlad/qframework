@@ -12,6 +12,7 @@
     class qUser extends qObject
     {
         var $_sid;
+        var $_loaded;
         var $_storage;
         var $_authenticated;
         var $_loginName;
@@ -28,6 +29,7 @@
             $this->qObject();
 
             $this->_sid            = $sid;
+            $this->_loaded         = false;
             $this->_storage        = &$storage;
             $this->_authenticated  = false;
             $this->_loginName      = null;
@@ -71,6 +73,14 @@
         function setSid($sid)
         {
             $this->_sid = $sid;
+        }
+
+        /**
+        * Add function info here
+        */
+        function isLoaded()
+        {
+            return $this->_loaded;
         }
 
         /**
@@ -362,7 +372,7 @@
         */
         function load()
         {
-            $this->_attributes->reset();
+            $this->_loaded = true;
             $this->_storage->load($this);
         }
 
@@ -371,6 +381,11 @@
         */
         function store()
         {
+            if (!$this->isLoaded())
+            {
+                $this->load();
+            }
+
             $this->_storage->store($this);
         }
 
