@@ -152,6 +152,14 @@
         }
 
         /**
+        * Add function info here
+        */
+        function hasMethod($method)
+        {
+            return in_array(strtolower($method), get_class_methods($this));
+        }
+
+        /**
          * Returns true if the class is of the given type.
          *
          * @param object Object
