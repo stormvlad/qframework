@@ -43,50 +43,8 @@
         /**
         * Add function info here
         */
-        function getTerms($terms)
+        function highlight($str, $terms, $exactWords = false, $caseSensitive = false)
         {
-            $terms = trim($terms);
-
-            if (empty($terms))
-            {
-                return array();
-            }
-
-            if (!is_array($terms))
-            {
-                $terms = explode(" ", $terms);
-            }
-
-            $totalTerms  = count($terms);
-            $totalColors = count($this->_colors);
-            $result      = array();
-
-            for ($i = 0; $i < $totalTerms; $i++)
-            {
-                $term  = trim($terms[$i]);
-                $color = $this->_colors[$i % $totalColors];
-
-                $result[] = "<span style=\"background:" . $color . "\">" . $term . "</span>";
-            }
-
-            return $result;
-        }
-
-        /**
-        * Add function info here
-        */
-        function getTermsString($terms)
-        {
-            return trim(implode(" ", $this->getTerms($terms)));
-        }
-
-        /**
-        * Add function info here
-        */
-        function highlight($str, $terms, $exactWords = false)
-        {
-            $terms = trim($terms);
-
             if (empty($terms))
             {
                 return $str;
@@ -94,7 +52,7 @@
 
             if (!is_array($terms))
             {
-                $terms = explode(" ", $terms);
+                $terms = split("[[:space:]]+", trim($terms));
             }
 
             $totalTerms  = count($terms);
@@ -102,8 +60,8 @@
 
             for ($i = 0; $i < $totalTerms; $i++)
             {
-                $term  = str_replace("/", "\\/", trim($terms[$i]));
-                $term  = qFormat::regexpSearchExpand($term);
+                $term  = preg_replace("|([/+-?*])|", "\\$1", trim($terms[$i]));
+                $term  = qFormat::regexpSearchExpand($term, $caseSensitive);
                 $color = $this->_colors[$i % $totalColors];
 
                 if ($exactWords)
