@@ -3,6 +3,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/action/qaction.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qclient.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/controller/qcontrollerparams.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qexecutionfilter.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qfilterschain.class.php");
