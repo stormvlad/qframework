@@ -189,8 +189,6 @@
 
                     case E_USER_WARNING:
                     default:
-                        $e = new qException($message, $level);
-                        $e->qthrow();
                         $this->fatal($message, NULL, NULL, $file, $line);
                 }
             }

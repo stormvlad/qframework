@@ -50,7 +50,7 @@
             parent::qObject();
 
             // set default minimum priority levels
-            $this->exitPriority = 3000; // ERROR
+            $this->exitPriority = 1; // ERROR
 
             if ($this->isDebug())
             {
@@ -194,6 +194,8 @@
             // should we exit?
             if ($this->exitPriority > 0 && $msgPriority >= $this->exitPriority)
             {
+                $e = new qException($message->getParameter("m"), $message->getParameter("p"));
+                $e->qthrow();
                 // sayonara baby
                 exit;
             }

@@ -14,7 +14,14 @@
         */
         function getAge()
         {
-            $dob      = date("Y-m-d", $this->getDate(DATE_FORMAT_UNIXTIME));
+            $unixtime = $this->getDate(DATE_FORMAT_UNIXTIME);
+            
+            if ($unixtime <= 0)
+            {
+                return 0;
+            }
+            
+            $dob      = date("Y-m-d", $unixtime);
             $ageparts = explode("-", $dob);
             
             // calculate age
