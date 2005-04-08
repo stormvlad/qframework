@@ -5,7 +5,7 @@
 
     /**
      * @brief Servicio para listar los archivos de un directorio local
-     * 
+     *
      * @author  qDevel - info@qdevel.com
      * @date    22/03/2005 13:58
      * @version 1.0
@@ -32,11 +32,16 @@
                 $dir = "./";
             }
 
+            if (!is_dir($dir))
+            {
+                return array();
+            }
+
             $handler = opendir($dir);
 
             if (empty($handler))
             {
-                return false;
+                return array();
             }
 
             $result = array();

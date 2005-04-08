@@ -1,11 +1,11 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qstringhighlighter.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qstringhighlighter.class.php");
 
     /**
      * @brief Resaltador simple de terminos encontrados en una cadena
-     * 
-     * Añade en una cadena el código HTML necesario para resaltar el fondo 
+     *
+     * Añade en una cadena el código HTML necesario para resaltar el fondo
      * de los terminos que se especifiquen y se encuentren en la misma cadena.
      *
      * @author  qDevel - info@qdevel.com
@@ -40,6 +40,8 @@
             for ($i = 0; $i < $totalTerms; $i++)
             {
                 $term  = preg_replace("|([/+-?*])|", "\\$1", trim($terms[$i]));
+                $term  = qFormat::regexpSearchExpand($term, $caseSensitive);
+                $term  = str_replace("/", "\\/", $term);
                 $color = $this->_colors[$i % $totalColors];
 
                 if ($exactWords)
