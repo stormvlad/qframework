@@ -1,6 +1,5 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qfile.class.php");
 
     /**
@@ -11,10 +10,8 @@
      * @version 1.0
      * @ingroup misc
      */
-    class qImage extends qObject
+    class qImage extends qFile
     {
-        var $_fileName;
-
         var $_type;
         var $_width;
         var $_height;
@@ -30,9 +27,8 @@
         */
         function qImage($fileName)
         {
-            $this->qObject();
+            $this->qFile($fileName);
 
-            $this->_fileName = null;
             $this->_width    = 0;
             $this->_height   = 0;
             $this->_type     = null;
@@ -44,22 +40,6 @@
             $this->_outputDirectory         = "./tmp/";
             $this->_outputQuality           = 75;
             $this->_outputType              = null;
-        }
-
-        /**
-        * Add function here
-        */
-        function getFileName()
-        {
-            return $this->_fileName;
-        }
-
-        /**
-        * Add function here
-        */
-        function setFileName($fileName)
-        {
-            $this->_fileName = $fileName;
         }
 
         /**
@@ -177,7 +157,7 @@
         {
             $this->_outputType = $type;
         }
-        
+
         /**
         * Add function info here
         */
@@ -230,7 +210,7 @@
         function _applyReplaces($width, $height)
         {
             $fileName  = $this->getFileName();
-            $extension = qFile::getExtension($fileName);
+            $extension = $this->getExtension();
             $template  = $this->getOutputTemplateFileName();
 
             $template  = str_replace("{%n}", basename($fileName, "." . $extension), $template);
@@ -258,7 +238,7 @@
             $newWidth  = $newSizes[0];
             $newHeight = $newSizes[1];
             $file      = $this->getFileName();
-            $extension = qFile::getExtension($file);
+            $extension = $this->getExtension();
 
             if (empty($this->_outputFileName))
             {
@@ -268,17 +248,17 @@
             {
                 $outputFileName = $this->_outputFileName;
             }
-            
+
             switch($this->getType())
             {
                 case "gif":
                     $src = imageCreateFromGif($file);
                     break;
-                
+
                 case "jpeg":
                     $src = imageCreateFromJpeg($file);
                     break;
-                
+
                 case "png":
                     $src = imageCreateFromPng($file);
                     break;
@@ -292,11 +272,11 @@
                 case "gif":
                     imageGif($img, $this->getOutputDirectory() . $outputFileName);
                     break;
-                
+
                 case "jpeg":
                     imageJpeg($img, $this->getOutputDirectory() . $outputFileName, $this->getOutputQuality());
                     break;
-                
+
                 case "png":
                     imagePng($img, $this->getOutputDirectory() . $outputFileName);
                     break;
@@ -305,41 +285,40 @@
             imagedestroy($img);
             return $outputFileName;
         }
-        
+
         function _getImageDetails($fileName)
         {
             if (is_file($fileName) && is_readable($fileName))
             {
                 $sizes = getImageSize($fileName);
 
-                $this->_fileName = $fileName;
                 $this->_width    = $sizes[0];
                 $this->_height   = $sizes[1];
 
                 switch($sizes[2])
                 {
                     case 1:
-                        $this->_type = 'gif';
+                        $this->_type = "gif";
                         break;
                     case 2:
-                        $this->_type = 'jpeg';
+                        $this->_type = "jpeg";
                         break;
                     case 3:
-                        $this->_type = 'png';
+                        $this->_type = "png";
                         break;
                     case 4:
-                        $this->_type = 'swf';
+                        $this->_type = "swf";
                         break;
                     case 5:
-                        $this->_type = 'psd';
-    					break;
+                        $this->_type = "psd";
+                        break;
                     case 6:
-                        $this->_type = 'bmp';
-    					break;
+                        $this->_type = "bmp";
+                        break;
                     case 7:
                     case 8:
-                        $this->_type = 'tiff';
-    					break;
+                        $this->_type = "tiff";
+                        break;
                 }
             }
         }
