@@ -110,19 +110,14 @@
             $validations = new qValidationsList();
             $action->registerValidations($validations);
 
-            if (!$validations->validate(array_merge($httpRequest->getAsArray(), $files->getAsArray())))
-            {
-                if ($view = $action->handleValidateError($validations->getErrors()))
-                {
-                    $view->setValue("formValues", $action->getFormValues());
-                }
+            $validate = $validations->validate(array_merge($httpRequest->getAsArray(), $files->getAsArray()));
+            $validate = $validate || $action->validate();
 
-                return $view;
-            }
-
-            if (!$action->validate())
+            if (!$validate)
             {
-                if ($view = $action->handleValidateError($action->getErrors()))
+                $errors = array_merge($validations->getErrors(), $action->getErrors());
+
+                if ($view = $action->handleValidateError($errors))
                 {
                     $view->setValue("formValues", $action->getFormValues());
                 }
