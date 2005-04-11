@@ -51,6 +51,16 @@
         }
 
         /**
+         * Devuelve un booleano indicando si la acción tiene errores.
+         *
+         * @return <code>boolean</code>
+         */
+        function hasErrors()
+        {
+            return count($this->_errors) > 0;
+        }
+
+        /**
          * Devuelve un array asociativo con los errores producidos por la validación del formulario.
          *
          * El array devuelto contiene como claves los campos en que se ha producido el error de validación
