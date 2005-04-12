@@ -20,6 +20,8 @@
      */
     class qSmartyRenderer extends qViewRenderer
     {
+        var $_templatesExtension;
+
         /**
          * Constructor
          */
