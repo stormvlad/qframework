@@ -7,7 +7,7 @@
 
      define("DEFAULT_FILE_DIRECTORY_UMASK", 0777);
 
-    /** 
+    /**
      * @defgroup file Ficheros
      *
      * @author  qDevel - info@qdevel.com
@@ -16,9 +16,9 @@
      */
 
     /**
-     * @brief Permite la manipulación básica de ficheros.
-     * 
-     * Esta clase encapsula algunas de las operaciones para la manipulación
+     * @brief Permite la manipulaciï¿½ bï¿½ica de ficheros.
+     *
+     * Esta clase encapsula algunas de las operaciones para la manipulaciï¿½
      * de ficheros de PHP.
      * http://www.php.net/manual/en/ref.filesystem.php
      *
@@ -57,6 +57,19 @@
         function setFileName($name)
         {
             $this->_fileName = $name;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getBaseName($file = null)
+        {
+            if (empty($file))
+            {
+                $file = $this->_fileName;
+            }
+
+            return basename($file);
         }
 
         /**
@@ -335,7 +348,7 @@
          *
          * @static
          * @param dirName The name of the new folder
-         * @param mode 
+         * @param mode
          * @return Returns true if no problem or false otherwise.
          */
         function mkdir($dirName, $mode = DEFAULT_FILE_DIRECTORY_UMASK)
