@@ -4,7 +4,7 @@
 
     /**
      * @brief Resaltador de terminos encontrados en una cadena
-     * 
+     *
      * @author  qDevel - info@qdevel.com
      * @date    22/03/2005 17:03
      * @version 1.0
@@ -52,6 +52,28 @@
         {
             throw(new qException("qStringHighlighter::highlight: This method must be implemented by child classes."));
             die();
+        }
+
+        /**
+        * Add function info here
+        */
+        function highlightTerm($str, $term, $color, $exactWords = false, $caseSensitive = false)
+        {
+            if ($exactWords)
+            {
+                $pattern = "/(?!<.*?)(?<=[^[:alnum:]_]|^)(" . $term . ")(?=[^[:alnum:]_]|$)(?![^<>]*?>)/s";
+            }
+            else
+            {
+                $pattern = "/(?!<.*?)(" . $term . ")(?![^<>]*?>)/s";
+            }
+
+            if (!$caseSensitive)
+            {
+                $pattern .= "i";
+            }
+
+            return preg_replace($pattern, "<span style=\"background:" . $color . "\">$1</span>", $str);
         }
     }
 

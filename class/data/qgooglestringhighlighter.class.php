@@ -5,11 +5,11 @@
 
    /**
      * @brief Resaltador tipo Google de terminos encontrados en una cadena
-     * 
-     * Añade en una cadena el código HTML necesario para resaltar el fondo 
+     *
+     * Añade en una cadena el código HTML necesario para resaltar el fondo
      * de los terminos que se especifiquen y se encuentren en la misma cadena.
      *
-     * Por ejemplo se puede crear un efecto visual que resalte las palabras de una 
+     * Por ejemplo se puede crear un efecto visual que resalte las palabras de una
      * búsqueda, tal como lo hace Google en sus búsquedas.
      *
      * @author  qDevel - info@qdevel.com
@@ -53,31 +53,21 @@
                     if ($char == "+")
                     {
                         $term = substr($term, 1);
-                        $term  = preg_replace("|([/+-?*])|", "\\1", $term);
+                        $term = preg_replace("|([/+-?*])|", "\\1", $term);
                     }
                     else if ($char == "\"")
                     {
                         $term = substr($term, 1, -1);
-                        $term  = preg_replace("|([/+-?*])|", "\\1", $term);
+                        $term = preg_replace("|([/+-?*])|", "\\1", $term);
                     }
                     else
                     {
-                        $term  = preg_replace("|([/+-?*])|", "\\1", $term);
+                        $term = preg_replace("|([/+-?*])|", "\\1", $term);
                         $term = qFormat::regexpSearchExpand($term, $caseSensitive);
                     }
 
                     $term = str_replace("/", "\\/", $term);
-
-                    if ($exactWords)
-                    {
-                        $pattern = "/(?!<.*?)([^[:alnum:]_]|^)(" . $term . ")([^[:alnum:]_]|$)(?![^<>]*?>)/si";
-                        $str = preg_replace($pattern, "$1<span style=\"background:" . $color . "\">$2</span>$3", $str);
-                    }
-                    else
-                    {
-                        $pattern = "/(?!<.*?)(" . $term . ")(?![^<>]*?>)/si";
-                        $str = preg_replace($pattern, "<span style=\"background:" . $color . "\">$1</span>", $str);
-                    }
+                    $str  = $this->highlightTerm($str, $term, $color, $exactWords, $caseSensitive);
                 }
             }
 
