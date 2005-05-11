@@ -48,9 +48,17 @@
         */
         function truncateUrl($url, $maxLength)
         {
+            $i = 0;
+
             while (strlen($url) > $maxLength)
             {
-                $url = preg_replace("|/([^/]+)/([^/]*)$|", "/.../$2", $url);
+                $url = preg_replace("|/([^/]+)((/\\.\\.\\.)*)/([^/]*)$|", "/...$2/$4", $url);
+                $i++;
+
+                if ($i == 100)
+                {
+                    return $url . "[Infinite Bucle]";
+                }
             }
 
             return $url;
