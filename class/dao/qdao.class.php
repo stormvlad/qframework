@@ -3,20 +3,20 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/dao/qdb.class.php");
 
-    /** 
+    /**
      * @defgroup dao Objetos de acceso a datos
      *
      * qFramework dispone de una capa de persisténcia de objetos i herramientas de consulta,
      * la capa está formada por el grupo de clases <b>Dao</b>.
-     * 
+     *
      * Esto significa que qFramework permite tratar la base de dados como un conjunto de objetos,
      * disponiendo de una API senzilla para consultar y guardar los datos. Este tipo de herramientas
-     * se conocen como Object Relational Mapping (ORM) y Data Access Objects (DAO).  
+     * se conocen como Object Relational Mapping (ORM) y Data Access Objects (DAO).
      *
      * Mas información:
-     * - Data Access Object Pattern - http://www.phppatterns.com/index.php/article/articleview/25/1/1/ 
-     * - Catalog of Patterns of Enterprise Application Architecture - http://www.martinfowler.com/eaaCatalog/ 
-     * - Core J2EE Patterns - Data Access Object - http://java.sun.com/blueprints/corej2eepatterns/Patterns/DataAccessObject.html     
+     * - Data Access Object Pattern - http://www.phppatterns.com/index.php/article/articleview/25/1/1/
+     * - Catalog of Patterns of Enterprise Application Architecture - http://www.martinfowler.com/eaaCatalog/
+     * - Core J2EE Patterns - Data Access Object - http://java.sun.com/blueprints/corej2eepatterns/Patterns/DataAccessObject.html
      *
      */
 
@@ -247,7 +247,7 @@
                 }
                 else
                 {
-                    $sql .= "`" . $field . "`='" . $value . "', ";
+                    //$sql .= "`" . $field . "`='" . $value . "', ";
                 }
             }
 
