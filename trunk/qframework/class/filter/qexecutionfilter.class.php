@@ -32,9 +32,9 @@
         /**
          *    Add function info here
          */
-        function addAction($action)
+        function addAction(&$action)
         {
-            $this->_actionsChain[] = $action;
+            $this->_actionsChain[] = &$action;
         }
 
         /**
@@ -138,10 +138,15 @@
          */
         function run(&$filtersChain)
         {
-            while (count($this->_actionsChain) > 0)
+            $count = count($this->_actionsChain);
+            
+            while ($count > 0)
             {
-                $action = array_pop($this->_actionsChain);
+                $action = &$this->_actionsChain[$count - 1];
                 $view   = &$this->executeAction($action);
+
+                unset($this->_actionsChain[$count - 1]);
+                $count = count($this->_actionsChain);
             }
 
             if (empty($view))
