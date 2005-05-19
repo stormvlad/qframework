@@ -53,21 +53,20 @@
                     if ($char == "+")
                     {
                         $term = substr($term, 1);
-                        $term = preg_replace("|([/+-?*])|", "\\1", $term);
+                        $term = preg_quote($term, "/");
                     }
                     else if ($char == "\"")
                     {
                         $term = substr($term, 1, -1);
-                        $term = preg_replace("|([/+-?*])|", "\\1", $term);
+                        $term = preg_quote($term, "/");
                     }
                     else
                     {
-                        $term = preg_replace("|([/+-?*])|", "\\1", $term);
+                        $term = preg_quote($term, "/");
                         $term = qFormat::regexpSearchExpand($term, $caseSensitive);
                     }
 
-                    $term = str_replace("/", "\\/", $term);
-                    $str  = $this->highlightTerm($str, $term, $color, $exactWords, $caseSensitive);
+                    $str = $this->highlightTerm($str, $term, $color, $exactWords, $caseSensitive);
                 }
             }
 

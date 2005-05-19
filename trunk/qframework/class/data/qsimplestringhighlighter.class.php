@@ -39,9 +39,8 @@
 
             for ($i = 0; $i < $totalTerms; $i++)
             {
-                $term  = preg_replace("|([/+-?*])|", "\\$1", trim($terms[$i]));
+                $term  = preg_quote(trim($terms[$i]), "/");
                 $term  = qFormat::regexpSearchExpand($term, $caseSensitive);
-                $term  = str_replace("/", "\\/", $term);
                 $color = $this->_colors[$i % $totalColors];
                 $str   = $this->highlightTerm($str, $term, $color, $exactWords, $caseSensitive);
             }
