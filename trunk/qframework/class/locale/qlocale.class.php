@@ -7,18 +7,18 @@
 
     define("DEFAULT_LOCALE_CODE", "es_ES");
     define("DEFAULT_LOCALE_PATH", APP_ROOT_PATH . "locale/");
-    
-    /** 
+
+    /**
      * @defgroup i18n Internacionalización
      *
-     * qFramework proporciona un método estándard para hacer que las aplicaciones sean internacionalizables y 
+     * qFramework proporciona un método estándard para hacer que las aplicaciones sean internacionalizables y
      * localizables, esto se puede llevar a cabo con este grupo de clases.
      *
-     * Todas las cadenas o frases mostradas por la aplicación susceptibles de traducirse deberan ser 
-     * estableciadas con un identificador único ya sea con un idioma base de partida, o una abreviación 
+     * Todas las cadenas o frases mostradas por la aplicación susceptibles de traducirse deberan ser
+     * estableciadas con un identificador único ya sea con un idioma base de partida, o una abreviación
      * o combinación que sea fácil de relacionar con su contenido.
-     * 
-     * Además se añadira en todas las cadenas una simple función de internacionalización de qLocale 
+     *
+     * Además se añadira en todas las cadenas una simple función de internacionalización de qLocale
      * que se puede usar directamente, por ejemplo, des de una plantilla de contenido.
      *
      * Para mostrar el idioma concreto qLocale usara un diccionario de traducción que relacionará
@@ -28,9 +28,9 @@
      * adicionales que nos daran soporte para mostrar correctamte cadenas con fechas, horas, numeros y monedas.
      *
      */
-         
+
     /**
-     * @brief Interfície de internacionalización 
+     * @brief Interfície de internacionalización
      *
      * Esta clase nos da soporte para internacionalizar nuestras aplicaciones
      * conocido también como soporte de lenguage nativo (NLS).
@@ -38,7 +38,7 @@
      * qLocale puede verse como un diccionario de traducción para varios idiomas,
      * en el qual le passamos identificadores o lenguage inicial y nos devuelve
      * la traducción según el idioma deseado.
-     * 
+     *
      * @author  qDevel - info@qdevel.com
      * @date    22/03/2005 17:33
      * @version 1.0
@@ -50,8 +50,8 @@
         var $_messages;
 
         /**
-        *    Add function info here
-        */
+         * @brief Constructor
+         */
         function qLocale(&$storage)
         {
             $this->qObject();
@@ -63,7 +63,7 @@
         }
 
         /**
-         * Devuelve la única instancia de qLocale
+         * @brief Devuelve la única instancia de qLocale
          *
          * @note Basado en el patrón Singleton. El objectivo de este método es asegurar que exista sólo una instancia de esta clase y proveer de un punto global de accesso a ella.
          * @return qLocale
@@ -81,336 +81,458 @@
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve el código de pais
+         *
+         * Recuperamos el código de pais de 2 carácteres definido según el código de Localización.
+         *
+         * @return string
+         */
         function getCountryId()
         {
             return substr($this->getLocaleCode(), 3, 2);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve el código de lenguaje
+         *
+         * Recuperamos el código del lenguaje de 2 carácteres definido según el código de Localización.
+         *
+         * @return string
+         */
         function getLanguageId()
         {
             return substr($this->getLocaleCode(), 0, 2);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve el código de localización
+         *
+         * El código define el pais y lenguaje usado. Por ejemplo: es_ES, ca_ES, en_UK, ...
+         *
+         * @return string
+         */
         function getLocaleCode()
         {
             return $this->getValue("__locale_code__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve la descripción del idioma
+         *
+         * @return string
+         */
         function getDescription()
         {
             return $this->getValue("__description__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve el identificador del juego de carácteres usado en esta localización
+         *
+         * @return string
+         */
         function getCharset()
         {
             return $this->getValue("__charset__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve la dirección de escritura en este idioma
+         *
+         * Valores possibles: <code>ltr</code> (de izquierda a derecha), <code>rtl</code> (de derecha a izquierda)
+         *
+         * @return string
+         */
         function getDirection()
         {
             return $this->getValue("__direction__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve el separador de decimales
+         *
+         * Recuperamos el carácter usado para separar en los numeros con decimales,
+         * la parte entera de la parte decimal.
+         *
+         * @return string
+         */
         function getDecimalSymbol()
         {
             return $this->getValue("__decimal_symbol__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve el separador de millares
+         *
+         * Recuperamos el carácter usado para separar los grupos de 3 cifras.
+         *
+         * @return string
+         */
         function getThousandsSeparator()
         {
             return $this->getValue("__thousands_separator__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve el símbolo de moneda
+         *
+         * Recuperamos el carácter usado para expresar cántidades monetárias en esta localización
+         * Por ejemplo: <code>$</code>, <code>?</code>
+         *
+         * @return string
+         * @note Este símbolo se usara cuando la salida sea HTML
+         * @see formatCurrency
+         */
         function getCurrencySymbol()
         {
             return $this->getValue("__currency_symbol__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve el nombre del símbolo de moneda
+         *
+         * Recuperamos el nombre de la moneda en esta localización
+         * Por ejemplo: <code>dolar</code>, <code>euro</code>
+         *
+         * @return string
+         * @note Este símbolo se usara cuando la salida no sea HTML
+         * @see formatCurrency
+         */
         function getCurrencySymbol2()
         {
             return $this->getValue("__currency_symbol2__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve la posición del símbolo de moneda
+         *
+         * Valores possibles: <code>L</code> (en la izquierda del número), <code>R</code> (a la derecha)
+         *
+         * @return string
+         */
         function getCurrencySymbolPosition()
         {
             return $this->getValue("__currency_symbol_position__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve el número de decimales usado para expresar cantidades monetárias
+         *
+         * @return integer
+         */
         function getCurrencyDecimals()
         {
             return $this->getValue("__currency_decimals__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve el formato por defecto para expresar la hora
+         *
+         * @return string
+         */
         function getTimeFormat()
         {
             return $this->getValue("__time_format__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve el formato por defecto para expresar una fecha
+         *
+         * @return string
+         */
         function getDateFormat()
         {
             return $this->getValue("__date_format__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve el formato corto para expresar una fecha
+         *
+         * @return string
+         */
         function getDateFormatShort()
         {
             return $this->getValue("__date_format_short__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve el formato corto para expresar una fecha
+         *
+         * @return string
+         */
         function getDateTimeFormat()
         {
             return $this->getValue("__date_time_format__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve el primer dia de la semana.
+         *
+         * Valores possibles: 0 (domingo), 1 (lunes), 2 (martes), 3 (miércoles), 4 (jueves), 5 (viernes), 6 (sábado)
+         *
+         * @return integer
+         */
         function getFirstDayOfWeek()
         {
             return $this->getValue("__first_day_of_week__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve el formato de papel usado por defecto en la localización
+         *
+         * Por ejemplo: A4, letter, ...
+         *
+         * @return string
+         */
         function getPaperFormat()
         {
             return $this->getValue("__paper_format__");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve un array con todos los nombres de los dias de la semana
+         *
+         * @return array
+         */
         function getDaysOfWeek()
         {
             return $this->getValue("_days");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve un array con todos los nombres cortos de los dias de la semana
+         *
+         * @return array
+         */
         function getDaysOfWeekShort()
         {
             return $this->getValue("_days_short");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve un array con todos los meses
+         *
+         * @return array
+         */
         function getMonths()
         {
             return $this->getValue("_months");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve un array con todos los nombres cortos de los meses
+         *
+         * @return array
+         */
         function getMonthsShort()
         {
             return $this->getValue("_months_short");
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece el código de localización
+         *
+         * El código define el pais y lenguaje usado. Por ejemplo: es_ES, ca_ES, en_UK, ...
+         *
+         * @param code <code>string</code> Código de la localización
+         */
         function setCode($code)
         {
             $this->setValue("__locale_code__", $code);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece el nombre de la localización
+         *
+         * Nombre descriptivo con el nombre del pais y lenguaje usado. Por ejemplo: English (United Kingdom), Idioma español (España)
+         *
+         * @param description <code>string</code> Nombre de la localización
+         */
         function setDescription($description)
         {
             $this->setValue("__description__", $description);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece el identificador del juego de carácteres usado en esta localización
+         *
+         * @param charset <code>string</code> Juego de carácteres
+         */
         function setCharset($charset)
         {
             $this->setValue("__charset__", $charset);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece la dirección de escritura en este idioma
+         *
+         * @param $direction <em>string</em> Valores possibles: <code>ltr</code> (de izquierda a derecha), <code>rtl</code> (de derecha a izquierda)
+         */
         function setDirection($direction)
         {
             $this->setValue("__direction__", $direction);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece el separador de decimales
+         *
+         * @param $symbol <em>string</em> Carácter usado para separar la parte entera de los decimales en los números
+         */
         function setDecimalSymbol($symbol)
         {
             $this->setValue("__decimal_symbol__", $symbol);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece el separador de millares
+         *
+         * @param $separator <em>string</em> Carácter usado para separar los grupos de 3 cifras.
+         */
         function setThousandsSeparator($separator)
         {
             $this->setValue("__thousands_separator__", $separator);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece el símbolo de moneda
+         *
+         * @param $symbol <em>string</em> Carácter usado para expresar cántidades monetárias en esta localización
+         * @note Este símbolo se usa cuando la salida és HTML
+         * @see formatCurrency
+         */
         function setCurrencySymbol($symbol)
         {
             $this->setValue("__currency_symbol__", $symbol);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece el nombre del símbolo de moneda
+         *
+         * @param $symbol <em>string</em> Nombre de la moneda en esta localización
+         * @note Este símbolo se usa cuando la salida no és HTML
+         * @see formatCurrency
+         */
         function setCurrencySymbol2($symbol)
         {
             $this->setValue("__currency_symbol2__", $symbol);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece la posición del símbolo de moneda
+         *
+         * @param $position <em>string</em> Valores possibles: <code>L</code> (en la izquierda del número), <code>R</code> (a la derecha)
+         */
         function setCurrencySymbolPosition($position)
         {
             $this->setValue("__currency_symbol_position__", $position);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece el número de decimales usado para expresar cantidades monetárias
+         *
+         * @param $num <em>integer</em> Número de cifras decimales
+         */
         function setCurrencyDecimals($num)
         {
             $this->setValue("__currency_decimals__", $num);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece el formato para expresar la hora
+         *
+         * @param $format <em>string</em> Cadena de formato
+         * @see format
+         */
         function setTimeFormat($format)
         {
             $this->setValue("__time_format__", $format);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece el formato para expresar una fecha
+         *
+         * @param $format <em>string</em> Cadena de formato
+         * @see format
+         */
         function setDateFormat($format)
         {
             $this->setValue("__date_format__", $format);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece el formato para expresar una fecha corta
+         *
+         * @param $format <em>string</em> Cadena de formato
+         * @see format
+         */
         function setDateFormatShort($format)
         {
             $this->setValue("__date_format_short__", $format);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece el formato para expresar una fecha y hora
+         *
+         * @param $format <em>string</em> Cadena de formato
+         * @see format
+         */
         function setDateTimeFormat($format)
         {
             $this->setValue("__date_time_format__", $format);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece el primer dia de la semana
+         *
+         * @param $day <em>integer</em> Valores possibles: 0 (domingo), 1 (lunes)
+         */
         function setFirstDayOfWeek($day)
         {
             $this->setValue("__first_day_of_week__", $day);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece el formato de papel usado por defecto en la localización
+         *
+         * @param $format <em>string</em> Tamaño del papel
+         */
         function setPaperFormat($format)
         {
             $this->setValue("__paper_format__", $format);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Carga de las traducciones en memoria
+         */
         function load()
         {
             return $this->_storage->load($this);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Guarda una traducción
+         */
         function saveValue($name, $value)
         {
             return $this->_storage->saveValue($this, $name, $value);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Guarda todas las traducciones actuales en memória
+         */
         function save()
         {
             return $this->_storage->save($this);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve una traducción de un identificador/palabra
+         *
+         * @param $id <em>string</em> Identificador/frase a traducir
+         * @param $param1 <em>mixed</em> Parámetros variables opcionales según la traducción
+         * @return string Palabra o frase traducida
+         * @see translate Esta función sólo és un sinónimo para la función translate
+         */
         function i18n($id)
         {
             $args   = func_get_args();
@@ -420,8 +542,20 @@
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve una traducción de un identificador/palabra
+         *
+         * Éste es el método principal del objeto qLocale. Este nos devuelve la frase
+         * traducida que nos interesa del identificador o frase, según si trabajamos
+         * con identificadores o con un idioma de base.
+         * También hace las sustituciones de los parámetros que pueda contener
+         * la frase a traducir.
+         * Debémos usar está función para localizar también las imágenes u otros ficheros
+         * que lleven texto, conviertiendo en este caso el nombre del fichero en lugar de palabras.
+         *
+         * @param $id <em>string</em> Identificador/frase a traducir
+         * @param $param1 <em>mixed</em> Parámetros variables opcionales según la traducción
+         * @return string Palabra o frase traducida
+         */
         function translate($id)
         {
             if (is_array($id))
@@ -440,7 +574,7 @@
             {
                 if ($this->keyExists($id))
                 {
-                    $translated = $this->_messages->getValue($id);
+                    $translated = $this->getValue($id);
                 }
                 elseif ($this->isDebug())
                 {
@@ -470,76 +604,111 @@
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve la cadena asociada a un identificador
+         *
+         * Esta función devuelve la traducción en bruto.
+         *
+         * @param $key <em>string</em> Identificador de la traducción
+         * @return string Cadena traducida
+         * @private
+         */
         function getValue($key)
         {
             return $this->_messages->getValue($key);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece una lista de traducciones
+         *
+         * Añade, o modifica si ya estan existen, un vector de traducciones
+         *
+         * @param $values <em>array</em> Matriz unidimensional asociativa con los identificadores y traducciones asociadas
+         * @private
+         */
         function setValues($values)
         {
             return $this->_messages->setValues($values);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Establece una traducció
+         *
+         * Añade, o modifica si ya estan existe, una traducción en memória
+         *
+         * @param $key <em>string</em> Identificador de la traducción
+         * @param $value <em>string</em> Cadena traducida
+         */
         function setValue($key, $value)
         {
             return $this->_messages->setValue($key, $value);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve la lista de identificadores de traducción que estan cargados
+         *
+         * @return array
+         */
         function getKeys()
         {
             return $this->_messages->getKeys();
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve la lista de cadenas traducidas
+         *
+         * @note Está función sólo devuelve las traducciones, no sus identificadores asociados.
+         * @return array
+         * @see getAsArray
+         */
         function getValues()
         {
             return $this->_messages->getValues();
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve la lista de indentificadores y cadenas traducidas
+         *
+         * @return array Matriz unidimensional asociativa con los identificadores como clave y las traducciones como valor
+         */
         function getAsArray()
         {
             return $this->_messages->getAsArray();
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Devuelve si ya existe una traducción
+         *
+         * @return bool
+         */
         function keyExists($key)
         {
             return $this->_messages->keyExists($key);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Da formato a un número
+         *
+         * @param $number <em>integer</em> Número
+         * @param $decimals <em>integer</em> Número de cifras decimales
+         * @return string Cadena con el número con formato
+         */
         function formatNumber($number, $decimals = null)
         {
             if (empty($decimals))
             {
                 $decimals = is_float($number) ? $this->getCurrencyDecimals() : 0;
             }
-            return  number_format($number, $decimals, $this->getDecimalSymbol(), $this->getThousandsSeparator());
+
+            return number_format($number, $decimals, $this->getDecimalSymbol(), $this->getThousandsSeparator());
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Da formato a un número que representa una cantidad monetária
+         *
+         * @param $number <em>integer</em> Cantidad monetária
+         * @param $html <em>boolean</em> La salida és HTML?, se usará un símbolo compatible con HTML, sino su nombre en texto plano
+         * @return string Cadena con el número con formato
+         */
         function formatCurrency($number, $html = true)
         {
             $symbol = $html ? $this->getCurrencySymbol() : $this->getCurrencySymbol2();
@@ -561,40 +730,56 @@
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Da el formato predefinido para una hora
+         *
+         * @param $timeStamp <em>string</em> Cadena con el tiempo en formato de timestamp
+         * @return string Cadena con la hora con formato
+         */
         function formatTime($timeStamp = null)
         {
             return $this->format($this->getTimeFormat(), $timeStamp);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Da el formato predefinido para una fecha
+         *
+         * @param $timeStamp <em>string</em> Cadena con el tiempo en formato de timestamp
+         * @return string Cadena con la fecha con formato
+         */
         function formatDate($timeStamp = null)
         {
             return $this->format($this->getDateFormat(), $timeStamp);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Da el formato corto predefinido para una fecha
+         *
+         * @param $timeStamp <em>string</em> Cadena con el tiempo en formato de timestamp
+         * @return string Cadena con la fecha con formato corto
+         */
         function formatDateShort($timeStamp = null)
         {
             return $this->format($this->getDateFormatShort(), $timeStamp);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Da el formato predefinido para una fecha y hora
+         *
+         * @param $timeStamp <em>string</em> Cadena con el tiempo en formato de timestamp
+         * @return string Cadena con la fecha y hora con formato
+         */
         function formatDateTime($timeStamp = null)
         {
             return $this->format($this->getDateTimeFormat(), $timeStamp);
         }
 
         /**
-        *    Add function info here
-        */
+         * @brief Da formato a un Timestamp
+         *
+         * @param $format <em>string</em> String de formato
+         * @param $timeStamp <em>string</em> Cadena con el tiempo en formato de timestamp. Por defecto: Ahora (Opcional)
+         * @return string Cadena con la fecha y/o hora con formato
+         */
         function format($format, $timeStamp = null)
         {
             if (preg_match("/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(Z|[\+\-]\d{2}:?\d{2})?)?$/i", $timeStamp, $regs))
@@ -705,8 +890,12 @@
         }
 
         /**
-        * Add function info here
-        */
+         * @brief Devuelve la fecha de hoy con formato
+         *
+         * @param $format <em>string</em> Cadena de formato a aplicar. Por defecto el predefinido. (Opcional)
+         * @return string
+         * @see setDateFormat
+         */
         function today($format = null)
         {
             if (empty($format))
@@ -716,6 +905,7 @@
 
             $result = $this->format($format);
 
+            // mejora de la traducción de PHP
             if ($this->getLocaleCode() == "ca_ES")
             {
                 $result = ereg_replace("de ([AEIOUaeiou])", "d'\\1", $result);

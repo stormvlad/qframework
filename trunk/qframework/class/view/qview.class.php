@@ -15,21 +15,26 @@
      * La salida puede ser rellenada con atributos, que la plantilla puede
      * manipular i mostrar libremente.
      *
+     * Esta es una clase abstracta que debe derivarse según el motor de
+     * renderizado que usemos.
+     *
      * @author  qDevel - info@qdevel.com
      * @date    06/03/2005 19:36
      * @version 1.0
      * @ingroup core view
      */
-     
+
     class qView extends qObject
     {
         var $_renderer;
         var $_params;
 
         /**
-         * Constructor. Por defecto no hace nada
+         * @brief Constructor.
          *
-         * @param renderer qViewRenderer Objeto de render
+         * Por defecto no hace nada
+         *
+         * @param renderer <em>qViewRenderer</em> Objeto de render
          */
         function qView(&$renderer)
         {
@@ -40,9 +45,9 @@
         }
 
         /**
-         * Establece el sistema de renderizado si existe
+         * @brief Establece el sistema de renderizado si existe
          *
-         * @param renderer qViewRenderer Objeto de render
+         * @param renderer <em>qViewRenderer</em> Objeto de render
          */
         function setRenderer(&$renderer)
         {
@@ -50,7 +55,7 @@
         }
 
         /**
-         * Recupera una referencia al sistema de renderizado
+         * @brief Recupera una referencia al sistema de renderizado
          *
          * @return qViewRenderer
          */
@@ -60,7 +65,7 @@
         }
 
         /**
-         * Establece un sólo parámetro. 
+         * @brief Establece un sólo parámetro.
          *
          * Este valor se podrá usar desde la plantilla
          *
@@ -73,7 +78,7 @@
         }
 
         /**
-         * Establece un array de valores para la vista
+         * @brief Establece un array de valores para la vista
          *
          * @param values array Array asociativo con nombre y valor de los parámetros
          */
@@ -83,9 +88,9 @@
         }
 
         /**
-         * Devuelve el valor que se identifica con este nombre
+         * @brief Devuelve el valor que se identifica con este nombre
          *
-         * @param name string Nombre del parámetro
+         * @param name <em>string</em> Nombre del parámetro
          * @return object
          */
         function getValue($name)
@@ -94,7 +99,7 @@
         }
 
         /**
-         * Devuelve un array asociativo con los valores identificados con una clave
+         * @brief Devuelve un array asociativo con los valores identificados con una clave
          *
          * @return array Array con nombre y valor de los parámetros
          */
@@ -104,21 +109,25 @@
         }
 
         /**
-        * Add function info here
-        */
+         * @brief Devuelve el motor de renderizado de la vista.
+         *
+         * @return qViewRenderer Motor de renderizado de la vista
+         */
         function &getRendererEngine()
         {
             return $this->_renderer->getEngine();
         }
 
         /**
-         * Renderiza la vista. Here we would ideally call a template engine, using the
-         * values in $this->_params to fill the template 'context' and then display
-         * everything.
+         * @brief Renderiza la vista.
          *
-         * By default does nothing and it has no parameters
+         * Llamamos al método qViewRenderer::render del motor de renderizado.
+         * El proceso de renderización consiste basicamente en subsituir todos los parámetros de
+         * la plantilla por los valores predefinidos.
+         *
+         * @return bool Devuelve si se ha concluido con éxito
+         * @see qViewRenderer::render Render
          */
-
         function render()
         {
             return $this->_renderer->render($this);

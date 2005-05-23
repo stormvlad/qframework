@@ -13,35 +13,52 @@
     class qLocaleStorage extends qObject
     {
         /**
-        * Add function info here
-        */
+         * @brief Constructor
+         */
         function qLocaleStorage()
         {
             $this->qObject();
         }
 
         /**
-        * Add function info here
-        */
-        function load(&$config)
+         * @brief Método de carga de las traducciones
+         *
+         * Este método débe implementarse para cada una de las classes que representan un tipo de almacenamiento.
+         *
+         * @param locale <em>qLocale</em> Referencia a la instancia global del objeto de traducción
+         * @return boolean Devuelve si la operación se ha llevado a cabo con éxito
+         */
+        function load(&$locale)
         {
             throw(new qException("qLocaleStorage::load: This method must be implemented by child classes."));
             die();
         }
 
         /**
-        * Add function info here
-        */
-        function saveValue(&$config, $name, $value)
+         * @brief Guarda una traducción
+         *
+         * Este método débe implementarse para cada una de las classes que representan un tipo de almacenamiento.
+         *
+         * @param locale <em>qLocale</em> Referencia a la instancia global del objeto de traducción
+         * @param name <em>string</em> Identificador de la traducción
+         * @param value <em>string</em> Cadena traducida
+         * @return boolean Devuelve si la operación se ha llevado a cabo con éxito
+         */
+        function saveValue(&$locale, $name, $value)
         {
             throw(new qException("qLocaleStorage::saveValue: This method must be implemented by child classes."));
             die();
         }
 
         /**
-        * Add function info here
-        */
-        function save(&$config)
+         * @brief Guarda todas las traducciones actuales en memória
+         *
+         * Este método débe implementarse para cada una de las classes que representan un tipo de almacenamiento.
+         *
+         * @param locale <em>qLocale</em> Referencia a la instancia global del objeto de traducción
+         * @return boolean Devuelve si la operación se ha llevado a cabo con éxito
+         */
+        function save(&$locale)
         {
             throw(new qException("qLocaleStorage::save: This method must be implemented by child classes."));
             die();
