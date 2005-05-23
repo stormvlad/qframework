@@ -21,7 +21,7 @@
         var $_formName;
 
         /**
-         * Constructor.
+         * @brief Constructor.
          */
         function qAction()
         {
@@ -31,7 +31,7 @@
         }
 
         /**
-         * Devuelve el nombre del formulario
+         * @brief Devuelve el nombre del formulario
          *
          * @return <code>string</code>
          */
@@ -41,7 +41,7 @@
         }
 
         /**
-         * Establece el nombre del formulario
+         * @brief Establece el nombre del formulario
          *
          * @param name <code>string</code>
          */
@@ -51,7 +51,7 @@
         }
 
         /**
-         * Devuelve un booleano indicando si la acción tiene errores.
+         * @brief Devuelve un booleano indicando si la acción tiene errores.
          *
          * @return <code>boolean</code>
          */
@@ -61,7 +61,7 @@
         }
 
         /**
-         * Devuelve un array asociativo con los errores producidos por la validación del formulario.
+         * @brief Devuelve un array asociativo con los errores producidos por la validación del formulario.
          *
          * El array devuelto contiene como claves los campos en que se ha producido el error de validación
          * y como valores los mensajes de error.
@@ -74,7 +74,7 @@
         }
 
         /**
-         * Añade un error en la lista de errores
+         * @brief Añade un error en la lista de errores
          *
          * @param error <code>string</code> Mensaje de error
          * @param key <code>string</code> Identificador del error
@@ -92,7 +92,7 @@
         }
 
         /**
-         * Borra todos los errores almacenados previamente
+         * @brief Borra todos los errores almacenados previamente
          */
         function resetErrors()
         {
@@ -100,7 +100,7 @@
         }
 
         /**
-         * Devuelve el método establecido en el que se validan los parámetros de la petición.
+         * @brief Devuelve el método establecido en el que se validan los parámetros de la petición.
          *
          * @returns <code>integer</code>
          */
@@ -110,7 +110,7 @@
         }
 
         /**
-         * Método para validar manualmente ficheros y parámetros.
+         * @brief Método para validar manualmente ficheros y parámetros.
          *
          * @return <code>boolean</code>
          */
@@ -142,16 +142,17 @@
         }
 
         /**
-         * Add function info here
+         * @brief Registra una lista de filtros para preprocesar la petición y postprocesar la respuesta.
          *
          * @param filtersChain <code>array</code>
+         * @see qFilter
          */
         function registerFilters(&$filtersChain)
         {
         }
 
         /**
-         * Devuelve si la acción necesita autentificación.
+         * @brief Devuelve si la acción necesita autentificación.
          *
          * @return <code>boolean</code>
          */
@@ -161,7 +162,7 @@
         }
 
         /**
-         * Devuelve los permisos que hacen falta para ejecutar esta acción.
+         * @brief Devuelve los permisos que hacen falta para ejecutar esta acción.
          *
          * @return <code>array</code>
          */
@@ -171,7 +172,13 @@
         }
 
         /**
-         * Add function info here
+         * @brief Acción a ejecutar en caso de fallo de seguridad
+         *
+         * Este método débe de implementarse en todas las clases derivadas.
+         * Ejectura las operaciones indicadas en caso de un fallo en la autentificación
+         * del usuario o en la validación de los filtros de seguridad.
+         *
+         * @return qView Devuelve la vista a mostrar en caso de fallo de seguridad
          */
         function handleSecureError()
         {
@@ -180,13 +187,15 @@
         }
 
         /**
-         * Receives the HTTP request from the client as parameter, so that we can
-         * extract the parameters we need and carry out the operation.
+         * @brief Acción principal
          *
-         * The result of this will be a view, which will normally be the output of the
-         * processing we just did or for example an error view showing an error message.
-         * Once we have completed processing, the controller will call the getView() method
-         * to get the resulting view and send it back to the customer.
+         * Este método débe de implementarse en todas las clases derivadas.
+         * Especificar las operaciones a ejecutar por la acción.
+         * Se ejecuta en el caso que no llebemos a cabo ninguna validación, según
+         * el método de validación definido en getValidationMethod.
+         *
+         * @see getValidationMethod
+         * @see performAfterValidation
          */
         function perform()
         {
@@ -195,7 +204,17 @@
         }
 
         /**
-         * Add function info here
+         * @brief Acción principal si se ha validado la petición
+         *
+         * Este método débe de implementarse en todas las clases derivadas
+         * que tengan algún método con validación. Este método se define en
+         * implementando el método getValidationMethod.
+         *
+         * Especificar las operaciones a ejecutar por la acción cuando el
+         * proceso de validación se concluya sin errores.
+         *
+         * @see getValidationMethod
+         * @see perform
          */
         function performAfterValidation()
         {
@@ -204,7 +223,7 @@
         }
 
         /**
-         * Devuelve si existe un parámetro en el formulario
+         * @brief Devuelve si existe un parámetro en el formulario
          *
          * @param name <code>string</code> Nombre del valor
          * @param [step] <code>integer</code> Número de paso en formulario, en caso de que sea un formulario por pasos
@@ -219,7 +238,7 @@
         }
 
         /**
-         * Devuelve un valor del formulario
+         * @brief Devuelve un valor del formulario
          *
          * @param name <code>string</code> Nombre del valor
          * @param [step] <code>integer</code>Número de paso en formulario, en caso de que sea un formulario por pasos
@@ -234,7 +253,7 @@
         }
 
         /**
-         * Devuelve un array associativo con todos los valores del formulario
+         * @brief Devuelve un array associativo con todos los valores del formulario
          *
          * @param [step] <code>integer</code> Número de paso en formulario, en caso de que sea un formulario por pasos
          * @return array
@@ -248,7 +267,7 @@
         }
 
         /**
-         * Establece y salva en la sessión un valor de formulario.
+         * @brief Establece y salva en la sessión un valor de formulario.
          *
          * @param name <code>string</code> Nombre del valor
          * @param value <code>mixed</code> Valor
@@ -263,7 +282,7 @@
         }
 
         /**
-         * Salva los valores del formulario
+         * @brief Salva los valores del formulario
          *
          * @param values <code>object</code> Valor
          * @param [step] <code>integer</code> Número de paso en formulario, en caso de que sea un formulario por pasos
@@ -277,7 +296,7 @@
         }
 
         /**
-         * Borra un valor del formulario
+         * @brief Borra un valor del formulario
          *
          * @param name <code>string</code> Nombre del valor
          * @param [step] <code>integer</code> Número de paso en formulario, en caso de que sea un formulario por pasos
@@ -291,7 +310,7 @@
         }
 
         /**
-         * Borra todos los valores de un formulario
+         * @brief Borra todos los valores de un formulario
          */
         function resetFormValues()
         {
@@ -302,7 +321,7 @@
         }
 
         /**
-         * Salva los valores de la petición como valores del formulario
+         * @brief Salva los valores de la petición como valores del formulario
          */
         function save()
         {
@@ -355,7 +374,7 @@
         }
 
         /**
-         * Establece la siguiente acción a ejecutarse por el controlador actual
+         * @brief Llama al controlador para establecer la siguiente acción a ejecutarse
          *
          * @param actionName <code>string</code> Nombre de la acción a ejecutar
          */
@@ -366,7 +385,7 @@
         }
 
         /**
-         * Redirecciona la petición a otra URL
+         * @brief Llama al controlador para redireccionar la petición a otra URL
          *
          * @param url <code>string</code> Una URL existente
          */

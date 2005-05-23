@@ -26,7 +26,7 @@
         }
 
         /**
-         * Devuelve una referencia al objeto motor de renderizado.
+         * @brief Devuelve una referencia al objeto motor de renderizado.
          *
          * @return object 
          * @exception qViewRenderer::getEgine Esta clase no usa motor de renderizado
@@ -43,8 +43,12 @@
         }
 
         /**
-        * Add function info here
-        */
+         * @brief Establece el motor de renderizado
+         *
+         * Establecemos el objeto de motor de renderizado. Por ejemplo: Smarty.
+         *
+         * @param engine <code>object</code> Objeto del motor de renderizado
+         */
         function setEngine($engine)
         {
             $this->_engine = &$engine;
