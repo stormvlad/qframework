@@ -79,14 +79,14 @@
         {
             $decimalSymbol      = $this->getDecimalSymbol();
             $thousandsSeparator = $this->getThousandsSeparator();
-            $regExp             = "^(([0-9]+(" . $decimalSymbol . "[0-9]+)?))$";
+            $regExp             = "^(([0-9]+([" . $decimalSymbol . "][0-9]+)?))$";
 
             if (!empty($thousandsSeparator))
             {
-                $regExp .= "|^([0-9]{1,3}(\\" . $thousandsSeparator . "[0-9]{3})*(" . $decimalSymbol . "[0-9]+)?)$";
+                $regExp .= "|^([0-9]{1,3}([" . $thousandsSeparator . "][0-9]{3})*([" . $decimalSymbol . "][0-9]+)?)$";
             }
 
-            $this->setRegExp(preg_quote($regExp));
+            $this->setRegExp($regExp);
 
             if (parent::validate($value))
             {
