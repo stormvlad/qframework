@@ -86,7 +86,7 @@
                 $regExp .= "|^([0-9]{1,3}(\\" . $thousandsSeparator . "[0-9]{3})*(" . $decimalSymbol . "[0-9]+)?)$";
             }
 
-            $this->setRegExp($regExp);
+            $this->setRegExp(preg_quote($regExp));
 
             if (parent::validate($value))
             {
