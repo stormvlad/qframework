@@ -97,17 +97,19 @@
                 die();
             }
 
+            $bcsubExists = function_exists("bcsub");
+            
             if ($stop)
             {
-                return bcsub($this->_marks[$stop], $this->_marks[$start], $this->_precision);
+                return $bcsubExists ? bcsub($this->_marks[$stop], $this->_marks[$start], $this->_precision) : ($this->_marks[$stop] - $this->_marks[$start]);
             }
             else if (array_key_exists("__stop__", $this->_marks))
             {
-                return bcsub($this->_marks["__stop__"], $this->_marks[$start], $this->_precision);
+                return $bcsubExists ? bcsub($this->_marks["__stop__"], $this->_marks[$start], $this->_precision) : ($this->_marks["__stop__"] - $this->_marks[$start]);
             }
             else
             {
-                return bcsub($this->_getTime(), $this->_marks[$start], $this->_precision);
+                return $bcsubExists ? bcsub($this->_getTime(), $this->_marks[$start], $this->_precision) : ($this->_getTime() - $this->_marks[$start]);
             }
         }
 
