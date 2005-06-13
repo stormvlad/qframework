@@ -1,6 +1,6 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/libs/adodb/adodb.inc.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/libs/adodblite/adodb.inc.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfig.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/timer/qtimer.class.php");
@@ -160,19 +160,21 @@
         */
         function GetOne($sql, $inputarr = false)
         {
-            $timer   = new qTimer();
-            $result  = $this->_db->Execute($sql, $inputarr);
-            $seconds = $timer->get();
+            $prevMode = $this->_db->SetFetchMode(ADODB_FETCH_NUM);
+            $timer    = new qTimer();
+            $result   = $this->_db->Execute($sql, $inputarr);
+            $seconds  = $timer->get();
 
             $this->sendQueryEvent($sql, $seconds);
 
-            return $this->_db->GetOne($sql, $inputarr);
+            $this->_db->SetFetchMode($prevMode);
+            return $result->fields[0];
         }
 
         /**
         * Add function info here
         */
-        function GetRow($sql, $inputarr = false)
+        function &GetRow($sql, $inputarr = false)
         {
             $timer   = new qTimer();
             $result  = $this->_db->Execute($sql, $inputarr);
@@ -180,7 +182,7 @@
 
             $this->sendQueryEvent($sql, $seconds);
 
-            return $this->_db->GetRow($sql, $inputarr);
+            return $result->fields;
         }
 
         /**
