@@ -160,7 +160,12 @@
         */
         function hasMethod($method)
         {
-            return in_array(strtolower($method), get_class_methods($this));
+            if (PHP_VERSION < 5)
+            {
+                $method = strtolower($method);
+            }
+            
+            return in_array($method, get_class_methods($this));
         }
 
         /**
