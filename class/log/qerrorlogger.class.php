@@ -114,7 +114,7 @@
          */
         function info ($message, $class = NULL, $function = NULL, $file = NULL, $line = NULL)
         {
-            if ((substr($message, 0, 17) != "Undefined index: ")) // Don't show this error
+            if ((substr($message, 0, 17) != "Undefined index: ") && (substr($message, 0, 24) != "Only variable references")) // Don't show these errors
             {
                 $message =& new qMessage(array('m' => $message,
                                                'c' => $class,
