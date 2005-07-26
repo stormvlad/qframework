@@ -19,6 +19,7 @@
     {
         var $_errors;
         var $_formName;
+        var $_nonPersistent;
 
         /**
          * @brief Constructor.
@@ -26,8 +27,9 @@
         function qAction()
         {
             $this->qObject();
-            $this->_errors           = array();
-            $this->_formName         = $this->getClassName();
+            $this->_errors        = array();
+            $this->_formName      = $this->getClassName();
+            $this->_nonPersistent = array();
         }
 
         /**
@@ -49,7 +51,7 @@
         {
             $this->_formName = $name;
         }
-
+        
         /**
          * @brief Devuelve un booleano indicando si la acción tiene errores.
          *
@@ -321,6 +323,34 @@
         }
 
         /**
+         * @brief Devuelve si una valor del formulario es persistente (por defecto lo son todos)
+         *
+         * @return <code>boolean</code>
+         */
+        function getFormValuePersistency($name)
+        {
+            return empty($this->_nonPersistent[$name]);
+        }
+
+        /**
+         * @brief Establece si un valor del formulario es o no persistente
+         *
+         * @param name <code>string</code> Nombre del valor
+         * @param [persistent] <code>boolean</code> Indica si es o no persistente
+         */
+        function setFormValuePersistency($name, $persistent = true)
+        {
+            if (empty($persistent))
+            {
+                $this->_nonPersistent[$name] = true;
+            }
+            else
+            {
+                unset($this->_nonPersistent[$name]);
+            }
+        }
+        
+        /**
          * @brief Salva los valores de la petición como valores del formulario
          */
         function save()
@@ -365,7 +395,7 @@
 
                 foreach ($prevValues as $key => $value)
                 {
-                    if (!$user->formValueExists($formName, $key, $step))
+                    if (!$user->formValueExists($formName, $key, $step) && $this->getFormValuePersistency($key))
                     {
                         $user->setFormValue($formName, $key, $value, $step);
                     }
