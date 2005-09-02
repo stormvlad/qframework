@@ -40,7 +40,7 @@
          */
         function setUrl($url)
         {
-            if (!eregi("^http://", $url))
+            if (!eregi("^http[s]?://", $url))
             {
                 $server   = &qHttp::getServerVars();
                 $protocol = "http";
@@ -56,8 +56,8 @@
                     $protocol = "https";
                 }
 
-                $uri    = str_replace("//", "/", $uri);
-                $result = $protocol . "://" . $uri . $url;
+                $uri    = preg_replace("|[/]+|s", "/", $uri . $url);
+                $result = $protocol . "://" . $uri;
             }
             else
             {
