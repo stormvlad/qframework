@@ -225,6 +225,49 @@
         }
 
         /**
+        * Add function info here
+        */
+        function getOffsetUrl($page, $varName = "offset")
+        {
+            $offset  = $this->getOffset($page);
+            $baseUrl = $this->getBaseUrl();
+
+            if (ereg("[?]op=", $baseUrl))
+            {
+                if (empty($offset) && strpos($baseUrl, "init") !== false)
+                {
+                    $url = $baseUrl;
+                }
+                else
+                {
+                    $url = $baseUrl . "&amp;" . $varName . "=" . $offset;
+                }
+            }
+            else
+            {
+                if (empty($offset))
+                {
+                    $url = $baseUrl;
+                }
+                else
+                {
+                    $url = $baseUrl . $varName . "/" . $offset . "/";
+                }
+            }
+
+            return $url;            
+        }
+
+        /**
+        * Add function info here
+        */
+        function getShowAllUrl($varName = "showAll")
+        {
+            $baseUrl = $this->getBaseUrl();
+            return $baseUrl . "&amp;" . $varName . "=1";
+        }
+        
+        /**
         *    Add function info here
         */
         function _init()
