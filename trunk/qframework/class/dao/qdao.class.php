@@ -31,13 +31,27 @@
      */
      class qDao extends qObject
      {
+        /**
+         * qDb instancia a la base de datos
+         */
         var $_db;
+
+        /**
+         * Cadena con el nombre de la tabla en la base de datos
+         */
         var $_tableName;
+
+        /**
+         * Array asociativo con las condiciones de consulta
+         */
         var $_clauses;
 
         /**
-        * Add function info here
-        */
+         * Constructor
+         *
+         * @param $db        qDb    Instancia a la base de datos
+         * @param $tableName string Nombre de la tabla en la base de datos
+         */
         function qDao(&$db, $tableName)
         {
             $this->qObject();
@@ -51,8 +65,12 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Devuelve el valor actual de una cláusula
+         *
+         * @param $name Nombre de la cláusula
+         * @return Cadena con el valor de la cláusula, si existe,
+         *         en otro caso, NULL
+         */
         function getClause($name)
         {
             $key = strtoupper($name);
@@ -66,56 +84,75 @@
         }
 
         /**
-        * Add function info here
-        */
+         * Establece una cláusula para las siguientes sentencias
+         *
+         * @param $name Nombre de la cláusula.
+         *              Valores possibles: SELECT, FROM, WHERE, GROUP BY, ORDER BY, HAVING
+         * @param $value Cadena con el contenido de la cláusula (condición)
+         */
         function setClause($name, $value)
         {
             $this->_clauses[strtoupper($name)] = $value;
         }
 
         /**
-        * Add function info here
-        */
+         * Borra todas las cláusula establecidas
+         */
         function resetClauses()
         {
             $this->_clauses = array();
         }
 
         /**
-        * Add function info here
-        */
+         * Devuelve el nombre de la tabla actual en la base de datos
+         *
+         * @return string Nombre de la tabla
+         */
         function getTableName()
         {
             return $this->_tableName;
         }
 
         /**
-        * Add function info here
-        */
+         * Devuelve la instancia de la base de datos
+         *
+         * @return qDb Referencia a la base de datos
+         */
         function &getDb()
         {
             return $this->_db;
         }
 
         /**
-        * Add function info here
-        */
+         * Establece el nombre de la tabla en la base de datos
+         *
+         * @param $name string Nombre de la tabla
+         */
         function setTableName($name)
         {
             $this->_tableName = $name;
         }
 
         /**
-        * Add function info here
-        */
+         * Establece la instancia de la base de datos
+         *
+         * @param $db qDb Referencia a la base de datos
+         */
         function setDb(&$db)
         {
             $this->_db = &$db;
         }
 
         /**
-        * Add function here
-        */
+         * Devuelve los registros para una sentencia de consulta
+         *
+         * @param $whereClause string  Cláusula con la condición de búsqueda
+         * @param $orderClause string  Cláusula con la expressión de ordenación
+         * @param $offset      integer Desplazamiento inicial en los registros resultantes
+         * @param $numRows     integer Número máximo de filas a devolver
+         *
+         * @return ADOdb::ResultSet Filas consultadas
+         */
         function select($whereClause = null, $orderClause = null, $offset = null, $numRows = null)
         {
             $sql = "SELECT " . $this->getClause("SELECT") . " FROM " . $this->getClause("FROM");
@@ -152,8 +189,12 @@
         }
 
         /**
-        * Add function here
-        */
+         * Devuelve el número de registros para una sentencia de consulta
+         *
+         * @param $whereClause string  Cláusula con la condición de búsqueda
+         *
+         * @return integer Número de filas
+         */
         function selectCount($whereClause = null)
         {
             if (!($result = $this->select($whereClause)))
@@ -165,7 +206,12 @@
         }
 
         /**
-         * Add function here
+         * Inserta un objeto en la base de datos
+         *
+         * @param $obj qDbObject Objeto del tipo de la tabla
+         *
+         * @return integer Devuelve el identificador del nuevo registro, si se
+         *                 ha insertado con éxito, sino devuelve FALSE
          */
         function insert($obj)
         {
@@ -216,8 +262,15 @@
         }
 
         /**
-        * Add function here
-        */
+         * Modifica un objeto en la base de datos
+         *
+         * Los campos identificadores se usaran para la sentencia de modificación.
+         *
+         * @param $obj qDbObject Objeto del tipo de la tabla
+         *
+         * @return integer Devuelve el número de filas modificadas, si se
+         *                 han modificado con éxito, sino devuelve FALSE
+         */
         function update($obj)
         {
             $fields = $obj->getFields();
@@ -257,8 +310,13 @@
         }
 
         /**
-        * Add function here
-        */
+         * Borra un objeto de la base de datos
+         *
+         * @param $obj qDbObject Objeto del tipo de la tabla
+         *
+         * @return integer Devuelve el número de filas borradas, si
+         *                 ha habido alguna, sino devuelve FALSE
+         */
         function delete($obj)
         {
             $sql = "DELETE FROM `" . $this->_tableName . "` WHERE " . $this->_getWhereClause($obj);
@@ -266,7 +324,10 @@
         }
 
         /**
-         * Add function here
+         * Devuelve la cláusula de con la condición de búsqueda
+         *
+         * @param $obj qDbObject Objeto del tipo de la tabla
+         * @return string Cadena con la condición de búsqueda
          * @private
          */
         function _getWhereClause($obj)
@@ -284,7 +345,9 @@
         }
 
         /**
-         * Add function info here
+         * Escribe en la salida estandard una sentencia SQL.
+         *
+         * @param $sql cadena Sentencia SQL
          * @private
          */
         function _printSqlQueryDebug($sql)
@@ -293,7 +356,13 @@
         }
 
         /**
-         * Add function info here
+         * Devuelve los registros para una sentencia SQL
+         *
+         * @param $sql     string  Sentencia SQL con un comando de selección
+         * @param $offset  integer Desplazamiento inicial en los registros resultantes
+         * @param $numRows integer Número máximo de filas a devolver
+         *
+         * @return ADOdb::ResultSet Filas consultadas
          * @private
          */
         function _retrieve($sql, $offset = null, $numRows = null)
@@ -461,9 +530,9 @@
         }
 
         /**
-         * Retrieve a single object by pkey.
+         * Devuelve un objeto para una clave primaria
          *
-         * @param mixed $pk
+         * @param $pk mixed
          */
         function retrieveByPK($pk)
         {
@@ -474,9 +543,9 @@
         }
 
         /**
-         * Retrieve a single object by primary keys.
+         * Devuelve un objeto para varias claves primarias
          *
-         * @param mixed $pk
+         * @param $pks mixed
          */
         function retrieveByPKs($pks)
         {

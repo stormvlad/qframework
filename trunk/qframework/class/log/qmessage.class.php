@@ -4,7 +4,7 @@
 
     /**
      * @brief Contine la información sobre un mensaje de log.
-     *     
+     *
      * @author  qDevel - info@qdevel.com
      * @date    06/03/2005 19:10
      * @version 1.0
@@ -14,21 +14,14 @@
     class qMessage extends qObject
     {
         /**
-         * An associative array of message parameters.
-         *
-         * @private
-         * @since  1.0
-         * @type   array
+         * Un vector unidimensional associativo de parámetros de mensaje
          */
         var $params;
 
         /**
-         * Create a new qMessage instance.
+         * Constructor
          *
-         * @param params An associative array of parameters.
-         *
-         * @public
-         * @since  1.0
+         * @param params Un array associativo de parámetros
          */
         function &qMessage ($params = NULL)
         {
@@ -38,15 +31,12 @@
         }
 
         /**
-         * Retrieve a parameter.
+         * Recupera un parámetro
          *
-         * @param name A parameter name.
+         * @param name Nombre de parámetro
          *
-         * @return string A parameter value, if a parameter with the given name
-         *                exists, otherwise <b>NULL</b>.
-         *
-         * @public
-         * @since  1.0
+         * @return string El valor del parámetro, si un parámetro con este nombre existe,
+         *                en otro caso <b>NULL</b>.
          */
         function &getParameter ($name)
         {
@@ -59,15 +49,12 @@
         }
 
         /**
-         * Determine if a parameter was set.
+         * Determina si un parámetro está definido
          *
-         * @param name string A parameter name.
+         * @param name string Nombre del parámetro
          *
-         * @return bool <b>TRUE</b>, if the parameter has been set, otherwise
-         *              <b>FALSE</b>.
-         *
-         * @public
-         * @since  1.0
+         * @return bool <b>TRUE</b>, si el parámetro esta definido,
+         *              en otro caso <b>FALSE</b>.
          */
         function hasParameter ($name)
         {
@@ -75,13 +62,10 @@
         }
 
         /**
-         * Set a parameter.
+         * Establece un parámetro
          *
-         * @param name string A parameter name.
-         * @param value string A parameter value.
-         *
-         * @public
-         * @since  1.0
+         * @param name string Nombre del parámetro
+         * @param value string Valor del parámetro
          */
         function setParameter ($name, $value)
         {
@@ -89,13 +73,10 @@
         }
 
         /**
-         * Set a parameter by reference.
+         * Establece un parámetro por referencia
          *
-         * @param name string A parameter name.
-         * @param value string A parameter value.
-         *
-         * @public
-         * @since  1.0
+         * @param name string Nombre del parámetro
+         * @param value string Referencia al valor del parámetro
          */
         function setParameterByRef ($name, &$value)
         {

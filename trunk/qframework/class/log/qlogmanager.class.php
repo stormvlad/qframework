@@ -5,8 +5,8 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/log/qpatternlayout.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/log/qstdoutappender.class.php");
 
-    /** 
-     * @defgroup log Logs
+    /**
+     * @defgroup log Registros de sucesos
      *
      * @author  qDevel - info@qdevel.com
      * @date    05/03/2005 19:19
@@ -14,9 +14,9 @@
      */
 
     /**
-     * @brief Gestiiona todos los logs de la aplicación.
+     * @brief Gestiona todos los registros de sucesos (<i>logs</i>) de una aplicación
      *
-     * Esta clase se usa habitualmente con una sola instancia (singleton).
+     * Esta clase se usa habitualmente con una sola instancia (Singleton).
      *
      * @author  qDevel - info@qdevel.com
      * @date    13/03/2005 04:24
@@ -26,20 +26,12 @@
     class qLogManager extends qObject
     {
         /**
-         * An associative array of loggers.
-         *
-         * @private
-         * @since  1.0
-         * @type   array
+         * Array associativo de registros
          */
         var $loggers;
 
         /**
          * Constructor
-         *
-         * @note This should never be called manually.
-         * @private
-         * @since  1.0
          */
         function &qLogManager()
         {
@@ -47,7 +39,7 @@
 
             $this->loggers = array();
 
-            // create default logger
+            // crea el logger por defecto
             $logger   =& new qErrorLogger();
             $layout   =& new qPatternLayout("<b>%N</b> [%f{rel}:%l] %m%n");
             $appender =& new qStdoutAppender($layout);
@@ -57,14 +49,11 @@
         }
 
         /**
-         * Add a logger.
+         * Añade un nuevo registro de sucesos
          *
-         * @note If a logger with the given name already exists, an error will be reported.
-         * @param name string A logger name.
-         * @param logger A Logger instance.
-         *
-         * @public
-         * @since  1.0
+         * @param name string El nombre del registro de sucesos
+         * @param logger Una instancia de qLogger
+         * @note Si ya existe un registro con este nombre, se informará del error.
          */
         function addLogger ($name, &$logger)
         {
@@ -79,27 +68,10 @@
         }
 
         /**
-         * Cleanup all loggers.
-         *
-         * @note If a logger with the given name already exists, an error will be reported.
-         * @public
-         * @since  1.0
-         */
-        function cleanup ()
-        {
-            $keys  = array_keys($this->loggers);
-            $count = sizeof($keys);
-
-            for ($i = 0; $i < $count; $i++)
-            {
-                $this->loggers[$keys[$i]]->cleanup();
-            }
-        }
-
-        /**
          * Devuelve la única instancia de qLogManager
          *
-         * @note Basado en el patrón Singleton. El objectivo de este método es asegurar que exista sólo una instancia de esta clase y proveer de un punto global de accesso a ella.
+         * @note Basado en el patrón Singleton. El objectivo de este método es asegurar
+         *       que exista sólo una instancia de esta clase y proveer de un punto global de accesso a ella.
          * @return qLogManager
          */
         function &getInstance()
@@ -112,22 +84,20 @@
                 $instance = new qLogManager;
             }
 
+
             return $instance;
         }
 
         /**
-         * Retrieve a logger.
+         * Devuelve un registro de sucesos
          *
-         * @note If a name is not specified, the default logger is returned.
-         * @param name string A logger name.
+         * @param name string Nombre del registro
+         * @note Si no se especifica ningun nombre, devuelve el registro por defecto.
          *
-         * @return Logger A Logger instance, if the given Logger exists, otherwise
+         * @return qLogger Instancia de qLogger, si el nombre del registro existe, en otro caso
          *                <b>NULL</b>.
-         *
-         * @public
-         * @since  1.0
          */
-        function &getLogger ($name = "default")
+        function &getLogger($name = "default")
         {
             if (isset($this->loggers[$name]))
             {
@@ -138,26 +108,23 @@
         }
 
         /**
-         * Retrieve an associative array of loggers.
+         * Devuelve un array associativo de registros de sucesos.
          *
-         * @return array An array of loggers.
-         *
-         * @public
-         * @since  1.0
+         * @return array Vector de registros
          */
-        function &getLoggers ()
+        function &getLoggers()
         {
             return $this->loggers;
         }
 
         /**
-         * Remove a logger.
+         * Quita un registro de sucesos
          *
-         * @note You cannot remove the default logger.
-         * @param name string A logger name.
+         * @param name string Nombre del registro de sucesos
          *
-         * @return Logger A Logger instance, if the given logger exists and has been
-         *                removed, otherwise <b>NULL</b>.
+         * @return qLogger Instancia de qLogger, si el nombre del registro existe i ha sido
+         *                quitado, en otro caso <b>NULL</b>.
+         * @note No puedes quitar el registro por defecto.
          */
         function &removeLogger ($name)
         {

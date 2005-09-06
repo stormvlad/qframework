@@ -11,43 +11,32 @@
      * @date    13/03/2005 04:07
      * @version 1.0
      * @ingroup misc
-     */     
+     */
     class qConversionPattern extends qObject
     {
         /**
-         * The function that will be called when a conversion character is parsed.
-         *
-         * @private
-         * @since  1.0
-         * @type   string
+         * Cadena con el nombre de la función que debe llamarse
+         * cuando se ha de convertir un símbolo
          */
         var $func;
 
         /**
-         * The object containing the function to be called when a conversion
-         * character is parsed.
-         *
-         * @private
-         * @since  1.0
-         * @type   object
+         * El objeto que contiene la función que debe llamarse cuando se ha de convertir
+         * un símbolo
          */
         var $obj;
 
         /**
-         * A pattern containing conversion characters.
-         *
-         * @private
-         * @since  1.0
-         * @type   string
+         * Caena con el patron de conversión que contiene los símbolos
          */
         var $pattern;
 
         /**
          * Constructor
          *
-         * @param pattern string A pattern containing conversion characters.
+         * @param pattern string Patrón de conversión que contiene los símbolos predefinidos
          */
-        function &qConversionPattern ($pattern = NULL)
+        function &qConversionPattern($pattern = NULL)
         {
             parent::qObject();
 
@@ -57,27 +46,24 @@
         }
 
         /**
-         * Retrieve a parameter for a conversion character.
+         * Devuelve un parámetro para un símbolo de conversión.
          *
-         * @param index int The pattern index at which we're working.
+         * @param index int El índice del patrón en el que estamos trabajando.
          *
-         * @return string A conversion character parameter if one one exists,
-         *                otherwise <b>NULL</b>.
-         *
-         * @private
-         * @since  1.0
+         * @return string Un símbolo de conversión si el parámetro existe,
+         *                sino <b>NULL</b>.
          */
-        function getParameter (&$index)
+        function getParameter(&$index)
         {
             $length = strlen($this->pattern);
             $param  = '';
 
-            // skip ahead to parameter
+            // avanzamos hata el parámetro
             $index += 2;
 
             if ($index < $length)
             {
-                // loop through conversion character parameter
+                // recorremos a traves del símbolo del parámetro
                 while ($this->pattern{$index} != '}' && $index < $length)
                 {
                     $param .= $this->pattern{$index};
@@ -89,36 +75,29 @@
                     return $param;
                 }
 
-                // parameter found but no ending }
+                // se ha encontrado un parámetro pero no el final }
             }
 
-            // oops, not enough text to go around
+            // oops, no hay suficiente texto para continuar
             return NULL;
         }
 
         /**
-         * Retrieve the conversion pattern.
+         * Devuelve el patrón de conversión
          *
-         * @return string A conversion pattern.
-         *
-         * @public
-         * @since  1.0
+         * @return string Patrón de conversión
          */
-        function getPattern ()
+        function getPattern()
         {
             return $this->pattern;
         }
 
         /**
-         * Parse the conversion pattern.
+         * Parsea el patrón de conversión
          *
-         * @return string A string with conversion characters replaced with their
-         *                respective values.
-         *
-         * @public
-         * @since  1.0
+         * @return string Una cadena con los símbolos convertidos a sus valores respectivos.
          */
-        function &parse ()
+        function &parse()
         {
             if ($this->pattern == NULL)
             {
@@ -176,42 +155,33 @@
         }
 
         /**
-         * Set the callback function.
+         * Establece la función que debe llamarse para convertir
          *
-         * @param function string A function name.
-         *
-         * @public
-         * @since  1.0
+         * @param function string Nombre de la función
          */
-        function setCallbackFunction ($function)
+        function setCallbackFunction($function)
         {
             $this->func = $function;
         }
 
         /**
-         * Set the callback object and function.
+         * Establece el objeto y método que debe llamarse para convertir
          *
-         * @param object An object holding a callback function.
-         * @param function string A function name.
-         *
-         * @public
-         * @since  1.0
+         * @param object El objeto que tiene el método para llamarlo
+         * @param function string Nombre del método
          */
-        function setCallbackObject (&$object, $function)
+        function setCallbackObject(&$object, $function)
         {
             $this->func =  $function;
             $this->obj  =& $object;
         }
 
         /**
-         * Set the conversion pattern.
+         * Establece el patrón de conversión
          *
-         * @param pattern string A pattern consisting of one or more conversion characters.
-         *
-         * @public
-         * @since  1.0
+         * @param pattern string Un patrón que consiste en uno o más símbolos predefinidos
          */
-        function setPattern ($pattern)
+        function setPattern($pattern)
         {
             $this->pattern = $pattern;
         }

@@ -4,7 +4,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/log/qmessage.class.php");
 
     /**
-     * @brief Establece el mecanismo de log de errores por defecto.
+     * @brief Establece el registro de errores por defecto.
      *
      * @author  qDevel - info@qdevel.com
      * @date    13/03/2005 04:18
@@ -22,17 +22,14 @@
         }
 
         /**
-         * Log a message with a debug priority.
+         * Registra un mensaje con la prioridad de desarrollo (debug)
          *
-         * @note This has a priority level of 1000.
-         * @param message string An error message.
-         * @param class string The class where message was logged.
-         * @param function string The function where message was logged.
-         * @param file string The file where message was logged.
-         * @param line int    The line where message was logged.
-         *
-         * @public
-         * @since  1.0
+         * @param message  string Mensaje de error
+         * @param class    string La classe donde se produce el error
+         * @param function string La funcion donde se produce el error
+         * @param file     string El fichero donde se produce el error
+         * @param line     int    La linea del fichero donde se produce el error
+         * @note Este tiene una prioridad de 1000.
          */
         function debug($message, $class = NULL, $function = NULL, $file = NULL, $line = NULL)
         {
@@ -48,69 +45,14 @@
         }
 
         /**
-         * Log a message with an error priority.
+         * Registra un mensaje con la prioridad de información
          *
-         * @note This has a priority level of 3000.
-         * @param message  string An error message.
-         * @param class    string The class where message was logged.
-         * @param function string The function where message was logged.
-         * @param file     string The file where message was logged.
-         * @param line     int    The line where message was logged.
-         *
-         * @public
-         * @since  1.0
-         */
-        function error ($message, $class = NULL, $function = NULL, $file = NULL, $line = NULL)
-        {
-            $message =& new qMessage(array('m' => $message,
-                                           'c' => $class,
-                                           'F' => $function,
-                                           'f' => $file,
-                                           'l' => $line,
-                                           'N' => 'ERROR',
-                                           'p' => 3000));
-
-            $this->log($message);
-        }
-
-        /**
-         * Log a message with a fatal priority.
-         *
-         * @note This has a priority level of 5000.
-         * @param message  string An error message.
-         * @param class    string The class where message was logged.
-         * @param function string The function where message was logged.
-         * @param file     string The file where message was logged.
-         * @param line     int    The line where message was logged.
-         *
-         * @public
-         * @since  1.0
-         */
-        function fatal ($message, $class = NULL, $function = NULL, $file = NULL, $line = NULL)
-        {
-            $message =& new qMessage(array('m' => $message,
-                                           'c' => $class,
-                                           'F' => $function,
-                                           'f' => $file,
-                                           'l' => $line,
-                                           'N' => 'FATAL',
-                                           'p' => 5000));
-
-            $this->log($message);
-        }
-
-        /**
-         * Log a message with a info priority.
-         *
-         * @note This has a priority level of 2000.
-         * @param message  string An error message.
-         * @param class    string The class where message was logged.
-         * @param function string The function where message was logged.
-         * @param file     string The file where message was logged.
-         * @param line     int    The line where message was logged.
-         *
-         * @public
-         * @since  1.0
+         * @param message  string Mensaje de error
+         * @param class    string La classe donde se produce el error
+         * @param function string La funcion donde se produce el error
+         * @param file     string El fichero donde se produce el error
+         * @param line     int    La linea del fichero donde se produce el error
+         * @note Este tiene una prioridad de 2000.
          */
         function info ($message, $class = NULL, $function = NULL, $file = NULL, $line = NULL)
         {
@@ -128,21 +70,87 @@
         }
 
         /**
-         * Log an error handled by PHP.
+         * Registra un mensaje con la prioridad de error
          *
-         * @note Do not call this method directly. Call the standard PHP function
+         * @param message  string Mensaje de error
+         * @param class    string La classe donde se produce el error
+         * @param function string La funcion donde se produce el error
+         * @param file     string El fichero donde se produce el error
+         * @param line     int    La linea del fichero donde se produce el error
+         * @note Este tiene una prioridad de 3000.
+         */
+        function error ($message, $class = NULL, $function = NULL, $file = NULL, $line = NULL)
+        {
+            $message =& new qMessage(array('m' => $message,
+                                           'c' => $class,
+                                           'F' => $function,
+                                           'f' => $file,
+                                           'l' => $line,
+                                           'N' => 'ERROR',
+                                           'p' => 3000));
+
+            $this->log($message);
+        }
+
+        /**
+         * Registra un mensaje con la prioridad de warning
+         *
+         * @param message  string Mensaje de error
+         * @param class    string La classe donde se produce el error
+         * @param function string La funcion donde se produce el error
+         * @param file     string El fichero donde se produce el error
+         * @param line     int    La linea del fichero donde se produce el error
+         * @note Este tiene una prioridad de 4000.
+         */
+        function warning ($message, $class = NULL, $function = NULL, $file = NULL, $line = NULL)
+        {
+            $message =& new qMessage(array('m' => $message,
+                                           'c' => $class,
+                                           'F' => $function,
+                                           'f' => $file,
+                                           'l' => $line,
+                                           'N' => 'WARNING',
+                                           'p' => 4000));
+
+            $this->log($message);
+        }
+
+        /**
+         * Registra un mensaje con la prioridad de error fatal
+         *
+         * @param message  string Mensaje de error
+         * @param class    string La classe donde se produce el error
+         * @param function string La funcion donde se produce el error
+         * @param file     string El fichero donde se produce el error
+         * @param line     int    La linea del fichero donde se produce el error
+         * @note Este tiene una prioridad de 5000.
+         */
+        function fatal ($message, $class = NULL, $function = NULL, $file = NULL, $line = NULL)
+        {
+            $message =& new qMessage(array('m' => $message,
+                                           'c' => $class,
+                                           'F' => $function,
+                                           'f' => $file,
+                                           'l' => $line,
+                                           'N' => 'FATAL',
+                                           'p' => 5000));
+
+            $this->log($message);
+        }
+
+        /**
+         * Registra un error de PHP
+         *
+         * @param level   int    Nivel de prioridad
+         * @param message string Mensaje de error
+         * @param file    string El fichero donde se produce el error
+         * @param line    int    La linea del fichero donde se produce el error
+         * @note No llamar a este metodo directamente. Llamar a la función standard de PHP
          *       <i>trigger_error()</i>.
-         * @param level   int    A priority level.
-         * @param message string An error message.
-         * @param file    string The file where the error occured.
-         * @param line    int    The line where the error occured.
-         *
-         * @public
-         * @since  1.0
          */
         function standard ($level, $message, $file, $line)
         {
-            // don't want to print supressed errors
+            // no queremos escribir los mensajes suprimidos
             if (error_reporting() > 0)
             {
                 switch ($level)
@@ -166,32 +174,6 @@
                         $this->fatal($message, NULL, NULL, $file, $line);
                 }
             }
-        }
-
-        /**
-         * Log a message with a warning priority.
-         *
-         * @note This has a priority level of 4000.
-         * @param message  string An error message.
-         * @param class    string The class where message was logged.
-         * @param function string The function where message was logged.
-         * @param file     string The file where message was logged.
-         * @param line     int    The line where message was logged.
-         *
-         * @public
-         * @since  1.0
-         */
-        function warning ($message, $class = NULL, $function = NULL, $file = NULL, $line = NULL)
-        {
-            $message =& new qMessage(array('m' => $message,
-                                           'c' => $class,
-                                           'F' => $function,
-                                           'f' => $file,
-                                           'l' => $line,
-                                           'N' => 'WARNING',
-                                           'p' => 4000));
-
-            $this->log($message);
         }
     }
 

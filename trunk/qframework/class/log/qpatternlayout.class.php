@@ -5,10 +5,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
 
     /**
-     * PatternLayout allows a completely customizable layout that uses a conversion
-     * pattern for formatting.
-    /**
-     * @brief Permite una composición personalizable para usar una conversión con patrones.
+     * @brief Permite una plantilla personalizable para usar una conversión con patrones.
      *
      * @author  qDevel - info@qdevel.com
      * @date    13/03/2005 04:22
@@ -19,27 +16,19 @@
     class qPatternLayout extends qLayout
     {
         /**
-         * The message to be formatted.
-         *
-         * @private
-         * @since  1.0
-         * @type   object
+         * El objeto qMessage a formatear
          */
         var $message;
 
         /**
-         * The conversion pattern to use with this layout.
-         *
-         * @private
-         * @since  1.0
-         * @type   ConversionPattern
+         * El qConversionPattern (patrón de conversión) a usar con esta plantilla.
          */
         var $pattern;
 
         /**
-         * Create a new PatternLayout instance.
+         * Constructor
          *
-         * @param layout string A message layout.
+         * @param layout string Plantilla del mensaje
          *
          * @public
          * @since  1.0
@@ -50,16 +39,13 @@
         }
 
         /**
-         * qConversionPattern callback method.
+         * Método <i>callback</i> qConversionPattern
          *
-         * @note This should never be called manually.
-         * @param char string A conversion character.
-         * @param param string A conversion parameter.
+         * @param char string Un caracter de conversion
+         * @param param string Un parámetro de conversion
+         * @note Esta función debe llamarse manualmente
          *
-         * @return string A replacement for the given data.
-         *
-         * @public
-         * @since  1.0
+         * @return string El reemplazo para la información proporcionada
          */
         function &callback ($char, $param)
         {
@@ -134,39 +120,38 @@
         }
 
         /**
-         * Format a log message.
+         * Da formato a un mensaje de log
          *
          * <br/><br/>
          *
-         * <b>Conversion characters:</b>
+         * <b>Carácteres de conversión:</b>
          *
          * <ul>
-         *     <li><b>%c</b>               - the class where message was logged</li>
-         *     <li><b>%C{constant}</b>     - the value of a PHP constant</li>
-         *     <li><b>%d{format}</b>       - a date (uses date() format)</li>
-         *     <li><b>%f{file|dir|rel}</b> - the file where the message was logged</li>
-         *     <li><b>%F</b>               - the function where the message was
-         *                                   logged</li>
-         *     <li><b>%l</b>               - the line where the message was logged</li>
-         *     <li><b>%m</b>               - the log message</li>
-         *     <li><b>%n</b>               - a newline</li>
-         *     <li><b>%N</b>               - the level name</li>
-         *     <li><b>%p</b>               - the level of priority</li>
-         *     <li><b>%r</b>               - a carriage return</li>
-         *     <li><b>%t</b>               - a horizontal tab</li>
-         *     <li><b>%T</b>               - a unix timestamp (seconds since January
-         *                                   1st, 1970)</li>
-         *     <li><b>%x{param}</b>        - a custom message parameter name</li>
+         *     <li><b>%c</b>               - la classe donde se produce el log</li>
+         *     <li><b>%C{constant}</b>     - el valor de la constante de PHP</li>
+         *     <li><b>%d{format}</b>       - una fecha (usa el formato de date())</li>
+         *     <li><b>%f{file|dir|rel}</b> - el fichero donde se produce el log</li>
+         *     <li><b>%F</b>               - la función donde se produce el log</li>
+         *     <li><b>%l</b>               - la linea donde se produce el log</li>
+         *     <li><b>%m</b>               - el mensaje de log</li>
+         *     <li><b>%n</b>               - un canvio de linea</li>
+         *     <li><b>%N</b>               - el nombre del nivel</li>
+         *     <li><b>%p</b>               - el nombre de la prioridad</li>
+         *     <li><b>%r</b>               - un retorno de carro</li>
+         *     <li><b>%t</b>               - una tabulación horizontal</li>
+         *     <li><b>%T</b>               - un timestamp de unix (segundos desde el 1 de
+         *                                   Enero de 1970)</li>
+         *     <li><b>%x{param}</b>        - un nombre de parámetro personalizado</li>
          * </ul>
          *
-         * @param message A Message instance.
+         * @param message Una instancia de qMessage
          *
-         * @return string A formatted log message.
+         * @return string El mensaje de log formateado.
          */
         function &format (&$message)
         {
-            // register callback method
-            // this cannot be done in the constructor
+            // registro del método callback
+            // no puede realizarse en el constructor
             $this->pattern->setCallbackObject($this, "callback");
 
             $this->message =& $message;

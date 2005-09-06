@@ -4,8 +4,8 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfigstorage.class.php");
 
     /**
-     * @brief Servicio de almacenaje (backend) en fichero de texto para datos de configuración 
-     * 
+     * @brief Servicio de almacenaje (backend) en fichero de texto para datos de configuración
+     *
      * El fichero de texto con la configuración se carga/guarda en config/config.properties.php
      *
      * @author  qDevel - info@qdevel.com
@@ -18,12 +18,10 @@
         var $_configFile;
 
         /**
-         * Opens the configuration file. By default it is config/config.properties.php
-         * if no parameter is specified. If there is a parameter specified, that
-         * is the file the constructor will try to open.
-         * If no file name is specified, it defaults to config/config.properties.php.
+         * Abre el fichero de configuración. Por defecto es config/config.properties.php
+         * sino se especifica ningún parámetro.
          *
-         * @param configFile The name of the file we would like to use.
+         * @param configFile Nombre del archivo de configuración
          */
         function qConfigFileStorage($configFile)
         {
@@ -32,21 +30,23 @@
         }
 
         /**
-         * Reloads the contents from the configuration file.
+         * Recarga el contenido del fichero de configuración
          *
-         * @return Returns always true.
+         * @param $cfg qConfig Instancia de qConfig, configuración usada
+         * @return Devuelve siempre TRUE
          */
         function load(&$cfg)
         {
             include($this->_configFile);
             $cfg->setValues($config);
+
             return true;
         }
 
         /**
-         * Returns the name of the configuration file being used.
+         * Devuelve el nombre del fichero de configuración que se esta usando
          *
-         * @return The name of the configuration file being used.
+         * @return string Nombre del fichero de configuración
          */
         function getConfigFileName()
         {
@@ -54,16 +54,15 @@
         }
 
         /**
-         * Saves a setting to the configuration file. If the setting already exists, the current
-         * value is overwritten. Otherwise, it will be appended in the end of the file.
-         * <b>NOTE:</b> This method is highly unoptimized because every time that we call saveValue,
-         * we are writing the whole file to disk... Bad ;) But it works, so we'll leave it as it
-         * is for the time being...
+         * Guarda un parámetro en el fichero de configuración. Si el parámetro ya existe, el actual
+         * valor se sobreesribre. En otro caso, se añade al final del fichero.
          *
-         * @param config
+         * @param config qConfig Instancia de qConfig, configuración usada
          * @param name Name of the setting.
          * @param value Value of the setting.
          * @return True if success or false otherwise.
+         * @note Este método no esta optimizado porque cada vez que llamamos a saveValue,
+         * se escribira toto el fichero al disco. Podria mejorarse la implementación.
          */
         function saveValue(&$config, $name, $value)
         {
@@ -115,8 +114,10 @@
         }
 
         /**
-        *    Add function info here
-        */
+         * Guarda todos los parámetros al fichero de configuración
+         *
+         * @param config qConfig Instancia de qConfig, configuración usada
+         */
         function save(&$config)
         {
             $result = true;

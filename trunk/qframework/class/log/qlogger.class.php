@@ -3,7 +3,10 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
 
     /**
-     * @brief Proporciona una interfície para dar salida a los logs en distintos medios.
+     * @brief Registro de sucesos
+     *
+     * Proporciona una interfície para dar salida a un tipo de registro de sucesos
+     * en uno o varios medios.
      *
      * @author  qDevel - info@qdevel.com
      * @date    13/03/2005 04:23
@@ -13,49 +16,35 @@
     class qLogger extends qObject
     {
         /**
-         * An associative array of appenders.
-         *
-         * @private
-         * @since  1.0
-         * @type   array
+         * Un array asociativo de agregadores
          */
         var $appenders;
 
         /**
-         * The priority level that must be met or exceeded in order for qframework
-         * to exit upon the logging of a message.
-         *
-         * @private
-         * @since  1.0
-         * @type   int
+         * Número entero con el nivel de prioridad de salida. Debe coincidir o superar
+         * para ordenar a qFramework que abandone la ejecución después de registrar
+         * el mensage del suceso
          */
         var $exitPriority;
 
         /**
-         * The priority level that must be met or exceeded in order for this logger
-         * to log a message.
-         *
-         * @private
-         * @since  1.0
-         * @type   int
+         * Número entero con el nivel de prioridad. Debe coincidir o superar
+         * para ordenar a esta classe que registre el mensaje
          */
         var $priority;
 
         /**
-         * Create a new Logger instance.
-         *
-         * @public
-         * @since  1.0
+         * Constructor
          */
         function &qLogger()
         {
             parent::qObject();
 
-            // set default minimum priority levels
+            // establece las prioridades mínimas por defecto
             if (parent::isDebug())
             {
-                $this->priority     = 0; // SHOW ALL ERRORS
-                $this->exitPriority = 1; // EXIT ON ANY ERROR, ALSO NOTICES
+                $this->priority     = 0; // MUESTRA TODOS LOS ERRORES
+                $this->exitPriority = 1; // PARA EN QUALQUIER ERROR, INCLUSO NOTICES
             }
             else
             {
@@ -65,16 +54,13 @@
         }
 
         /**
-         * Add an appender.
+         * Añade un agregador (una tipo salida para los mensajes)
          *
-         * @note If an appender with the given name already exists, an error will be reported.
-         * @param name string   An appender name.
-         * @param appender An Appender instance.
-         *
-         * @public
-         * @since  1.0
+         * @param name string Nombre del agregador
+         * @param appender qAppender Una instancia de qAppender
+         * @note Si ya existe un agregador con este nombre, se informa de un error.
          */
-        function addAppender ($name, &$appender)
+        function addAppender($name, &$appender)
         {
             if (isset($this->appenders[$name]))
             {
@@ -83,39 +69,17 @@
             }
 
             $this->appenders[$name] =& $appender;
-            return;
         }
 
         /**
-         * Cleanup all appenders.
+         * Devuelve un agregador
          *
-         * @note This should never be called manually.
-         * @public
-         * @since  1.0
+         * @param name string Nombre del agregador
+         *
+         * @return qAppender Referencia a la instancia de un agregador, si el nombrado existe,
+         *                  en otro caso <b>NULL</b>.
          */
-        function cleanup ()
-        {
-            $keys  = array_keys($this->appenders);
-            $count = sizeof($keys);
-
-            for ($i = 0; $i < $count; $i++)
-            {
-                $this->appenders[$keys[$i]]->cleanup();
-            }
-        }
-
-        /**
-         * Retrieve an appender.
-         *
-         * @param name string An appender name.
-         *
-         * @return Appender An Appender instance, if the given appender exists,
-         *                  otherwise <b>NULL</b>.
-         *
-         * @public
-         * @since  1.0
-         */
-        function &getAppender ($name)
+        function &getAppender($name)
         {
             if (isset($this->appenders[$name]))
             {
@@ -126,49 +90,40 @@
         }
 
         /**
-         * Retrieve the priority level that must be met or exceeded in order for
-         * qframework to exit upon the logging of a message.
+         * Devuelve el nivel de prioridad que debe coincidir o sobrepasar para ordenar
+         * a qFramework de salir después de registrar el mensage del suceso
          *
-         * @return int A priority level.
-         *
-         * @public
-         * @since  1.0
+         * @return int Nivel de prioridad
          */
-        function getExitPriority ()
+        function getExitPriority()
         {
             return $this->exitPriority;
         }
 
         /**
-         * Retrieve the priority level that must be met or exceeded in order for
-         * this logger to log a message.
+         * Devuelve el nivel de prioridad que debe coincidir o superar para ordenar
+         * a esta classe que registre el mensaje
          *
-         * @return int A priority level.
-         *
-         * @public
-         * @since  1.0
+         * @return int Nivel de prioridad
          */
-        function getPriority ()
+        function getPriority()
         {
             return $this->priority;
         }
 
         /**
-         * Log a message.
+         * Mensaje del suceso
          *
-         * @param message A Message instance.
-         *
-         * @public
-         * @since  1.0
+         * @param message Una instancia de qMessage
          */
-        function log (&$message)
+        function log(&$message)
         {
-            // retrieve message priority
+            // recupera la prioridad del mensaje
             $msgPriority =& $message->getParameter("p");
 
             if ($this->priority == 0 || $msgPriority >= $this->priority)
             {
-                // loop through appenders and write to each one
+                // pasa por todos los agregadores y escribe en cada uno
                 $keys  = array_keys($this->appenders);
                 $count = sizeof($keys);
 
@@ -182,7 +137,7 @@
                 }
             }
 
-            // should we exit?
+            // debe salir de la ejecución?
             if ($this->exitPriority > 0 && $msgPriority >= $this->exitPriority)
             {
                 throw(new qException($message->getParameter("m"), $message->getParameter("p")));
@@ -192,14 +147,11 @@
         }
 
         /**
-         * Remove an appender.
+         * Quita un agregador
          *
-         * @param name string An appender name.
-         *
-         * @public
-         * @since  1.0
+         * @param name string Nombre del agregador
          */
-        function removeAppender ($name)
+        function removeAppender($name)
         {
             if (isset($this->appenders[$name]))
             {
@@ -211,31 +163,25 @@
         }
 
         /**
-         * Set the priority level that must be met or exceeded in order for qframework
-         * to exit upon the logging of a message.
+         * Establece el nivel de prioridad que debe coincidir o sobrepasar para ordenar
+         * a qFramework de salir después de registrar el mensage del suceso
          *
-         * @note A priority level of 0 will turn of exiting.
-         * @param priority int A priority level.
-         *
-         * @public
-         * @since  1.0
+         * @param priority int Nivel de prioridad
+         * @note Con un nivel de prioridad 0 no saldra nunca
          */
-        function setExitPriority ($priority)
+        function setExitPriority($priority)
         {
             $this->exitPriority = $priority;
         }
 
         /**
-         * Set the priority level that must be met or exceeded in order for this
-         * logger to log a message.
+         * Establece el nivel de prioridad que debe coincidir o superar para ordenar
+         * a esta classe que registre el mensaje
          *
-         * @note A priority level of 0 will log any message.
-         * @param priority int A priority level.
-         *
-         * @public
-         * @since  1.0
+         * @param priority int Nivel de prioridad
+         * @note Un nivel de prioridad 0 registrara qualquier mensaje
          */
-        function setPriority ($priority)
+        function setPriority($priority)
         {
             $this->priority = $priority;
         }
