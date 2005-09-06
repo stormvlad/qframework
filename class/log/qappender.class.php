@@ -5,32 +5,28 @@
     /**
      * @brief Nos permite añadir los mensajes de log en cualquier lugar
      *
-     * qAppender es una clase abstracta hay una clase derivada para cada tipo 
-     * de medio de grabación de mensajes de log.
+     * qAppender es una clase abstracta que representa un agregador de mensajes de log.
+     * Existe una clase derivada para cada tipo de medio de grabación de mensajes.
      *
      * @author  qDevel - info@qdevel.com
      * @date    06/03/2005 19:10
      * @version 1.0
      * @ingroup log
      */
-     
+
     class qAppender extends qObject
     {
         /**
-         * The layout to be used for this appender.
-         *
-         * @private
-         * @since  1.0
-         * @type   Layout
+         * La plantilla a usar por esta classe
          */
         var $layout;
 
         /**
          * Constructor
          *
-         * @param layout Layout A Layout instance.
+         * @param layout qLayout Instáncia de la plantilla a usar.
          */
-        function &qAppender (&$layout)
+        function &qAppender(&$layout)
         {
             parent::qObject();
 
@@ -38,51 +34,30 @@
         }
 
         /**
-         * Cleanup appender resources if any exist.
+         * Recupera la plantilla que usa este agregador
          *
-         * @note This should never be called manually.
-         * @public
-         * @since  1.0
+         * @return qLayout Instancia de plantilla
          */
-        function cleanup ()
-        {
-
-        }
-
-        /**
-         * Retrieve the layout this appender is using.
-         *
-         * @return Layout A Layout instance.
-         *
-         * @public
-         * @since  1.0
-         */
-        function & getLayout ()
+        function & getLayout()
         {
             return $this->layout;
         }
 
         /**
-         * Set the layout this appender will use.
+         * Establece la plantilla a usar por este agregador
          *
-         * @param layout Layout A Layout instance.
-         *
-         * @public
-         * @since  1.0
+         * @param layout Layout Instancia de la plantilla
          */
-        function setLayout (&$layout)
+        function setLayout(&$layout)
         {
             $this->layout =& $layout;
         }
 
         /**
-         * Write to this appender.
+         * Escribir en el agregador
          *
-         * @note This should never be called manually.
-         * @param message The message to write.
-         *
-         * @public
-         * @since  1.0
+         * @param message El mensaje a escribir
+         * @note No débe usarse manualmente
          */
         function write ($message)
         {

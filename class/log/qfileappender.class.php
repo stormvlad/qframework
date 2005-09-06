@@ -3,9 +3,9 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qconversionpattern.class.php");
 
     /**
-     * @brief Permite guardar los mensajes de log en un fichero.
+     * @brief Permite guardar los mensajes de sucesos en un fichero.
      *
-     * Clase que implementa la salida a fichero para logs.
+     * Clase que implementa la salida a fichero para registro de sucesos.
      *
      * @author  qDevel - info@qdevel.com
      * @date    13/03/2005 04:18
@@ -15,60 +15,41 @@
     class qFileAppender extends qAppender
     {
         /**
-         * Whether or not the file pointer is opened in append mode.
-         *
-         * @private
-         * @since  1.0
-         * @type   bool
+         * Booleano que indica si debe o no abrirse el fichero para añadir
          */
         var $append;
 
         /**
-         * An absolute file-system path to the log file.
-         *
-         * @private
-         * @since  1.0
-         * @type   string
+         * Cadena con la ruta absoluta al fichero de registro
          */
         var $file;
 
         /**
-         * A pointer to the log file.
-         *
-         * @private
-         * @since  1.0
-         * @type   resource
+         * Recurso con el puntero al fichero de registro
          */
         var $fp;
 
         /**
-         * The conversion pattern to use with this layout.
-         *
-         * @private
-         * @since  1.0
-         * @type   ConversionPattern
+         * Patrón de conversión (qConversionPattern) para usar con esta plantilla
          */
         var $pattern;
 
         /**
-         * Create a new FileAppender instance.
+         * Constructor
          *
-         * Conversion characters:
+         * Carácteres de conversion:
          *
          * <ul>
-         *     <li><b>%C{constant}</b> - the value of a PHP constant</li>
-         *     <li><b>%d{format}</b>   - a date (uses date() format)</li>
+         *     <li><b>%C{constant}</b> - el valor de una constanthe value de PHP</li>
+         *     <li><b>%d{format}</b>   - una fecha (usa el formato de la función date())</li>
          * </ul>
          *
-         * @param layout Layout A Layout instance.
-         * @param file string   An absolute file-system path to the log file.
-         * @param append bool   Whether or not the file pointer should be opened in
-         *                      appending mode (if false, all data is truncated).
-         *
-         * @public
-         * @since  1.0
+         * @param layout qLayout Instancia de qLayout, plantilla a usar
+         * @param file string   Ruta absoluta al fichero de registro de sucesos
+         * @param append bool   Debe abrirse el fichero en modo de agregación
+         *                      (sino todos los datos son reemplazados).
          */
-        function &qFileAppender ($layout, $file, $append = TRUE)
+        function &qFileAppender($layout, $file, $append = TRUE)
         {
             parent::qAppender($layout);
 
@@ -80,16 +61,13 @@
         }
 
         /**
-         * ConversionPattern callback method.
+         * Método <i>callback</i> ConversionPattern
          *
-         * @note This should never be called manually.
-         * @param char string A conversion character.
-         * @param param string A conversion parameter.
+         * @param char string Un caracter de conversión
+         * @param param string Un parámetro de conversión
          *
-         * @return string A replacement for the given data.
-         *
-         * @public
-         * @since  1.0
+         * @return string El reemplazo de los datos proporcionados
+         * @note No debe llamarse manualmente
          */
         function &callback ($char, $param)
         {
@@ -113,11 +91,9 @@
         }
 
         /**
-         * Close the file pointer.
+         * Cierra el puntero al fichero
          *
-         * @note This should never be called manually.
-         * @public
-         * @since  1.0
+         * @note No debe llamarse manualmente
          */
         function cleanup ()
         {
@@ -131,11 +107,9 @@
         }
 
         /**
-         * Open the file pointer.
+         * Abre el puntero al fichero
          *
-         * @note This should never be called manually.
-         * @private
-         * @since  1.0
+         * @note No debe llamarse manualmente
          */
         function openFP ()
         {
@@ -155,12 +129,10 @@
         }
 
         /**
-         * Write a message to the log file.
+         * Escribe un mensaje en el fichero de sucesos
          *
-         * @note This should never be called manually.
-         * @param message string The message to write.
-         * @public
-         * @since  1.0
+         * @param message string El mensaje a escribir
+         * @note No debe llamarse manualmente
          */
         function write ($message)
         {

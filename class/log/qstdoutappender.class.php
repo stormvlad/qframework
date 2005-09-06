@@ -15,7 +15,7 @@
         /**
          * Constructor
          *
-         * @param layout A Layout instance.
+         * @param layout Una instancia de qLayout (la plantilla)
          */
         function &qStdoutAppender ($layout)
         {
@@ -23,13 +23,10 @@
         }
 
         /**
-         * Write a message directly to the requesting client.
+         * Escribe el mensaje directamente a la respuesta para el cliente
          *
-         * @note This should never be called manually.
-         * @param message string The message to be written.
-         *
-         * @public
-         * @since  1.0
+         * @param message string El mensaje a escribir
+         * @note No debe llamarse manualmente
          */
         function write ($message)
         {

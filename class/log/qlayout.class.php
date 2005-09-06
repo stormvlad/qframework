@@ -1,7 +1,7 @@
 <?php
 
     /**
-     * @brief Proporciona una forma personalizable para dar formato a los datos.
+     * @brief Proporciona una plantila personalizable para dar formato a los datos.
      *
      * @author  qDevel - info@qdevel.com
      * @date    13/03/2005 04:22
@@ -11,10 +11,7 @@
     class qLayout extends qObject
     {
         /**
-         * Create a new Layout instance.
-         *
-         * @public
-         * @since  1.0
+         * Constructor
          */
         function &qLayout()
         {
@@ -22,13 +19,10 @@
         }
 
         /**
-         * Format a message.
+         * Da formato a un mensaje
          *
-         * @note This should never be called manually.
-         * @param message qMessage A qMessage instance.
-         *
-         * @public
-         * @since  1.0
+         * @param message qMessage Una instancia de qMessage
+         * @note Esta función debe llamarse manualmente
          */
         function &format (&$message)
         {

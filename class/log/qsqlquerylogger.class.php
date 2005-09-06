@@ -29,7 +29,7 @@
         }
 
         /**
-        * Constructor
+        * Manejador de eventos
         */
         function handler(&$obj, $args)
         {
