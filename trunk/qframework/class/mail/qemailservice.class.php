@@ -32,6 +32,8 @@
     {
         var $_serviceType;
 
+        var $_charset;
+        
         var $_smtpHost;
         var $_smtpPort;
         var $_smtpUseAuthentication;
@@ -46,6 +48,7 @@
             $this->qObject();
 
             $this->_serviceType           = $serviceType;
+            $this->_charset               = "iso-8859-15";
             $this->_smtpHost              = $smtpHost;
             $this->_smtpPort              = $smtpPort;
             $this->_smtpUseAuthentication = false;
@@ -53,6 +56,16 @@
             $this->_smtpPass              = false;
         }
 
+        function getCharset()
+        {
+            return $this->_charset;
+        }
+
+        function setCharset($charset)
+        {
+            $this->_charset = $charset;
+        }
+        
         function getServiceType()
         {
             return $this->_serviceType;
@@ -120,10 +133,11 @@
         function sendMessage(&$message)
         {
             $mail           = new PHPMailer();
+            $mail->CharSet  = $this->getCharset();
             $mail->Subject  = $message->getSubject();
             $mail->Body     = $message->getBody();
             $mail->From     = $message->getFrom();
-
+            
             $mail->IsHTML($message->isHtml());
 
             $attachments = $message->getAttachments();
