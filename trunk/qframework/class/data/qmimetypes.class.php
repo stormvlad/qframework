@@ -164,24 +164,25 @@
         }
 
         /**
-        * Add function info here
+        * Se le puede pasar el nombre del archivo o la extensión directamente
         */
         function getType($file)
         {
             if (($pos = strrpos($file, ".")) === false)
             {
-                return $this->_defaultType;
+                $extension = $file;
+            }
+            else
+            {
+                $extension = substr($file, $pos + 1, strlen($file) - $pos - 1);
             }
 
-            $extension = substr($file, $pos + 1, strlen($file) - $pos - 1);
-            $mimeType  = $this->_mimeTypes[$extension];
-
-            if (empty($mimeType))
+            if (empty($this->_mimeTypes[$extension]))
             {
                 return $this->_defaultType;
             }
 
-            return $mimeType;
+            return $this->_mimeTypes[$extension];
         }
     }
 
