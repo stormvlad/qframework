@@ -46,6 +46,33 @@
         /**
         * Add function info here
         */
+        function truncate($string, $length = 80, $etc = "...", $breakWords = false)
+        {
+            if ($length == 0)
+            {
+                return "";
+            }
+        
+            if (strlen($string) > $length)
+            {
+                $length -= strlen($etc);
+                
+                if (!$breakWords)
+                {
+                    $string = preg_replace("/\s+?(\S+)?$/", "", substr($string, 0, $length + 1));
+                }
+            
+                return substr($string, 0, $length) . $etc;
+            }
+            else
+            {
+                return $string;
+            }
+        }
+
+        /**
+        * Add function info here
+        */
         function truncateUrl($url, $maxLength)
         {
             $i = 0;
