@@ -230,7 +230,7 @@
         function getOffsetUrl($page, $varName = "offset")
         {
             $offset  = $this->getOffset($page);
-            $baseUrl = $this->getBaseUrl();
+            $baseUrl = htmlSpecialChars($this->getBaseUrl());
 
             if (ereg("[?]op=", $baseUrl))
             {
@@ -263,7 +263,7 @@
         */
         function getShowAllUrl($varName = "showAll")
         {
-            $baseUrl = $this->getBaseUrl();
+            $baseUrl = htmlSpecialChars($this->getBaseUrl());
             return $baseUrl . "&amp;" . $varName . "=1";
         }
         
