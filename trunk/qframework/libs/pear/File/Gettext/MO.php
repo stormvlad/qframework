@@ -1,76 +1,79 @@
 <?php
-// +----------------------------------------------------------------------+
-// | PEAR :: File :: Gettext :: MO                                        |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is available at http://www.php.net/license/3_0.txt              |
-// | If you did not receive a copy of the PHP license and are unable      |
-// | to obtain it through the world-wide-web, please send a note to       |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2004 Michael Wallner <mike@iworks.at>                  |
-// +----------------------------------------------------------------------+
-//
-// $Id: MO.php,v 1.2 2004/04/29 19:14:31 mike Exp $
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
-* File::Gettext::MO
-* 
-* @author       Michael Wallner <mike@php.net>
-* @package      File_Gettext
-* @category     FileFormats
-*/
+ * File::Gettext
+ * 
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   FileFormats
+ * @package    File_Gettext
+ * @author     Michael Wallner <mike@php.net>
+ * @copyright  2004-2005 Michael Wallner
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id: MO.php,v 1.6 2005/03/30 18:26:48 mike Exp $
+ * @link       http://pear.php.net/package/File_Gettext
+ */
 
+/**
+ * Requires File_Gettext
+ */
 require_once 'File/Gettext.php';
 
 /** 
-* File_Gettext_MO
-* 
-* GNU MO file reader and writer.
-*
-* @author   Michael Wallner <mike@php.net>
-* @version  $Revision: 1.2 $
-* @access   public
-*/
+ * File_Gettext_MO
+ * 
+ * GNU MO file reader and writer.
+ *
+ * @author      Michael Wallner <mike@php.net>
+ * @version     $Revision: 1.6 $
+ * @access      public
+ */
 class File_Gettext_MO extends File_Gettext
 {
     /**
-    * file handle
-    * 
-    * @access   private
-    * @var      resource
-    */
+     * file handle
+     * 
+     * @access  private
+     * @var     resource
+     */
     var $_handle = null;
     
     /**
-    * big endianess
-    * 
-    * Whether to write with big endian byte order.
-    * 
-    * @access   public
-    * @var      bool
-    */
+     * big endianess
+     * 
+     * Whether to write with big endian byte order.
+     * 
+     * @access  public
+     * @var     bool
+     */
     var $writeBigEndian = false;
     
     /**
-    * Constructor
-    *
-    * @access   public
-    * @return   object      File_Gettext_MO
-    * @param    string      $file   path to GNU MO file
-    */
+     * Constructor
+     *
+     * @access  public
+     * @return  object      File_Gettext_MO
+     * @param   string      $file   path to GNU MO file
+     */
     function File_Gettext_MO($file = '')
     {
         $this->file = $file;
     }
 
     /**
-    * _read
-    *
-    * @access   private
-    * @return   mixed
-    * @param    int     $bytes
-    */
+     * _read
+     *
+     * @access  private
+     * @return  mixed
+     * @param   int     $bytes
+     */
     function _read($bytes = 1)
     {
         if (0 < $bytes = abs($bytes)) {
@@ -80,61 +83,61 @@ class File_Gettext_MO extends File_Gettext
     }
     
     /**
-    * _readInt
-    *
-    * @access   private
-    * @return   int
-    * @param    bool    $bigendian
-    */
+     * _readInt
+     *
+     * @access  private
+     * @return  int
+     * @param   bool    $bigendian
+     */
     function _readInt($bigendian = false)
     {
         return array_shift(unpack($bigendian ? 'N' : 'V', $this->_read(4)));
     }
     
     /**
-    * _writeInt
-    *
-    * @access   private
-    * @return   int
-    * @param    int     $int
-    */
+     * _writeInt
+     *
+     * @access  private
+     * @return  int
+     * @param   int     $int
+     */
     function _writeInt($int)
     {
         return $this->_write(pack($this->writeBigEndian ? 'N' : 'V', (int) $int));
     }
     
     /**
-    * _write
-    *
-    * @access   private
-    * @return   int
-    * @param    string  $data
-    */
+     * _write
+     *
+     * @access  private
+     * @return  int
+     * @param   string  $data
+     */
     function _write($data)
     {
         return fwrite($this->_handle, $data);
     }
     
     /**
-    * _writeStr
-    *
-    * @access   private
-    * @return   int
-    * @param    string  $string
-    */
+     * _writeStr
+     *
+     * @access  private
+     * @return  int
+     * @param   string  $string
+     */
     function _writeStr($string)
     {
         return $this->_write($string . "\0");
     }
     
     /**
-    * _readStr
-    *
-    * @access   private
-    * @return   string
-    * @param    array   $params     associative array with offset and length 
-    *                               of the string
-    */
+     * _readStr
+     *
+     * @access  private
+     * @return  string
+     * @param   array   $params     associative array with offset and length 
+     *                              of the string
+     */
     function _readStr($params)
     {
         fseek($this->_handle, $params['offset']);
@@ -142,12 +145,12 @@ class File_Gettext_MO extends File_Gettext
     }
     
     /**
-    * Load MO file
-    *
-    * @access   public
-    * @return   mixed   Returns true on success or PEAR_Error on failure.
-    * @param    string  $file
-    */
+     * Load MO file
+     *
+     * @access   public
+     * @return   mixed   Returns true on success or PEAR_Error on failure.
+     * @param    string  $file
+     */
     function load($file = null)
     {
         if (!isset($file)) {
@@ -164,14 +167,19 @@ class File_Gettext_MO extends File_Gettext
             return parent::raiseError($php_errormsg . ' ' . $file);
         }
         
-        // read magic number from MO file header and define endianess
-        $magic = $this->_readInt();
-        if ($magic == (int) 0x950412de) {
-            $be = false;
-        } elseif ($magic == (int) 0xde120495) {
-            $be = true;
-        } else {
-            return parent::raiseError('No GNU mo file: ' . $file);
+        // read (part of) magic number from MO file header and define endianess
+        switch ($magic = array_shift(unpack('c', $this->_read(4))))
+        {
+            case -34:
+                $be = false;
+            break;
+            
+            case -107:
+                $be = true;
+            break;
+            
+            default:
+                return parent::raiseError("No GNU mo file: $file (magic: $magic)");
         }
 
         // check file format revision - we currently only support 0
@@ -230,12 +238,12 @@ class File_Gettext_MO extends File_Gettext
     }
     
     /**
-    * Save MO file
-    *
-    * @access   public
-    * @return   mixed   Returns true on success or PEAR_Error on failure.
-    * @param    string  $file
-    */
+     * Save MO file
+     *
+     * @access  public
+     * @return  mixed   Returns true on success or PEAR_Error on failure.
+     * @param   string  $file
+     */
     function save($file = null)
     {
         if (!isset($file)) {
@@ -253,7 +261,11 @@ class File_Gettext_MO extends File_Gettext
         }
         
         // write magic number
-        $this->_writeInt($this->writeBigEndian ? 0xde120495 : 0x950412de);
+        if ($this->writeBigEndian) {
+            $this->_write(pack('c*', 0x95, 0x04, 0x12, 0xde));
+        } else {
+            $this->_write(pack('c*', 0xde, 0x12, 0x04, 0x95));
+        }
         
         // write file format revision
         $this->_writeInt(0);
@@ -289,7 +301,7 @@ class File_Gettext_MO extends File_Gettext
         }
         
         // write offsets for original strings
-        foreach ($strings as $o => $t) {
+        foreach (array_keys($strings) as $o) {
             $len = strlen($o);
             $this->_writeInt($len);
             $this->_writeInt($offset);
@@ -297,7 +309,7 @@ class File_Gettext_MO extends File_Gettext
         }
         
         // write offsets for translated strings
-        foreach ($strings as $o => $t) {
+        foreach ($strings as $t) {
             $len = strlen($t);
             $this->_writeInt($len);
             $this->_writeInt($offset);
@@ -305,12 +317,12 @@ class File_Gettext_MO extends File_Gettext
         }
 
         // write original strings
-        foreach ($strings as $o => $t) {
+        foreach (array_keys($strings) as $o) {
             $this->_writeStr($o);
         }
 
         // write translated strings
-        foreach ($strings as $o => $t) {
+        foreach ($strings as $t) {
             $this->_writeStr($t);
         }
         
