@@ -218,7 +218,7 @@
             {
                 if ($this->fieldExists($key))
                 {
-                    $this->_fields->setValue($key, $value);
+                    $this->setValue($key, $value);
                 }
                 else if ($this->outerFieldExists($key))
                 {
