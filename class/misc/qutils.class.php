@@ -18,6 +18,38 @@
         /**
          * Add function info here
          */
+        function shadow($password)
+        {
+            $hash = "";
+        
+            for ($i = 0; $i < 8; $i++)
+            {
+                    $j = mt_rand(0, 53);
+        
+                    if ($j < 26)
+                    {
+                        $hash .= chr(rand(65,90));
+                    }
+                    else if ($j < 52)
+                    {
+                        $hash .= chr(rand(97, 122));
+                    }
+                    else if ($j < 53)
+                    {
+                        $hash .= ".";
+                    }
+                    else
+                    {
+                        $hash .= "/";
+                    }
+            }
+        
+            return crypt($password, "$1$" . $hash . "$");
+        }
+
+        /**
+         * Add function info here
+         */
         function formatSize($size, $decimals = DEFAULT_UTILS_DECIMALS)
         {
             $sizes = array("B", "KB", "MB", "GB", "TB", "PB", "EB");
