@@ -62,8 +62,12 @@
             $server = &qHttp::getServerVars();
             $url    = new qUrl($server->getValue("HTTP_REFERER"));
 
-            if (preg_match("/^w?w?w?\.?google.*/i", $url->getHost()))
+            if (preg_match("/^w?w?w?\.?google.*/i", $url->getHost()) && preg_match("/^(.+<body[^>]*>)(.*)(<\/body>.+)$/si", $text, $regs))
             {
+                $pre  = $regs[1];
+                $body = $regs[2];
+                $post = $regs[3];
+            
                 $queryArray = $url->getQueryArray();
 
                 if (empty($queryArray["q"]))
@@ -77,8 +81,8 @@
                 $terms    = $parser->getAllTerms();
                 $strTerms = $parser->getSearchTermsString();
                 $lighter  = new qGoogleStringHighlighter($this->_colors);
-                $text     = $lighter->highlight($text, $terms, true, false);
-                $text     = str_replace("[:GOOGLE_FILTER_TERMS:]", $strTerms, $text);
+                $body     = $lighter->highlight($body, $terms, true, false);
+                $text     = $pre . str_replace("[:GOOGLE_FILTER_TERMS:]", $strTerms, $body) . $post;
             }
             else
             {
