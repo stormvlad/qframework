@@ -2,6 +2,8 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/filter/qfilter.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qurl.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qgooglestringhighlighter.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qgooglesearchrequestparser.class.php");
 
     /**
      * @brief Resalta las palabras búscadas mediante Google
@@ -16,30 +18,18 @@
     class qGoogleFilter extends qFilter
     {
         var $_colors;
-
+        
         /**
         * Add function info here
         */
         function qGoogleFilter($colors = null)
         {
             $this->qFilter();
+            $this->_colors = $colors;
 
             if (empty($colors))
             {
-                $this->_colors = array("yellow",
-                                       "lightpink",
-                                       "aquamarine",
-                                       "darkgoldenrod",
-                                       "darkseagreen",
-                                       "lightgreen",
-                                       "rosybrown",
-                                       "seagreen",
-                                       "chocolate",
-                                       "violet");
-            }
-            else
-            {
-                $this->_colors = $colors;
+                $this->_colors = array("yellow", "lightpink", "aquamarine", "darkgoldenrod", "darkseagreen", "lightgreen", "rosybrown", "seagreen", "chocolate", "violet");
             }
         }
 
@@ -58,7 +48,7 @@
         {
             $this->_colors = $colors;
         }
-
+        
         /**
         * Add function info here
         */
@@ -72,7 +62,7 @@
             $server = &qHttp::getServerVars();
             $url    = new qUrl($server->getValue("HTTP_REFERER"));
 
-            if (preg_match("/^http:\/\/w?w?w?\.?google.*/i", $url->getHost()))
+            if (preg_match("/^w?w?w?\.?google.*/i", $url->getHost()))
             {
                 $queryArray = $url->getQueryArray();
 
@@ -81,31 +71,18 @@
                     return false;
                 }
 
-                $terms       = explode(" ", $query_array["q"]);
-                $terms       = array("el");
-                $totalTerms  = count($terms);
-                $totalColors = count($this->_colors);
-                $stringTerms = "";
-
-                for ($i = 0; $i < $totalTerms; $i++)
-                {
-                    $term         = trim($terms[$i]);
-                    $color        = $this->_colors[$i % $totalColors];
-                    $stringTerms .= "<span style=\"background:" . $color . "\">" . $term . "</span> ";
-                }
-
-                for ($i = 0; $i < $totalTerms; $i++)
-                {
-                    $term  = str_replace("/", "\\/", trim($terms[$i]));
-                    $color = $this->_colors[$i % $totalColors];
-                    $text  = preg_replace("/(?!<.*?)(\b" . $term . "\b)(?![^<>]*?>)/si", "<span style=\"background:" . $color . "\">$1</span>", $text);
-                }
-
-                $text = str_replace("[GOOGLE_FILTER_TERMS]", $stringTerms, $text);
+                $parser = new qGoogleSearchRequestParser($this->_colors);
+                $parser->parse($queryArray["q"]);
+                
+                $terms    = $parser->getAllTerms();
+                $strTerms = $parser->getSearchTermsString();
+                $lighter  = new qGoogleStringHighlighter($this->_colors);
+                $text     = $lighter->highlight($text, $terms, true, false);
+                $text     = str_replace("[:GOOGLE_FILTER_TERMS:]", $strTerms, $text);
             }
             else
             {
-                $text  = preg_replace("/<div class=\"google\">.+?<\\/div>/si", "", $text);
+                $text = preg_replace("/<div class=\"google\"[^>]*>.+?<\\/div>/si", "", $text);
             }
 
             print $text;
