@@ -84,10 +84,6 @@
                 $body     = $lighter->highlight($body, $terms, true, false);
                 $text     = $pre . str_replace("[:GOOGLE_FILTER_TERMS:]", $strTerms, $body) . $post;
             }
-            else
-            {
-                $text = preg_replace("/<div class=\"google\"[^>]*>.+?<\\/div>/si", "", $text);
-            }
 
             print $text;
         }
