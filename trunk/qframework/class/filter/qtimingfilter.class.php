@@ -37,7 +37,7 @@
             $text = ob_get_contents();
             ob_end_clean();
 
-            print str_replace("[TIMING_FILTER_TIME]", $t->get(), $text);
+            print str_replace("[:TIMING_FILTER_TIME:]", $t->get(), $text);
         }
     }
 ?>
