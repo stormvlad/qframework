@@ -73,7 +73,7 @@
                 $pattern .= "i";
             }
 
-            return preg_replace($pattern, "<span style=\"background:" . $color . "\">$1</span>", $str);
+            return preg_replace($pattern, "<b class=\"highlight\" style=\"background:" . $color . "\">$1</b>", $str);
         }
     }
 
