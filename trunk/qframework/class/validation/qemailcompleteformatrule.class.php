@@ -2,7 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qemailformatrule.class.php");
 
-    define("EMAIL_COMPLETE_FORMAT_RULE_REG_EXP", "^\"?[^<]+\"?[ ]+\\<" . substr(EMAIL_FORMAT_RULE_REG_EXP, 1, -1) . "\\>$");
+    define("EMAIL_COMPLETE_FORMAT_RULE_REG_EXP", "^\"?[^<]+\"?[ ]+<" . substr(EMAIL_FORMAT_RULE_REG_EXP, 1, -1) . ">$");
     define("ERROR_RULE_EMAIL_COMPLETE_FORMAT_WRONG", "error_rule_email_complete_format_wrong");
 
     /**
