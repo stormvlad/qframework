@@ -5,6 +5,7 @@
 
     define("ERROR_VALIDATOR_FILE_UPLOAD_SIZE", "error_validator_file_upload_size");
     define("ERROR_VALIDATOR_FILE_UPLOAD_PARTIAL", "error_validator_file_upload_partial");
+    define("ERROR_VALIDATOR_FILE_UPLOAD_EMPTY", "error_validator_file_upload_empty");
     define("ERROR_VALIDATOR_FILE_UPLOAD_EXTENSION", "error_validator_file_upload_extension");
     define("ERROR_VALIDATOR_FILE_UPLOAD_UNKNOWN", "error_validator_file_upload_unknown");
     define("ERROR_VALIDATOR_FILE_UPLOAD_NOT_EXISTS", "error_validator_file_upload_not_exists");
@@ -111,11 +112,8 @@
                             return false;
 
                         case 4:
-                            return true;
-
-                        /*case 4:
-                            $this->addError($locale->i18n("products_error_upload_empty"), "image");
-                            return false;*/
+                            $this->setError(ERROR_VALIDATOR_FILE_UPLOAD_EMPTY);
+                            return false;
 
                         default:
                             $this->setError(ERROR_VALIDATOR_FILE_UPLOAD_UNKNOWN);
