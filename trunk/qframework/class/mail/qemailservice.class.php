@@ -40,6 +40,8 @@
         var $_smtpUser;
         var $_smtpPass;
 
+        var $_customHeaders;
+
         /**
          * Constructor
          */
@@ -54,68 +56,124 @@
             $this->_smtpUseAuthentication = false;
             $this->_smtpUser              = false;
             $this->_smtpPass              = false;
+            $this->_customHeaders         = array();
         }
 
+        /**
+         * Add function info here
+         */
+        function addCustomHeader($header)
+        {
+            $this->_customHeaders[] = $header;
+        }
+
+        /**
+         * Add function info here
+         */
+        function getCustomHeaders()
+        {
+            return $this->_customHeaders;
+        }
+        
+        /**
+         * Add function info here
+         */
         function getCharset()
         {
             return $this->_charset;
         }
 
+        /**
+         * Add function info here
+         */
         function setCharset($charset)
         {
             $this->_charset = $charset;
         }
-        
+
+        /**
+         * Add function info here
+         */
         function getServiceType()
         {
             return $this->_serviceType;
         }
 
+        /**
+         * Add function info here
+         */
         function setServiceType($type)
         {
             $this->_serviceType = $type;
         }
 
+        /**
+         * Add function info here
+         */
         function getSmtpHost()
         {
             return $this->_smtpHost;
         }
 
+        /**
+         * Add function info here
+         */
         function setSmtpHost($host)
         {
             $this->_smtpHost = $host;
         }
 
+        /**
+         * Add function info here
+         */
         function getSmtpPort()
         {
             return $this->_smtpPort;
         }
 
+        /**
+         * Add function info here
+         */
         function setSmtpPort($port)
         {
             $this->_smtpPort = $port;
         }
 
+        /**
+         * Add function info here
+         */
         function getSmtpUser()
         {
             return $this->_smtpUser;
         }
 
+        /**
+         * Add function info here
+         */
         function setSmtpUser($user)
         {
             $this->_smtpUser = $user;
         }
 
+        /**
+         * Add function info here
+         */
         function getSmtpPass()
         {
             return $this->_smtpPass;
         }
 
+        /**
+         * Add function info here
+         */
         function setSmtpPass($pass)
         {
             $this->_smtpPass = $pass;
         }
 
+        /**
+         * Add function info here
+         */
         function setSmtpUseAuthentication($auth, $user = false, $pass = false)
         {
             $this->_smtpUseAuthentication = $auth;
@@ -154,6 +212,16 @@
                 }
             }
 
+            $headers = $this->getCustomHeaders();
+
+            if (count($headers) > 0)
+            {
+                foreach ($headers as $header)
+                {
+                    $mail->AddCustomHeader($header);
+                }
+            }
+            
             if (eregi("([^<]+)<([^>]+)>", $mail->From, $regs))
             {
                 $mail->From     = $regs[2];
