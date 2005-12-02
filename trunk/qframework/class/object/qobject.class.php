@@ -109,6 +109,12 @@
          */
         function getClassName()
         {
+            if (qObject::isStaticCall())
+            {
+                $bt = debug_backtrace();
+                return $bt[1]["class"];
+            }
+            
             return get_class($this);
         }
 
@@ -282,5 +288,13 @@
             return $res .= " ]";
         }
 
+        /**
+         * Add function info here
+         */
+        function isStaticCall()
+        {
+            $bt = debug_backtrace();
+            return $bt[1]["type"] == "::";
+        }
     }
 ?>
