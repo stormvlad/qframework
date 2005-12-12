@@ -62,7 +62,7 @@
             $server = &qHttp::getServerVars();
             $url    = new qUrl($server->getValue("HTTP_REFERER"));
 
-            if (preg_match("/^w?w?w?\.?google.*/i", $url->getHost()) && preg_match("/^(.+<body[^>]*>)(.*)(<\/body>.+)$/si", $text, $regs))
+            if (preg_match("/^http:\/\/w?w?w?\.?google.*[?&]q=.*/i", $url->getUrl()) && preg_match("/^(.+<body[^>]*>)(.*)(<\/body>.+)$/si", $text, $regs))
             {
                 $pre  = $regs[1];
                 $body = $regs[2];
@@ -70,19 +70,17 @@
             
                 $queryArray = $url->getQueryArray();
 
-                if (empty($queryArray["q"]))
+                if (!empty($queryArray["q"]))
                 {
-                    return false;
+                    $parser = new qGoogleSearchRequestParser($this->_colors);
+                    $parser->parse($queryArray["q"]);
+                    
+                    $terms    = $parser->getAllTerms();
+                    $strTerms = $parser->getSearchTermsString();
+                    $lighter  = new qGoogleStringHighlighter($this->_colors);
+                    $body     = $lighter->highlight($body, $terms, true, false);
+                    $text     = $pre . str_replace("[:GOOGLE_FILTER_TERMS:]", $strTerms, $body) . $post;
                 }
-
-                $parser = new qGoogleSearchRequestParser($this->_colors);
-                $parser->parse($queryArray["q"]);
-                
-                $terms    = $parser->getAllTerms();
-                $strTerms = $parser->getSearchTermsString();
-                $lighter  = new qGoogleStringHighlighter($this->_colors);
-                $body     = $lighter->highlight($body, $terms, true, false);
-                $text     = $pre . str_replace("[:GOOGLE_FILTER_TERMS:]", $strTerms, $body) . $post;
             }
 
             print $text;
