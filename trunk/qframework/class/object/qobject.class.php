@@ -271,6 +271,15 @@
             return $eventManager->sendEvent($this, $eventCode, $eventArgs);
         }
 
+        /**
+         * Add function info here
+         */
+        function isStaticCall()
+        {
+            $bt = debug_backtrace();
+            return $bt[1]["type"] == "::";
+        }
+        
         //// \privatesection
         /**
          * Add function info here
@@ -286,15 +295,6 @@
             }
 
             return $res .= " ]";
-        }
-
-        /**
-         * Add function info here
-         */
-        function isStaticCall()
-        {
-            $bt = debug_backtrace();
-            return $bt[1]["type"] == "::";
         }
     }
 ?>
