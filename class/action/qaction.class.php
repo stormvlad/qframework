@@ -248,9 +248,16 @@
          */
         function getFormValue($name, $step = null)
         {
-            $user     = &User::getInstance();
-            $formName = $this->getFormName();
+            if (qObject::isStaticCall())
+            {
+                $formName = strtolower(qObject::getClassName());
+            }
+            else
+            {
+                $formName = $this->getFormName();
+            }
 
+            $user = &User::getInstance();
             return $user->getFormValue($formName, $name, $step);
         }
 
@@ -262,9 +269,16 @@
          */
         function &getFormValues($step = null)
         {
-            $user     = &User::getInstance();
-            $formName = $this->getFormName();
+            if (qObject::isStaticCall())
+            {
+                $formName = strtolower(qObject::getClassName());
+            }
+            else
+            {
+                $formName = $this->getFormName();
+            }
 
+            $user = &User::getInstance();
             return $user->getFormValues($formName, $step);
         }
 
@@ -277,9 +291,16 @@
          */
         function setFormValue($name, $value, $step = null)
         {
-            $user     = &User::getInstance();
-            $formName = $this->getFormName();
+            if (qObject::isStaticCall())
+            {
+                $formName = strtolower(qObject::getClassName());
+            }
+            else
+            {
+                $formName = $this->getFormName();
+            }
 
+            $user = &User::getInstance();
             $user->setFormValue($formName, $name, $value, $step);
         }
 
@@ -291,9 +312,16 @@
          */
         function setFormValues($values, $step = null)
         {
-            $user     = &User::getInstance();
-            $formName = $this->getFormName();
+            if (qObject::isStaticCall())
+            {
+                $formName = strtolower(qObject::getClassName());
+            }
+            else
+            {
+                $formName = $this->getFormName();
+            }
 
+            $user = &User::getInstance();
             $user->setFormValues($formName, $values, $step);
         }
 
@@ -305,9 +333,16 @@
          */
         function removeFormValue($name, $step = null)
         {
-            $user     = &User::getInstance();
-            $formName = $this->getFormName();
+            if (qObject::isStaticCall())
+            {
+                $formName = strtolower(qObject::getClassName());
+            }
+            else
+            {
+                $formName = $this->getFormName();
+            }
 
+            $user = &User::getInstance();
             $user->removeFormValue($formName, $name, $step);
         }
 
@@ -316,9 +351,16 @@
          */
         function resetFormValues()
         {
-            $user     = &User::getInstance();
-            $formName = $this->getFormName();
+            if (qObject::isStaticCall())
+            {
+                $formName = strtolower(qObject::getClassName());
+            }
+            else
+            {
+                $formName = $this->getFormName();
+            }
 
+            $user = &User::getInstance();
             $user->resetFormValues($formName);
         }
 
