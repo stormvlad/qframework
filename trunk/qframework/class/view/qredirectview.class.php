@@ -56,7 +56,8 @@
                     $protocol = "https";
                 }
 
-                $uri    = preg_replace("|[/]+|s", "/", $uri . $url);
+                $uri   .= $url;
+                $uri    = preg_replace("|[/]+|s", "/", $uri);
                 $result = $protocol . "://" . $uri;
             }
             else
