@@ -73,7 +73,7 @@
         function parse($request)
         {
             $this->reset();
-            $this->_terms = split("[[:alnum:]_]+", trim($request));
+            $this->_terms = split("[[:alnum:]_aàácçeèéiìíïnñoòóuùúü]+", trim($request));
 
             return true;
         }
