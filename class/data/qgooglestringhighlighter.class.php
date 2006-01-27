@@ -40,15 +40,19 @@
             {
                 return $str;
             }
-
-            for ($i = 0; $i < $totalTerms; $i++)
+            
+            for ($i = 0, $j = 0; $i < $totalTerms; $i++, $j++)
             {
                 $term = trim($terms[$i]);
                 $char = substr($term, 0, 1);
 
-                if ($char != "-")
+                if ($char == "-")
                 {
-                    $color = $this->_colors[$i % $totalColors];
+                    $j--;
+                }
+                else
+                {
+                    $color = $this->_colors[$j % $totalColors];
 
                     if ($char == "+")
                     {
