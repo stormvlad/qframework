@@ -217,10 +217,10 @@
         {
             $this->reset();
 
-            $request = preg_replace_callback("/([^[:alnum:]_aàácçeèéiìíïnñoòóuùúü]+|^)?(\".+?\")([^[:alnum:]_aàácçeèéiìíïnñoòóuùúü]+|$)/si", array(&$this, "_replaceTextualTerms"), $request);
+            $request = preg_replace_callback("/([^[:alnum:]_ßaàáäcçeèéëiìíïnñoòóöuùúüAÀÁÄCÇEÈÉËIÌÍÏNÑOÒÓÖUÙÚÜ\"]+|^)?(\".+?\")([^[:alnum:]_ßaàáäcçeèéëiìíïnñoòóöuùúüAÀÁÄCÇEÈÉËIÌÍÏNÑOÒÓÖUÙÚÜ\"]+|$)/si", array(&$this, "_replaceTextualTerms"), $request);
 
-            $request = preg_replace_callback("/([^[:alnum:]_aàácçeèéiìíïnñoòóuùúü]+|^)?([\"+-]?.+?\"?)([^[:alnum:]_aàácçeèéiìíïnñoòóuùúü]+|$)/si", array(&$this, "_replaceTerms"), $request);
-
+            $request = preg_replace_callback("/([^[:alnum:]_ßaàáäcçeèéëiìíïnñoòóöuùúüAÀÁÄCÇEÈÉËIÌÍÏNÑOÒÓÖUÙÚÜ\"+-]+|^)?((\"[^\"]+\")|([+-]?.+?))([^[:alnum:]_ßaàáäcçeèéëiìíïnñoòóöuùúüAÀÁÄCÇEÈÉËIÌÍÏNÑOÒÓÖUÙÚÜ\"+-]+|$)/si", array(&$this, "_replaceTerms"), $request);
+            
             $this->_localeExcludedTerms = array_unique(array_intersect($this->_terms, $this->_localeStopWordsList));
             $this->_terms = array_diff($this->_terms, $this->_localeExcludedTerms);
 
