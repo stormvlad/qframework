@@ -233,9 +233,16 @@
          */
         function formValueExists($name, $step = null)
         {
-            $user     = &User::getInstance();
-            $formName = $this->getFormName();
+            if (qObject::isStaticCall())
+            {
+                $formName = strtolower(qObject::getClassName());
+            }
+            else
+            {
+                $formName = $this->getFormName();
+            }
 
+            $user = &User::getInstance();
             return $user->formValueExists($formName, $name, $step);
         }
 
