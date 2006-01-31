@@ -138,5 +138,21 @@
                 return explode($separator, $string);
             }
         }
+
+        /**
+         * Add function info here
+         */
+        function getUniqueId()
+        {
+            return md5(uniqid(""));
+        }
+        
+        /**
+         * Add function info here
+         */
+        function isMd5($str)
+        {
+            return preg_match("/^[0-9abcdef]{32}$/i", $str);
+        }
     }
 ?>

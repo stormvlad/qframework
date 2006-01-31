@@ -38,10 +38,16 @@
         /**
         *    Add function info here
         */
-        function qUrl($url)
+        function qUrl($url = null)
         {
             $this->qObject();
 
+            if (empty($url))
+            {
+                $server = &qHttp::getServerVars();
+                $url    = $server->getValue("REQUEST_URI");
+            }
+            
             $this->_url = $url;
             $this->_calculateFields();
         }
@@ -254,7 +260,7 @@
          */
         function getQueryArray()
         {
-            $reqParams = explode("&", $this->_query);
+            $reqParams = explode("&(amp;)?", $this->_query);
             $results   = array();
 
             foreach ($reqParams as $param)
@@ -266,6 +272,29 @@
             }
 
             return $results;
+        }
+
+        /**
+        * Add function info here
+        */
+        function addQueryParam($param, $value)
+        {
+            $this->_query .= "&" . $param ."=" . $value;
+            $this->_glueUrl();
+            
+            return $this->_query;
+        }
+        
+        /**
+        * Add function info here
+        */
+        function removeQueryParam($param)
+        {
+            $this->_query = preg_replace("/((&(amp;)?)|^)" . $param . "=[^&]+/", "", $this->_query);
+            $this->_query = preg_replace("/^&/", "", $this->_query);
+            $this->_glueUrl();
+            
+            return $this->_query;
         }
     }
 ?>
