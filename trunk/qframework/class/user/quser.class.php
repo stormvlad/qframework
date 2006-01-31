@@ -308,6 +308,11 @@
         */
         function getNormalizedStep($formName, $step)
         {
+            if (empty($this->_formValues[$formName]))
+            {
+                return false;
+            }
+            
             if ($step === null)
             {
                 $step = count($this->_formValues[$formName]) - 1;
@@ -339,6 +344,12 @@
         function formValueExists($formName, $name, $step = null)
         {
             $step = $this->getNormalizedStep($formName, $step);
+
+            if (empty($this->_formValues[$formName]))
+            {
+                return false;
+            }
+            
             return array_key_exists($name, $this->_formValues[$formName][$step]);
         }
 
@@ -348,6 +359,12 @@
         function getFormValue($formName, $name, $step = null)
         {
             $step = $this->getNormalizedStep($formName, $step);
+
+            if (empty($this->_formValues[$formName]))
+            {
+                return false;
+            }
+            
             return $this->_formValues[$formName][$step][$name];
         }
 
@@ -360,17 +377,14 @@
             {
                 return $this->_formValues;
             }
-            else
+
+            if (empty($this->_formValues[$formName]))
             {
-                $step = $this->getNormalizedStep($formName, $step);
-
-                if (empty($this->_formValues[$formName][$step]))
-                {
-                    return false;
-                }
-
-                return $this->_formValues[$formName][$step];
+                return false;
             }
+            
+            $step = $this->getNormalizedStep($formName, $step);
+            return $this->_formValues[$formName][$step];
         }
 
         /**
@@ -378,6 +392,11 @@
         */
         function setFormValue($formName, $name, $value, $step = null)
         {
+            if (empty($this->_formValues[$formName]))
+            {
+                $this->_formValues[$formName] = array();
+            }
+            
             $step = $this->getNormalizedStep($formName, $step);
             $this->_formValues[$formName][$step][$name] = $value;
         }
@@ -405,6 +424,11 @@
         */
         function removeFormValue($formName, $name, $step = null)
         {
+            if (empty($this->_formValues[$formName]))
+            {
+                return;
+            }
+            
             $step = $this->getNormalizedStep($formName, $step);
             unset($this->_formValues[$formName][$step][$name]);
         }
