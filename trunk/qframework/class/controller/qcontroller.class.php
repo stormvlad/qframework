@@ -414,6 +414,20 @@
         }
 
         /**
+         * Redirecciona la petición a la URL anterior
+         *
+         * @param url string Una URL existente
+         */
+        function redirectBack($index = -1)
+        {
+            $user = &User::getInstance();
+            $uri  = $user->getHistoryUri($index);
+
+            $this->redirect($uri);
+            return;
+        }
+        
+        /**
          * Se procesa la petición HTTP enviada por el cliente
          *
          * @param httpRequest petición HTTP personalizada, por defecto se recupera automáticamente <i>(opcional)</i>
@@ -423,10 +437,10 @@
             $timer  = new qTimer();
             $server = &qHttp::getServerVars();
             $params = array(
-                "ip"         => qClient::getIp(),
-                "class"      => $this->getClassName(),
-                "script"     => basename($server->getValue("PHP_SELF")),
-                "uri"        => $server->getValue("REQUEST_URI")
+                "ip"     => qClient::getIp(),
+                "class"  => $this->getClassName(),
+                "script" => basename($server->getValue("PHP_SELF")),
+                "uri"    => $server->getValue("REQUEST_URI")
                 );
 
             $this->sendEvent(1, $params);
@@ -434,6 +448,7 @@
             if ($this->_sessionEnabled)
             {
                 $user = &User::getInstance();
+                $user->saveUriToHistory();
             }
 
             if (empty($httpRequest))

@@ -472,6 +472,19 @@
         {
             $controller = &Controller::getInstance();
             $controller->redirect($url);
+            return;
+        }
+
+        /**
+         * @brief Llama al controlador para redireccionar la petición a la URL anterior
+         *
+         * @param index <code>zero o entero negativo</code> Índice de la URL anterior
+         */
+        function redirectBack($index = -1)
+        {
+            $controller = &Controller::getInstance();
+            $controller->redirectBack($index);
+            return;
         }
     }
 ?>
