@@ -33,6 +33,10 @@
             $formValues     = $session->getValue("formValues");
             $permissions    = $session->getValue("permissions");
 
+            $history        = $session->getValue("history");
+            $historyIndex   = $session->getValue("historyIndex");
+            $historySize    = $session->getValue("historySize");
+
             if (empty($attributes))
             {
                  $attributes = array();
@@ -45,6 +49,10 @@
             $user->setFormValues(null, $formValues);
             $user->setPermissions($permissions);
 
+            $user->setHistory($history);
+            $user->setHistoryIndex($historyIndex);
+            $user->setHistorySize($historySize);
+            
             return true;
         }
 
@@ -64,6 +72,11 @@
             $session->setValue("attributes", $attributes);
             $session->setValue("formValues", $formValues);
             $session->setValue("permissions", $permissions);
+
+            $session->setValue("history", $user->getHistory());
+            $session->setValue("historyIndex", $user->getHistoryIndex());
+            $session->setValue("historySize", $user->getHistorySize());
+            
             $session->save();
         }
     }

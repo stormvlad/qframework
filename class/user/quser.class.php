@@ -4,6 +4,7 @@
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/qusersessionstorage.class.php");
 
     define("DEFAULT_USER_PERMISSIONS_LEVEL", "__all__");
+    define("DEFAULT_USER_HISTORY_SIZE", 10);
 
     /**
      * @brief Representa un cliente de la aplicación
@@ -37,11 +38,18 @@
         var $_authenticated;
         var $_loginName;
         var $_lastActionTime;
+        var $_lastUri;
         var $_attributes;
         var $_attributesVolatile;
         var $_formValues;
         var $_permissions;
         var $_lifeTime;
+
+        var $_history;
+        var $_historyIndex;
+        var $_historySize;
+
+        var $_backed;
 
         /**
         * Add function info here
@@ -53,7 +61,7 @@
             $this->_sid      = $sid;
             $this->_storage  = &$storage;
             $this->_lifeTime = $lifeTime;
-
+            
             $this->reset();
             $this->load();
 
@@ -96,10 +104,17 @@
             $this->_authenticated      = false;
             $this->_loginName          = null;
             $this->_lastActionTime     = null;
+            $this->_lastUri            = null;
             $this->_attributes         = new qProperties();
             $this->_attributesVolatile = array();
             $this->_formValues         = array();
             $this->_permissions        = array();
+            
+            $this->_history            = array();
+            $this->_historyIndex       = 0;
+            $this->_historySize        = DEFAULT_USER_HISTORY_SIZE;
+
+            $this->_backed             = false;
         }
 
         /**
@@ -215,6 +230,99 @@
             $this->_lastActionTime = $time;
         }
 
+        /**
+        * Add function info here
+        */
+        function getHistoryIndex()
+        {
+            return $this->_historyIndex;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setHistoryIndex($index)
+        {
+            $this->_historyIndex = $index;
+        }
+        
+        /**
+        * Add function info here
+        */
+        function getHistorySize()
+        {
+            return $this->_historySize;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setHistorySize($size)
+        {
+            if (empty($size))
+            {
+                $size = DEFAULT_USER_HISTORY_SIZE;
+            }
+            
+            $this->_historySize = $size;
+        }
+
+        /**
+        * Add function info here
+        */
+        function &getHistory()
+        {
+            return $this->_history;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setHistory(&$history)
+        {
+            $this->_history = $history;
+        }
+        
+        /**
+        * Add function info here
+        */
+        function getHistoryUri($index = 0, $updateHistoryIndex = true)
+        {
+            $index = $this->_historyIndex + $index -1;
+
+            if ($index < 0)
+            {
+                $index = $this->_historySize + $index;
+            }
+
+            if ($updateHistoryIndex)
+            {
+                $this->_historyIndex = $index;
+            }
+            
+            return $this->_history[$index];
+        }
+
+        /**
+        * Add function info here
+        */
+        function saveUriToHistory($uri = null)
+        {
+            if (empty($uri))
+            {
+                $server = &qHttp::getServerVars();
+                $uri = $server->getValue("REQUEST_URI");
+            }
+
+            $prev = ($this->_historyIndex - 1) % $this->_historySize;
+            
+            if (!isset($this->_history[$prev]) || $this->_history[$prev] != $uri)
+            {
+                $this->_history[$this->_historyIndex] = $uri;
+                $this->_historyIndex = ($this->_historyIndex + 1) % $this->_historySize;
+            }
+        }
+        
         /**
         * Add function info here
         */
