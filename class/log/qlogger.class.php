@@ -156,8 +156,6 @@
             if (isset($this->appenders[$name]))
             {
                 $appender =& $this->appenders[$name];
-                $appender->cleanup();
-
                 unset($this->appenders[$name]);
             }
         }
