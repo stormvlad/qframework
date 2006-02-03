@@ -132,6 +132,7 @@
             "txt"     => "text/plain",
             "ustar"   => "application/x-ustar",
             "vcd"     => "application/x-cdlink",
+            "vcs"     => "text/x-vCalendar",
             "vrml"    => "model/vrml",
             "wav"     => "audio/x-wav",
             "wbmp"    => "image/vnd.wap.wbmp",
