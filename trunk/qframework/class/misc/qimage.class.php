@@ -161,7 +161,7 @@
         /**
         * Add function info here
         */
-        function _calcSizedSizes($width, $height, $maxWidth, $maxHeight)
+        function _calcSizedSizes($width, $height, $maxWidth, $maxHeight, $exact)
         {
             $ratioWidth  = 1;
             $ratioHeight = 1;
@@ -176,15 +176,29 @@
                 $ratioHeight = $maxHeight / $height;
             }
 
-            if ($ratioWidth <= $ratioHeight)
+            if ($exact)
             {
-                $aspectRatio = $ratioWidth;
+                if ($ratioWidth <= $ratioHeight)
+                {
+                    $aspectRatio = $ratioHeight;
+                }
+                else
+                {
+                    $aspectRatio = $ratioWidth;
+                }
             }
             else
             {
-                $aspectRatio = $ratioHeight;
+                if ($ratioWidth <= $ratioHeight)
+                {
+                    $aspectRatio = $ratioWidth;
+                }
+                else
+                {
+                    $aspectRatio = $ratioHeight;
+                }
             }
-
+            
             $newWidth    = round($width * $aspectRatio);
             $newHeight   = round($height * $aspectRatio);
             $size        = $newHeight;
@@ -228,28 +242,13 @@
         */
         function generateSizedImage($width, $height, $exact = true)
         {
-            $newSizes = array($width, $height);
-
-            if (!$exact)
-            {
-                $newSizes = $this->_calcSizedSizes($this->getWidth(), $this->getHeight(), $width, $height);
-            }
-
+            $newSizes  = $this->_calcSizedSizes($this->getWidth(), $this->getHeight(), $width, $height, $exact);
             $newWidth  = $newSizes[0];
             $newHeight = $newSizes[1];
             $file      = $this->getFileName();
             $extension = $this->getExtension();
 
-            if (empty($this->_outputFileName))
-            {
-                $outputFileName = $this->_applyReplaces($newWidth, $newHeight);
-            }
-            else
-            {
-                $outputFileName = $this->_outputFileName;
-            }
-
-            switch($this->getType())
+            switch ($this->getType())
             {
                 case "gif":
                     $src = imageCreateFromGif($file);
@@ -267,7 +266,39 @@
             $img = imageCreateTrueColor($newWidth, $newHeight);
             imageCopyResampled($img, $src, 0, 0, 0, 0, $newWidth, $newHeight, $this->getWidth(), $this->getHeight());
 
-            switch($this->getOutputType())
+            if ($exact)
+            {
+                $x = 0;
+                $y = 0;
+                
+                if ($newWidth > $width)
+                {
+                    $x = round(($newWidth - $width) / 2);
+                }
+
+                if ($newHeight > $height)
+                {
+                    $y = round(($newHeight - $height) / 2);
+                }
+
+                $img2 = imageCreateTrueColor($width, $height);
+                imageCopyResampled($img2, $img, 0, 0, $x, $y, $width, $height, $width, $height);
+                
+                $img       = $img2;
+                $newWidth  = $width;
+                $newHeight = $height;
+            }
+
+            if (empty($this->_outputFileName))
+            {
+                $outputFileName = $this->_applyReplaces($newWidth, $newHeight);
+            }
+            else
+            {
+                $outputFileName = $this->_outputFileName;
+            }
+            
+            switch ($this->getOutputType())
             {
                 case "gif":
                     imageGif($img, $this->getOutputDirectory() . $outputFileName);
@@ -295,7 +326,7 @@
                 $this->_width    = $sizes[0];
                 $this->_height   = $sizes[1];
 
-                switch($sizes[2])
+                switch ($sizes[2])
                 {
                     case 1:
                         $this->_type = "gif";
