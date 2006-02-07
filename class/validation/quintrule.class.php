@@ -2,7 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qregexprule.class.php");
 
-    define("UINT_RULE_REG_EXP", "^([1-9][0-9]*)|0$");
+    define("UINT_RULE_REG_EXP", "^(([1-9][0-9]*)|0)$");
     define("ERROR_RULE_UINT_FORMAT_WRONG", "error_rule_uint_format_wrong");
 
     /**
