@@ -10,7 +10,6 @@
     */
     class qImageUpload extends qFileUpload
     {
-        var $_generateThumbnail;
         var $_maxWidth;
         var $_maxHeight;
         var $_outputQuality;
