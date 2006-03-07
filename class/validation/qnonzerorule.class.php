@@ -28,7 +28,7 @@
          */
         function validate($value)
         {
-            if (empty($value))
+            if (empty($value) || preg_match("/^0+[,.]0+$/", $value))
             {
                 $this->setError(ERROR_RULE_ZERO_VALUE);
                 return false;
