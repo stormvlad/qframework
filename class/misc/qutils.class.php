@@ -154,5 +154,21 @@
         {
             return preg_match("/^[0-9abcdef]{32}$/i", $str);
         }
+
+        /**
+         * Add function info here
+         */
+        function cleanArray($items)
+        {
+            foreach ($items as $key => $value)
+            {
+                if (empty($value))
+                {
+                    unset($items[$index]);
+                }
+            }
+
+            return $items;
+        }
     }
 ?>
