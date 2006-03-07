@@ -22,6 +22,7 @@
         var $_whiteHosts;
         var $_order;
         var $_view;
+        var $_callUserFunction;
 
         /**
         * Add function info here
@@ -29,10 +30,11 @@
         function qHostsFilter()
         {
             $this->qFilter();
-            $this->_blackHosts = array();
-            $this->_whiteHosts = array();
-            $this->_order      = "Allow,Deny";
-            $this->_view       = null;
+            $this->_blackHosts       = array();
+            $this->_whiteHosts       = array();
+            $this->_order            = "Allow,Deny";
+            $this->_view             = null;
+            $this->_callUserFunction = null;
         }
 
         /**
@@ -73,6 +75,22 @@
             $this->_view = $view;
         }
 
+        /**
+        * Add function info here
+        */
+        function getCallUserFunction()
+        {
+            return $this->_callUserFunction;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setCallUserFunction($func)
+        {
+            $this->_callUserFunction = $func;
+        }
+        
         /**
         * Add function info here
         */
@@ -177,12 +195,12 @@
         */
         function run(&$filtersChain)
         {
-            if (empty($this->_view))
+            if (empty($this->_view) && empty($this->_callUserFunction))
             {
-                throw(new qException("qHostsFilter::run: you should assign a view with qHostsFilter::setView method."));
+                throw(new qException("qHostsFilter::run: You should set view or call_user_func with setters methods."));
                 return;
             }
-
+            
             $clientIp = qClient::getIp();
             $allowed  = false;
 
@@ -204,9 +222,13 @@
             {
                 $filtersChain->run();
             }
-            else
+            else if (!empty($this->_view))
             {
                 print $this->_view->render();
+            }
+            else if (!empty($this->_callUserFunction))
+            {
+                call_user_func($this->_callUserFunction);
             }
         }
     }
