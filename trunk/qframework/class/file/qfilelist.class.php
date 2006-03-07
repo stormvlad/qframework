@@ -72,11 +72,11 @@
                 switch ($sort)
                 {
                     case FILE_LIST_SORT_SIZE:
-                        $key = $entry->getSize();
+                        $key = $entry->getSize() . $entry->getName();
                         break;
 
                     case FILE_LIST_SORT_DATE:
-                        $key = $entry->getTimeStamp();
+                        $key = $entry->getTimeStamp() . $entry->getName();
                         break;
 
                     case FILE_LIST_SORT_NAME:
@@ -102,7 +102,7 @@
                     krsort($unsortedFiles);
                     break;
 
-                case FILE_LIST_SORT_NAME:
+                case FILE_LIST_SORT_ASC:
 
                 default:
                     ksort($unsortedDirs);
