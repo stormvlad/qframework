@@ -75,6 +75,27 @@
         /**
         * Add function info here
         */
+        function getBaseNameWithoutExtension($file = null)
+        {
+            if (empty($file))
+            {
+                $file = $this->_fileName;
+            }
+
+            $name = basename($file);
+            $ext  = qFile::getExtension($file);
+
+            if (!empty($ext))
+            {
+                $name = str_replace("." . $ext, "", $name);
+            }
+
+            return $name;
+        }
+        
+        /**
+        * Add function info here
+        */
         function getAbsoluteFileName($file = null)
         {
             if (empty($file))
@@ -353,7 +374,13 @@
          */
         function mkdir($dirName, $mode = DEFAULT_FILE_DIRECTORY_UMASK)
         {
-            return mkdir($dirName, $mode);
+            if (!file_exists($dirName))
+            {
+                qFile::mkdir(dirname($dirName));
+                return mkdir($dirName, DEFAULT_FILE_DIRECTORY_UMASK);
+            }
+       
+            return true;
         }
 
         /**
@@ -388,7 +415,12 @@
         */
         function getNormalizedSize($decimals = null, $file = null)
         {
-            $size  = $this->getSize($file);
+            if (empty($file) && !empty($this->_fileName))
+            {
+                $file = $this->_fileName;
+            }
+
+            $size  = filesize($file);
             $sizes = array("B", "KB", "MB", "GB", "TB", "PB", "EB");
             $ext   = $sizes[0];
             $count = count($sizes);
