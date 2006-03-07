@@ -23,6 +23,10 @@
      */
     class qNumericRule extends qRegExpRule
     {
+        var $decimalSymbol;
+        var $thousandsSeparator;
+        var $thousandsSeparatorNullAllowed;
+        
         /**
          * The constructor does nothing.
          */
@@ -31,6 +35,54 @@
             $this->qRegExpRule(NUMERIC_RULE_REG_EXP, false);
         }
 
+        /**
+        * Add function info here
+        */
+        function getDecimalSymbol()
+        {
+            return $this->_decimalSymbol;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setDecimalSymbol($symbol)
+        {
+            $this->_decimalSymbol = $symbol;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getThousandsSeparator()
+        {
+            return $this->_thousandsSeparator;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setThousandsSeparator($separator)
+        {
+            $this->_thousandsSeparator = $separator;
+        }
+
+        /**
+        * Add function info here
+        */
+        function isThousandsSeparatorNullAllowed()
+        {
+            return $this->_thousandsSeparatorNullAllowed;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setThousandsSeparatorNullAllowed($allowed)
+        {
+            $this->_thousandsSeparatorNullAllowed = $allowed;
+        }
+        
         /**
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.

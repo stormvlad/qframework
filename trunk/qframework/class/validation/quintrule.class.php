@@ -1,8 +1,7 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qregexprule.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qnumericrule.class.php");
 
-    define("UINT_RULE_REG_EXP", "^(([1-9][0-9]*)|0)$");
     define("ERROR_RULE_UINT_FORMAT_WRONG", "error_rule_uint_format_wrong");
 
     /**
@@ -21,14 +20,18 @@
      * @version 1.0
      * @ingroup validation rule
      */
-    class qUIntRule extends qRegExpRule
+    class qUIntRule extends qNumericRule
     {
         /**
          * The constructor does nothing.
          */
-        function qUIntRule()
+        function qUIntRule($decimalSymbol = ",", $thousandsSeparator = ".", $thousandsSeparatorNullAllowed = true)
         {
-            $this->qRegExpRule(UINT_RULE_REG_EXP, false);
+            $this->qNumericRule();
+
+            $this->setDecimalSymbol($decimalSymbol);
+            $this->setThousandsSeparator($thousandsSeparator);
+            $this->setThousandsSeparatorNullAllowed($thousandsSeparatorNullAllowed);
         }
 
         /**
@@ -37,6 +40,17 @@
          */
         function validate($value)
         {
+            $decimalSymbol      = $this->getDecimalSymbol();
+            $thousandsSeparator = $this->getThousandsSeparator();
+            $regExp             = "^(([1-9][0-9]*)|0)$";
+            
+            if (!empty($thousandsSeparator))
+            {
+                $regExp .= "|^([0-9]{1,3}([" . $thousandsSeparator . "][0-9]{3})*)$";
+            }
+
+            $this->setRegExp($regExp);
+            
             if (parent::validate($value))
             {
                 $this->setError(false);

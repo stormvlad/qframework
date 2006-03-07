@@ -1,13 +1,13 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qregexprule.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qnumericrule.class.php");
 
     define("ERROR_RULE_FLOAT_FORMAT_WRONG", "error_rule_float_format_wrong");
 
     /**
     * FloatValidator class
     */
-    class qFloatRule extends qRegExpRule
+    class qFloatRule extends qNumericRule
     {
         var $decimalSymbol;
         var $thousandsSeparator;
@@ -18,60 +18,13 @@
         */
         function qFloatRule($decimalSymbol = ",", $thousandsSeparator = ".", $thousandsSeparatorNullAllowed = true)
         {
-            $this->qRegExpRule("");
+            $this->qNumericRule();
 
-            $this->_decimalSymbol                 = $decimalSymbol;
-            $this->_thousandsSeparator            = $thousandsSeparator;
-            $this->_thousandsSeparatorNullAllowed = $thousandsSeparatorNullAllowed;
+            $this->setDecimalSymbol($decimalSymbol);
+            $this->setThousandsSeparator($thousandsSeparator);
+            $this->setThousandsSeparatorNullAllowed($thousandsSeparatorNullAllowed);
         }
 
-        /**
-        * Add function info here
-        */
-        function getDecimalSymbol()
-        {
-            return $this->_decimalSymbol;
-        }
-
-        /**
-        * Add function info here
-        */
-        function setDecimalSymbol($symbol)
-        {
-            $this->_decimalSymbol = $symbol;
-        }
-
-        /**
-        * Add function info here
-        */
-        function getThousandsSeparator()
-        {
-            return $this->_thousandsSeparator;
-        }
-
-        /**
-        * Add function info here
-        */
-        function setThousandsSeparator($separator)
-        {
-            $this->_thousandsSeparator = $separator;
-        }
-
-        /**
-        * Add function info here
-        */
-        function isThousandsSeparatorNullAllowed()
-        {
-            return $this->_thousandsSeparatorNullAllowed;
-        }
-
-        /**
-        * Add function info here
-        */
-        function setThousandsSeparatorNullAllowed($allowed)
-        {
-            $this->_thousandsSeparatorNullAllowed = $allowed;
-        }
         /**
         * Add function info here
         */
