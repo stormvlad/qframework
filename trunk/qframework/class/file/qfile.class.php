@@ -275,6 +275,23 @@
         }
 
         /**
+        *    Add function info here
+        */
+        function isImageFile($file = null)
+        {
+            if (empty($file) && !empty($this->_fileName))
+            {
+                $file = $this->_fileName;
+            }
+
+            include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qmimetypes.class.php");
+            $mimes = new qMimeTypes();
+            $type  = $mimes->getType($file, false);
+            
+            return $type == "image";
+        }
+        
+        /**
          *    Add function info here
          * @private
          */
