@@ -167,7 +167,7 @@
         /**
         * Se le puede pasar el nombre del archivo o la extensión directamente
         */
-        function getType($file)
+        function getType($file, $withSubtype = true)
         {
             if (($pos = strrpos($file, ".")) === false)
             {
@@ -180,10 +180,24 @@
 
             if (empty($this->_mimeTypes[$extension]))
             {
-                return $this->_defaultType;
+                $type = $this->_defaultType;
+            }
+            else
+            {
+                $type = $this->_mimeTypes[$extension];
             }
 
-            return $this->_mimeTypes[$extension];
+            if (empty($withSubtype))
+            {
+                $parts = explode("/", $type);
+
+                if (count($parts) > 0)
+                {
+                    $type = $parts[0];
+                }
+            }
+            
+            return $type;
         }
     }
 
