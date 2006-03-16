@@ -38,6 +38,32 @@
         /**
         * Add function info here
         */
+        function camelize($str)
+        {
+            return str_replace(" ", "", ucwords(preg_replace("/[^A-Z^a-z^0-9]+/", " ", $str)));
+        }
+
+        /**
+        * Add function info here
+        */
+        function underscore($str)
+        {
+            return  strtolower(preg_replace("/[^A-Z^a-z^0-9]+/", "_", preg_replace("/([a-zd])([A-Z])/", "1_2", preg_replace("/([A-Z]+)([A-Z][a-z])/", "1_2", $str))));
+        }
+
+        /**
+        * Add function info here
+        */
+        function tableize($str1, $str2)
+        {
+            $names = array(strtolower($str1), strtolower($str2));
+            sort($names);
+            return implode("_", $names);
+        }
+        
+        /**
+        * Add function info here
+        */
         function stripTags($str, $allowedTags = null)
         {
             return strip_tags($str, $allowedTags);
