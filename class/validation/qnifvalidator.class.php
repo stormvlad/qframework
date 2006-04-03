@@ -59,7 +59,7 @@
         function validateCif($value)
         {
 
-            $rule = new qRegExpRule("[a-z][0-9]{8}", false);
+            $rule = new qRegExpRule("[a-z][0-9]{7}.", false);
             
             if (!$rule->validate($value))
             {
@@ -86,8 +86,10 @@
             }    
             
             $res = (($nR1 + $nR2) % 10);
+            $res = ((10 - $res) % 10);
+            $char = chr(64 + $res);
             
-            if (substr($value, -1) == ((10 - $res) % 10))
+            if (substr($value, -1) == $res || ((substr($value,0,1) == "Q" || substr($value,0,1) == "P" || substr($value,0,1) == "N") && substr($value, -1) == $char))
             {
                 $this->setError(false);
                 return true;
