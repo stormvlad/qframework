@@ -112,17 +112,22 @@
         /**
         * Add function info here
         */
-        function getOption($option)
+        function getOption($category, $option = null)
         {
-            return $this->_soapClient->_options[$option];
+            if (empty($option))
+            {
+                return $this->_soapClient->_options[$category];
+            }
+            
+            return $this->_soapClient->_options[$category][$option];
         }
 
         /**
         * Add function info here
         */
-        function setOption($option, $value)
+        function setOption($category, $option, $value = null)
         {
-            $this->_soapClient->setOpt($option, $value);
+            $this->_soapClient->setOpt($option, $option, $value);
         }
         
         /**
@@ -134,7 +139,7 @@
 
             if (!isset($soapClient))
             {
-                $soapClient = new SoapDbClient();
+                $soapClient = new qSoapClient();
             }
 
             return $soapClient;

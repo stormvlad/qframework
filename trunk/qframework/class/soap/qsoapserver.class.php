@@ -60,6 +60,21 @@
                 die();
             }
         }
+
+        /**
+        * Add function info here
+        */
+        function &getInstance()
+        {
+            static $soapServer;
+
+            if (!isset($soapServer))
+            {
+                $soapServer = new qSoapServer();
+            }
+
+            return $soapServer;
+        }
     }
 
 ?>
