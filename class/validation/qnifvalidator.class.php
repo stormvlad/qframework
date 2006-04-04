@@ -1,7 +1,7 @@
 <?php
 
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qvalidator.class.php");
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qregexprule.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qvalidator.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qregexprule.class.php");
 
     define("ERROR_VALIDATOR_NIF_FORMAT_WRONG", "error_validator_nif_format_wrong");
     define("ERROR_VALIDATOR_NIF_LETTER_WRONG", "error_validator_nif_letter_wrong");
@@ -58,7 +58,6 @@
         
         function validateCif($value)
         {
-
             $rule = new qRegExpRule("[a-z][0-9]{7}.", false);
             
             if (!$rule->validate($value))
@@ -103,7 +102,6 @@
         
         function validateNif($value)
         {
-        
             $rule = new qRegExpRule("[0-9]{8}[a-z]", false);
             
             if (!$rule->validate($value))
