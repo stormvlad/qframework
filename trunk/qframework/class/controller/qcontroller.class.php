@@ -334,7 +334,7 @@
         {
             if (empty($actionName))
             {
-                $actionName = $this->_defaultAction;
+                $actionName = $this->getDefaultAction();
             }
 
             if (array_key_exists($actionName, $this->_actionMap))
