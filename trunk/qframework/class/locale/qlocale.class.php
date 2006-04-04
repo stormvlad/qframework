@@ -703,6 +703,24 @@
         }
 
         /**
+         * @brief Quita forma a un número de tal forma que se pueda operar con él
+         *
+         * @param $number <em>string</em> Número formateado
+         * @return integer/float Número sin formato
+         */
+        function unformatNumber($number)
+        {
+            $number = str_replace($this->getThousandsSeparator(), "", $number);
+            
+            if ($this->getDecimalSymbol() != ".")
+            {
+                $number = str_replace($this->getDecimalSymbol(), ".", $number);
+            }
+
+            return $number;
+        }
+        
+        /**
          * @brief Da formato a un número que representa una cantidad monetária
          *
          * @param $number <em>integer</em> Cantidad monetária
