@@ -719,6 +719,26 @@
 
             return $number;
         }
+
+        /**
+         * @brief Quita forma a un número de tal forma que se pueda operar con él
+         *
+         * @param $number <em>string</em> Número formateado
+         * @return integer/float Número sin formato
+         */
+        function isFormattedNumber($number)
+        {
+            $decimalSymbol      = $this->getDecimalSymbol();
+            $thousandsSeparator = $this->getThousandsSeparator();
+            $regExp             = "^(([0-9]+([" . $decimalSymbol . "][0-9]+)?))$";
+
+            if (!empty($thousandsSeparator))
+            {
+                $regExp .= "|^([0-9]{1,3}([" . $thousandsSeparator . "][0-9]{3})*([" . $decimalSymbol . "][0-9]+)?)$";
+            }
+            
+            return ereg($regExp, $number);
+        }
         
         /**
          * @brief Da formato a un número que representa una cantidad monetária
