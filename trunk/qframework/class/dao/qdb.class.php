@@ -1,6 +1,5 @@
 <?php
-
-    include_once(QFRAMEWORK_CLASS_PATH . "qframework/libs/adodblite/adodb.inc.php");
+    
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qconfig.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/timer/qtimer.class.php");
