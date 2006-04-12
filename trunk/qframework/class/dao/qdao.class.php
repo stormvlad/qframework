@@ -61,7 +61,7 @@
             $this->_clauses   = array();
 
             $this->setClause("SELECT", "*");
-            $this->setClause("FROM", "`" . $this->_tableName . "`");
+            $this->setClause("FROM", "" . $this->_tableName . "");
         }
 
         /**
@@ -217,11 +217,11 @@
         {
             $fields = $obj->getFields();
 
-            $sql = "INSERT INTO `" . $this->_tableName . "` (";
+            $sql = "INSERT INTO " . $this->_tableName . " (";
 
             foreach ($fields as $field => $value)
             {
-                $sql .= "`" . $field . "`, ";
+                $sql .= "" . $field . ", ";
             }
 
             $sql = substr($sql, 0, -2) . ") VALUES (";
@@ -274,28 +274,28 @@
         function update($obj)
         {
             $fields = $obj->getFields();
-            $sql    = "UPDATE `" . $this->_tableName . "` SET ";
+            $sql    = "UPDATE " . $this->_tableName . " SET ";
 
             foreach ($fields as $field => $value)
             {
                 if (!empty($value))
                 {
                     $value = qDb::qstr($value);
-                    $sql  .= "`" . $field . "`='" . $value . "', ";
+                    $sql  .= "" . $field . "='" . $value . "', ";
                 }
                 else if ($obj->hasNullValue($field))
                 {
                     if ($value === 0 || $value === "0")
                     {
-                        $sql .= "`" . $field . "`='0', ";
+                        $sql .= "" . $field . "='0', ";
                     }
                     else if ($value === "")
                     {
-                        $sql .= "`" . $field . "`='', ";
+                        $sql .= "" . $field . "='', ";
                     }
                     else if ($value === null)
                     {
-                        $sql .= "`" . $field . "`=NULL, ";
+                        $sql .= "" . $field . "=NULL, ";
                     }
                 }
                 else
@@ -319,7 +319,7 @@
          */
         function delete($obj)
         {
-            $sql = "DELETE FROM `" . $this->_tableName . "` WHERE " . $this->_getWhereClause($obj);
+            $sql = "DELETE FROM " . $this->_tableName . " WHERE " . $this->_getWhereClause($obj);
             return $this->_update($sql);
         }
 
@@ -338,7 +338,7 @@
 
             foreach ($idFields as $idField)
             {
-                $sql .= "`" . $idField . "`='" . $fields[$idField] . "' AND ";
+                $sql .= "" . $idField . "='" . $fields[$idField] . "' AND ";
             }
 
             return substr($sql, 0, -5);
@@ -515,7 +515,7 @@
         */
         function doDelete($whereClause = null)
         {
-            $sql = "DELETE FROM `" . $this->_tableName . "`";
+            $sql = "DELETE FROM " . $this->_tableName . "";
 
             if (!empty($whereClause))
             {
