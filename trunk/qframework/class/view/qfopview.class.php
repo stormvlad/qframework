@@ -8,7 +8,7 @@
      * to automatically add support for locale. It is recommended
      * that all classes that generate a view extend from this unless strictly necessary
      */
-    class qFopView extends qSmartyView
+    class qFopView extends qView
     {
         var $_templateName;
         var $_layout;

@@ -15,24 +15,9 @@
         /**
         * Add function info here
         */
-        function qFopRenderer($templatesDir = DEFAULT_SMARTY_TEMPLATES_DIR, $templatesExtension = DEFAULT_SMARTY_TEMPLATES_EXTENSION)
+        function qFopRenderer()
         {
             $this->qSmartyRenderer();
-            $this->_engine = new Smarty();
-
-            $this->_engine->caching        = false;
-            $this->_engine->cache_lifetime = 300;
-            $this->_engine->cache_dir      = DEFAULT_SMARTY_CACHE_DIR;
-            $this->_engine->compile_dir    = DEFAULT_SMARTY_COMPILE_DIR;
-            $this->_engine->template_dir   = $templatesDir;
-
-            $this->_engine->php_handling   = false;
-            $this->_engine->use_sub_dirs   = false;
-
-            $this->setTemplatesExtension($templatesExtension);
-
-            $this->registerEvent(1, "RENDER_METHOD_STARTS");
-            $this->registerEvent(2, "RENDER_METHOD_ENDS");
         }
 
         /**
