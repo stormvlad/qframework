@@ -17,50 +17,71 @@
      */
     class qCalendar extends qObject
     {
-        var $_date;
-        var $_month;
+        var $_baseUrl;
+
         var $_year;
+        var $_month;
+        var $_day;
+        
         var $_firstDayOfWeek;
+        
         var $_calendar;
 
         /**
         *    Add function info here
         */
-        function qCalendar($date = null, $month = null, $year = null, $firstDayOfWeek = DEFAULT_CALENDAR_FIRST_DAY_OF_WEEK)
+        function qCalendar($baseUrl, $year = null, $month = null, $day = null, $firstDayOfWeek = DEFAULT_CALENDAR_FIRST_DAY_OF_WEEK)
         {
             $this->qObject();
 
-            if (empty($date))
+            if (empty($day))
             {
-                $date = strftime("%Y%m%d");
+                $day = intVal(strftime("%d"));
             }
 
             if (empty($month))
             {
-                $month = (int) strftime("%m");
+                $month = intVal(strftime("%m"));
             }
 
             if (empty($year))
             {
-                $year = (int) strftime("%Y");
+                $year = intVal(strftime("%Y"));
             }
 
-            $this->_date           = $date;
-            $this->_month          = (int) $month;
-            $this->_year           = (int) $year;
+            $this->_calendar = array();
 
-            $this->_firstDayOfWeek = $firstDayOfWeek;
-            $this->_calendar       = array();
+            $this->_baseUrl  = $baseUrl;
+            $this->_date     = $day;
+            $this->_month    = $month;
+            $this->_year     = $year;
 
+            $this->_firstDayOfWeek = intVal($firstDayOfWeek);
+            
             $this->_generate();
         }
 
         /**
         *    Add function info here
         */
-        function getDate()
+        function getBaseUrl()
         {
-            return $this->_date;
+            return $this->_baseUrl;
+        }
+        
+        /**
+        *    Add function info here
+        */
+        function getDay($padding = false)
+        {
+            $day = $this->_day;
+
+            if ($padding)
+            {
+                $day = sprintf("%02d", $day);
+            }
+
+            return $day;
         }
 
         /**
@@ -97,9 +118,17 @@
         /**
         *    Add function info here
         */
-        function setDate($date)
+        function setBaseUrl($url)
         {
-            $this->_date = $date;
+            $this->_baseUrl = $url;
+        }
+        
+        /**
+        *    Add function info here
+        */
+        function setDay($day)
+        {
+            $this->_day = intVal($day);
         }
 
         /**
@@ -107,7 +136,7 @@
         */
         function setMonth($month)
         {
-            $this->_month = $month;
+            $this->_month = intVal($month);
             $this->_generate();
         }
 
@@ -148,7 +177,7 @@
         */
         function setYear($year)
         {
-            $this->_year = $year;
+            $this->_year = intVal($year);
             $this->_generate();
         }
 
@@ -173,9 +202,9 @@
         */
         function isToday($day)
         {
-            $curDay   = (int) strftime("%d");
-            $curMonth = (int) strftime("%m");
-            $curYear  = (int) strftime("%Y");
+            $curDay   = intVal(strftime("%d"));
+            $curMonth = intVal(strftime("%m"));
+            $curYear  = intVal(strftime("%Y"));
 
             return ($curMonth == $this->_month && $curYear == $this->_year && $day == $curDay);
         }
@@ -188,11 +217,11 @@
         {
             $this->_calendar = array();
 
-            $curMonth        = (int) strftime("%m");
-            $curYear         = (int) strftime("%Y");
-            $weekDay         = (int) strftime("%w", mktime(0, 0, 0, $this->_month, 1, $this->_year));
-            $weekDay         = ($weekDay + 7 - $this->_firstDayOfWeek) % 7;
-            $dayCount        = 1;
+            $curMonth = intVal(strftime("%m"));
+            $curYear  = intVal(strftime("%Y"));
+            $weekDay  = intVal(strftime("%w", mktime(0, 0, 0, $this->_month, 1, $this->_year)));
+            $weekDay  = ($weekDay + 7 - $this->_firstDayOfWeek) % 7;
+            $dayCount = 1;
 
             for ($j = 0; $j < 7; $j++)
             {
@@ -214,6 +243,51 @@
                     }
                 }
             }
+        }
+
+        /**
+        * Add function info here
+        */
+        function getUrl($month, $day = null)
+        {
+            $baseUrl = htmlSpecialChars($this->getBaseUrl());
+            $month   = sprintf("%02d", $month);
+            $year    = $this->getYear();
+
+            if (!empty($day))
+            {
+                $day = sprintf("%02d", $day);
+            }
+            
+            if (ereg("[?]op=", $baseUrl))
+            {
+                $url = $baseUrl . "&amp;year=" . $year . "&amp;month=" . $month;
+
+                if (!empty($day))
+                {
+                    $url .= "&amp;day=" . $day;
+                }
+            }
+            else
+            {
+                $url = $baseUrl . $year . "/" . $month . "/";
+
+                if (!empty($day))
+                {
+                    $url .= $day . "/";
+                }
+            }
+            
+            return $url;            
+        }
+        
+        /**
+        * Add function info here
+        */
+        function isLink($cell)
+        {
+            throw(new qException("qCalendar::isLink: This method should have implemented in child classes."));
+            die();
         }
     }
 
