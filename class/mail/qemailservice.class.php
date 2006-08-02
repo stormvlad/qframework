@@ -194,6 +194,7 @@
             $mail->CharSet  = $this->getCharset();
             $mail->Subject  = $message->getSubject();
             $mail->Body     = $message->getBody();
+            $mail->AltBody  = $message->getAltBody();
             $mail->From     = $message->getFrom();
             
             $mail->IsHTML($message->isHtml());
@@ -212,6 +213,13 @@
                 }
             }
 
+            $images = $message->getEmbeddedImages();
+
+            foreach ($images as $cid => $image)
+            {
+                $mail->AddEmbeddedImage($image, $cid);
+            }
+            
             $headers = $this->getCustomHeaders();
 
             if (count($headers) > 0)

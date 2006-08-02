@@ -20,8 +20,10 @@
         var $_bccAddrs;
         var $_subject;
         var $_body;
+        var $_altBody;
         var $_mimeType;
         var $_attachments;
+        var $_embeddedImages;
         var $_isHtml;
 
         /**
@@ -31,12 +33,18 @@
         {
             $this->qObject();
 
-            $this->_toAddrs     = array();
-            $this->_ccAddrs     = array();
-            $this->_bccAddrs    = array();
-            $this->_attachments = array();
-            $this->_mimeType    = DEFAULT_EMAIL_MESSAGE_MIME_TYPE;
-            $this->_isHtml      = false;
+            $this->_toAddrs         = array();
+            $this->_ccAddrs         = array();
+            $this->_bccAddrs        = array();
+
+            $this->_subject         = null;
+            $this->_body            = null;
+            $this->_altBody         = null;
+            
+            $this->_mimeType        = DEFAULT_EMAIL_MESSAGE_MIME_TYPE;
+            $this->_attachments     = array();
+            $this->_embeddedImages  = array();
+            $this->_isHtml          = false;
         }
 
         /**
@@ -52,6 +60,14 @@
             $this->_attachments[$name] = $attachment;
         }
 
+        /**
+         * Add function info here
+         */
+        function addEmbeddedImage($image, $cid)
+        {
+            $this->_embeddedImages[$cid] = $image;
+        }
+        
         /**
          * Add function info here
          */
@@ -144,6 +160,15 @@
         }
 
         /**
+         * Add function info here
+         * 
+         */
+        function setAltBody($body)
+        {
+            $this->_altBody = $body;
+        }
+        
+        /**
          * Sets the MIME type. The default is 'text/plain'
          *
          * @param type The MIME type
@@ -153,11 +178,24 @@
             $this->_mimeType = $type;
         }
 
+        /**
+         * Add function info here
+         *
+         */
         function getAttachments()
         {
             return $this->_attachments;
         }
 
+        /**
+         * Add function info here
+         *
+         */
+        function getEmbeddedImages()
+        {
+            return $this->_embeddedImages;
+        }
+        
         /**
          * Returns the "To:" list, properly arranged
          *
@@ -208,6 +246,15 @@
            return $this->_body;
         }
 
+        /**
+         * Add function info here
+         *
+         */
+        function getAltBody()
+        {
+           return $this->_altBody;
+        }
+        
         /**
          * Returns the subject
          *
