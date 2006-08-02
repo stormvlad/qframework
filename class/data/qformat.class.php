@@ -280,6 +280,27 @@
 
             return preg_replace($patterns, $replaces, $str);
         }
+
+        /**
+        * Add function info here
+        */
+        function html2plain($html, $baseUrl = null, $width = 70)
+        {
+            include_once(QFRAMEWORK_CLASS_PATH . "qframework/libs/html2text/class.html2text.inc");
+
+            $h2t  = &new html2text($html);
+            $h2t->width = $width;
+
+            if (!empty($baseUrl))
+            {
+                $h2t->set_base_url($baseUrl);
+            }
+
+            $text = trim($h2t->get_text());
+            $text = str_replace("\'", "'", $text);
+
+            return $text;
+        }
     }
 
 ?>
