@@ -243,6 +243,11 @@
                     }
                 }
             }
+
+            if (empty($this->_calendar[6][0]))
+            {
+                unset($this->_calendar[6]);
+            }
         }
 
         /**
