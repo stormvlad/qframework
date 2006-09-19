@@ -164,7 +164,7 @@
             {
                 if (empty($value))
                 {
-                    unset($items[$index]);
+                    unset($items[$key]);
                 }
             }
 

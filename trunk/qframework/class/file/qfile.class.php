@@ -149,7 +149,7 @@
         }
 
         /**
-         * Reads a line from the file
+         * Reads data from the file
          *
          * @param size Amount of bytes we'd like to read from the file. It is set
          * to 4096 by default.
@@ -159,6 +159,17 @@
             return fread($this->_handler, $size);
         }
 
+        /**
+         * Reads a line from the file
+         *
+         * @param size Amount of bytes we'd like to read from the file. It is set
+         * to 4096 by default.
+         */
+        function readLine($size = 4096)
+        {
+            return fgets($this->_handler, $size);
+        }
+        
         /**
          * Returns true if we reached the end of the file
          */
