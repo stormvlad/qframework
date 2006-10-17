@@ -301,6 +301,24 @@
 
             return $text;
         }
+
+        /**
+        * Add function info here
+        */
+        function normalizeSize($size, $decimals = null)
+        {
+            $sizes = array("B", "KB", "MB", "GB", "TB", "PB", "EB");
+            $ext   = $sizes[0];
+            $count = count($sizes);
+
+            for ($i = 1; ($i < $count) && ($size >= 1024); $i++)
+            {
+                $size = $size / 1024;
+                $ext  = $sizes[$i];
+            }
+
+            return round($size, $decimals). " " . $ext;
+        }
     }
 
 ?>
