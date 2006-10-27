@@ -235,7 +235,7 @@
         {
             if (qObject::isStaticCall())
             {
-                $formName = strtolower(qObject::getClassName());
+                $formName = qObject::getClassName();
             }
             else
             {
@@ -257,7 +257,7 @@
         {
             if (qObject::isStaticCall())
             {
-                $formName = strtolower(qObject::getClassName());
+                $formName = qObject::getClassName();
             }
             else
             {
@@ -278,7 +278,7 @@
         {
             if (qObject::isStaticCall())
             {
-                $formName = strtolower(qObject::getClassName());
+                $formName = qObject::getClassName();
             }
             else
             {
@@ -300,13 +300,13 @@
         {
             if (qObject::isStaticCall())
             {
-                $formName = strtolower(qObject::getClassName());
+                $formName = qObject::getClassName();
             }
             else
             {
                 $formName = $this->getFormName();
             }
-
+            
             $user = &User::getInstance();
             $user->setFormValue($formName, $name, $value, $step);
         }
@@ -321,7 +321,7 @@
         {
             if (qObject::isStaticCall())
             {
-                $formName = strtolower(qObject::getClassName());
+                $formName = qObject::getClassName();
             }
             else
             {
@@ -342,7 +342,7 @@
         {
             if (qObject::isStaticCall())
             {
-                $formName = strtolower(qObject::getClassName());
+                $formName = qObject::getClassName();
             }
             else
             {
@@ -360,7 +360,7 @@
         {
             if (qObject::isStaticCall())
             {
-                $formName = strtolower(qObject::getClassName());
+                $formName = qObject::getClassName();
             }
             else
             {
@@ -430,7 +430,7 @@
             $formName = $this->getFormName();
             $step     = $user->getNextStep($formName);
             $vars     = $varsObj->getAsArray();
-
+            
             foreach ($vars as $key => $value)
             {
                 $user->setFormValue($formName, $key, $value, $step);
