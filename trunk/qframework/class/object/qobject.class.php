@@ -112,6 +112,12 @@
             if (qObject::isStaticCall())
             {
                 $bt = debug_backtrace();
+
+                if (PHP_VERSION >= 5 && !empty($bt[2]["function"]) && $bt[2]["function"] == "call_user_func")
+                {
+                    return $bt[2]["args"][0][0];
+                }
+                
                 return $bt[1]["class"];
             }
             
