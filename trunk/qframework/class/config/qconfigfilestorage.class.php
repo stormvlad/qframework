@@ -125,7 +125,7 @@
 
             foreach($data as $key => $value)
             {
-                $result &= $this->saveValue($key, $value);
+                $result &= $this->saveValue(&$config, $key, $value);
             }
 
             return $result;

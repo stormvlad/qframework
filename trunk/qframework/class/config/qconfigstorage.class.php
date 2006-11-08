@@ -136,7 +136,7 @@
                         }*/
                     }
 
-                    $dataString .= $this->_getDataString($item) . ",";
+                    $dataString .= $this->getDataString($item) . ",";
                 }
 
                 if ($dataString[strlen($dataString)-1] == ",")
