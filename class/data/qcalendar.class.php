@@ -102,6 +102,46 @@
         /**
         *    Add function info here
         */
+        function getPrevMonth($padding = false)
+        {
+            $month = $this->getMonth() - 1;
+
+            if ($month < 1)
+            {
+                $month = 12;
+            }
+
+            if ($padding)
+            {
+                $month = sprintf("%02d", $month);
+            }
+            
+            return $month;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getNextMonth($padding = false)
+        {
+            $month = $this->getMonth() + 1;
+
+            if ($month > 12)
+            {
+                $month = 1;
+            }
+
+            if ($padding)
+            {
+                $month = sprintf("%02d", $month);
+            }
+
+            return $month;
+        }
+        
+        /**
+        *    Add function info here
+        */
         function getYear()
         {
             return $this->_year;
@@ -256,13 +296,25 @@
         function getUrl($month, $day = null)
         {
             $baseUrl = htmlSpecialChars($this->getBaseUrl());
-            $month   = sprintf("%02d", $month);
             $year    = $this->getYear();
 
+            if ($month < 1)
+            {
+                $month = 12;
+                $year--;
+            }
+            else if ($month > 12)
+            {
+                $month = 1;
+                $year++;
+            }
+            
             if (!empty($day))
             {
                 $day = sprintf("%02d", $day);
             }
+
+            $month = sprintf("%02d", $month);
             
             if (ereg("[?]op=", $baseUrl))
             {
