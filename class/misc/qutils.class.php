@@ -170,5 +170,28 @@
 
             return $items;
         }
+
+        /**
+         * Add function info here
+         */
+        function normalizeKeyName($keyName)
+        {
+            $keyName = str_replace(array("][", "["), "_", $keyName);
+            $keyName = str_replace("]", "", $keyName);
+
+            return $keyName;
+        }
+
+        /**
+         * Add function info here
+         */
+        function getValueFromKeyName($keyName, $values)
+        {
+            $keyName = eregi_replace("([^\\[]+)(\\[.+\\])?$", "[\"\\1\"]\\2", $keyName);
+            eval("\$value = \$values" . $keyName . ";");
+
+            return $value;
+        }
+
     }
 ?>
