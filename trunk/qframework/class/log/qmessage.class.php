@@ -16,18 +16,22 @@
         /**
          * Un vector unidimensional associativo de parámetros de mensaje
          */
-        var $params;
+        var $_params;
 
         /**
          * Constructor
          *
          * @param params Un array associativo de parámetros
          */
-        function &qMessage ($params = NULL)
+        function qMessage($params = null)
         {
-            parent::qObject();
-
-            $this->params = ($params == NULL) ? array() : $params;
+            $this->qObject();
+            $this->_params = array();
+            
+            if (is_array($params))
+            {
+                $this->_params = $params;
+            }
         }
 
         /**
@@ -38,14 +42,14 @@
          * @return string El valor del parámetro, si un parámetro con este nombre existe,
          *                en otro caso <b>NULL</b>.
          */
-        function &getParameter ($name)
+        function getParameter($name)
         {
-            if (isset($this->params[$name]))
+            if (isset($this->_params[$name]))
             {
-                return $this->params[$name];
+                return $this->_params[$name];
             }
 
-            return NULL;
+            return null;
         }
 
         /**
@@ -56,9 +60,9 @@
          * @return bool <b>TRUE</b>, si el parámetro esta definido,
          *              en otro caso <b>FALSE</b>.
          */
-        function hasParameter ($name)
+        function hasParameter($name)
         {
-            return isset($this->params[$name]);
+            return isset($this->_params[$name]);
         }
 
         /**
@@ -67,9 +71,9 @@
          * @param name string Nombre del parámetro
          * @param value string Valor del parámetro
          */
-        function setParameter ($name, $value)
+        function setParameter($name, $value)
         {
-            $this->params[$name] = $value;
+            $this->_params[$name] = $value;
         }
 
         /**
@@ -78,9 +82,9 @@
          * @param name string Nombre del parámetro
          * @param value string Referencia al valor del parámetro
          */
-        function setParameterByRef ($name, &$value)
+        function setParameterByRef($name, &$value)
         {
-            $this->params[$name] =& $value;
+            $this->_params[$name] = &$value;
         }
     }
 

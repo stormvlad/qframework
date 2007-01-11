@@ -17,9 +17,9 @@
          *
          * @param layout Una instancia de qLayout (la plantilla)
          */
-        function &qStdoutAppender ($layout)
+        function qStdoutAppender($layout)
         {
-            parent::qAppender($layout);
+            $this->qAppender($layout);
         }
 
         /**
@@ -28,9 +28,9 @@
          * @param message string El mensaje a escribir
          * @note No debe llamarse manualmente
          */
-        function write ($message)
+        function write($message)
         {
-            echo $message . "<br/>\n";
+            print $message . "<br/>\n";
         }
     }
 

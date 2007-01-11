@@ -17,22 +17,22 @@
         /**
          * Booleano que indica si debe o no abrirse el fichero para añadir
          */
-        var $append;
+        var $_append;
 
         /**
          * Cadena con la ruta absoluta al fichero de registro
          */
-        var $file;
+        var $_file;
 
         /**
          * Recurso con el puntero al fichero de registro
          */
-        var $fp;
+        var $_fp;
 
         /**
          * Patrón de conversión (qConversionPattern) para usar con esta plantilla
          */
-        var $pattern;
+        var $_pattern;
 
         /**
          * Constructor
@@ -49,15 +49,15 @@
          * @param append bool   Debe abrirse el fichero en modo de agregación
          *                      (sino todos los datos son reemplazados).
          */
-        function &qFileAppender($layout, $file, $append = TRUE)
+        function qFileAppender($layout, $file, $append = true)
         {
-            parent::qAppender($layout);
+            $this->qAppender($layout);
 
-            $this->append  =  $append;
-            $this->file    =  $file;
-            $this->pattern =& new qConversionPattern($file);
+            $this->_append  = $append;
+            $this->_file    = $file;
+            $this->_pattern = new qConversionPattern($file);
 
-            $this->openFP();
+            $this->openFp();
         }
 
         /**
@@ -69,19 +69,19 @@
          * @return string El reemplazo de los datos proporcionados
          * @note No debe llamarse manualmente
          */
-        function &callback ($char, $param)
+        function &callback($char, $param)
         {
             switch ($char)
             {
-                case 'C':
-                    $data = (defined($param)) ? constant($param) : '';
+                case "C":
+                    $data = (defined($param)) ? constant($param) : "";
                     break;
 
-                case 'd':
+                case "d":
                     // get the date
-                    if ($param == NULL)
+                    if ($param == null)
                     {
-                        $param = 'd_j_y';
+                        $param = "d_j_y";
                     }
 
                     $data = date($param);
@@ -95,14 +95,14 @@
          *
          * @note No debe llamarse manualmente
          */
-        function cleanup ()
+        function cleanup()
         {
-            if ($this->fp != NULL)
+            if ($this->_fp != null)
             {
-                fflush($this->fp);
-                fclose($this->fp);
+                fflush($this->_fp);
+                fclose($this->_fp);
 
-                $this->fp = NULL;
+                $this->_fp = null;
             }
         }
 
@@ -111,19 +111,18 @@
          *
          * @note No debe llamarse manualmente
          */
-        function openFP ()
+        function openFP()
         {
             // register callback method
             // this cannot be done in the constructor
-            $this->pattern->setCallbackObject($this, 'callback');
+            $this->_pattern->setCallbackObject($this, "callback");
 
-            $this->file = $this->pattern->parse();
-            $this->fp   = @fopen($this->file, ($this->append) ? 'a' : 'w');
+            $this->_file = $this->_pattern->parse();
+            $this->_fp   = @fopen($this->_file, ($this->_append) ? "a" : "w");
 
-            if ($this->fp === FALSE)
+            if ($this->_fp === false)
             {
-                $error = 'Failed to open log file ' . $this->file . ' for writing';
-
+                $error = "Failed to open log file " . $this->_file . " for writing";
                 trigger_error($error, E_USER_WARNING);
             }
         }
@@ -136,8 +135,8 @@
          */
         function write ($message)
         {
-            fputs($this->fp, $message);
-            fflush($this->fp);
+            fputs($this->_fp, $message);
+            fflush($this->_fp);
         }
     }
 
