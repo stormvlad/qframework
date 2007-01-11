@@ -13,9 +13,9 @@
         /**
          * Constructor
          */
-        function &qLayout()
+        function qLayout()
         {
-            parent::qObject();
+            $this->qObject();
         }
 
         /**
@@ -24,9 +24,9 @@
          * @param message qMessage Una instancia de qMessage
          * @note Esta función debe llamarse manualmente
          */
-        function &format (&$message)
+        function format(&$message)
         {
-            throw(new qException("qLayout::format(&$message) must be overridden"));
+            throw(new qException("qLayout::format: This method must be implemented by child classes."));
             die();
         }
     }

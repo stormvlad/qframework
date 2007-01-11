@@ -28,21 +28,21 @@
         /**
          * Array associativo de registros
          */
-        var $loggers;
+        var $_loggers;
 
         /**
          * Constructor
          */
-        function &qLogManager()
+        function qLogManager()
         {
-            parent::qObject();
-
-            $this->loggers = array();
+            $this->qObject();
+            
+            $this->_loggers = array();
 
             // crea el logger por defecto
-            $logger   =& new qErrorLogger();
-            $layout   =& new qPatternLayout("<b>%N</b> [%f{rel}:%l] %m%n");
-            $appender =& new qStdoutAppender($layout);
+            $logger   = new qErrorLogger();
+            $layout   = new qPatternLayout("<b>%N</b> [%f{rel}:%l] %m%n");
+            $appender = new qStdoutAppender($layout);
 
             $logger->addAppender("stdout", $appender);
             $this->addLogger("default", $logger);
@@ -55,16 +55,15 @@
          * @param logger Una instancia de qLogger
          * @note Si ya existe un registro con este nombre, se informará del error.
          */
-        function addLogger ($name, &$logger)
+        function addLogger($name, &$logger)
         {
-            if (isset($this->loggers[$name]))
+            if (isset($this->_loggers[$name]))
             {
                 throw(new qException("qLogManager::addLogger: qLogManager already contains logger " . $name));
                 die();
             }
 
-            $this->loggers[$name] =& $logger;
-            return;
+            $this->_loggers[$name] = &$logger;
         }
 
         /**
@@ -76,14 +75,12 @@
          */
         function &getInstance()
         {
-            static $instance = NULL;
+            static $instance;
 
-            if ($instance === NULL)
+            if (!isset($instance))
             {
-                // can't use reference with static data
                 $instance = new qLogManager;
             }
-
 
             return $instance;
         }
@@ -99,12 +96,10 @@
          */
         function &getLogger($name = "default")
         {
-            if (isset($this->loggers[$name]))
+            if (isset($this->_loggers[$name]))
             {
-                return $this->loggers[$name];
+                return $this->_loggers[$name];
             }
-
-            return NULL;
         }
 
         /**
@@ -114,7 +109,7 @@
          */
         function &getLoggers()
         {
-            return $this->loggers;
+            return $this->_loggers;
         }
 
         /**
@@ -126,18 +121,15 @@
          *                quitado, en otro caso <b>NULL</b>.
          * @note No puedes quitar el registro por defecto.
          */
-        function &removeLogger ($name)
+        function &removeLogger($name)
         {
-            if ($name != "default" && isset($this->loggers[$name]))
+            if ($name != "default" && isset($this->_loggers[$name]))
             {
-                $logger =& $this->loggers[$name];
-
-                unset($this->loggers[$name]);
+                $logger =& $this->_loggers[$name];
+                unset($this->_loggers[$name]);
 
                 return $logger;
             }
-
-            return NULL;
         }
     }
 

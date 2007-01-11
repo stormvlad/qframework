@@ -18,31 +18,31 @@
          * Cadena con el nombre de la función que debe llamarse
          * cuando se ha de convertir un símbolo
          */
-        var $func;
+        var $_func;
 
         /**
          * El objeto que contiene la función que debe llamarse cuando se ha de convertir
          * un símbolo
          */
-        var $obj;
+        var $_obj;
 
         /**
          * Caena con el patron de conversión que contiene los símbolos
          */
-        var $pattern;
+        var $_pattern;
 
         /**
          * Constructor
          *
          * @param pattern string Patrón de conversión que contiene los símbolos predefinidos
          */
-        function &qConversionPattern($pattern = NULL)
+        function qConversionPattern($pattern = null)
         {
-            parent::qObject();
+            $this->qObject();
 
-            $this->func    = NULL;
-            $this->obj     = NULL;
-            $this->pattern = $pattern;
+            $this->_func    = null;
+            $this->_obj     = null;
+            $this->_pattern = $pattern;
         }
 
         /**
@@ -55,8 +55,8 @@
          */
         function getParameter(&$index)
         {
-            $length = strlen($this->pattern);
-            $param  = '';
+            $length = strlen($this->_pattern);
+            $param  = null;
 
             // avanzamos hata el parámetro
             $index += 2;
@@ -64,13 +64,13 @@
             if ($index < $length)
             {
                 // recorremos a traves del símbolo del parámetro
-                while ($this->pattern{$index} != '}' && $index < $length)
+                while ($this->_pattern{$index} != "}" && $index < $length)
                 {
-                    $param .= $this->pattern{$index};
+                    $param .= $this->_pattern{$index};
                     $index++;
                 }
 
-                if ($this->pattern{$index} == '}')
+                if ($this->_pattern{$index} == "}")
                 {
                     return $param;
                 }
@@ -79,7 +79,7 @@
             }
 
             // oops, no hay suficiente texto para continuar
-            return NULL;
+            return null;
         }
 
         /**
@@ -89,7 +89,7 @@
          */
         function getPattern()
         {
-            return $this->pattern;
+            return $this->_pattern;
         }
 
         /**
@@ -99,45 +99,45 @@
          */
         function &parse()
         {
-            if ($this->pattern == NULL)
+            if ($this->_pattern == null)
             {
                 throw(new qException("qConversionPattern::parse: A conversion pattern has not been specified."));
                 return;
             }
 
-            $length  = strlen($this->pattern);
-            $pattern = '';
+            $length  = strlen($this->_pattern);
+            $pattern = null;
 
             for ($i = 0; $i < $length; $i++)
             {
-                if ($this->pattern{$i} == '%' && ($i + 1) < $length)
+                if ($this->_pattern{$i} == "%" && ($i + 1) < $length)
                 {
-                    if ($this->pattern{$i + 1} == '%')
+                    if ($this->_pattern{$i + 1} == "%")
                     {
-                        $data = '%';
+                        $data = "%";
                         $i++;
                     }
                     else
                     {
                         // grab conversion char
-                        $char  = $this->pattern{++$i};
-                        $param = NULL;
+                        $char  = $this->_pattern{++$i};
+                        $param = null;
 
                         // does a parameter exist?
-                        if (($i + 1) < $length && $this->pattern{$i + 1} == '{')
+                        if (($i + 1) < $length && $this->_pattern{$i + 1} == "{")
                         {
                             // retrieve parameter
                             $param = $this->getParameter($i);
                         }
 
-                        if ($this->obj == NULL)
+                        if ($this->_obj == null)
                         {
                             $data = $function($char, $param);
                         }
                         else
                         {
-                            $object   =& $this->obj;
-                            $function =& $this->func;
+                            $object   = &$this->_obj;
+                            $function = &$this->_func;
 
                             $data = $object->$function($char, $param);
                         }
@@ -147,7 +147,7 @@
                 }
                 else
                 {
-                    $pattern .= $this->pattern{$i};
+                    $pattern .= $this->_pattern{$i};
                 }
             }
 
@@ -161,7 +161,7 @@
          */
         function setCallbackFunction($function)
         {
-            $this->func = $function;
+            $this->_func = $function;
         }
 
         /**
@@ -172,8 +172,8 @@
          */
         function setCallbackObject(&$object, $function)
         {
-            $this->func =  $function;
-            $this->obj  =& $object;
+            $this->_func = $function;
+            $this->_obj  = &$object;
         }
 
         /**
@@ -183,7 +183,7 @@
          */
         function setPattern($pattern)
         {
-            $this->pattern = $pattern;
+            $this->_pattern = $pattern;
         }
     }
 ?>

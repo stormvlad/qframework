@@ -39,7 +39,7 @@
          */
         function qthrow()
         {
-            print("<br/><b>Exception message</b>: " . $this->_exceptionString . "<br/><b>Error code</b>: " . $this->_exceptionCode."<br/>");
+            print("<br/><b>Exception message</b>: " . $this->_exceptionString . "<br/><b>Error code</b>: " . $this->_exceptionCode . "<br/>");
             $this->_printStackTrace();
         }
 
@@ -53,31 +53,32 @@
             if (function_exists("debug_backtrace"))
             {
                 $info = debug_backtrace();
-                print("-- Backtrace --<br/><i>");
+                print "-- Backtrace --<br/><i>";
 
                 foreach ($info as $trace)
                 {
-                    if (($trace["function"] != "standard") 
-                         && (basename($trace["file"]) != "qerrorlogger.class.php" )
-                         && (basename($trace["file"]) != "qlogger.class.php" )
-                         && ($trace["file"] != __FILE__ ))
+                    if (($trace["function"] != "standard")                     &&
+                        (!empty($trace["file"]))                               &&
+                        (basename($trace["file"]) != "qerrorlogger.class.php") &&
+                        (basename($trace["file"]) != "qlogger.class.php")      &&
+                        ($trace["file"] != __FILE__ ))
                     {
                         print($trace["file"] . "(" . $trace["line"] . "): ");
 
                         if (!empty($trace["class"]))
                         {
-                            print($trace["class"]. ".");
+                            print $trace["class"] . ".";
                         }
 
-                        print($trace["function"] . "<br/>");
+                        print $trace["function"] . "<br />";
                     }
                 }
 
-                print("</i>");
+                print "</i>";
             }
             else
             {
-                print("<i>Stack trace is not available</i><br/>");
+                print "<i>Stack trace is not available</i><br />";
             }
         }
     }
@@ -99,7 +100,7 @@
      */
     function catch($exception)
     {
-        print("Exception catched!");
+        print "Exception catched!";
     }
 
 ?>

@@ -18,12 +18,12 @@
         /**
          * El objeto qMessage a formatear
          */
-        var $message;
+        var $_message;
 
         /**
          * El qConversionPattern (patrón de conversión) a usar con esta plantilla.
          */
-        var $pattern;
+        var $_pattern;
 
         /**
          * Constructor
@@ -33,9 +33,10 @@
          * @public
          * @since  1.0
          */
-        function &qPatternLayout ($layout)
+        function qPatternLayout($layout)
         {
-            $this->pattern =& new qConversionPattern($layout);
+            $this->qLayout();
+            $this->_pattern = new qConversionPattern($layout);
         }
 
         /**
@@ -47,7 +48,7 @@
          *
          * @return string El reemplazo para la información proporcionada
          */
-        function &callback ($char, $param)
+        function &callback($char, $param)
         {
             switch ($char)
             {
@@ -57,7 +58,7 @@
                 case "m":
                 case "N":
                 case "p":
-                    $data = $this->message->getParameter($char);
+                    $data = $this->_message->getParameter($char);
                     break;
 
                 case "n":
@@ -83,7 +84,7 @@
 
                 case "d":
                     // get the date
-                    if ($param == NULL)
+                    if ($param == null)
                     {
                         $param = "n/j/y g:i a";
                     }
@@ -93,7 +94,7 @@
 
                 case "f":
                     // get the file
-                    $data   = $this->message->getParameter("f");
+                    $data   = $this->_message->getParameter("f");
                     $server = &qHttp::getServerVars();
 
                     switch($param)
@@ -113,7 +114,7 @@
 
                 case "x":
                     // get a custom parameter
-                    $data =& $this->message->getParameter($param);
+                    $data = $this->_message->getParameter($param);
             }
 
             return $data;
@@ -148,15 +149,16 @@
          *
          * @return string El mensaje de log formateado.
          */
-        function &format (&$message)
+        function &format(&$message)
         {
             // registro del método callback
             // no puede realizarse en el constructor
-            $this->pattern->setCallbackObject($this, "callback");
+            $this->_pattern->setCallbackObject($this, "callback");
 
-            $this->message =& $message;
-
-            return $this->pattern->parse();
+            $this->_message = &$message;
+            $parsed = $this->_pattern->parse();
+            
+            return $parsed;
         }
     }
 

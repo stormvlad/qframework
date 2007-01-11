@@ -18,38 +18,38 @@
         /**
          * Un array asociativo de agregadores
          */
-        var $appenders;
+        var $_appenders;
 
         /**
          * Número entero con el nivel de prioridad de salida. Debe coincidir o superar
          * para ordenar a qFramework que abandone la ejecución después de registrar
          * el mensage del suceso
          */
-        var $exitPriority;
+        var $_exitPriority;
 
         /**
          * Número entero con el nivel de prioridad. Debe coincidir o superar
          * para ordenar a esta classe que registre el mensaje
          */
-        var $priority;
+        var $_priority;
 
         /**
          * Constructor
          */
-        function &qLogger()
+        function qLogger()
         {
-            parent::qObject();
+            $this->qObject();
 
             // establece las prioridades mínimas por defecto
-            if (parent::isDebug())
+            if ($this->isDebug())
             {
-                $this->priority     = 0; // MUESTRA TODOS LOS ERRORES
-                $this->exitPriority = 1; // PARA EN QUALQUIER ERROR, INCLUSO NOTICES
+                $this->_priority     = 0;    // Muestra todos los errores
+                $this->_exitPriority = 3000; // Paramos solo la ejecución en los errores
             }
             else
             {
-                $this->priority     = 3000; // ERROR
-                $this->exitPriority = 3000; // ERROR
+                $this->_priority     = 3000; // Error
+                $this->_exitPriority = 3000; // Error
             }
         }
 
@@ -62,13 +62,13 @@
          */
         function addAppender($name, &$appender)
         {
-            if (isset($this->appenders[$name]))
+            if (isset($this->_appenders[$name]))
             {
                 throw(new qException("qLogger::addAppender: qLogger already has appender " . $name));
                 die();
             }
 
-            $this->appenders[$name] =& $appender;
+            $this->_appenders[$name] =& $appender;
         }
 
         /**
@@ -81,12 +81,10 @@
          */
         function &getAppender($name)
         {
-            if (isset($this->appenders[$name]))
+            if (isset($this->_appenders[$name]))
             {
-                return $this->appenders[$name];
+                return $this->_appenders[$name];
             }
-
-            return NULL;
         }
 
         /**
@@ -97,7 +95,7 @@
          */
         function getExitPriority()
         {
-            return $this->exitPriority;
+            return $this->_exitPriority;
         }
 
         /**
@@ -108,7 +106,7 @@
          */
         function getPriority()
         {
-            return $this->priority;
+            return $this->_priority;
         }
 
         /**
@@ -119,29 +117,28 @@
         function log(&$message)
         {
             // recupera la prioridad del mensaje
-            $msgPriority =& $message->getParameter("p");
+            $msgPriority = $message->getParameter("p");
 
-            if ($this->priority == 0 || $msgPriority >= $this->priority)
+            if ($this->_priority == 0 || $msgPriority >= $this->_priority)
             {
                 // pasa por todos los agregadores y escribe en cada uno
-                $keys  = array_keys($this->appenders);
+                $keys  = array_keys($this->_appenders);
                 $count = sizeof($keys);
 
                 for ($i = 0; $i < $count; $i++)
                 {
-                    $appender =& $this->appenders[$keys[$i]];
-                    $layout   =& $appender->getLayout();
-                    $result   =& $layout->format($message);
+                    $appender = &$this->_appenders[$keys[$i]];
+                    $layout   = &$appender->getLayout();
+                    $result   = &$layout->format($message);
 
                     $appender->write($result);
                 }
             }
 
             // debe salir de la ejecución?
-            if ($this->exitPriority > 0 && $msgPriority >= $this->exitPriority)
+            if ($this->_exitPriority > 0 && $msgPriority >= $this->_exitPriority)
             {
                 throw(new qException($message->getParameter("m"), $message->getParameter("p")));
-                // sayonara baby
                 exit;
             }
         }
@@ -153,10 +150,10 @@
          */
         function removeAppender($name)
         {
-            if (isset($this->appenders[$name]))
+            if (isset($this->_appenders[$name]))
             {
-                $appender =& $this->appenders[$name];
-                unset($this->appenders[$name]);
+                $appender = &$this->_appenders[$name];
+                unset($this->_appenders[$name]);
             }
         }
 
@@ -169,7 +166,7 @@
          */
         function setExitPriority($priority)
         {
-            $this->exitPriority = $priority;
+            $this->_exitPriority = $priority;
         }
 
         /**
@@ -181,7 +178,7 @@
          */
         function setPriority($priority)
         {
-            $this->priority = $priority;
+            $this->_priority = $priority;
         }
     }
 

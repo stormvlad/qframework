@@ -19,18 +19,17 @@
         /**
          * La plantilla a usar por esta classe
          */
-        var $layout;
+        var $_layout;
 
         /**
          * Constructor
          *
          * @param layout qLayout Instáncia de la plantilla a usar.
          */
-        function &qAppender(&$layout)
+        function qAppender(&$layout)
         {
-            parent::qObject();
-
-            $this->layout =& $layout;
+            $this->qObject();
+            $this->_layout = &$layout;
         }
 
         /**
@@ -38,9 +37,9 @@
          *
          * @return qLayout Instancia de plantilla
          */
-        function & getLayout()
+        function &getLayout()
         {
-            return $this->layout;
+            return $this->_layout;
         }
 
         /**
@@ -50,7 +49,7 @@
          */
         function setLayout(&$layout)
         {
-            $this->layout =& $layout;
+            $this->_layout = &$layout;
         }
 
         /**
@@ -59,7 +58,7 @@
          * @param message El mensaje a escribir
          * @note No débe usarse manualmente
          */
-        function write ($message)
+        function write($message)
         {
             throw(new qException("qAppender::write: This method must be implemented by child classes."));
             die();
