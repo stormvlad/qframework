@@ -1,6 +1,7 @@
 <?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/object/qobject.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/misc/qutils.class.php");
 
     define("ERROR_RULE_IS_EMPTY", "error_rule_is_empty");
 
@@ -108,61 +109,49 @@
         /**
         *    Add function info here
         **/
-        function _validateValue($name, $value)
-        {
-            if ($value === "")
-            {
-                if ($this->isRequired($name))
-                {
-                    $this->setError($name, ERROR_RULE_IS_EMPTY);
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-
-            if (array_key_exists($name, $this->_validations) && is_array($this->_validations[$name]))
-            {
-                foreach ($this->_validations[$name] as $validation)
-                {
-                    if (!$validation->validate($value))
-                    {
-                         $this->setError($name, $validation->getError());
-                         return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        /**
-        *    Add function info here
-        **/
         function validate($values)
         {
             $result = true;
-
+            $falses = array();
+            
             foreach ($this->_required as $name => $required)
             {
-                if ($required && !array_key_exists($name, $values))
+                $value = qUtils::getValueFromKeyName($name, $values);
+
+                if ($required && empty($value))
                 {
-                    $this->setError($name, ERROR_RULE_IS_EMPTY);
+                    $this->setError(qUtils::normalizeKeyName($name), ERROR_RULE_IS_EMPTY);
                     $result = false;
+                    $falses[$name] = true;
                 }
                 // Added to check required variables from $_FILES
-                else if ($required && array_key_exists($name, $values) && is_array($values[$name]) && $values[$name]["error"] == 4)
+                else if ($required && !empty($value) && is_array($values[$name]) && $values[$name]["error"] == 4)
                 {
-                    $this->setError($name, ERROR_RULE_IS_EMPTY);
+                    $this->setError(qUtils::normalizeKeyName($name), ERROR_RULE_IS_EMPTY);
                     $result = false;
+                    $falses[$name] = true;
                 }
             }
 
-            foreach ($values as $name => $value)
+            foreach ($this->_validations as $name => $validations)
             {
-                $result &= $this->_validateValue($name, $value);
+                if (empty($falses[$name]))
+                {
+                    $value = qUtils::getValueFromKeyName($name, $values);
+
+                    if (!empty($value))
+                    {
+                        foreach ($validations as $validation)
+                        {
+                            if (!$validation->validate($value))
+                            {
+                                $this->setError(qUtils::normalizeKeyName($name), $validation->getError());
+                                $result = false;
+                                break;
+                            }
+                        }
+                    }
+                }
             }
 
             return $result;
