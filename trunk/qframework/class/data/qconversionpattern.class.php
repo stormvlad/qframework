@@ -101,7 +101,7 @@
         {
             if ($this->_pattern == null)
             {
-                throw(new qException("qConversionPattern::parse: A conversion pattern has not been specified."));
+                trigger_error("A conversion pattern has not been specified.", E_USER_ERROR);
                 return;
             }
 

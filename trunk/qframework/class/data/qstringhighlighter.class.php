@@ -50,8 +50,8 @@
         */
         function highlight($str, $terms, $exactWords = false, $caseSensitive = false)
         {
-            throw(new qException("qStringHighlighter::highlight: This method must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
 
         /**

@@ -50,15 +50,14 @@
             include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
             $server = &qHttp::getServerVars();
 
-            if ($server->getValue("REQUEST_METHOD") == "POST")
+            if ($server->getValue("REQUEST_METHOD") != "POST")
             {
-                $this->_soapServer->service($GLOBALS["HTTP_RAW_POST_DATA"]);
+                trigger_error("Invalid request method. Only request POST method is available.", E_USER_ERROR);
+                return;
+                
             }
-            else
-            {
-                throw(new qException("qSoapServer::run: Invalid request method. Only request POST method is available."));
-                die();
-            }
+
+            $this->_soapServer->service($GLOBALS["HTTP_RAW_POST_DATA"]);
         }
 
         /**

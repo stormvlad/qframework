@@ -53,8 +53,8 @@
         */
         function reset()
         {
-            throw(new qException("qSearchRequestParser::reset: This method must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
 
         /**
@@ -62,8 +62,8 @@
         */
         function getSearchTermsString()
         {
-            throw(new qException("qSearchRequestParser::getSearchTermsString: This method must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
 
         /**
@@ -71,8 +71,8 @@
         */
         function parse($request)
         {
-            throw(new qException("qSearchRequestParser::parse: This method must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
     }
 

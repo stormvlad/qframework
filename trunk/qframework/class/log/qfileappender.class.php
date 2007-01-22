@@ -122,9 +122,10 @@
 
             if ($this->_fp === false)
             {
-                $error = "Failed to open log file " . $this->_file . " for writing";
-                trigger_error($error, E_USER_WARNING);
+                trigger_error("Failed to open log file " . $this->_file . " for writing", E_USER_WARNING);
             }
+
+            return $this->_fp;
         }
 
         /**
@@ -136,6 +137,43 @@
         function write ($message)
         {
             fputs($this->_fp, $message);
+            fflush($this->_fp);
+        }
+
+        /**
+         * Hace un volcado de la pila de llamadas a funciones.
+         */
+        function writeStackTrace()
+        {
+            if (function_exists("debug_backtrace"))
+            {
+                $info = debug_backtrace();
+                fputs($this->_fp, "-- Backtrace --" . PHP_EOL);
+    
+                foreach ($info as $trace)
+                {
+                    if (($trace["function"] != "standard")                     &&
+                        (!empty($trace["file"]))                               &&
+                        (basename($trace["file"]) != "qerrorlogger.class.php") &&
+                        (basename($trace["file"]) != "qlogger.class.php")      &&
+                        ($trace["file"] != __FILE__ ))
+                    {
+                        fputs($this->_fp, $trace["file"] . "(" . $trace["line"] . "): ");
+    
+                        if (!empty($trace["class"]))
+                        {
+                            fputs($this->_fp, $trace["class"] . ".");
+                        }
+    
+                        fputs($this->_fp, $trace["function"] . PHP_EOL);
+                    }
+                }
+            }
+            else
+            {
+                fputs($this->_fp, "Stack trace is not available" . PHP_EOL);
+            }
+
             fflush($this->_fp);
         }
     }

@@ -31,8 +31,8 @@
          */
         function _getSqlLoadStatement(&$user)
         {
-            throw(new qException("qUserDbStorage::_getSqlLoadStatement: This method must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
 
         /**
@@ -43,8 +43,8 @@
          */
         function _getSqlStoreStatement(&$user)
         {
-            throw(new Exception("qUserDbStorage::_getSqlLoadStatement: This method must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
 
         /**

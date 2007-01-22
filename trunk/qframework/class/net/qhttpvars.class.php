@@ -57,8 +57,8 @@
          */
         function save()
         {
-            throw(new qException("qHttpVars::save: This method must be implemented by child classes."));
-            die();
+            trigger_error("This method must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
     }
 ?>

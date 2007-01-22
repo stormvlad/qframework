@@ -32,8 +32,8 @@
          */
         function load(&$user)
         {
-            throw(new qException("qUserStorage::load: This method must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
 
         /**
@@ -45,8 +45,8 @@
          */
         function store(&$user)
         {
-            throw(new qException("qUserStorage::store: This method must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
     }
 

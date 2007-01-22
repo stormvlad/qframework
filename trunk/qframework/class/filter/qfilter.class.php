@@ -54,8 +54,8 @@
          */
         function run(&$filtersChain)
         {
-            throw(new qException("qFilter::run: This method must be implemented by child classes."));
-            die();
+            trigger_error("This method must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
     }
 ?>

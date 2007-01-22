@@ -35,8 +35,8 @@
         {
             if (empty($this->_engine))
             {
-                throw(new qException("qViewRenderer::getEgine: This class do not work with any renderer engine."));
-                die();
+                trigger_error("This class do not work with any renderer engine.", E_USER_WARNING);
+                return;
             }
 
             return $this->_engine;
@@ -65,8 +65,8 @@
          */
         function render(&$view)
         {
-            throw(new qException("qViewRenderer::render: This method must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
     }
 

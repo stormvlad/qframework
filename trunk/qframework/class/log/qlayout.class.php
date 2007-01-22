@@ -26,8 +26,8 @@
          */
         function format(&$message)
         {
-            throw(new qException("qLayout::format: This method must be implemented by child classes."));
-            die();
+            trigger_error("This method must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
     }
 

@@ -128,8 +128,7 @@
          */
         function handleValidateError($errors)
         {
-            throw(new qException("qAction::handleValidateError: This method must be implemented by child classes."));
-            die();
+            trigger_error("This method must be implemented by child classes.", E_USER_ERROR);
         }
 
         /**
@@ -184,8 +183,7 @@
          */
         function handleSecureError()
         {
-            throw(new qException("qAction::handleSecureError: This method must be implemented by child classes."));
-            die();
+            trigger_error("This method must be implemented by child classes.", E_USER_ERROR);
         }
 
         /**
@@ -201,8 +199,7 @@
          */
         function perform()
         {
-            throw(new qException("qAction::perform: This method must be implemented by child classes."));
-            die();
+            trigger_error("This method must be implemented by child classes.", E_USER_ERROR);
         }
 
         /**
@@ -220,8 +217,7 @@
          */
         function performAfterValidation()
         {
-            throw(new qException("qAction::performAfterValidation: This method must be implemented by child classes."));
-            die();
+            trigger_error("This method must be implemented by child classes.", E_USER_ERROR);
         }
 
         /**

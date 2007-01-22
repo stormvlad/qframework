@@ -41,7 +41,7 @@
 
             // crea el logger por defecto
             $logger   = new qErrorLogger();
-            $layout   = new qPatternLayout("<b>%N</b> [%f{rel}:%l] %m%n");
+            $layout   = new qPatternLayout("<b>%N</b> [%d] [%f{rel}:%l] %m%n");
             $appender = new qStdoutAppender($layout);
 
             $logger->addAppender("stdout", $appender);
@@ -59,8 +59,8 @@
         {
             if (isset($this->_loggers[$name]))
             {
-                throw(new qException("qLogManager::addLogger: qLogManager already contains logger " . $name));
-                die();
+                trigger_error("qLogManager already contains logger '" . $name . "'", E_USER_WARNING);
+                return;
             }
 
             $this->_loggers[$name] = &$logger;

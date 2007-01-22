@@ -262,8 +262,8 @@
     
                     if ($create && !@mkdir($directory, $dirMode, true))
                     {
-                        throw(new qException("qWebRequest::moveFile: Failed to create file upload directory '$directory'."));
-                        die();
+                        trigger_error("Failed to create file upload directory '" . $directory . "'", E_USER_WARNING);
+                        return false;
                     }
     
                     // chmod the directory since it doesn't seem to work on
@@ -273,13 +273,13 @@
                 } 
                 else if (!is_dir($directory))
                 {
-                    throw(new qException("qWebRequest::moveFile: File upload path '$directory' exists, but is not a directory."));
-                    die();
-                } 
+                    trigger_error("File upload path '" . $directory . "' exists, but is not a directory.", E_USER_WARNING);
+                    return false;
+                }
                 else if (!is_writable($directory))
-                {    
-                    throw(new qException("qWebRequest::moveFile: File upload path '$directory' is not writable."));
-                    die();
+                {
+                    trigger_error("File upload path '" . $directory . "' exists, but is not writable.", E_USER_WARNING);
+                    return false;
                 }
     
                 if (@move_uploaded_file($_FILES[$name]["tmp_name"], $file))
@@ -307,8 +307,8 @@
             }
             elseif (!is_a($parser, qRequestParser))
             {
-                throw(new qException("qWebRequest::setRequestParser: This isn't a valid request parser."));
-                die();                
+                trigger_error("This isn't a valid request parser.", E_USER_WARNING);
+                return;
             }
 
             $this->_parser = $parser;

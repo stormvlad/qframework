@@ -41,8 +41,8 @@
          */
         function validate($value)
         {
-            throw(new qException("qRule::validate: This method must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
     }
 ?>
