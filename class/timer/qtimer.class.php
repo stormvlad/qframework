@@ -87,14 +87,14 @@
 
             if (!array_key_exists($start, $this->_marks))
             {
-                throw(new qException("qTimer::get: Start mark '" . $start . "' doesn't exist."));
-                die();
+                trigger_error("Start mark '" . $start . "' doesn't exist.", E_USER_WARNING);
+                return false;
             }
 
             if (!empty($stop) && !array_key_exists($stop, $this->_marks))
             {
-                throw(new qException("qTimer::get: Stop mark '" . $stop . "' doesn't exist."));
-                die();
+                trigger_error("Stop mark '" . $start . "' doesn't exist.", E_USER_WARNING);
+                return false;
             }
 
             $bcsubExists = function_exists("bcsub");

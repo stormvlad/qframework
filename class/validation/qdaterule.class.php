@@ -123,7 +123,7 @@
                     break;
 
                 default:
-                    throw(new qException("qDateRule::_setRegExp: unknown format '" . $this->_format . "'."));
+                    trigger_error("Unknown format '" . $this->_format . "'.", E_USER_ERROR);
             }
 
             $this->setError(ERROR_RULE_UNKNOWN_FORMAT);

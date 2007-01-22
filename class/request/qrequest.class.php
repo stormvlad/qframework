@@ -291,11 +291,8 @@
                 return;
             }
     
-            // invalid method type
-            $error = 'Invalid request method: %s';
-            $error = sprintf($error, $method);
-            throw(new qException("qRequest::setMethod: $error."));
-            die();
+            trigger_error("Invalid request method: '" . $method . "'", E_USER_ERROR);
+            return;
         }
     }
     

@@ -297,7 +297,7 @@
         {
             if (array_key_exists($actionKey, $this->_actionMap))
             {
-                throw(new qException("qController::registerAction: '" . $actionClassName . "' class cannot register '" . $actionKey . "' action because it's already registered to '" . $this->_actionMap[$actionKey] . "' class."));
+                trigger_error("registerAction: '" . $actionClassName . "' class cannot register '" . $actionKey . "' action because it's already registered to '" . $this->_actionMap[$actionKey] . "' class.", E_USER_ERROR);
                 return false;
             }
 
@@ -308,14 +308,14 @@
         /**
          * Devuelve el nombre de la classe de acción a ejecutar en caso de no encontrarse
          * el archivo con la acción esperada.
-         * Por defecto se usa la acción por defecto, en otro caso redefinir esta función y
-         * usar el parámetro $actionName.
+         * Por defecto lanza un error.
          *
          * @param actionName string Nombre de la acción esperada
          */
         function actionClassFileNotFound($actionName)
         {
-            return $this->getActionClassName($this->_defaultAction);
+            trigger_error("Class file associated to action '" . $actionName . "' cannot be found.", E_USER_ERROR);
+            return false;
         }
 
         /**

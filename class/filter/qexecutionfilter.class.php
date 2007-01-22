@@ -151,12 +151,11 @@
 
             if (empty($view))
             {
-                //throw(new qException("qExecutionFilter::run: '" . $action->getClassName() . "' class should return a view after executing perform method."));
+                //trigger_error("'" . $action->getClassName() . "' class should return a view after executing perform / peformAfterValidation method.", E_USER_WARNING);
+                return;
             }
-            else
-            {
-                print $view->render();
-            }
+
+            print $view->render();
         }
     }
 ?>

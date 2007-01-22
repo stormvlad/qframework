@@ -77,8 +77,8 @@
 
             if (!$result)
             {
-                throw(new qException("ConfigDbStorage::load: There was an error loading the configuration data from the database."));
-                die();
+                trigger_error("There was an error loading the configuration data from the database.", E_USER_ERROR);
+                return false;
             }
 
             while ($row = $result->FetchRow())
@@ -132,8 +132,8 @@
                     break;
 
                  default:
-                     throw(new qException("ConfigDbStorage::_updateValue: getType produced an unexpected value of " . $type . " when checking value '" . $value . "'"));
-                    die();
+                    trigger_error("getType produced an unexpected value of " . $type . " when checking value '" . $value . "'", E_USER_ERROR);
+                    return false;
              }
 
              return $this->_db->Execute($query);
@@ -166,8 +166,8 @@
                     break;
 
                 default:
-                    throw(new qException("ConfigDbStorage::_insertValue: getType produced an unexpected value of $type"));
-                    die();
+                    trigger_error("getType produced an unexpected value of " . $type . " when checking value '" . $value . "'", E_USER_ERROR);
+                    return false;
              }
 
              return $this->_db->Execute($query);

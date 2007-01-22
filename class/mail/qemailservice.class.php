@@ -271,7 +271,7 @@
                 {
                     if (empty($this->_smtpUser) || empty($this->_smtpPass))
                     {
-                        throw(new qException("qEmailService::sendMessage: Please provide a username and a password if you wish to use SMTP authentication"));
+                        trigger_error("Please provide a username and a password if you wish to use SMTP authentication.", E_USER_WARNING);
                         $mail->SMTPAuth = false;
                     }
                     else
@@ -288,7 +288,7 @@
 
                 if (empty($this->_smtpHost))
                 {
-                    throw(new qException("qEmailService::sendMessage: You should specify an SMTP server in order to send emails."));
+                    trigger_error("You should specify an SMTP server if you wish to use SMTP service email.", E_USER_ERROR);
                     return false;
                 }
                 else
@@ -300,13 +300,13 @@
             else
             {
                 $mail->IsMail();
-                throw(new qException("qEmailService::sendMessage: Unrecognized value of the email_service_type setting. Reverting to PHP built-in mail() functionality"));
+                trigger_error("Unrecognized value of the email_service_type setting. Reverting to PHP built-in mail() functionality.", E_USER_WARNING);
             }
 
             if (!$mail->Send())
             {
-                throw(new qException("qEmailService::sendMessage: Error sending message: " . $mail->ErrorInfo));
-                die();
+                trigger_error("Error sending email message: " . $mail->ErrorInfo, E_USER_WARNING);
+                return false;
             }
 
             return true;

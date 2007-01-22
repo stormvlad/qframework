@@ -60,8 +60,8 @@
          */
         function write($message)
         {
-            throw(new qException("qAppender::write: This method must be implemented by child classes."));
-            die();
+            trigger_error("This method must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
     }
 

@@ -54,8 +54,8 @@
          */
         function &getInstance()
         {
-            throw(new qException("qDb::getDb: This function must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
 
         /**

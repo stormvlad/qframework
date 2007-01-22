@@ -31,7 +31,7 @@
         {
             if (!$this->_ftp->isConnected())
             {
-                throw(new qException("qFileFtpLister::ls: qFtp object passed in constructor must been connected and logged in."));
+                trigger_error("qFtp object passed in constructor must been connected and logged in.", E_USER_WARNING);
                 return false;
             }
 

@@ -2,7 +2,8 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/log/qlogger.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/log/qmessage.class.php");
-
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qclient.class.php");
+    
     /**
      * @brief Establece el registro de errores por defecto.
      *
@@ -39,13 +40,14 @@
             {
                 $message = new qMessage(
                     array(
-                        "m" => $message,
-                        "c" => $class,
-                        "F" => $function,
-                        "f" => $file,
-                        "l" => $line,
-                        "N" => "NOTICE",
-                        "p" => 2000
+                        "m"  => $message,
+                        "c"  => $class,
+                        "F"  => $function,
+                        "f"  => $file,
+                        "l"  => $line,
+                        "N"  => "NOTICE",
+                        "p"  => 2000,
+                        "ip" => qClient::getIp()
                         )
                     );
                         
@@ -67,13 +69,14 @@
         {
             $message = new qMessage(
                 array(
-                    "m" => $message,
-                    "c" => $class,
-                    "F" => $function,
-                    "f" => $file,
-                    "l" => $line,
-                    "N" => "WARNING",
-                    "p" => 4000
+                    "m"  => $message,
+                    "c"  => $class,
+                    "F"  => $function,
+                    "f"  => $file,
+                    "l"  => $line,
+                    "N"  => "WARNING",
+                    "p"  => 2000,
+                    "ip" => qClient::getIp()
                     )
                 );
                 
@@ -94,13 +97,14 @@
         {
             $message = new qMessage(
                 array(
-                    "m" => $message,
-                    "c" => $class,
-                    "F" => $function,
-                    "f" => $file,
-                    "l" => $line,
-                    "N" => "ERROR",
-                    "p" => 3000
+                    "m"  => $message,
+                    "c"  => $class,
+                    "F"  => $function,
+                    "f"  => $file,
+                    "l"  => $line,
+                    "N"  => "ERROR",
+                    "p"  => 3000,
+                    "ip" => qClient::getIp()
                     )
                 );
                 

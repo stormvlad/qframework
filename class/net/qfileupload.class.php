@@ -130,8 +130,8 @@
 
             if (!move_uploaded_file($file["tmp_name"], $this->_destinationDirectory . $dst))
             {
-                throw(new qException("qFileUpload::save: Error moving upload tmp file '" . $file["tmp_name"] . "' to '" . $this->_destinationDirectory . $dst . "'."));
-                die();
+                trigger_error("Error moving upload tmp file '" . $file["tmp_name"] . "' to '" . $this->_destinationDirectory . $dst . "'.", E_USER_ERROR);
+                return false;
             }
 
             chmod($this->_destinationDirectory . $dst, $this->_mode);

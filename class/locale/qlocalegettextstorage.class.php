@@ -115,8 +115,8 @@
          */
         function saveValue(&$locale, $name, $value)
         {
-            throw(new qException("qLocaleFileStorage::saveValue: This method has not implemented yet."));
-            die();
+            trigger_error("This method has not implemented yet.", E_USER_ERROR);
+            return;
         }
 
         /**

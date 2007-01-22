@@ -343,8 +343,8 @@
         */
         function isLink($cell)
         {
-            throw(new qException("qCalendar::isLink: This method should have implemented in child classes."));
-            die();
+            trigger_error("This method must be implemented by child classes.", E_USER_ERROR);
+            return false;
         }
     }
 

@@ -43,13 +43,13 @@
             // establece las prioridades mínimas por defecto
             if ($this->isDebug())
             {
-                $this->_priority     = 0;    // Muestra todos los errores
-                $this->_exitPriority = 3000; // Paramos solo la ejecución en los errores
+                $this->_priority     = 0; // Muestra todos los errores
+                $this->_exitPriority = 1; // Paramos la ejecución en cualquier error, aun siendo un NOTICE
             }
             else
             {
-                $this->_priority     = 3000; // Error
-                $this->_exitPriority = 3000; // Error
+                $this->_priority     = 0;    // Muestra todos los errores
+                $this->_exitPriority = 2000; // Paramos la ejecución en los warnings
             }
         }
 
@@ -121,7 +121,7 @@
 
             if ($this->_priority == 0 || $msgPriority >= $this->_priority)
             {
-                // pasa por todos los agregadores y escribe en cada uno
+                // pasa por todos los appenders y escribe en cada uno
                 $keys  = array_keys($this->_appenders);
                 $count = sizeof($keys);
 
@@ -138,7 +138,22 @@
             // debe salir de la ejecución?
             if ($this->_exitPriority > 0 && $msgPriority >= $this->_exitPriority)
             {
-                throw(new qException($message->getParameter("m"), $message->getParameter("p")));
+                // pasa por todos los appenders y si tienen implementada la función writeStackTrace la ejecuta
+                // para hacer un volcado de pila
+                $keys  = array_keys($this->_appenders);
+                $count = sizeof($keys);
+
+                for ($i = 0; $i < $count; $i++)
+                {
+                    $appender = &$this->_appenders[$keys[$i]];
+
+                    if ($appender->hasMethod("writeStackTrace"))
+                    {
+                        $appender->writeStackTrace();
+                    }
+                }
+
+                // Y finalmente paramos la ejecución del script
                 exit;
             }
         }

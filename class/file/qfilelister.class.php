@@ -26,8 +26,8 @@
         */
         function ls($dir = null)
         {
-            throw(new qException("qFileLister::ls: This method must be implemented by child classes."));
-            die();
+            trigger_error("This method must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
      }
 ?>

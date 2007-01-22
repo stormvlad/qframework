@@ -100,9 +100,8 @@
          */
         function getCentury()
         {
-            //return $this->_century;
-            throw(new qException("not implemented?"));
-            die();
+            trigger_error("getCentury not implemented. Use Locale::formatDate instead!", E_USER_WARNING);
+            return false;
         }
 
         /**
@@ -166,8 +165,8 @@
           */
         function getMonthString()
         {
-            throw(new qException("Timestamp::getMonthString not implemented. Use Locale::formatDate instead!"));
-            die();
+            trigger_error("getMonthString not implemented. Use Locale::formatDate instead!", E_USER_WARNING);
+            return false;
         }
 
         function getMonth()

@@ -48,16 +48,22 @@
             $this->_xhtmlEnabled = true;
         }
 
+        /**
+         * Add function info here
+         */
         function getBaseUrl($abs = DEFAULT_ABSOLUTE_URL)
         {
-            throw(new qException("RequestGenerator::getBaseUrl: This function must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
 
+        /**
+         * Add function info here
+         */
         function getIndexUrl($abs = DEFAULT_ABSOLUTE_URL)
         {
-            throw(new qException("RequestGenerator::getIndexUrl: This function must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
 
         /**
@@ -67,10 +73,13 @@
          */
         function getRequest()
         {
-            throw(new qException("RequestGenerator::getRequest: This function must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
 
+        /**
+         * Add function info here
+         */
         function getUrl($res, $abs = DEFAULT_ABSOLUTE_URL)
         {
             return ereg_replace("^/+", "/", $this->getBaseUrl($abs) . $res);
@@ -94,7 +103,7 @@
          * @return array Vector unidimensional asociativo con los nombres y valores, 
          *               sólo las propiedades encontradas
          */       
-        function & extract ($keys)
+        function &extract ($keys)
         {
             $array = array();
     

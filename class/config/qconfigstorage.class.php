@@ -163,8 +163,8 @@
          */
         function load(&$config)
         {
-            throw(new qException("qConfigStorage::load: This method must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
 
         /**
@@ -181,14 +181,17 @@
          */
         function saveValue(&$config, $name, $value = null)
         {
-            throw(new qException("qConfigStorage::saveValue: This method must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
 
+        /**
+         * Add function info here
+         */
         function save(&$config)
         {
-            throw(new qException("qConfigStorage::save: This method must be implemented by child classes."));
-            die();
+            trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
     }
 ?>

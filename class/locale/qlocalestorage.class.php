@@ -30,8 +30,8 @@
          */
         function load(&$locale)
         {
-            throw(new qException("qLocaleStorage::load: This method must be implemented by child classes."));
-            die();
+            trigger_error("This method must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
 
         /**
@@ -46,8 +46,8 @@
          */
         function saveValue(&$locale, $name, $value)
         {
-            throw(new qException("qLocaleStorage::saveValue: This method must be implemented by child classes."));
-            die();
+            trigger_error("This method must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
 
         /**
@@ -60,8 +60,8 @@
          */
         function save(&$locale)
         {
-            throw(new qException("qLocaleStorage::save: This method must be implemented by child classes."));
-            die();
+            trigger_error("This method must be implemented by child classes.", E_USER_ERROR);
+            return;
         }
     }
 ?>

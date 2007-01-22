@@ -67,7 +67,7 @@
                 }
                 else
                 {
-                    throw(new qException("qEventManager::unregisterEvent: '" . $obj->getClassName() . "' class cannot unregister the event with code '" . $event . "' because it's registered to '" . $this->_registeredEvents[$event] . "' class."));
+                    trigger_error("'" . $obj->getClassName() . "' class cannot unregister the event with code '" . $event . "' because it's registered to '" . $this->_registeredEvents[$event] . "' class.", E_USER_WARNING);
                     return false;
                 }
             }
@@ -82,7 +82,7 @@
         {
             if (array_key_exists($event, $this->_registeredEvents) && $obj->getClassName() != $this->_registeredEvents[$event])
             {
-                throw(new qException("qEventManager::registerEvent: '" . $obj->getClassName() . "' class cannot register the event with code '" . $event . "' because it's already registered to '" . $this->_registeredEvents[$event] . "' class."));
+                trigger_error("'" . $obj->getClassName() . "' class cannot register the event with code '" . $event . "' because it's already registered to '" . $this->_registeredEvents[$event] . "' class.", E_USER_WARNING);
                 return false;
             }
 
@@ -106,7 +106,7 @@
         {
             if (!array_key_exists($event, $this->_registeredEvents))
             {
-                throw(new qException("qEventManager::sendEvent: '" . $sender->getClassName() . "' class cannot send the event with code '" . $event . "' because there are no events with this code. First time you must register the event with registerEvent method."));
+                trigger_error("'" . $sender->getClassName() . "' class cannot send the event with code '" . $event . "' because there are no events with this code. First time you must register the event with registerEvent method.", E_USER_WARNING);
                 return false;
             }
             else
@@ -115,7 +115,7 @@
 
                 if ($sender->getClassName() != $registeredClass && !$sender->isSubclass($registeredClass))
                 {
-                    throw(new qException("qEventManager::sendEvent: '" . $sender->getClassName() . "' class cannot send the event with code '" . $event . "' because it's already registered to '" . $registeredClass . "' class."));
+                    trigger_error("'" . $sender->getClassName() . "' class cannot send the event with code '" . $event . "' because it's already registered to '" . $registeredClass . "' class.", E_USER_WARNING);
                     return false;
                 }
             }

@@ -63,7 +63,7 @@
                         (basename($trace["file"]) != "qlogger.class.php")      &&
                         ($trace["file"] != __FILE__ ))
                     {
-                        print($trace["file"] . "(" . $trace["line"] . "): ");
+                        print $trace["file"] . "(" . $trace["line"] . "): ";
 
                         if (!empty($trace["class"]))
                         {

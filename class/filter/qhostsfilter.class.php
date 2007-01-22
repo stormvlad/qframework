@@ -52,7 +52,7 @@
         {
             if ($order != "Allow,Deny" && $order != "Deny,Allow")
             {
-                throw(new qException("qHostsFilter::setOrder: Unknown 'order' param (it must be \"Allow,Deny\" or \"Deny,Allow\")."));
+                trigger_error("Unknown 'order' param (it must be \"Allow,Deny\" or \"Deny,Allow\").", E_USER_WARNING);
                 return;
             }
 
@@ -106,7 +106,7 @@
             }
             else
             {
-                throw(new qException("qHostsFilter::_addHost: Unknown 'type' param (it must be \"+\" or \"-\")."));
+                trigger_error("Unknown 'type' param (it must be \"+\" or \"-\").", E_USER_WARNING);
                 return;
             }
 
@@ -197,7 +197,7 @@
         {
             if (empty($this->_view) && empty($this->_callUserFunction))
             {
-                throw(new qException("qHostsFilter::run: You should set view or call_user_func with setters methods."));
+                trigger_error("You should set view or call_user_func with setters methods.", E_USER_WARNING);
                 return;
             }
             
@@ -214,7 +214,7 @@
             }
             else
             {
-                throw(new qException("qHostsFilter::run: Unknown 'order' param (it must be \"Allow,Deny\" or \"Deny,Allow\")."));
+                trigger_error("Unknown 'order' param (it must be \"Allow,Deny\" or \"Deny,Allow\").", E_USER_WARNING);
                 return;
             }
 
