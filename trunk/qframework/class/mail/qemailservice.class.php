@@ -215,9 +215,15 @@
 
             $images = $message->getEmbeddedImages();
 
-            foreach ($images as $cid => $image)
+            if (is_array($images) && count($images) > 0)
             {
-                $mail->AddEmbeddedImage($image, $cid);
+                include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qfile.class.php");
+            
+                foreach ($images as $cid => $image)
+                {
+                    $mail->AddEmbeddedImage($image, $cid);
+                    $mail->Body = str_replace($cid, "cid:" . $cid, $mail->Body);
+                }
             }
             
             $headers = $this->getCustomHeaders();
