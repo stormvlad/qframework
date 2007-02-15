@@ -47,7 +47,7 @@
             $user->setLastActionTime($lastActionTime);
             $user->setAttributes($attributes);
             $user->setFormValues(null, $formValues);
-            $user->setPermissions($permissions);
+            $user->setPermissions($permissions, null);
 
             $user->setHistory($history);
             $user->setHistoryIndex($historyIndex);
@@ -64,7 +64,7 @@
             $session     = &qHttp::getSessionVars();
             $attributes  = &$user->getAttributes();
             $formValues  = &$user->getFormValues();
-            $permissions = &$user->getPermissions();
+            $permissions = &$user->getPermissions(null);
 
             $session->setValue("auth", $user->isAuthenticated());
             $session->setValue("loginName", $user->getLoginName());
