@@ -559,17 +559,34 @@
         /**
         * Add function info here
         */
-        function &getPermissions()
+        function &getPermissions($level = DEFAULT_USER_PERMISSIONS_LEVEL)
         {
-            return $this->_permissions;
+            if (empty($level))
+            {
+                return $this->_permissions;
+            }
+            
+            if (!is_array($this->_permissions[$level]))
+            {
+                return array();
+            }
+            
+            return array_keys($this->_permissions[$level]);
         }
 
         /**
         * Add function info here
         */
-        function setPermissions(&$permissions)
+        function setPermissions(&$permissions, $level = DEFAULT_USER_PERMISSIONS_LEVEL)
         {
-            $this->_permissions = &$permissions;
+            if (empty($level))
+            {
+                $this->_permissions = &$permissions;
+            }
+            else
+            {
+                $this->_permissions[$level] = &$permissions;
+            }
         }
 
         /**
@@ -601,7 +618,7 @@
         */
         function hasPermission($name, $level = DEFAULT_USER_PERMISSIONS_LEVEL)
         {
-            return is_array($this->_permissions[$level]) && array_key_exists($name, $this->_permissions[$level]);
+            return is_array($this->_permissions[$level]) && !empty($this->_permissions[$level][$name]);
         }
 
         /**
@@ -653,6 +670,8 @@
 
             unset($_COOKIE[session_name()]);
             @session_destroy();
+
+            $this->setAuthenticated(false);
         }
     }
 ?>
