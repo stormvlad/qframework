@@ -222,7 +222,6 @@
                 foreach ($images as $cid => $image)
                 {
                     $mail->AddEmbeddedImage($image, $cid);
-                    $mail->Body = str_replace($cid, "cid:" . $cid, $mail->Body);
                 }
             }
             
