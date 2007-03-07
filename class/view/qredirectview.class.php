@@ -44,8 +44,13 @@
             {
                 $server   = &qHttp::getServerVars();
                 $protocol = "http";
-                $uri      = $server->getValue("HTTP_HOST") . dirname($server->getValue("PHP_SELF")) . "/";
+                $uri      = $server->getValue("HTTP_HOST");
 
+                if (substr($url, 0, 1) == "?" || substr($url, 0, 1) != "/")
+                {
+                    $uri .= dirname($server->getValue("PHP_SELF")) . "/";
+                }
+                
                 if (substr($url, 0, 1) == "?")
                 {
                     $uri .= basename($server->getValue("PHP_SELF"));
