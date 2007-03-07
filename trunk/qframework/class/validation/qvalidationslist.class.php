@@ -118,7 +118,7 @@
             {
                 $value = qUtils::getValueFromKeyName($name, $values);
 
-                if ($required && empty($value))
+                if ($required && trim($value) === "")
                 {
                     $this->setError(qUtils::normalizeKeyName($name), ERROR_RULE_IS_EMPTY);
                     $result = false;
