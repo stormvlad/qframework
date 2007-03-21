@@ -191,6 +191,7 @@
         function sendMessage(&$message)
         {
             $mail           = new PHPMailer();
+            $mail->Encoding = "quoted-printable";
             $mail->CharSet  = $this->getCharset();
             $mail->Subject  = $message->getSubject();
             $mail->Body     = $message->getBody();
