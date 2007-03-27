@@ -70,6 +70,13 @@
                 $this->reset();
                 $this->destroy();
             }
+
+            $request = &qHttp::getRequestVars();
+
+            if ($request->getValue("back") == 1)
+            {
+                $this->updateHistoryIndex();
+            }
         }
 
         /**
@@ -233,6 +240,19 @@
         /**
         * Add function info here
         */
+        function updateHistoryIndex()
+        {
+            $this->_historyIndex--;
+
+            if ($this->_historyIndex < 0)
+            {
+                $this->_historyIndex = $this->_historySize + $this->_historyIndex;
+            }
+        }
+        
+        /**
+        * Add function info here
+        */
         function getHistoryIndex()
         {
             return $this->_historyIndex;
@@ -286,7 +306,7 @@
         /**
         * Add function info here
         */
-        function getHistoryUri($index = 0, $updateHistoryIndex = true)
+        function getHistoryUri($index = 0)
         {
             $index = $this->_historyIndex + $index -1;
 
@@ -295,12 +315,32 @@
                 $index = $this->_historySize + $index;
             }
 
-            if ($updateHistoryIndex)
+            $server = &qHttp::getServerVars();
+            $uri    = $server->getValue("REQUEST_URI");
+            $count  = 0;
+
+            for ($i = 0; $i < $this->_historySize; $i++)
             {
-                $this->_historyIndex = $index;
+                //print $index . "--" . $uri . "--" . $this->_history[$index] . "<br />";
+                
+                if ($this->_history[$index] != $uri)
+                {
+                    if (strpos($this->_history[$index], "?") === false)
+                    {
+                        return $this->_history[$index] . "?back=1";
+                    }
+                    else
+                    {
+                        return $this->_history[$index] . "&amp;back=1";
+                    }
+                }
+                else
+                {
+                    $index--;
+                }
             }
             
-            return $this->_history[$index];
+            return false;
         }
 
         /**
@@ -311,7 +351,7 @@
             if (empty($uri))
             {
                 $server = &qHttp::getServerVars();
-                $uri = $server->getValue("REQUEST_URI");
+                $uri    = ereg_replace("(&(amp;)?|[?])back=1", "", $server->getValue("REQUEST_URI"));
             }
 
             $prev = ($this->_historyIndex - 1) % $this->_historySize;
