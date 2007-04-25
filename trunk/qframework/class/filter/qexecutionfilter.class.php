@@ -93,9 +93,9 @@
                 return $view;
             }
 
-            $httpRequest = &Request::getInstance();
+            $httpRequest = &qHttp::getRequestVars();
             $files       = &qHttp::getFilesVars();
-            $method      = $httpRequest->getMethod();
+            $method      = qHttp::getRequestMethod();
 
             if (($action->getValidationMethod() & $method) != $method)
             {

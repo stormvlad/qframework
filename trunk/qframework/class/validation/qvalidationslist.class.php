@@ -113,7 +113,7 @@
         {
             $result = true;
             $falses = array();
-            
+
             foreach ($this->_required as $name => $required)
             {
                 $value = qUtils::getValueFromKeyName($name, $values);
@@ -139,7 +139,7 @@
                 {
                     $value = qUtils::getValueFromKeyName($name, $values);
 
-                    if (!empty($value))
+                    if ($value !== "")
                     {
                         foreach ($validations as $validation)
                         {
