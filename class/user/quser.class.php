@@ -49,8 +49,6 @@
         var $_historyIndex;
         var $_historySize;
 
-        var $_backed;
-
         /**
         * Add function info here
         */
@@ -73,9 +71,9 @@
 
             $request = &qHttp::getRequestVars();
 
-            if ($request->getValue("back") == 1)
+            if ($request->keyExists("hty"))
             {
-                $this->updateHistoryIndex();
+                $this->_historyIndex = $request->getValue("hty");
             }
         }
 
@@ -120,8 +118,6 @@
             $this->_history            = array();
             $this->_historyIndex       = 0;
             $this->_historySize        = DEFAULT_USER_HISTORY_SIZE;
-
-            $this->_backed             = false;
         }
 
         /**
@@ -240,22 +236,37 @@
         /**
         * Add function info here
         */
-        function updateHistoryIndex()
+        function getHistoryIndex($index = null)
         {
-            $this->_historyIndex--;
-
-            if ($this->_historyIndex < 0)
+            if ($index === null)
             {
-                $this->_historyIndex = $this->_historySize + $this->_historyIndex;
+                return $this->_historyIndex;
             }
-        }
-        
-        /**
-        * Add function info here
-        */
-        function getHistoryIndex()
-        {
-            return $this->_historyIndex;
+            
+            $index = $this->_historyIndex + $index - 1;
+
+            if ($index < 0)
+            {
+                $index = $this->_historySize + $index;
+            }
+
+            $server = &qHttp::getServerVars();
+            $uri    = $server->getValue("REQUEST_URI");
+            $count  = 0;
+            
+            for ($i = 0; $i < $this->_historySize; $i++)
+            {
+                if ($this->_normalizeUri($this->_history[$index]) != $this->_normalizeUri($uri))
+                {
+                    return $index;
+                }
+                else
+                {
+                    $index--;
+                }
+            }
+
+            return false;
         }
 
         /**
@@ -302,47 +313,50 @@
         {
             $this->_history = $history;
         }
+
+        /**
+        * Add function info here
+        */
+        function _normalizeUri($uri)
+        {
+            return preg_replace("/(op=[^&]+)(.*)$/", "\\1", str_replace("index.php", "", $uri));
+        }
         
         /**
         * Add function info here
         */
-        function getHistoryUri($index = 0)
+        function getHistoryUri($index = 0, $updateIndex = false)
         {
-            $index = $this->_historyIndex + $index -1;
+            $index = $this->getHistoryIndex($index);
 
-            if ($index < 0)
+            if (strpos($this->_history[$index], "?") === false)
             {
-                $index = $this->_historySize + $index;
+                $htyUri = $this->_history[$index] . "?hty=" . $index;
+            }
+            else
+            {
+                $htyUri = $this->_history[$index] . "&hty=" . $index;
             }
 
-            $server = &qHttp::getServerVars();
-            $uri    = $server->getValue("REQUEST_URI");
-            $count  = 0;
-
-            for ($i = 0; $i < $this->_historySize; $i++)
+            if (!empty($updateIndex))
             {
-                //print $index . "--" . $uri . "--" . $this->_history[$index] . "<br />";
-                
-                if ($this->_history[$index] != $uri)
-                {
-                    if (strpos($this->_history[$index], "?") === false)
-                    {
-                        return $this->_history[$index] . "?back=1";
-                    }
-                    else
-                    {
-                        return $this->_history[$index] . "&amp;back=1";
-                    }
-                }
-                else
-                {
-                    $index--;
-                }
+                $this->_historyIndex = $index;
             }
             
-            return false;
+            return $htyUri;
         }
 
+        /**
+        * Add function info here
+        */
+        function cleanUri($uri)
+        {
+            $uri = preg_replace("/(&(amp;)?|[?])hty=[^&]+/", "", $uri);
+            $uri = preg_replace("/(&(amp;)?|[?])result=[^&]+/", "", $uri);
+
+            return $uri;
+        }
+        
         /**
         * Add function info here
         */
@@ -351,9 +365,9 @@
             if (empty($uri))
             {
                 $server = &qHttp::getServerVars();
-                $uri    = ereg_replace("(&(amp;)?|[?])back=1", "", $server->getValue("REQUEST_URI"));
+                $uri    = $this->cleanUri($server->getValue("REQUEST_URI"));
             }
-
+            
             $prev = ($this->_historyIndex - 1) % $this->_historySize;
             
             if (!isset($this->_history[$prev]) || $this->_history[$prev] != $uri)
