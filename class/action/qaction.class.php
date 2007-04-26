@@ -63,6 +63,18 @@
         }
 
         /**
+         * @brief Devuelve un booleano indicando si la acción tiene un error en el campo especificado.
+         *
+         * @param key <code>string</code> Identificador del error
+         *
+         * @return <code>boolean</code>
+         */
+        function hasError($key)
+        {
+            return !empty($this->_errors[$key]);
+        }
+        
+        /**
          * @brief Devuelve un array asociativo con los errores producidos por la validación del formulario.
          *
          * El array devuelto contiene como claves los campos en que se ha producido el error de validación
@@ -75,6 +87,16 @@
             return $this->_errors;
         }
 
+        /**
+         * @brief Establece un array asociativo de errores para la acción.
+         *
+         * @param errors <code>array</code> Array asociativo de errores 
+         */
+        function setErrors(&$errors)
+        {
+            $this->_errors = &$errors;
+        }
+        
         /**
          * @brief Añade un error en la lista de errores
          *
