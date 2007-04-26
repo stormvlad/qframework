@@ -111,6 +111,8 @@
             $action->registerValidations($validations);
 
             $validate = $validations->validate(array_merge($httpRequest->getAsArray(), $files->getAsArray()));
+            $action->setErrors($validations->getErrors());
+            
             $validate = $action->validate() && $validate;
 
             if (!$validate)
