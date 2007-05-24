@@ -1,4 +1,4 @@
- <?php
+<?php
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qurl.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qurldownloaderfilewrapper.class.php");
