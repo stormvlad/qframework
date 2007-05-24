@@ -426,6 +426,18 @@
             $this->redirect($uri);
             return;
         }
+
+        /**
+         * Recarga la URL actual
+         */
+        function reload()
+        {
+            $server = &qHttp::getServerVars();
+            $uri    = $server->getValue("REQUEST_URI");
+
+            $this->redirect($uri);
+            return;
+        }
         
         /**
          * Se procesa la petición HTTP enviada por el cliente
