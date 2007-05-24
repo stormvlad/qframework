@@ -41,6 +41,7 @@
         var $_lastUri;
         var $_attributes;
         var $_attributesVolatile;
+        var $_attributesRemove;
         var $_formValues;
         var $_permissions;
         var $_lifeTime;
@@ -74,6 +75,10 @@
             if ($request->keyExists("hty"))
             {
                 $this->_historyIndex = $request->getValue("hty");
+            }
+            else if ($this->getAttribute("hty"))
+            {
+                $this->_historyIndex = $this->getAttribute("hty");
             }
         }
 
@@ -112,6 +117,7 @@
             $this->_lastUri            = null;
             $this->_attributes         = new qProperties();
             $this->_attributesVolatile = array();
+            $this->_attributesRemove   = array();
             $this->_formValues         = array();
             $this->_permissions        = array();
             
@@ -256,7 +262,7 @@
             
             for ($i = 0; $i < $this->_historySize; $i++)
             {
-                if ($this->_normalizeUri($this->_history[$index]) != $this->_normalizeUri($uri))
+                if ($this->_normalizeUri($this->_history[$index]) != $this->_normalizeUri($uri) || $index === 0)
                 {
                     return $index;
                 }
@@ -325,24 +331,27 @@
         /**
         * Add function info here
         */
-        function getHistoryUri($index = 0, $updateIndex = false)
+        function getHistoryUri($index = 0, $htySetting = true)
         {
-            $index = $this->getHistoryIndex($index);
+            $index  = $this->getHistoryIndex($index);
+            $htyUri = $this->_history[$index];
 
-            if (strpos($this->_history[$index], "?") === false)
+            if (empty($htySetting))
             {
-                $htyUri = $this->_history[$index] . "?hty=" . $index;
+                if (strpos($this->_history[$index], "?") === false)
+                {
+                    $htyUri = $this->_history[$index] . "?hty=" . $index;
+                }
+                else
+                {
+                    $htyUri = $this->_history[$index] . "&hty=" . $index;
+                }
             }
             else
             {
-                $htyUri = $this->_history[$index] . "&hty=" . $index;
+                $this->setAttribute("hty", $index, true);
             }
 
-            if (!empty($updateIndex))
-            {
-                $this->_historyIndex = $index;
-            }
-            
             return $htyUri;
         }
 
@@ -367,7 +376,7 @@
                 $server = &qHttp::getServerVars();
                 $uri    = $this->cleanUri($server->getValue("REQUEST_URI"));
             }
-            
+
             $prev = ($this->_historyIndex - 1) % $this->_historySize;
             
             if (!isset($this->_history[$prev]) || $this->_history[$prev] != $uri)
@@ -390,6 +399,11 @@
         */
         function getAttribute($name)
         {
+            if ($this->isVolatile($name))
+            {
+                return false;
+            }
+
             return $this->_attributes->getValue($name);
         }
 
@@ -694,9 +708,29 @@
                 $this->load();
             }
 
+            foreach ($this->_attributesRemove as $key => $value)
+            {
+                if (!$this->isVolatile($key))
+                {
+                    if ($value === 0)
+                    {
+                        $this->_attributesRemove[$key]++;
+                    }
+                    else
+                    {
+                        $this->removeAttribute($key);
+                        unset($this->_attributesRemove[$key]);
+                    }
+                }
+            }
+
             foreach ($this->_attributesVolatile as $key => $value)
             {
-                $this->removeAttribute($key);
+                if (!empty($value))
+                {
+                    $this->_attributesRemove[$key] = 0;
+                    unset($this->_attributesVolatile[$key]);
+                }
             }
 
             $this->_storage->store($this);
