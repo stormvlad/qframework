@@ -504,5 +504,15 @@
             $controller->redirectBack($index);
             return;
         }
+
+        /**
+         * @brief Recarga la URL actual
+         */
+        function reload()
+        {
+            $controller = &Controller::getInstance();
+            $controller->reload();
+            return;
+        }
     }
 ?>
