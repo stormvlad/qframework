@@ -40,7 +40,7 @@
         */
         function camelize($str)
         {
-            return str_replace(" ", "", ucwords(preg_replace("/[^A-Z^a-z^0-9]+/", " ", $str)));
+            return str_replace(" ", "", ucwords(preg_replace("/[^A-Z^a-z^0-9^Ç^ç]+/", " ", $str)));
         }
 
         /**
@@ -48,7 +48,7 @@
         */
         function underscore($str)
         {
-            return  strtolower(preg_replace("/[^A-Z^a-z^0-9]+/", "_", preg_replace("/([a-zd])([A-Z])/", "\\1_\\2", preg_replace("/([A-Z]+)([A-Z][a-z])/", "\\1_\\2", $str))));
+            return  strtolower(preg_replace("/[^A-Z^a-z^0-9^Ç^ç]+/", "_", preg_replace("/([a-zç])([A-ZÇ])/", "\\1_\\2", preg_replace("/([A-Z*]+)([A-ZÇ][a-zç])/", "\\1_\\2", $str))));
         }
 
         /**
