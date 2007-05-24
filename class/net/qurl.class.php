@@ -93,8 +93,13 @@
         /**
         *    Add function info here
         */
-        function getUrl()
+        function getUrl($relative = false)
         {
+            if (!empty($relative))
+            {
+                return baseName($this->_url);
+            }
+
             return $this->_url;
         }
 
@@ -279,8 +284,31 @@
         */
         function addQueryParam($param, $value)
         {
-            $this->_query .= "&" . $param ."=" . $value;
+            if (!empty($this->_query))
+            {
+                $this->_query .= "&";
+            }
+
+            $this->_query .= $param ."=" . $value;
             $this->_glueUrl();
+            
+            return $this->_query;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setQueryParam($param, $value)
+        {
+            if (preg_match("/((&(amp;)?)|^)" . $param . "=[^&]+/", $this->_query))
+            {
+                $this->_query  = preg_replace("/(((&(amp;)?)|^)" . $param . ")=[^&]+/", "$1=" . $value, $this->_query);
+                $this->_glueUrl();
+            }
+            else
+            {
+                $this->addQueryParam($param, $value);
+            }
             
             return $this->_query;
         }
