@@ -261,6 +261,39 @@
         /**
         * Add function info here
         */
+        function getPageUrl($page, $varName = "page")
+        {
+            $baseUrl = htmlSpecialChars($this->getBaseUrl());
+
+            if (ereg("[?]op=", $baseUrl))
+            {
+                if (empty($offset) && strpos($baseUrl, "init") !== false)
+                {
+                    $url = $baseUrl;
+                }
+                else
+                {
+                    $url = $baseUrl . "&amp;" . $varName . "=" . ($page + 1);
+                }
+            }
+            else
+            {
+                if (empty($page))
+                {
+                    $url = $baseUrl;
+                }
+                else
+                {
+                    $url = $baseUrl . $varName . "/" . ($page + 1) . "/";
+                }
+            }
+
+            return $url;            
+        }
+        
+        /**
+        * Add function info here
+        */
         function getShowAllUrl($varName = "showAll")
         {
             $baseUrl = htmlSpecialChars($this->getBaseUrl());
