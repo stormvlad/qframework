@@ -176,6 +176,7 @@
          */
         function normalizeKeyName($keyName)
         {
+            $keyName = str_replace("\"", "", $keyName);
             $keyName = str_replace(array("][", "["), "_", $keyName);
             $keyName = str_replace("]", "", $keyName);
 
