@@ -139,7 +139,7 @@
                 {
                     $value = qUtils::getValueFromKeyName($name, $values);
 
-                    if ($value !== "")
+                    if ($value !== ""  && $value !== NULL)
                     {
                         foreach ($validations as $validation)
                         {
