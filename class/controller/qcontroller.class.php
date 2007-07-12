@@ -387,6 +387,12 @@
             $executionFilter  = new qExecutionFilter();
             $action           = new $actionClassName();
 
+            if ($this->_sessionEnabled && $action->getSaveUriToHistory())
+            {
+                $user = &User::getInstance();
+                $user->saveUriToHistory();
+            }
+            
             $this->_currentAction = &$action;
 
             $action->registerFilters($filtersChain);
@@ -457,12 +463,6 @@
 
             $this->sendEvent(1, $params);
 
-            if ($this->_sessionEnabled)
-            {
-                $user = &User::getInstance();
-                $user->saveUriToHistory();
-            }
-
             if (empty($httpRequest))
             {
                 $httpRequest = &Request::getInstance();
@@ -473,6 +473,8 @@
             if ($this->_sessionEnabled)
             {
                 $d = new qDate();
+
+                $user = &User::getInstance();
                 $user->setLastActionTime($d->getDate(DATE_FORMAT_TIMESTAMP));
                 $user->store();
             }

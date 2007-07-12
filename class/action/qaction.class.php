@@ -20,6 +20,7 @@
         var $_errors;
         var $_formName;
         var $_nonPersistent;
+        var $_saveUriToHistory;
 
         /**
          * @brief Constructor.
@@ -27,11 +28,32 @@
         function qAction()
         {
             $this->qObject();
-            $this->_errors        = array();
-            $this->_formName      = $this->getClassName();
-            $this->_nonPersistent = array();
+            $this->_errors           = array();
+            $this->_formName         = $this->getClassName();
+            $this->_nonPersistent    = array();
+            $this->_saveUriToHistory = true;
         }
 
+        /**
+         * @brief Devuelve si la URI de la action se almacenará en el historial
+         *
+         * @return <code>string</code>
+         */
+        function getSaveUriToHistory()
+        {
+            return $this->_saveUriToHistory;
+        }
+
+        /**
+         * @brief Establece un booleano indicando si la URI de la action se almacenará en el historial
+         *
+         * @param value <code>boolean</code>
+         */
+        function setSaveUriToHistory($value)
+        {
+            $this->_saveUriToHistory = $value;
+        }
+        
         /**
          * @brief Devuelve el nombre del formulario
          *
