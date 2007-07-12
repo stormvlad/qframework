@@ -61,6 +61,24 @@
         /**
         * Add function here
         */
+        function getWidthFromHeight($height)
+        {
+            $ratio = $height / $this->getHeight();
+            return number_format($this->getWidth() * $ratio, 2);
+        }
+
+        /**
+        * Add function here
+        */
+        function getHeightFromWidth($width)
+        {
+            $ratio = $width / $this->getWidth();
+            return number_format($this->getHeight() * $ratio, 2);
+        }
+        
+        /**
+        * Add function here
+        */
         function getType()
         {
             return $this->_type;
