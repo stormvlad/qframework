@@ -883,7 +883,7 @@
             $days        = array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
             $daysShort   = array("Mo", "Tu", "We", "Th", "Fr", "Sa", "Su");
             $months      = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-            $monthsShort = array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dic");
+            $monthsShort = array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
 
             $result      = $format;
             $result      = str_replace("%w3c", sprintf("%s-%02s-%02sT%02s:%02s.%02s%s", $year, $month, $day, $hour, $minute, $second, $offset2), $result);
