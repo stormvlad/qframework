@@ -278,14 +278,7 @@
             }
             else
             {
-                if (empty($page))
-                {
-                    $url = $baseUrl;
-                }
-                else
-                {
-                    $url = $baseUrl . $varName . "/" . ($page + 1) . "/";
-                }
+                $url = $baseUrl . $varName . "/" . ($page + 1) . "/";
             }
 
             return $url;            
