@@ -91,9 +91,25 @@
          *
          * @return <code>boolean</code>
          */
-        function hasError($key)
+        function hasError($key, $regExp = false)
         {
-            return !empty($this->_errors[$key]);
+            if (empty($regExp))
+            {
+                return !empty($this->_errors[$key]);
+            }
+
+            $pattern = $key;
+            $keys    = array_keys($this->_errors);
+
+            foreach ($keys as $key)
+            {
+                if (ereg($pattern, $key))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
         
         /**
