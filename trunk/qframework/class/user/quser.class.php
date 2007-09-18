@@ -362,6 +362,7 @@
         {
             $uri = preg_replace("/(&(amp;)?|[?])hty=[^&]+/", "", $uri);
             $uri = preg_replace("/(&(amp;)?|[?])result=[^&]+/", "", $uri);
+            $uri = preg_replace("/#.*/", "", $uri);
 
             return $uri;
         }
