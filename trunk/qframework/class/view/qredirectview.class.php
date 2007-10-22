@@ -70,7 +70,7 @@
                 $result = $url;
             }
 
-            $this->_url = $result;
+            $this->_url = str_replace("&amp;", "&", $result);
         }
     }
 ?>
