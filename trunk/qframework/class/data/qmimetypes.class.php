@@ -59,6 +59,7 @@
             "jpg"     => "image/jpeg",
             "js"      => "application/x-javascript",
             "kar"     => "audio/midi",
+            "kml"     => "application/vnd.google-earth.kml+xml",
             "latex"   => "application/x-latex",
             "lha"     => "application/octet-stream",
             "lzh"     => "application/octet-stream",
