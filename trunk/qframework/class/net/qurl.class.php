@@ -47,9 +47,40 @@
                 $server = &qHttp::getServerVars();
                 $url    = $server->getValue("REQUEST_URI");
             }
-            
-            $this->_url = $url;
+
+            if (!eregi("^http[s]?://", $url))
+            {
+                $protocol = "http";
+                $server   = &qHttp::getServerVars();
+                $uri      = $server->getValue("HTTP_HOST");
+
+                if (substr($url, 0, 1) == "?" || substr($url, 0, 1) != "/")
+                {
+                    $uri .= dirname($server->getValue("PHP_SELF")) . "/";
+                }
+                
+                if (substr($url, 0, 1) == "?")
+                {
+                    $uri .= basename($server->getValue("PHP_SELF"));
+                }
+
+                if ($server->getValue("HTTPS") == "on" || eregi("^https", $server->getValue("HTTP_REFERER")))
+                {
+                    $protocol = "https";
+                }
+
+                $uri   .= $url;
+                $uri    = preg_replace("|[/]+|s", "/", $uri);
+                $result = $protocol . "://" . $uri;
+            }
+            else
+            {
+                $result = $url;
+            }
+
+            $this->_url = str_replace("&amp;", "&", $result);
             $this->_calculateFields();
+            $this->_glueUrl();
         }
 
         /**
@@ -110,6 +141,7 @@
         {
             $this->_url = $url;
             $this->_calculateFields();
+            $this->_glueUrl();
         }
 
         /**
