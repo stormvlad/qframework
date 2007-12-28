@@ -28,7 +28,8 @@
         */
         function render(&$view)
         {
-            header("Location: " . $view->getUrl());
+            $url = new qUrl($view->getUrl());
+            header("Location: " . $url->getUrl());
         }
     }
 
