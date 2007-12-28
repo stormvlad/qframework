@@ -31,7 +31,7 @@
             $this->_soapServer->xml_encoding      = $encoding;
             $this->_soapServer->response_encoding = $encoding;
 
-            $this->_soapServer->addObjectMap($this, "urn:" . $this->getClassName());
+            $this->_soapServer->addObjectMap($this, "urn:" . strtolower($this->getClassName()));
         }
 
         /**
