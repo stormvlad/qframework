@@ -2,6 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/config/qproperties.class.php");
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/user/qusersessionstorage.class.php");
+    include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qdate.class.php");
 
     define("DEFAULT_USER_PERMISSIONS_LEVEL", "__all__");
     define("DEFAULT_USER_HISTORY_SIZE", 10);
@@ -41,7 +42,6 @@
         var $_lastUri;
         var $_attributes;
         var $_attributesVolatile;
-        var $_attributesRemove;
         var $_formValues;
         var $_permissions;
         var $_lifeTime;
@@ -49,6 +49,8 @@
         var $_history;
         var $_historyIndex;
         var $_historySize;
+
+        var $_backed;
 
         /**
         * Add function info here
@@ -72,13 +74,9 @@
 
             $request = &qHttp::getRequestVars();
 
-            if ($request->keyExists("hty"))
+            if ($request->getValue("back") == 1)
             {
-                $this->_historyIndex = $request->getValue("hty");
-            }
-            else if ($this->getAttribute("hty"))
-            {
-                $this->_historyIndex = $this->getAttribute("hty");
+                $this->updateHistoryIndex();
             }
         }
 
@@ -117,13 +115,14 @@
             $this->_lastUri            = null;
             $this->_attributes         = new qProperties();
             $this->_attributesVolatile = array();
-            $this->_attributesRemove   = array();
             $this->_formValues         = array();
             $this->_permissions        = array();
             
             $this->_history            = array();
             $this->_historyIndex       = 0;
             $this->_historySize        = DEFAULT_USER_HISTORY_SIZE;
+
+            $this->_backed             = false;
         }
 
         /**
@@ -242,37 +241,22 @@
         /**
         * Add function info here
         */
-        function getHistoryIndex($index = null)
+        function updateHistoryIndex()
         {
-            if ($index === null)
-            {
-                return $this->_historyIndex;
-            }
-            
-            $index = $this->_historyIndex + $index - 1;
+            $this->_historyIndex--;
 
-            if ($index < 0)
+            if ($this->_historyIndex < 0)
             {
-                $index = $this->_historySize + $index;
+                $this->_historyIndex = $this->_historySize + $this->_historyIndex;
             }
-
-            $server = &qHttp::getServerVars();
-            $uri    = $server->getValue("REQUEST_URI");
-            $count  = 0;
-            
-            for ($i = 0; $i < $this->_historySize; $i++)
-            {
-                if ($this->_normalizeUri($this->_history[$index]) != $this->_normalizeUri($uri) || $index === 0)
-                {
-                    return $index;
-                }
-                else
-                {
-                    $index--;
-                }
-            }
-
-            return false;
+        }
+        
+        /**
+        * Add function info here
+        */
+        function getHistoryIndex()
+        {
+            return $this->_historyIndex;
         }
 
         /**
@@ -319,54 +303,47 @@
         {
             $this->_history = $history;
         }
-
-        /**
-        * Add function info here
-        */
-        function _normalizeUri($uri)
-        {
-            return preg_replace("/(op=[^&]+)(.*)$/", "\\1", str_replace("index.php", "", $uri));
-        }
         
         /**
         * Add function info here
         */
-        function getHistoryUri($index = 0, $htySetting = true)
+        function getHistoryUri($index = 0)
         {
-            $index  = $this->getHistoryIndex($index);
-            $htyUri = $this->_history[$index];
+            $index = $this->_historyIndex + $index -1;
 
-            if (empty($htySetting))
+            if ($index < 0)
             {
-                if (strpos($this->_history[$index], "?") === false)
+                $index = $this->_historySize + $index;
+            }
+
+            $server = &qHttp::getServerVars();
+            $uri    = $server->getValue("REQUEST_URI");
+            $count  = 0;
+
+            for ($i = 0; $i < $this->_historySize; $i++)
+            {
+                //print $index . "--" . $uri . "--" . $this->_history[$index] . "<br />";
+                
+                if ($this->_history[$index] != $uri)
                 {
-                    $htyUri = $this->_history[$index] . "?hty=" . $index;
+                    if (strpos($this->_history[$index], "?") === false)
+                    {
+                        return $this->_history[$index] . "?back=1";
+                    }
+                    else
+                    {
+                        return $this->_history[$index] . "&amp;back=1";
+                    }
                 }
                 else
                 {
-                    $htyUri = $this->_history[$index] . "&hty=" . $index;
+                    $index--;
                 }
             }
-            else
-            {
-                $this->setAttribute("hty", $index, true);
-            }
-
-            return $htyUri;
+            
+            return false;
         }
 
-        /**
-        * Add function info here
-        */
-        function cleanUri($uri)
-        {
-            $uri = preg_replace("/(&(amp;)?|[?])hty=[^&]+/", "", $uri);
-            $uri = preg_replace("/(&(amp;)?|[?])result=[^&]+/", "", $uri);
-            $uri = preg_replace("/#.*/", "", $uri);
-
-            return $uri;
-        }
-        
         /**
         * Add function info here
         */
@@ -375,7 +352,7 @@
             if (empty($uri))
             {
                 $server = &qHttp::getServerVars();
-                $uri    = $this->cleanUri($server->getValue("REQUEST_URI"));
+                $uri    = ereg_replace("(&(amp;)?|[?])back=1", "", $server->getValue("REQUEST_URI"));
             }
 
             $prev = ($this->_historyIndex - 1) % $this->_historySize;
@@ -400,11 +377,6 @@
         */
         function getAttribute($name)
         {
-            if ($this->isVolatile($name))
-            {
-                return false;
-            }
-
             return $this->_attributes->getValue($name);
         }
 
@@ -709,29 +681,9 @@
                 $this->load();
             }
 
-            foreach ($this->_attributesRemove as $key => $value)
-            {
-                if (!$this->isVolatile($key))
-                {
-                    if ($value === 0)
-                    {
-                        $this->_attributesRemove[$key]++;
-                    }
-                    else
-                    {
-                        $this->removeAttribute($key);
-                        unset($this->_attributesRemove[$key]);
-                    }
-                }
-            }
-
             foreach ($this->_attributesVolatile as $key => $value)
             {
-                if (!empty($value))
-                {
-                    $this->_attributesRemove[$key] = 0;
-                    unset($this->_attributesVolatile[$key]);
-                }
+                $this->removeAttribute($key);
             }
 
             $this->_storage->store($this);
