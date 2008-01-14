@@ -18,10 +18,12 @@
         var $_destinationDirectory;
         var $_mode;
 
+        var $_useMoveUploadedFile;
+
         /**
         * Constructor.
         */
-        function qFileUpload($name, $directory)
+        function qFileUpload($name, $directory, $useMoveUploadedFile = true)
         {
             $this->qObject();
 
@@ -52,6 +54,22 @@
             $this->_name = $name;
         }
 
+        /**
+        * Add function here
+        */
+        function getUseMoveUploadedFile()
+        {
+            return $this->_useMoveUploadedFile;
+        }
+
+        /**
+        * Add function here
+        */
+        function setUseMoveUploadedFile($value)
+        {
+            $this->_useMoveUploadedFile = $value;
+        }
+        
         /**
         * Add function here
         */
@@ -128,12 +146,25 @@
                 mkdir($this->_destinationDirectory, $this->getMode());
             }
 
-            if (!move_uploaded_file($file["tmp_name"], $this->_destinationDirectory . $dst))
+            if ($this->getUseMoveUploadedFile())
             {
-                trigger_error("Error moving upload tmp file '" . $file["tmp_name"] . "' to '" . $this->_destinationDirectory . $dst . "'.", E_USER_ERROR);
-                return false;
+                if (!move_uploaded_file($file["tmp_name"], $this->_destinationDirectory . $dst))
+                {
+                    trigger_error("Error moving upload tmp file '" . $file["tmp_name"] . "' to '" . $this->_destinationDirectory . $dst . "'.", E_USER_ERROR);
+                    return false;
+                }
             }
+            else
+            {
+                include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qfile.class.php");
 
+                if (!qFile::rename($file["tmp_name"], $this->_destinationDirectory . $dst))
+                {
+                    trigger_error("Error renaming upload tmp file '" . $file["tmp_name"] . "' to '" . $this->_destinationDirectory . $dst . "'.", E_USER_ERROR);
+                    return false;
+                }
+            }
+            
             chmod($this->_destinationDirectory . $dst, $this->_mode);
             return true;
         }
