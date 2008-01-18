@@ -692,14 +692,24 @@
          * @param $decimals <em>integer</em> Número de cifras decimales
          * @return string Cadena con el número con formato
          */
-        function formatNumber($number, $decimals = null)
+        function formatNumber($number, $decimals = null, $decPoint = null, $thousandsSep = null)
         {
             if (empty($decimals))
             {
                 $decimals = is_float($number) ? $this->getCurrencyDecimals() : 0;
             }
 
-            return number_format($number, $decimals, $this->getDecimalSymbol(), $this->getThousandsSeparator());
+            if (empty($decPoint))
+            {
+                $decPoint = $this->getDecimalSymbol();
+            }
+
+            if ($thousandsSep === null)
+            {
+                $thousandsSep = $this->getThousandsSeparator();
+            }
+            
+            return number_format($number, $decimals, $decPoint, $thousandsSep);
         }
 
         /**
