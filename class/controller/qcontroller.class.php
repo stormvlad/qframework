@@ -383,11 +383,12 @@
             $actionClassName  = $this->getActionClassName($actionName);
             $this->loadActionClass($actionClassName);
 
+            $request          = &qHttp::getRequestVars();
             $filtersChain     = new qFiltersChain();
             $executionFilter  = new qExecutionFilter();
             $action           = new $actionClassName();
 
-            if ($this->_sessionEnabled && $action->getSaveUriToHistory())
+            if ($this->_sessionEnabled && $action->getSaveUriToHistory() && $request->getRequestMethod() == REQUEST_METHOD_GET)
             {
                 $user = &User::getInstance();
                 $user->saveUriToHistory();

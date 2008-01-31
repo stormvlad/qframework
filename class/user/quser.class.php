@@ -352,7 +352,9 @@
             if (empty($uri))
             {
                 $server = &qHttp::getServerVars();
-                $uri    = ereg_replace("(&(amp;)?|[?])back=1", "", $server->getValue("REQUEST_URI"));
+                $uri    = $server->getValue("REQUEST_URI");
+                $uri    = preg_replace("/(&(amp;)?|[?])back=1/", "", $uri);
+                $uri    = preg_replace("/(&(amp;)?|[?])result=[^&]+/", "", $uri);
             }
 
             $prev = ($this->_historyIndex - 1) % $this->_historySize;
