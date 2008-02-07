@@ -322,8 +322,6 @@
 
             for ($i = 0; $i < $this->_historySize; $i++)
             {
-                //print $index . "--" . $uri . "--" . $this->_history[$index] . "<br />";
-                
                 if ($this->_history[$index] != $uri)
                 {
                     if (strpos($this->_history[$index], "?") === false)
@@ -341,9 +339,20 @@
                 }
             }
             
-            return false;
+            return "/";
         }
 
+        /**
+        * Add function info here
+        */
+        function cleanUri($uri)
+        {
+            $uri = preg_replace("/(&(amp;)?|[?])back=1(.*)/", "", $uri);
+            $uri = preg_replace("/(&(amp;)?|[?])result=[^&]+/", "", $uri);
+
+            return $uri;
+        }
+        
         /**
         * Add function info here
         */
@@ -353,10 +362,9 @@
             {
                 $server = &qHttp::getServerVars();
                 $uri    = $server->getValue("REQUEST_URI");
-                $uri    = preg_replace("/(&(amp;)?|[?])back=1/", "", $uri);
-                $uri    = preg_replace("/(&(amp;)?|[?])result=[^&]+/", "", $uri);
             }
 
+            $uri  = $this->cleanUri($uri);
             $prev = ($this->_historyIndex - 1) % $this->_historySize;
             
             if (!isset($this->_history[$prev]) || $this->_history[$prev] != $uri)
@@ -489,6 +497,14 @@
             return count($this->_formValues[$formName]);
         }
 
+        /**
+        * Add function info here
+        */
+        function isFirstTimeAction($action)
+        {
+            return empty($this->_formValues[$action]);
+        }
+        
         /**
         * Add function info here
         */
@@ -687,7 +703,7 @@
             {
                 $this->removeAttribute($key);
             }
-
+            
             $this->_storage->store($this);
         }
 
