@@ -52,6 +52,8 @@
 
         var $_backed;
 
+        var $_excludeUriPatterns;
+
         /**
         * Add function info here
         */
@@ -123,8 +125,64 @@
             $this->_historySize        = DEFAULT_USER_HISTORY_SIZE;
 
             $this->_backed             = false;
+
+            $this->_excludeUriPatterns = array();
         }
 
+        /**
+        * Add function info here
+        */
+        function addExcludeUriPattern($pattern)
+        {
+            $this->_excludedUriPatterns[$pattern] = true;
+        }
+
+        /**
+        * Add function info here
+        */
+        function removeExcludeUriPattern($pattern)
+        {
+            if (!empty($this->_excludedUriPatterns[$pattern]))
+            {
+                unset($this->_excludedUriPatterns[$pattern]);
+            }
+        }
+
+        /**
+        * Add function info here
+        */
+        function resetExcludeUriPatterns()
+        {
+            $this->_excludedUriPatterns = array();
+        }
+
+        /**
+        * Add function info here
+        */
+        function getExcludeUriPatterns()
+        {
+            return $this->_excludedUriPatterns;
+        }
+
+        /**
+        * Add function info here
+        */
+        function excludeUri($uri)
+        {
+            if (is_array($this->_excludedUriPatterns) && count($this->_excludedUriPatterns) > 0)
+            {
+                foreach ($this->_excludedUriPatterns as $pattern => $value)
+                {
+                    if (preg_match($pattern, $uri))
+                    {
+                        return true;
+                    }
+                }
+            }
+            
+            return false;
+        }
+        
         /**
         * Add function info here
         */
@@ -364,6 +422,11 @@
                 $uri    = $server->getValue("REQUEST_URI");
             }
 
+            if ($this->excludeUri($uri))
+            {
+                return;
+            }
+            
             $uri  = $this->cleanUri($uri);
             $prev = ($this->_historyIndex - 1) % $this->_historySize;
             
