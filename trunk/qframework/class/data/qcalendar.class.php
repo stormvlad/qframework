@@ -68,41 +68,46 @@
         {
             return $this->_baseUrl;
         }
+
+        /**
+        *    Add function info here
+        */
+        function _getFormattedValue($value, $format = false)
+        {
+            if (empty($format))
+            {
+                return $value;
+            }
+
+            // For compatibility
+            if ($format === true)
+            {
+                $format = "%02d";
+            }
+            
+            return sprintf($format, $value);
+        }
         
         /**
         *    Add function info here
         */
-        function getDay($padding = false)
+        function getDay($format = false)
         {
-            $day = $this->_day;
-
-            if ($padding)
-            {
-                $day = sprintf("%02d", $day);
-            }
-
-            return $day;
+            return $this->_getFormattedValue($this->_day, $format);
         }
 
         /**
         *    Add function info here
         */
-        function getMonth($padding = false)
+        function getMonth($format = false)
         {
-            $month = $this->_month;
-
-            if ($padding)
-            {
-                $month = sprintf("%02d", $month);
-            }
-
-            return $month;
+            return $this->_getFormattedValue($this->_month, $format);
         }
 
         /**
         *    Add function info here
         */
-        function getPrevMonth($padding = false)
+        function getPrevMonth($format = false)
         {
             $month = $this->getMonth() - 1;
 
@@ -111,18 +116,13 @@
                 $month = 12;
             }
 
-            if ($padding)
-            {
-                $month = sprintf("%02d", $month);
-            }
-            
-            return $month;
+            return $this->_getFormattedValue($month, $format);
         }
 
         /**
         *    Add function info here
         */
-        function getNextMonth($padding = false)
+        function getNextMonth($format = false)
         {
             $month = $this->getMonth() + 1;
 
@@ -131,20 +131,15 @@
                 $month = 1;
             }
 
-            if ($padding)
-            {
-                $month = sprintf("%02d", $month);
-            }
-
-            return $month;
+            return $this->_getFormattedValue($month, $format);
         }
         
         /**
         *    Add function info here
         */
-        function getYear()
+        function getYear($format = false)
         {
-            return $this->_year;
+            return $this->_getFormattedValue($this->_year, $format);
         }
 
         /**
@@ -227,16 +222,90 @@
         function setFirstDayOfWeek($day)
         {
             $this->_firstDayOfWeek = $day;
+            $this->_generate();
         }
 
         /**
         *    Add function info here
         */
-        function &getTableOfDays()
+        function &getTableOfDays($fillFalses = false, $formatMonths = false)
         {
-            return $this->_calendar;
+            $table = $this->_calendar;
+
+            if (!empty($fillFalses))
+            {
+                if (empty($table[1][0]))
+                {
+                    $calendar = new Calendar($this->getBaseUrl(), $this->getYear(), $this->getMonth());
+                    $calendar->setPrevMonth();
+                    $week = $calendar->getLastWeek();
+    
+                    for ($i = 0; $i < 7; $i++)
+                    {
+                        if (empty($table[1][$i]))
+                        {
+                            $table[1][$i] = $week[$i] . "/" . $calendar->getMonth($formatMonths);
+                        }
+                    }
+                }
+
+                $last = count($table) - 1;
+
+                if (empty($table[$last][6]))
+                {
+                    $calendar = new Calendar($this->getBaseUrl(), $this->getYear(), $this->getMonth());
+                    $calendar->setNextMonth();
+                    $week = $calendar->getFirstWeek();
+    
+                    for ($i = 0; $i < 7; $i++)
+                    {
+                        if (empty($table[$last][$i]))
+                        {
+                            $table[$last][$i] = $week[$i] . "/" . $calendar->getMonth($formatMonths);
+                        }
+                    }
+                }
+            }
+            
+            return $table;
         }
 
+        /**
+        *    Add function info here
+        */
+        function getWeek($day, $fillFalses = false)
+        {
+            $weeks = &$this->getTableOfDays($fillFalses);
+
+            for ($i = 1; $i < 6; $i++)
+            {
+                if (($day <= $weeks[$i][6]) || ($day >= $weeks[$i][0] && $weeks[$i][6] == false))
+                {                
+                    return $weeks[$i];
+                }
+            }
+            
+            return false;
+        }
+
+        /**
+        *    Add function info here
+        */
+        function getFirstWeek($fillFalses = false)
+        {
+            $weeks = &$this->getTableOfDays($fillFalses);
+            return $weeks[1];
+        }
+        
+        /**
+        *    Add function info here
+        */
+        function getLastWeek($fillFalses = false)
+        {
+            $weeks = &$this->getTableOfDays($fillFalses);
+            return $weeks[count($weeks) - 1];
+        }
+        
         /**
         *    Add function info here
         */
@@ -336,6 +405,22 @@
             }
             
             return $url;            
+        }
+
+        /**
+        * Add function info here
+        */
+        function extractDay($cell)
+        {
+            return substr($cell, 0, strpos($cell, "/"));
+        }
+        
+        /**
+        * Add function info here
+        */
+        function isFromOtherMonth($cell)
+        {
+            return strpos($cell, "/") !== false;
         }
         
         /**

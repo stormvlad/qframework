@@ -41,7 +41,6 @@
          */
         function qPager($baseUrl, $offset, $totalRegs, $regsForPage = DEFAULT_PAGER_REGS_FOR_PAGE, $maxPages = DEFAULT_PAGER_MAX_PAGES)
         {
-            $this->_baseUrl     = $baseUrl;
             $this->_offset      = $offset;
             $this->_totalRegs   = $totalRegs;
             $this->_regsForPage = $regsForPage;
@@ -59,6 +58,13 @@
                 }
             }
 
+            if (empty($baseUrl))
+            {
+                $server  = &qHttp::getServerVars();
+                $baseUrl = $server->getValue("REQUEST_URI");
+            }
+            
+            $this->setBaseUrl($baseUrl);
             $this->_init();
         }
 
@@ -68,6 +74,8 @@
         function setBaseUrl($url)
         {
             $this->_baseUrl = $url;
+            $this->_baseUrl = preg_replace("#[/&]offset[2]?[/=][0-9]+#", "", $this->_baseUrl);
+            $this->_baseUrl = preg_replace("#[/&]pag[e]?[/=][0-9]+#", "", $this->_baseUrl);
         }
 
         /**
