@@ -28,9 +28,10 @@
             $this->qObject();
 
             $this->_name = $name;
-            $this->_mode = 0644;
+            $this->_mode = 0755;
             $this->_destinationFileName  = null;
             $this->_destinationDirectory = $directory;
+            $this->_useMoveUploadedFile  = $useMoveUploadedFile;
 
             if (substr($directory, -1) != "/")
             {

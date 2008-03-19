@@ -48,6 +48,8 @@
                 $url    = $server->getValue("REQUEST_URI");
             }
 
+            $url = rawUrlDecode($url);
+            
             if (!eregi("^http[s]?://", $url))
             {
                 $protocol = "http";
@@ -350,7 +352,7 @@
         */
         function removeQueryParam($param)
         {
-            $this->_query = preg_replace("/((&(amp;)?)|^)" . $param . "=[^&]+/", "", $this->_query);
+            $this->_query = preg_replace("/((&(amp;)?)|^)" . $param . "(\\[[^\\]]+\\])?=[^&]+/", "", $this->_query);
             $this->_query = preg_replace("/^&/", "", $this->_query);
             $this->_glueUrl();
             
