@@ -198,7 +198,7 @@
         */
         function setBaseUrl($url)
         {
-            $this->_baseUrl = preg_replace("#[/&](year|month|week|day|init)[/=][0-9]+#", "", $url);
+            $this->_baseUrl = preg_replace("#[/&](year|month|week|day|init|back)[/=][0-9]+#", "", $url);
         }
 
         /**
@@ -523,9 +523,17 @@
             $curMonth = intVal(strftime("%m"));
             $curYear  = intVal(strftime("%Y"));
 
-            return ($curMonth == $this->_month && $curYear == $this->_year && $day == $curDay);
+            return !$this->isFromOtherMonth($day) && ($curMonth == $this->_month && $curYear == $this->_year && $day == $curDay);
         }
 
+        /**
+        *    Add function info here
+        */
+        function isCurrent($cell)
+        {
+            return $this->isFromOtherMonth($cell) && ($this->extractMonth($cell) == $this->_month && $this->extractYear($cell) == $this->_year && $this->extractDay($cell) == $this->_day);
+        }
+        
         /**
          *    Add function info here
          * @private
