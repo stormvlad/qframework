@@ -52,7 +52,7 @@
 
         var $_backed;
 
-        var $_excludeUriPatterns;
+        var $_excludedUriPatterns;
 
         /**
         * Add function info here
@@ -110,29 +110,29 @@
         */
         function reset()
         {
-            $this->_loaded             = false;
-            $this->_authenticated      = false;
-            $this->_loginName          = null;
-            $this->_lastActionTime     = null;
-            $this->_lastUri            = null;
-            $this->_attributes         = new qProperties();
-            $this->_attributesVolatile = array();
-            $this->_formValues         = array();
-            $this->_permissions        = array();
+            $this->_loaded              = false;
+            $this->_authenticated       = false;
+            $this->_loginName           = null;
+            $this->_lastActionTime      = null;
+            $this->_lastUri             = null;
+            $this->_attributes          = new qProperties();
+            $this->_attributesVolatile  = array();
+            $this->_formValues          = array();
+            $this->_permissions         = array();
             
-            $this->_history            = array();
-            $this->_historyIndex       = 0;
-            $this->_historySize        = DEFAULT_USER_HISTORY_SIZE;
+            $this->_history             = array();
+            $this->_historyIndex        = 0;
+            $this->_historySize         = DEFAULT_USER_HISTORY_SIZE;
 
-            $this->_backed             = false;
+            $this->_backed              = false;
 
-            $this->_excludeUriPatterns = array();
+            $this->_excludedUriPatterns = array();
         }
 
         /**
         * Add function info here
         */
-        function addExcludeUriPattern($pattern)
+        function addExcludedUriPattern($pattern)
         {
             $this->_excludedUriPatterns[$pattern] = true;
         }
@@ -140,7 +140,7 @@
         /**
         * Add function info here
         */
-        function removeExcludeUriPattern($pattern)
+        function removeExcludedUriPattern($pattern)
         {
             if (!empty($this->_excludedUriPatterns[$pattern]))
             {
@@ -151,7 +151,7 @@
         /**
         * Add function info here
         */
-        function resetExcludeUriPatterns()
+        function resetExcludedUriPatterns()
         {
             $this->_excludedUriPatterns = array();
         }
@@ -159,7 +159,7 @@
         /**
         * Add function info here
         */
-        function getExcludeUriPatterns()
+        function getExcludedUriPatterns()
         {
             return $this->_excludedUriPatterns;
         }
