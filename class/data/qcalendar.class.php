@@ -52,6 +52,13 @@
 
             $this->_calendar = array();
 
+            $this->_firstDayOfWeek = intVal($firstDayOfWeek);
+
+            $this->_month    = $month;
+            $this->_year     = $year;
+
+            $this->setDay($day);
+            
             if (empty($baseUrl))
             {
                 $server  = &qHttp::getServerVars();
@@ -60,12 +67,6 @@
             
             $this->setBaseUrl($baseUrl);
             
-            $this->_day      = $day;
-            $this->_month    = $month;
-            $this->_year     = $year;
-
-            $this->_firstDayOfWeek = intVal($firstDayOfWeek);
-
             $this->_generate();
             $this->_autoSetWeek();
         }
@@ -220,6 +221,12 @@
         function setDay($day)
         {
             $this->_day = intVal($day);
+
+            while (!checkdate($this->_month, $this->_day, $this->_year))
+            {
+                $this->_day--;
+            }
+            
             $this->_autoSetWeek();
         }
 

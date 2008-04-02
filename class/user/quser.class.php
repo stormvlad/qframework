@@ -54,13 +54,30 @@
 
         var $_excludedUriPatterns;
 
+        var $_fromSessionFile;
+        
         /**
         * Add function info here
         */
-        function qUser($sid, &$storage, $lifeTime = 0)
+        function qUser($sid = null, &$storage, $lifeTime = 0)
         {
             $this->qObject();
 
+            if (empty($sid))
+            {
+                if (!session_id())
+                {
+                    session_start();
+                }
+
+                $sid = session_id();
+                $this->_fromSessionFile = false;
+            }
+            else
+            {
+                $this->_fromSessionFile = true;
+            }
+            
             $this->_sid      = $sid;
             $this->_storage  = &$storage;
             $this->_lifeTime = $lifeTime;
@@ -110,7 +127,6 @@
         */
         function reset()
         {
-            $this->_loaded              = false;
             $this->_authenticated       = false;
             $this->_loginName           = null;
             $this->_lastActionTime      = null;
@@ -748,8 +764,44 @@
         */
         function load()
         {
+            if (!empty($this->_fromSessionFile))
+            {
+                include_once(APP_ROOT_PATH . "class/controller/controller.class.php");
+                $controller = &Controller::getInstance();
+                $fileName   = $controller->getSessionPath() . "sess_" . $this->getSid();
+
+                if (is_file($fileName) && is_readable($fileName))
+                {
+                    $current    = session_encode();
+                    $contents   = file_get_contents($fileName);
+
+                    foreach ($_SESSION as $key => $value)
+                    {
+                        unset($_SESSION[$key]);
+                    }
+
+                    session_decode($contents);
+
+                    $session = &qHttp::getSessionVars();
+                    $session->reset();
+                    $session->setValues($_SESSION);
+
+                    $this->reset();
+                }
+            }
+            
             $this->_loaded = true;
             $this->_storage->load($this);
+
+            if (!empty($this->_fromSessionFile) && !empty($current))
+            {
+                foreach ($_SESSION as $key => $value)
+                {
+                    unset($_SESSION[$key]);
+                }
+
+                session_decode($current);
+            }
         }
 
         /**
