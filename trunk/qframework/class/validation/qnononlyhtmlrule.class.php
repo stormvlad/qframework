@@ -26,7 +26,7 @@
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.
          */
-        function validate($value)
+        function validate($value, $field = null)
         {
             include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/data/qformat.class.php");
             $value = trim(qFormat::stripTags($value));

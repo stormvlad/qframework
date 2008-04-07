@@ -27,7 +27,7 @@
         * Validates the data. Does nothing here and it must be reimplemented by
         * every child class.
         */
-        function validate($value)
+        function validate($value, $field = null)
         {
             $ipValidator = new qValidator();
             $ipValidator->addRule(new qIpFormatRule());
@@ -40,7 +40,7 @@
                 $port = 80;
             }
 
-            if ($ipValidator->validate($url->getHost()))
+            if ($ipValidator->validate($url->getHost(), $field))
             {
                 $ip = $url->getHost();
             }

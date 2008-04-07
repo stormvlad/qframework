@@ -52,7 +52,7 @@
         /**
         *    Add function info here
         **/
-        function validate($value)
+        function validate($value, $field = null)
         {
             trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
             return;

@@ -39,7 +39,7 @@
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.
          */
-        function validate($value)
+        function validate($value, $field = null)
         {
             trigger_error("This function must be implemented by child classes.", E_USER_ERROR);
             return;

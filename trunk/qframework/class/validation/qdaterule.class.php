@@ -55,7 +55,7 @@
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.
          */
-        function validate($value)
+        function validate($value, $field = null)
         {
             switch ($this->_format)
             {

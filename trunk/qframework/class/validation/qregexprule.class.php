@@ -66,7 +66,7 @@
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.
          */
-        function validate($value)
+        function validate($value, $field = null)
         {
             if ($this->_caseSensitive && ereg($this->_regExp, $value))
             {

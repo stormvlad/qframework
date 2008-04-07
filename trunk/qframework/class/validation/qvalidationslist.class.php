@@ -143,7 +143,7 @@
                     {
                         foreach ($validations as $validation)
                         {
-                            if (!$validation->validate($value))
+                            if (!$validation->validate($value, $name))
                             {
                                 $this->setError(qUtils::normalizeKeyName($name), $validation->getError());
                                 $result = false;
