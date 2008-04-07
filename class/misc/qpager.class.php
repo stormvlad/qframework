@@ -76,6 +76,7 @@
             $this->_baseUrl = $url;
             $this->_baseUrl = preg_replace("#[/&]offset[2]?[/=][0-9]+#", "", $this->_baseUrl);
             $this->_baseUrl = preg_replace("#[/&]pag[e]?[/=][0-9]+#", "", $this->_baseUrl);
+            $this->_baseUrl = preg_replace("#[/&]back[/=][0-9]+#", "", $this->_baseUrl);
         }
 
         /**

@@ -576,14 +576,18 @@
                 {
                     $translated = $this->getValue($id);
                 }
-                elseif ($this->isDebug())
-                {
-                    $this->setValue($id, $id);
-                    $translated = $id;
-                }
                 else
                 {
-                    $translated = $id;
+                    $id2 = preg_replace("/^([^_]+)_/", "common_", $id);
+
+                    if ($this->keyExists($id2))
+                    {
+                        $translated = $this->getValue($id2);
+                    }
+                    else
+                    {
+                        $translated = $id;
+                    }
                 }
 
                 if( $this->getDirection() == "rtl" )
@@ -599,7 +603,7 @@
                     $translated = str_replace("%" . $i, $argList[$i], $translated);
                 }
             }
-
+            
             return $translated;
         }
 
