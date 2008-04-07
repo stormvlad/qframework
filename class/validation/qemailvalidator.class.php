@@ -69,7 +69,7 @@
         /**
          * Add function info here
          */
-        function validate($value)
+        function validate($value, $field = null)
         {
             if ($this->_format == EMAIL_ANY_FORMAT)
             {

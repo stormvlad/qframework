@@ -87,9 +87,9 @@
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.
          */
-        function validate($value)
+        function validate($value, $field = null)
         {
-            if (parent::validate($value))
+            if (parent::validate($value, $field))
             {
                 $this->setError(false);
                 return true;

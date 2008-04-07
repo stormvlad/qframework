@@ -35,7 +35,7 @@
          * Validates the data. Does nothing here and it must be reimplemented by
          * every child class.
          */
-        function validate($value)
+        function validate($value, $field = null)
         {
             if (!ereg($this->_regExp, $value, $regs))
             {

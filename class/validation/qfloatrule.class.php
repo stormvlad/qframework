@@ -28,7 +28,7 @@
         /**
         * Add function info here
         */
-        function validate($value)
+        function validate($value, $field = null)
         {
             $decimalSymbol      = $this->getDecimalSymbol();
             $thousandsSeparator = $this->getThousandsSeparator();
@@ -41,7 +41,7 @@
 
             $this->setRegExp($regExp);
 
-            if (parent::validate($value))
+            if (parent::validate($value, $field))
             {
                 $this->setError(false);
                 return true;

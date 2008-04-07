@@ -22,7 +22,7 @@
         /**
         * Add function info here
         */
-        function validate($value)
+        function validate($value, $field = null)
         {
             $value = trim($value);
 

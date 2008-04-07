@@ -94,7 +94,7 @@
         /**
         * Add function info here
         */
-        function validate($value)
+        function validate($value, $field = null)
         {
             if (is_array($value))
             {

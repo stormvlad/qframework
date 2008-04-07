@@ -57,11 +57,11 @@
         /**
         *    Add function info here
         **/
-        function validate($value)
+        function validate($value, $field = null)
         {
             foreach ($this->_rules as $rule)
             {
-                if (!$rule->validate($value))
+                if (!$rule->validate($value, $field))
                 {
                     $this->setError($rule->getError());
                     return false;
