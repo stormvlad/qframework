@@ -261,7 +261,7 @@
                 }
                 else
                 {
-                    $url = $baseUrl . $varName . "/" . $offset . "/";
+                    $url = str_replace("//", "/", $baseUrl . "/" . $varName . "/" . $offset . "/");
                 }
             }
 
@@ -288,7 +288,7 @@
             }
             else
             {
-                $url = $baseUrl . $varName . "/" . ($page + 1) . "/";
+                $url = str_replace("//", "/", $baseUrl . "/" . $varName . "/" . ($page + 1) . "/");
             }
 
             return $url;            
