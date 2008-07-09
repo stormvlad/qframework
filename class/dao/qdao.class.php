@@ -447,7 +447,7 @@
         */
         function getDbObject($whereClause = null, $orderClause = null)
         {
-            if (!($items = $this->getDbObjects($whereClause, $orderClause)))
+            if (!($items = $this->getDbObjects($whereClause, $orderClause, 0, 1)))
             {
                 return false;
             }
