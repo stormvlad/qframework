@@ -29,7 +29,7 @@
         {
             $this->qObject();
             $this->_errors           = array();
-            $this->_formName         = $this->getClassName();
+            $this->_formName         = strtolower($this->getClassName());
             $this->_nonPersistent    = array();
             $this->_saveUriToHistory = true;
         }
