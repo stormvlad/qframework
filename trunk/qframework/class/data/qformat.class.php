@@ -56,8 +56,18 @@
         */
         function tableize($str1, $str2, $sort = true)
         {
-            $names = array(strtolower($str1), strtolower($str2));
-
+            $names =  array();
+            
+            if (!empty($str1))
+            {
+                $names[] = strtolower($str1);
+            }
+            
+            if (!empty($str2))
+            {
+                $names[] = strtolower($str2);
+            }
+            
             if (!empty($sort))
             {
                 sort($names);
