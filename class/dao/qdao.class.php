@@ -42,6 +42,11 @@
         var $_tableName;
 
         /**
+         * Caracter para escapar los nombres de campo
+         */
+        var $_quoteName;
+
+        /**
          * Array asociativo con las condiciones de consulta
          */
         var $_clauses;
@@ -59,9 +64,10 @@
             $this->_db        = &$db;
             $this->_tableName = $tableName;
             $this->_clauses   = array();
+            $this->_quoteName = $db->_db->nameQuote;
 
             $this->setClause("SELECT", "*");
-            $this->setClause("FROM", "`" . $this->_tableName . "`");
+            $this->setClause("FROM", $this->_quoteName . $this->_tableName . $this->_quoteName);
         }
 
         /**
@@ -217,11 +223,14 @@
         {
             $fields = $obj->getFields();
 
-            $sql = "INSERT INTO `" . $this->_tableName . "` (";
+            $sql = "INSERT INTO " . $this->_quoteName . $this->_tableName . $this->_quoteName . " (";
 
             foreach ($fields as $field => $value)
             {
-                $sql .= "`" . $field . "`, ";
+                if($value !== null || !$this->isPrimaryKey($field))
+                {
+                    $sql .= $this->_quoteName . $field . $this->_quoteName . ", ";
+                }
             }
 
             $sql = substr($sql, 0, -2) . ") VALUES (";
@@ -244,11 +253,11 @@
                     {
                         $sql .= "'', ";
                     }
-                    else if ($value === null)
+                    else if ($value === null && !$this->isPrimaryKey($field))
                     {
                         $sql .= "NULL, ";
                     }
-                    else
+                    else if( !$this->isPrimaryKey($field))
                     {
                         $sql .= "'', ";
                     }
@@ -278,33 +287,33 @@
         function update($obj)
         {
             $fields = $obj->getFields();
-            $sql    = "UPDATE `" . $this->_tableName . "` SET ";
+            $sql    = "UPDATE " . $this->_quoteName . $this->_tableName . $this->_quoteName . " SET ";
 
             foreach ($fields as $field => $value)
             {
                 if (!empty($value))
                 {
                     $value = qDb::qstr($value);
-                    $sql  .= "`" . $field . "`='" . $value . "', ";
+                    $sql  .= $this->_quoteName . $field . $this->_quoteName . "='" . $value . "', ";
                 }
                 else if ($obj->hasNullValue($field))
                 {
                     if ($value === 0 || $value === "0")
                     {
-                        $sql .= "`" . $field . "`='0', ";
+                        $sql .= $this->_quoteName . $field . $this->_quoteName . "='0', ";
                     }
                     else if ($value === "")
                     {
-                        $sql .= "`" . $field . "`='', ";
+                        $sql .= $this->_quoteName . $field . $this->_quoteName . "='', ";
                     }
                     else if ($value === null)
                     {
-                        $sql .= "`" . $field . "`=NULL, ";
+                        $sql .= $this->_quoteName . $field . $this->_quoteName . "=NULL, ";
                     }
                 }
                 else
                 {
-                    //$sql .= "`" . $field . "`='" . $value . "', ";
+                    //$sql .= $this->_quoteName . $field . $this->_quoteName . "='" . $value . "', ";
                 }
             }
 
@@ -323,7 +332,7 @@
          */
         function delete($obj)
         {
-            $sql = "DELETE FROM `" . $this->_tableName . "` WHERE " . $this->_getWhereClause($obj);
+            $sql = "DELETE FROM " . $this->_quoteName . $this->_tableName . $this->_quoteName . " WHERE " . $this->_getWhereClause($obj);
             return $this->_update($sql);
         }
 
@@ -342,7 +351,7 @@
 
             foreach ($idFields as $idField)
             {
-                $sql .= "`" . $idField . "`='" . $fields[$idField] . "' AND ";
+                $sql .= $this->_quoteName . $idField . $this->_quoteName . "='" . $fields[$idField] . "' AND ";
             }
 
             return substr($sql, 0, -5);
@@ -447,7 +456,7 @@
         */
         function getDbObject($whereClause = null, $orderClause = null)
         {
-            if (!($items = $this->getDbObjects($whereClause, $orderClause, 0, 1)))
+            if (!($items = $this->getDbObjects($whereClause, $orderClause)))
             {
                 return false;
             }
@@ -519,7 +528,7 @@
         */
         function doDelete($whereClause = null)
         {
-            $sql = "DELETE FROM `" . $this->_tableName . "`";
+            $sql = "DELETE FROM " . $this->_quoteName . $this->_tableName . $this->_quoteName;
 
             if (!empty($whereClause))
             {
@@ -566,6 +575,13 @@
             }
 
             return $this->getDbObject($clause);
+        }
+
+        function isPrimaryKey($fieldName)
+        {
+            $obj = $this->getDbObjectClass();
+
+            return in_array($fieldName, $obj->getPrimaryKeyFields());
         }
     }
 

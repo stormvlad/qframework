@@ -127,7 +127,7 @@
         */
         function setOption($category, $option, $value = null)
         {
-            $this->_soapClient->setOpt($option, $option, $value);
+            $this->_soapClient->setOpt($category, $option, $value);
         }
         
         /**
