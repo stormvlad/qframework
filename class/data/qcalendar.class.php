@@ -222,7 +222,7 @@
         {
             $this->_day = intVal($day);
 
-            while (!checkdate($this->_month, $this->_day, $this->_year))
+            while (!checkdate($this->_month, $this->_day, $this->_year) && $this->_day > 0)
             {
                 $this->_day--;
             }
