@@ -25,28 +25,21 @@
         */
         function load(&$user)
         {
-            $session            = &qHttp::getSessionVars();
-            $auth               = $session->getValue("auth");
-            $loginName          = $session->getValue("loginName");
-            $lastActionTime     = $session->getValue("lastActionTime");
-            $attributes         = $session->getValue("attributes");
-            $formValues         = $session->getValue("formValues");
-            $permissions        = $session->getValue("permissions");
-
-            $attributesRemove   = $session->getValue("attributesRemove");
+            $session        = &qHttp::getSessionVars();
+            $auth           = $session->getValue("auth");
+            $loginName      = $session->getValue("loginName");
+            $lastActionTime = $session->getValue("lastActionTime");
+            $attributes     = $session->getValue("attributes");
+            $formValues     = $session->getValue("formValues");
+            $permissions    = $session->getValue("permissions");
             
-            $history            = $session->getValue("history");
-            $historyIndex       = $session->getValue("historyIndex");
-            $historySize        = $session->getValue("historySize");
+            $history        = $session->getValue("history");
+            $historyIndex   = $session->getValue("historyIndex");
+            $historySize    = $session->getValue("historySize");
 
             if (empty($attributes))
             {
                  $attributes = array();
-            }
-
-            if (empty($attributesRemove))
-            {
-                 $attributesRemove = array();
             }
 
             $user->setAuthenticated($auth);
@@ -56,8 +49,6 @@
             $user->setFormValues(null, $formValues);
             $user->setPermissions($permissions, null);
 
-            $user->_attributesRemove = &$attributesRemove;
-            
             $user->setHistory($history);
             $user->setHistoryIndex($historyIndex);
             $user->setHistorySize($historySize);
@@ -70,17 +61,15 @@
         */
         function store(&$user)
         {
-            $session            = &qHttp::getSessionVars();
-            $attributes         = &$user->getAttributes();
-            $formValues         = &$user->getFormValues();
-            $permissions        = &$user->getPermissions(null);
-            $attributesRemove   = &$user->_attributesRemove;
+            $session     = &qHttp::getSessionVars();
+            $attributes  = &$user->getAttributes();
+            $formValues  = &$user->getFormValues();
+            $permissions = &$user->getPermissions(null);
             
             $session->setValue("auth", $user->isAuthenticated());
             $session->setValue("loginName", $user->getLoginName());
             $session->setValue("lastActionTime", $user->getLastActionTime());
             $session->setValue("attributes", $attributes);
-            $session->setValue("attributesRemove", $attributesRemove);
             $session->setValue("formValues", $formValues);
             $session->setValue("permissions", $permissions);
 
