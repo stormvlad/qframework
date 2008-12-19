@@ -183,6 +183,17 @@
         /**
         * Add function info here
         */
+        function setValues($values)
+        {
+            foreach ($values as $fieldName => $value)
+            {
+                $this->setValue($fieldName, $value);
+            }
+        }
+        
+        /**
+        * Add function info here
+        */
         function setOuterValue($fieldName, $value)
         {
             $this->_outerFields->setValue($fieldName, $value);
