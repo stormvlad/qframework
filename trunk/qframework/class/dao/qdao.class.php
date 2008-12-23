@@ -71,6 +71,22 @@
         }
 
         /**
+        * Add function info here
+        */
+        function getQuoteName()
+        {
+            return $this->_quoteName;
+        }
+        
+        /**
+        * Add function info here
+        */
+        function setQuoteName($name)
+        {
+            $this->_quoteName = $name;
+        }
+        
+        /**
          * Devuelve el valor actual de una cláusula
          *
          * @param $name Nombre de la cláusula
@@ -240,7 +256,6 @@
                 if (!empty($value))
                 {
                     $value = qDb::qstr($value);
-
                     $sql .= "'" . $value . "', ";
                 }
                 else
@@ -564,9 +579,9 @@
         {
             $obj      = $this->getDbObjectClass();
             $pkFields = $obj->getPrimaryKeyFields();
-
             $clause   = "1=1";
-            foreach($pks as $field => $value)
+            
+            foreach ($pks as $field => $value)
             {
                 if (in_array($field, $pkFields))
                 {
@@ -577,11 +592,22 @@
             return $this->getDbObject($clause);
         }
 
+        /**
+        * Add function info here
+        */
         function isPrimaryKey($fieldName)
         {
             $obj = $this->getDbObjectClass();
 
             return in_array($fieldName, $obj->getPrimaryKeyFields());
+        }
+        
+        /**
+        * Add function info here
+        */
+        function getDataProvider()
+        {
+            return $this->_db->getDataProvider();
         }
     }
 
