@@ -32,7 +32,8 @@
     {
         var $_db;
         var $_queryCount;
-
+        var $_quoteName;
+        
         /**
          * Constructor
          */
@@ -42,6 +43,7 @@
 
             $this->_db         = &$db;
             $this->_queryCount = 0;
+            $this->_quoteName  = $db->nameQuote;
 
             $this->registerEvent(1, "SQL_STATEMENT_EXECUTION");
         }
@@ -205,6 +207,30 @@
             }
 
             return str_replace("'", "''", $string);
+        }
+        
+        /**
+        * Add function info here
+        */
+        function getDataProvider()
+        {
+            return $this->_db->dataProvider;
+        }
+        
+        /**
+        * Add function info here
+        */
+        function getQuoteName()
+        {
+            return $this->_quoteName;
+        }
+        
+        /**
+        * Add function info here
+        */
+        function setQuoteName($name)
+        {
+            $this->_quoteName = $name;
         }
     }
 ?>
