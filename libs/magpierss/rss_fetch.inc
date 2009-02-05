@@ -343,7 +343,7 @@ function init () {
     }
 
     if ( !defined('MAGPIE_CACHE_DIR') ) {
-        define('MAGPIE_CACHE_DIR', './cache');
+        define('MAGPIE_CACHE_DIR', './tmp/magpierss/cache');
     }
 
     if ( !defined('MAGPIE_CACHE_AGE') ) {
