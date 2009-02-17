@@ -564,9 +564,16 @@
 
                 foreach ($id as $key => $value)
                 {
-                    $tKey   = $this->i18n($key);
+                    if (is_numeric($key))
+                    {
+                        $tKey = $key;
+                    }
+                    else
+                    {
+                        $tKey = $this->i18n($key);
+                    }
+                    
                     $tValue = $this->i18n($value);
-
                     $translated[$tKey] = $tValue;
                 }
             }

@@ -387,6 +387,11 @@
             $filtersChain     = new qFiltersChain();
             $executionFilter  = new qExecutionFilter();
             $action           = new $actionClassName();
+            
+            $this->_currentAction = &$action;
+
+            $action->registerFilters($filtersChain);
+            $executionFilter->addAction($action);
 
             if ($this->_sessionEnabled && $action->getSaveUriToHistory() && $request->getRequestMethod() == REQUEST_METHOD_GET)
             {
@@ -394,11 +399,6 @@
                 $user->saveUriToHistory();
             }
             
-            $this->_currentAction = &$action;
-
-            $action->registerFilters($filtersChain);
-            $executionFilter->addAction($action);
-
             $filtersChain->addFilter($executionFilter);
             $filtersChain->run();
         }

@@ -42,6 +42,7 @@
         var $_lastUri;
         var $_attributes;
         var $_attributesVolatile;
+        var $_attributesRemove;
         var $_formValues;
         var $_permissions;
         var $_lifeTime;
@@ -133,6 +134,7 @@
             $this->_lastUri             = null;
             $this->_attributes          = new qProperties();
             $this->_attributesVolatile  = array();
+            $this->_attributesRemove    = array();
             $this->_formValues          = array();
             $this->_permissions         = array();
             
@@ -183,6 +185,14 @@
         /**
         * Add function info here
         */
+        function excludeUriCustom($uri)
+        {
+            return false;
+        }
+        
+        /**
+        * Add function info here
+        */
         function excludeUri($uri)
         {
             if (is_array($this->_excludedUriPatterns) && count($this->_excludedUriPatterns) > 0)
@@ -196,7 +206,7 @@
                 }
             }
             
-            return false;
+            return $this->excludeUriCustom($uri);
         }
         
         /**
@@ -381,6 +391,19 @@
         /**
         * Add function info here
         */
+        function cmpHistoryUris($uri1, $uri2)
+        {
+            include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qurl.class.php");
+            
+            $values1 = qUrl::getQueryArray($uri1);
+            $values2 = qUrl::getQueryArray($uri2);
+            
+            return $values1["op"] == $values2["op"];
+        }
+        
+        /**
+        * Add function info here
+        */
         function getHistoryUri($index = 0)
         {
             $index = $this->_historyIndex + $index -1;
@@ -396,7 +419,7 @@
 
             for ($i = 0; $i < $this->_historySize; $i++)
             {
-                if ($this->_history[$index] != $uri)
+                if (!$this->cmpHistoryUris($this->_history[$index], $uri))
                 {
                     if (strpos($this->_history[$index], "?") === false)
                     {
@@ -419,17 +442,6 @@
         /**
         * Add function info here
         */
-        function cleanUri($uri)
-        {
-            $uri = preg_replace("/(&(amp;)?|[?])back=1(.*)/", "", $uri);
-            $uri = preg_replace("/(&(amp;)?|[?])result=[^&]+/", "", $uri);
-
-            return $uri;
-        }
-        
-        /**
-        * Add function info here
-        */
         function saveUriToHistory($uri = null)
         {
             if (empty($uri))
@@ -443,14 +455,8 @@
                 return;
             }
             
-            $uri  = $this->cleanUri($uri);
-            $prev = ($this->_historyIndex - 1) % $this->_historySize;
-            
-            if (!isset($this->_history[$prev]) || $this->_history[$prev] != $uri)
-            {
-                $this->_history[$this->_historyIndex] = $uri;
-                $this->_historyIndex = ($this->_historyIndex + 1) % $this->_historySize;
-            }
+            $this->_history[$this->_historyIndex] = $uri;
+            $this->_historyIndex = ($this->_historyIndex + 1) % $this->_historySize;
         }
         
         /**
@@ -814,9 +820,29 @@
                 $this->load();
             }
 
+            foreach ($this->_attributesRemove as $key => $value)
+            {
+                if (!$this->isVolatile($key))
+                {
+                    if ($value === 0)
+                    {
+                        $this->_attributesRemove[$key]++;
+                    }
+                    else
+                    {
+                        $this->removeAttribute($key);
+                        unset($this->_attributesRemove[$key]);
+                    }
+                }
+            }
+
             foreach ($this->_attributesVolatile as $key => $value)
             {
-                $this->removeAttribute($key);
+                if (!empty($value))
+                {
+                    $this->_attributesRemove[$key] = 0;
+                    unset($this->_attributesVolatile[$key]);
+                }
             }
             
             $this->_storage->store($this);
