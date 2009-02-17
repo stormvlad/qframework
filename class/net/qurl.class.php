@@ -63,7 +63,12 @@
                 
                 if (substr($url, 0, 1) == "?")
                 {
-                    $uri .= basename($server->getValue("PHP_SELF"));
+                    $fileName = basename($server->getValue("PHP_SELF"));
+                    
+                    if ($fileName !== "index.php")
+                    {
+                        $uri .= basename($server->getValue("PHP_SELF"));
+                    }
                 }
 
                 if ($server->getValue("HTTPS") == "on" || eregi("^https", $server->getValue("HTTP_REFERER")))
@@ -297,16 +302,26 @@
          * of the parameters and the value is the value assigned to
          * the parameter.
          */
-        function getQueryArray()
+        function getQueryArray($query = null)
         {
-            $reqParams = explode("&(amp;)?", $this->_query);
+            if (empty($query))
+            {
+                $query = $this->_query;
+            }
+            else
+            {
+                $query = preg_replace("/^[^?]+[?]/", "", $query);
+            }
+            
+            $reqParams = preg_split("/&(amp;)?/", $query);
             $results   = array();
 
             foreach ($reqParams as $param)
             {
-                $parts         = explode("=", $param);
-                $var           = $parts[0];
-                $value         = urldecode($parts[1]);
+                $parts = explode("=", $param);
+                $var   = $parts[0];
+                $value = urldecode($parts[1]);
+                
                 $results[$var] = $value;
             }
 
