@@ -439,6 +439,14 @@
             return "/";
         }
 
+        function cleanUri($uri)
+        {
+            $uri = preg_replace("/(&(amp;)?|[?])back=1(.*)/", "", $uri);
+            $uri = preg_replace("/(&(amp;)?|[?])result=[^&]+/", "", $uri);
+
+            return $uri;
+        }
+        
         /**
         * Add function info here
         */
@@ -454,6 +462,8 @@
             {
                 return;
             }
+            
+            $uri  = $this->cleanUri($uri);
             
             $this->_history[$this->_historyIndex] = $uri;
             $this->_historyIndex = ($this->_historyIndex + 1) % $this->_historySize;
