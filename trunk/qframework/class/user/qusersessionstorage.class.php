@@ -25,6 +25,7 @@
         */
         function load(&$user)
         {
+            include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
             $session            = &qHttp::getSessionVars();
             $auth               = $session->getValue("auth");
             $loginName          = $session->getValue("loginName");
