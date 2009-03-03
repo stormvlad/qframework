@@ -63,7 +63,7 @@
          * @param values <em>array</em> Vector unidimensional asociativo con los nombres
          *                              y las referencias a los valores de las propiedades.
          */
-        function setValuesByRef (&$values)
+        function setValuesByRef(&$values)
         {
             foreach ($values as $key => $value)
             {
@@ -90,7 +90,7 @@
          * @param name  <em>string</em> Nombre de la propiedad
          * @param value <em>mixed</em>  Referencia al valor de la propiedad
          */
-        function setValueByRef ($name, &$value)
+        function setValueByRef($name, &$value)
         {
             $this->_props[$name] =& $value;
         }
@@ -218,7 +218,7 @@
          * @return array Vector unidimensional asociativo con los nombres y valores, 
          *               sólo las propiedades encontradas
          */       
-        function & extract ($keys)
+        function &extract($keys)
         {
             $array = array();
     
@@ -226,7 +226,7 @@
             {
                 if (in_array($key, $keys))
                 {
-                    $array[$key] =& $this->_props[$key];
+                    $array[$key] = &$this->_props[$key];
                 }
             }
     

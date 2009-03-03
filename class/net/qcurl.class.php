@@ -19,14 +19,9 @@
      */
     class qCurl extends qObject
     {
-        var $_curlSession;
-        
         var $_url;
-        var $_returnTransfer;
-        var $_variables;
-        var $_followLocation;
-        
-        var $_buffer;
+        var $_options;
+        var $_error;
         
         /**
         * Constructor
@@ -37,25 +32,15 @@
         */
         function qCurl($url = null)
         {
-            $this->setUrl($url);
-            $this->setFollowLocation(true);
-            $this->setReturnTransfer(true);
-        }
-        
-        /**
-        * Add function info here
-        */
-        function setSession($session)
-        {
-            $this->_curlSession = $session;
-        }
-        
-        /**
-        * Add function info here
-        */
-        function getSession()
-        {
-            return $this->_curlSession;
+            $this->qObject();
+            
+            $this->_url     = $url;
+            $this->_options = array();
+            $this->_error   = false;
+            
+            $this->setOption(CURLOPT_HTTPGET, true);
+            $this->setOption(CURLOPT_RETURNTRANSFER, true);
+            $this->setOption(CURLOPT_FOLLOWLOCATION, true);
         }
 
         /**
@@ -84,72 +69,73 @@
         /**
         * Add function info here
         */
-        function setVariables($variables)
+        function setOptions($options)
         {
-            $this->_variables = $variables;
+            $this->_options = $options;
         }
         
         /**
         * Add function info here
         */
-        function getVariables()
+        function getOptions()
         {
-            return $this->_variables;
+            return $this->_options;
         }
         
         /**
         * Add function info here
         */
-        function setFollowLocation($follow = true)
+        function setOption($name, $value)
         {
-            $this->_followLocation = $follow;
+            $this->_options[$name] = $value;
         }
         
         /**
         * Add function info here
         */
-        function getFollowLocation()
+        function getOption($name)
         {
-            return $this->_followLocation;
+            return $this->_options[$name];
         }
         
         /**
         * Add function info here
         */
-        function setReturnTransfer($return = true)
+        function getLastError()
         {
-            $this->_returnTransfer = $return;
+            return $this->_error;
         }
         
         /**
         * Add function info here
         */
-        function getReturnTransfer()
+        function execute($url = null)
         {
-            return $this->_returnTransfer;
-        }
-        
-        /**
-        * Add function info here
-        */
-        function execute()
-        {
-            $this->setSession(curl_init());
+            $this->_error = false;
             
-            curl_setopt($this->getSession(), CURLOPT_URL, $this->getUrl());
-            curl_setopt($this->getSession(), CURLOPT_RETURNTRANSFER, $this->getReturnTransfer());
-            if($this->getVariables())
+            if (empty($url))
             {
-                curl_setopt($this->getSession(), CURLOPT_POST, 1);
-                curl_setopt($this->getSession(), CURLOPT_POSTFIELDS, $this->getVariables());
+                $url = $this->_url;
             }
-            curl_setopt($this->getSession(), CURLOPT_FOLLOWLOCATION, $this->getFollowLocation());
             
-            $this->_buffer = curl_exec($this->getSession());
-            curl_close($this->getSession());
+            $curl = curl_init();
             
-            return $this->_buffer;
+            curl_setopt($curl, CURLOPT_URL, $url);
+            
+            foreach ($this->_options as $key => $value)
+            {
+                curl_setopt($curl, $key, $value);
+            }
+            
+            $result = curl_exec($curl);
+            
+            if (empty($result))
+            {
+                $this->_error = "cURL Error " . curl_errno($curl) . ": " . curl_error() . ".";
+            }
+            
+            curl_close($curl);
+            return $result;
         }
-        
     }
 ?>
