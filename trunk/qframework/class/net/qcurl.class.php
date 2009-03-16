@@ -131,7 +131,7 @@
             
             if (empty($result))
             {
-                $this->_error = "cURL Error " . curl_errno($curl) . ": " . curl_error() . ".";
+                $this->_error = "cURL Error " . curl_errno($curl) . ": " . curl_error($curl) . ".";
             }
             
             curl_close($curl);
