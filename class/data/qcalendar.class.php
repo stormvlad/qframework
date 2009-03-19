@@ -108,7 +108,7 @@
         /**
         *    Add function info here
         */
-        function _getFormattedValue($value, $format = false)
+        function getFormattedValue($value, $format = false)
         {
             if (empty($format))
             {
@@ -129,7 +129,7 @@
         */
         function getDay($format = false)
         {
-            return $this->_getFormattedValue($this->_day, $format);
+            return $this->getFormattedValue($this->_day, $format);
         }
 
         /**
@@ -145,7 +145,7 @@
         */
         function getMonth($format = false)
         {
-            return $this->_getFormattedValue($this->_month, $format);
+            return $this->getFormattedValue($this->_month, $format);
         }
 
         /**
@@ -160,7 +160,7 @@
                 $month = 12;
             }
 
-            return $this->_getFormattedValue($month, $format);
+            return $this->getFormattedValue($month, $format);
         }
 
         /**
@@ -175,7 +175,7 @@
                 $month = 1;
             }
 
-            return $this->_getFormattedValue($month, $format);
+            return $this->getFormattedValue($month, $format);
         }
         
         /**
@@ -183,7 +183,7 @@
         */
         function getYear($format = false)
         {
-            return $this->_getFormattedValue($this->_year, $format);
+            return $this->getFormattedValue($this->_year, $format);
         }
 
         /**
@@ -735,10 +735,10 @@
 
             if (empty($pos))
             {
-                return $this->_getFormattedValue($cell, $format);
+                return $this->getFormattedValue($cell, $format);
             }
             
-            return $this->_getFormattedValue(substr($cell, 0, $pos), $format);
+            return $this->getFormattedValue(substr($cell, 0, $pos), $format);
         }
 
         /**
@@ -757,7 +757,7 @@
                 $month = substr($cell, $pos + 1);
             }
             
-            return $this->_getFormattedValue($month, $format);
+            return $this->getFormattedValue($month, $format);
         }
 
         /**
@@ -776,7 +776,7 @@
                 $year = substr($cell, $pos + 1);
             }
             
-            return $this->_getFormattedValue($year, $format);
+            return $this->getFormattedValue($year, $format);
         }
         
         /**
