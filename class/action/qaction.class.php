@@ -428,6 +428,26 @@
         }
 
         /**
+         * @brief Devuelve el índice actual del history de los valores del formulario
+         *
+         * @return <code>integer</code>
+         */
+        function getCurrentFormValuesStep()
+        {
+            if (qObject::isStaticCall())
+            {
+                $formName = qObject::getClassName();
+            }
+            else
+            {
+                $formName = $this->getFormName();
+            }
+            
+            $user = &User::getInstance();
+            return $user->getCurrentStep($formName);
+        }
+        
+        /**
          * @brief Devuelve si una valor del formulario es persistente (por defecto lo son todos)
          *
          * @return <code>boolean</code>
