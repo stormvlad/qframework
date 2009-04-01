@@ -320,7 +320,15 @@
             {
                 $parts = explode("=", $param);
                 $var   = $parts[0];
-                $value = urldecode($parts[1]);
+                
+                if (empty($parts[1]))
+                {
+                    $value = "";
+                }
+                else
+                {
+                    $value = urldecode($parts[1]);
+                }
                 
                 $results[$var] = $value;
             }

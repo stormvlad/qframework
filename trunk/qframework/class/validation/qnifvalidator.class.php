@@ -56,6 +56,9 @@
 
         }
         
+        /**
+        * Add function info here
+        */
         function validateCif($value)
         {
             $rule = new qRegExpRule("[a-z][0-9]{7}.", false);
@@ -88,7 +91,7 @@
             $res = ((10 - $res) % 10);
             $char = chr(64 + $res);
             
-            if (substr($value, -1) == $res || ((substr($value,0,1) == "Q" || substr($value,0,1) == "P" || substr($value,0,1) == "N") && substr($value, -1) == $char))
+            if (substr($value, -1) == $res || ((substr($value, 0, 1) == "Q" || substr($value, 0, 1) == "P" || substr($value, 0, 1) == "N" || substr($value, 0, 1) == "R") && substr($value, -1) == $char))
             {
                 $this->setError(false);
                 return true;
@@ -100,6 +103,9 @@
             }
         }
         
+        /**
+        * Add function info here
+        */
         function validateNif($value)
         {
             $rule = new qRegExpRule("[0-9]{8}[a-z]", false);
@@ -127,6 +133,9 @@
             }
         }
         
+        /**
+        * Add function info here
+        */
         function validateNie($value)
         {
             $rule = new qRegExpRule("X[0-9]{7}[a-z]", false);
@@ -137,7 +146,7 @@
                 return false;
             }
             
-            return $this->validateNif('0' . substr($value,1));
+            return $this->validateNif("0" . substr($value,1));
         }
     }
 ?>

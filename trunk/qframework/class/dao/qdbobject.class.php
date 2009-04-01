@@ -259,7 +259,7 @@
         */
         function getAllFields()
         {
-            return array_merge($this->getFields(), $this-> getOuterFields());
+            return array_merge($this->getFields(), $this->getOuterFields());
         }
 
         /**

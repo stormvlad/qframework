@@ -64,13 +64,13 @@
         {
             $this->qObject();
 
+            if (!session_id())
+            {
+                session_start();
+            }
+                
             if (empty($sid))
             {
-                if (!session_id())
-                {
-                    session_start();
-                }
-
                 $sid = session_id();
                 $this->_fromSessionFile = false;
             }
@@ -587,6 +587,14 @@
         /**
         * Add function info here
         */
+        function getCurrentStep($formName)
+        {
+            return count($this->_formValues[$formName]) - 1;
+        }
+        
+        /**
+        * Add function info here
+        */
         function getNextStep($formName)
         {
             return count($this->_formValues[$formName]);
@@ -783,13 +791,12 @@
             if (!empty($this->_fromSessionFile))
             {
                 include_once(APP_ROOT_PATH . "class/controller/controller.class.php");
-                $controller = &Controller::getInstance();
-                $fileName   = $controller->getSessionPath() . "sess_" . $this->getSid();
+                $fileName = Controller::getSessionPath() . "sess_" . $this->getSid();
 
                 if (is_file($fileName) && is_readable($fileName))
                 {
-                    $current    = session_encode();
-                    $contents   = file_get_contents($fileName);
+                    $current  = session_encode();
+                    $contents = file_get_contents($fileName);
 
                     foreach ($_SESSION as $key => $value)
                     {
