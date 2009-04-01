@@ -149,6 +149,19 @@
         }
 
         /**
+         * Read the whole file and put it into a string
+         */
+        function readEntire($file = null)
+        {
+            if (empty($file))
+            {
+                $file = $this->_fileName;
+            }
+            
+            return trim(file_get_contents($file));
+        }
+        
+        /**
          * Reads data from the file
          *
          * @param size Amount of bytes we'd like to read from the file. It is set
@@ -641,6 +654,19 @@
             }
 
             return unlink($file);
+        }
+        
+        /**
+         * Empties a file
+         */
+        function clean($file = NULL)
+        {
+            if (empty($file) && !empty($this->_fileName))
+            {
+                $file = $this->_fileName;
+            }
+
+            file_put_contents($file, "");
         }
     }
 ?>
