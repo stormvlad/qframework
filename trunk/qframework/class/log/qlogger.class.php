@@ -64,8 +64,8 @@
         {
             if (isset($this->_appenders[$name]))
             {
-                throw(new qException("qLogger::addAppender: qLogger already has appender " . $name));
-                die();
+                trigger_error("qLogger already has appender '" . $name . "'.", E_USER_WARNING);
+                return;
             }
 
             $this->_appenders[$name] =& $appender;
@@ -87,6 +87,18 @@
             }
         }
 
+        /**
+         * Devuelve si un agregador se ha añadido
+         *
+         * @param name string Nombre del agregador
+         *
+         * @return bool indica si se ha añadido el agregador especificado
+         */
+        function hasAppender($name)
+        {
+            return isset($this->_appenders[$name]);
+        }
+        
         /**
          * Devuelve el nivel de prioridad que debe coincidir o sobrepasar para ordenar
          * a qFramework de salir después de registrar el mensage del suceso
