@@ -79,7 +79,7 @@
 
             if (!isset($instance))
             {
-                $instance = new qLogManager;
+                $instance = new qLogManager();
             }
 
             return $instance;
