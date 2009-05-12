@@ -419,7 +419,7 @@
 
             for ($i = 0; $i < $this->_historySize; $i++)
             {
-                if (!$this->cmpHistoryUris($this->_history[$index], $uri))
+                if (isset($this->_history[$index]) && !$this->cmpHistoryUris($this->_history[$index], $uri))
                 {
                     if (strpos($this->_history[$index], "?") === false)
                     {
