@@ -189,7 +189,8 @@
         function getValueFromKeyName($keyName, $values)
         {
             $keyName = preg_replace("/([^\\[]+)(\\[.+\\])?$/i", "[\"\\1\"]\\2", $keyName);
-            $keyName = preg_replace("/([a-f0-9]{40})/i", "\"\\1\"", $keyName);
+            $keyName = preg_replace("/\\[([^\"][^\\[]*[^\"])\\]/i", "[\"\\1\"]", $keyName);
+            //$keyName = preg_replace("/([a-f0-9]{40})/i", "\"\\1\"", $keyName);
             
             eval("\$value = \$values" . $keyName . ";");
 
