@@ -196,5 +196,45 @@
 
             return $value;
         }
+        
+        /**
+        * Add function info here
+        */
+        function dumpStackTraceToStr()
+        {
+            $result = "-- Backtrace --<br /><i>" . PHP_EOL;
+            
+            if (function_exists("debug_backtrace"))
+            {
+                $info = debug_backtrace();
+    
+                foreach ($info as $trace)
+                {
+                    if (($trace["function"] != "standard")                     &&
+                        (!empty($trace["file"]))                               &&
+                        (basename($trace["file"]) != "qerrorlogger.class.php") &&
+                        (basename($trace["file"]) != "qlogger.class.php")      &&
+                        ($trace["file"] != __FILE__ ))
+                    {
+                        $result .= $trace["file"] . "(" . $trace["line"] . "): " . PHP_EOL;
+                        
+                        if (!empty($trace["class"]))
+                        {
+                            $result .= $trace["class"] . ".";
+                        }
+    
+                        $result .= $trace["function"] . "<br />" . PHP_EOL;
+                    }
+                }
+                
+                $result .= "</i>";
+            }
+            else
+            {
+                $result .= "<i>Stack trace is not available</i><br />" . PHP_EOL;
+            }
+
+            return $result;
+        }
     }
 ?>

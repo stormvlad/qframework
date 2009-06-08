@@ -30,7 +30,7 @@
          */
         function write($message)
         {
-            print $message . "<br/>\n";
+            print $message . "<br/>" . PHP_EOL;
         }
 
         /**
@@ -38,36 +38,8 @@
          */
         function writeStackTrace()
         {
-            if (function_exists("debug_backtrace"))
-            {
-                $info = debug_backtrace();
-                print "-- Backtrace --<br/><i>";
-    
-                foreach ($info as $trace)
-                {
-                    if (($trace["function"] != "standard")                     &&
-                        (!empty($trace["file"]))                               &&
-                        (basename($trace["file"]) != "qerrorlogger.class.php") &&
-                        (basename($trace["file"]) != "qlogger.class.php")      &&
-                        ($trace["file"] != __FILE__ ))
-                    {
-                        print $trace["file"] . "(" . $trace["line"] . "): ";
-    
-                        if (!empty($trace["class"]))
-                        {
-                            print $trace["class"] . ".";
-                        }
-    
-                        print $trace["function"] . "<br />";
-                    }
-                }
-    
-                print "</i>";
-            }
-            else
-            {
-                print "<i>Stack trace is not available</i><br />";
-            }
+            include_once(APP_ROOT_PATH . "class/misc/utils.class.php");
+            print Utils::dumpStackTraceToStr();
         }
     }
 
