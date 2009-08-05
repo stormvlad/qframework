@@ -255,6 +255,15 @@
         }
 
         /**
+        * Add function info here
+        */
+        function isOuterField($fieldName)
+        {
+            $fields = $this->_outerFields->getAsArray();
+            return !empty($fields[$fieldName]);
+        }
+        
+        /**
         * Get all object fields and the outer fields added
         */
         function getAllFields()
