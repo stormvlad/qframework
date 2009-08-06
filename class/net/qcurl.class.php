@@ -40,7 +40,9 @@
             
             $this->setOption(CURLOPT_HTTPGET, true);
             $this->setOption(CURLOPT_RETURNTRANSFER, true);
-            $this->setOption(CURLOPT_FOLLOWLOCATION, true);
+            
+            // Disabled due to is not permitted in safe_mode 
+            // $this->setOption(CURLOPT_FOLLOWLOCATION, true);
         }
 
         /**
