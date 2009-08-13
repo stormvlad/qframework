@@ -74,9 +74,16 @@
         /**
          * The constructor does nothing.
          */
-        function qUrlFormatRule()
+        function qUrlFormatRule($requiredProtocol = false)
         {
-            $this->qRegExpRule(URL_FORMAT_RULE_REG_EXP, false);
+            $pattern = URL_FORMAT_RULE_REG_EXP;
+            
+            if (!empty($requiredProtocol))
+            {
+                $pattern = str_replace("^(https?://)?", "^(https?://)", $pattern);
+            }
+            
+            $this->qRegExpRule($pattern, false);
         }
 
         /**
