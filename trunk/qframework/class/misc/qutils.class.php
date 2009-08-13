@@ -236,5 +236,19 @@
 
             return $result;
         }
+        
+        /**
+        * Add function info here
+        */
+        function parseSizes($sizes)
+        {
+            if (!preg_match("/^([!]?)([0-9]+)x([0-9]+)$/", $sizes, $parts))
+            {
+                return false;
+            }
+            
+            $result = array("exact" => empty($parts[1]), "width" => intVal($parts[2]), "height" => intVal($parts[3]));
+            return $result;
+        }
     }
 ?>

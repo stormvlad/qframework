@@ -20,13 +20,13 @@
         /**
         * Constructor.
         */
-        function qUrlDownload($url, $outputFileName = false, $urlDownloader = null)
+        function qUrlDownload($url = null, $outputFileName = null, $urlDownloader = null)
         {
             $this->qUrl($url);
 
             if (empty($outputFileName))
             {
-                $outputFileName = "./tmp/" . $this->getBaseName();
+                $outputFileName = "./tmp/" . baseName($url);
             }
 
             if (empty($urlDownloader))
@@ -80,8 +80,18 @@
         /**
         * Add function info here.
         */
-        function download()
+        function download($url = null, $outputFileName = null)
         {
+            if (!empty($url))
+            {
+                $this->setUrl($url);
+                
+                if (empty($outputFileName))
+                {
+                    $this->setOutputFileName("./tmp/" . baseName($url));
+                }
+            }
+            
             return $this->_urlDownloader->download($this);
         }
     }
