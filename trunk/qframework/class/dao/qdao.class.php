@@ -609,6 +609,14 @@
         {
             return $this->_db->getDataProvider();
         }
+        
+        /**
+        * Add function info here
+        */
+        function truncate()
+        {
+            return $this->execute("TRUNCATE " . $this->_quoteName . $this->_tableName . $this->_quoteName);
+        }
     }
 
 ?>
