@@ -56,8 +56,6 @@
             $this->_append  = $append;
             $this->_file    = $file;
             $this->_pattern = new qConversionPattern($file);
-
-            $this->openFp();
         }
 
         /**
@@ -97,7 +95,7 @@
          */
         function cleanup()
         {
-            if ($this->_fp != null)
+            if (!empty($this->_fp))
             {
                 fflush($this->_fp);
                 fclose($this->_fp);
@@ -136,6 +134,11 @@
          */
         function write ($message)
         {
+            if (empty($this->_fp))
+            {
+                $this->openFP();
+            }
+            
             fputs($this->_fp, $message);
             fflush($this->_fp);
         }
