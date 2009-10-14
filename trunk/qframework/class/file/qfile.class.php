@@ -668,5 +668,24 @@
 
             file_put_contents($file, "");
         }
+        
+        /**
+         * Create an empty file
+         */
+        function touch($file = null)
+        {
+            if (empty($file) && !empty($this->_fileName))
+            {
+                $file = $this->_fileName;
+                $this->open("w");
+                $this->close();
+            }
+            else
+            {
+                $f = new File($file);
+                $f->open("w");
+                $f->close();
+            }
+        }
     }
 ?>
