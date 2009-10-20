@@ -613,9 +613,17 @@
         /**
         * Add function info here
         */
+        function getAffectedRows()
+        {
+            return $this->_db->getAffectedRows();
+        }
+        
+        /**
+        * Add function info here
+        */
         function truncate()
         {
-            return $this->execute("TRUNCATE " . $this->_quoteName . $this->_tableName . $this->_quoteName);
+            return $this->execute("DELETE FROM " . $this->_quoteName . $this->_tableName . $this->_quoteName);
         }
     }
 

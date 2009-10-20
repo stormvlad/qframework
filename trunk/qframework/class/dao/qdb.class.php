@@ -232,5 +232,13 @@
         {
             $this->_quoteName = $name;
         }
+        
+        /**
+        * Add function info here
+        */
+        function getAffectedRows()
+        {
+            return $this->_db->Affected_Rows();
+        }
     }
 ?>
