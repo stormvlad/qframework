@@ -228,18 +228,17 @@
         }
 
         /**
-         * Inserta un objeto en la base de datos
+         * Devuelve la primera parte de una SQL query para insertar el objecto
+         * (parte que contiene el nombre de los campos y hasta el 'VALUES')
          *
          * @param $obj qDbObject Objeto del tipo de la tabla
          *
-         * @return integer Devuelve el identificador del nuevo registro, si se
-         *                 ha insertado con éxito, sino devuelve FALSE
+         * @return string parte de una SQL query de inserción
          */
-        function insert($obj)
+        function getInsertSqlQueryPart1($obj)
         {
             $fields = $obj->getFields();
-
-            $sql = "INSERT INTO " . $this->_quoteName . $this->_tableName . $this->_quoteName . " (";
+            $sql    = "INSERT INTO " . $this->_quoteName . $this->_tableName . $this->_quoteName . " (";
 
             foreach ($fields as $field => $value)
             {
@@ -249,7 +248,22 @@
                 }
             }
 
-            $sql = substr($sql, 0, -2) . ") VALUES (";
+            $sql = substr($sql, 0, -2) . ") VALUES";
+            return $sql;
+        }
+        
+        /**
+         * Devuelve la segunda parte de una SQL query para insertar el objecto
+         * (parte que contiene los valores de los campos)
+         *
+         * @param $obj qDbObject Objeto del tipo de la tabla
+         *
+         * @return string parte de una SQL query de inserción
+         */
+        function getInsertSqlQueryPart2($obj)
+        {
+            $fields = $obj->getFields();
+            $sql    = "(";
 
             foreach ($fields as $field => $value)
             {
@@ -280,8 +294,34 @@
             }
 
             $sql = substr($sql, 0, -2) . ")";
+            return $sql;
+        }
+        
+        /**
+         * Devuelve la SQL query para insertar el objecto
+         *
+         * @param $obj qDbObject Objeto del tipo de la tabla
+         *
+         * @return string SQL query de inserción
+         */
+        function getInsertSqlQuery($obj)
+        {
+            return $this->getInsertSqlQueryPart1($obj) . " " . $this->getInsertSqlQueryPart2($obj);
+        }
+        
+        /**
+         * Inserta un objeto en la base de datos
+         *
+         * @param $obj qDbObject Objeto del tipo de la tabla
+         *
+         * @return integer Devuelve el identificador del nuevo registro, si se
+         *                 ha insertado con éxito, sino devuelve FALSE
+         */
+        function insert($obj)
+        {
+            $sql = $this->getInsertSqlQuery($obj);
 
-            if ($this->_update($sql))
+            if ($this->execute($sql))
             {
                 return $this->_db->Insert_ID();
             }
@@ -334,7 +374,7 @@
 
             $sql = substr($sql, 0, -2) . " WHERE " . $this->_getWhereClause($obj);
 
-            return $this->_update($sql);
+            return $this->execute($sql);
         }
 
         /**
@@ -413,15 +453,6 @@
             }
 
             return $result;
-        }
-
-        /**
-         * Add function info here
-         * @private
-         */
-        function _update($sql)
-        {
-            return $this->_db->Execute($sql);
         }
 
         /**
@@ -621,9 +652,29 @@
         /**
         * Add function info here
         */
-        function truncate()
+        function truncate($resetAutoIncrement = false)
         {
-            return $this->execute("DELETE FROM " . $this->_quoteName . $this->_tableName . $this->_quoteName);
+            $result = $this->execute("DELETE FROM " . $this->_quoteName . $this->_tableName . $this->_quoteName);
+            
+            if (empty($result))
+            {
+                return false;
+            }
+            
+            if (!empty($resetAutoIncrement))
+            {
+                return $this->resetAutoIncrement();
+            }
+            
+            return true;
+        }
+        
+        /**
+        * Add function info here
+        */
+        function resetAutoIncrement()
+        {
+            return $this->execute("ALTER TABLE " . $this->_quoteName . $this->_tableName . $this->_quoteName . " AUTO_INCREMENT=1");
         }
     }
 
