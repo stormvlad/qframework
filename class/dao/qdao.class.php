@@ -388,7 +388,7 @@
         function delete($obj)
         {
             $sql = "DELETE FROM " . $this->_quoteName . $this->_tableName . $this->_quoteName . " WHERE " . $this->_getWhereClause($obj);
-            return $this->_update($sql);
+            return $this->execute($sql);
         }
 
         /**
@@ -585,7 +585,7 @@
                 $sql .= " WHERE " . $this->getClause("WHERE");
             }
 
-            return $this->_update($sql);
+            return $this->execute($sql);
         }
 
         /**
