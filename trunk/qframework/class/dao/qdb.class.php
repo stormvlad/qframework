@@ -297,7 +297,7 @@
         /**
         * Add function info here
         */
-        function cloneTable($src, $dst, $cloneData = true)
+        function replicateTable($src, $dst, $cloneData = true)
         {
             if ($this->Execute("CREATE TABLE " . $this->_quoteName . $dst . $this->_quoteName . " LIKE " . $this->_quoteName . $src . $this->_quoteName))
             {

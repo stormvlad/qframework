@@ -684,9 +684,9 @@
         /**
         * Add function info here
         */
-        function clone($dst, $cloneData = true)
+        function replicate($dst, $cloneData = true)
         {
-            return $this->_db->cloneTable($this->_tableName, $dst, $cloneData);
+            return $this->_db->replicateTable($this->_tableName, $dst, $cloneData);
         }
     }
 
