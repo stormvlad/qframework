@@ -654,19 +654,7 @@
         */
         function truncate($resetAutoIncrement = false)
         {
-            $result = $this->execute("DELETE FROM " . $this->_quoteName . $this->_tableName . $this->_quoteName);
-            
-            if (empty($result))
-            {
-                return false;
-            }
-            
-            if (!empty($resetAutoIncrement))
-            {
-                return $this->resetAutoIncrement();
-            }
-            
-            return true;
+            return $this->_db->truncateTable($this->_tableName, $resetAutoIncrement);
         }
         
         /**
@@ -674,7 +662,31 @@
         */
         function resetAutoIncrement()
         {
-            return $this->execute("ALTER TABLE " . $this->_quoteName . $this->_tableName . $this->_quoteName . " AUTO_INCREMENT=1");
+            return $this->_db->resetTableAutoIncrement($this->_tableName);
+        }
+        
+        /**
+        * Add function info here
+        */
+        function drop()
+        {
+            return $this->_db->dropTable($this->_tableName);
+        }
+        
+        /**
+        * Add function info here
+        */
+        function rename($dst)
+        {
+            return $this->_db->renameTable($this->_tableName, $dst);
+        }
+        
+        /**
+        * Add function info here
+        */
+        function clone($dst, $cloneData = true)
+        {
+            return $this->_db->cloneTable($this->_tableName, $dst, $cloneData);
         }
     }
 

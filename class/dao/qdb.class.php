@@ -240,5 +240,100 @@
         {
             return $this->_db->Affected_Rows();
         }
+        
+        /**
+        * Add function info here
+        */
+        function hasTable($tableName)
+        {
+            $tables = $this->MetaTables();
+            return in_array($tableName, $tables);
+        }
+        
+        /**
+        * Add function info here
+        */
+        function truncateTable($table, $resetAutoIncrement = false)
+        {
+            $result = $this->Execute("DELETE FROM " . $this->_quoteName . $table . $this->_quoteName);
+            
+            if (empty($result))
+            {
+                return false;
+            }
+            
+            if (!empty($resetAutoIncrement))
+            {
+                return $this->resetTableAutoIncrement($table);
+            }
+            
+            return true;
+        }
+        
+        /**
+        * Add function info here
+        */
+        function resetTableAutoIncrement($table)
+        {
+            return $this->Execute("ALTER TABLE " . $this->_quoteName . $table . $this->_quoteName . " AUTO_INCREMENT=1");
+        }
+        
+        /**
+        * Add function info here
+        */
+        function dropTable($table)
+        {
+            return $this->Execute("DROP TABLE " . $this->_quoteName . $table . $this->_quoteName);
+        }
+        
+        /**
+        * Add function info here
+        */
+        function renameTable($src, $dst)
+        {
+            return $this->Execute("RENAME TABLE " . $this->_quoteName . $src . $this->_quoteName . " TO " . $this->_quoteName . $dst . $this->_quoteName);
+        }
+        
+        /**
+        * Add function info here
+        */
+        function cloneTable($src, $dst, $cloneData = true)
+        {
+            if ($this->Execute("CREATE TABLE " . $this->_quoteName . $dst . $this->_quoteName . " LIKE " . $this->_quoteName . $src . $this->_quoteName))
+            {
+                if (empty($cloneData))
+                {
+                    return true;
+                }
+                
+                return $this->Execute("INSERT INTO " . $this->_quoteName . $dst . $this->_quoteName . " SELECT * FROM " . $this->_quoteName . $src . $this->_quoteName);
+            }
+            
+            return false;
+        }
+        
+        /**
+        * Add function info here
+        */
+        function optimizeTable($table)
+        {
+            $tables = "";
+            
+            if (is_array($table))
+            {
+                foreach ($table as $item)
+                {
+                    $tables .= $this->_quoteName . $item . $this->_quoteName . ", ";
+                }
+                
+                $tables = substr($tables, 0, -2);
+            }
+            else
+            {
+                $tables = $this->_quoteName . $table . $this->_quoteName;
+            }
+            
+            return $this->Execute("OPTIMIZE TABLE " . $tables);
+        }
     }
 ?>
