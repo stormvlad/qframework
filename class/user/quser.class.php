@@ -870,24 +870,27 @@
         */
         function destroy()
         {
-            $cookieInfo = session_get_cookie_params();
-
-            if ((empty($cookieInfo["domain"])) && (empty($cookieInfo["secure"])))
+            if (!headers_sent())
             {
-                setcookie(session_name(), "", time() - 3600, $cookieInfo["path"]);
+                $cookieInfo = session_get_cookie_params();
+    
+                if ((empty($cookieInfo["domain"])) && (empty($cookieInfo["secure"])))
+                {
+                    setcookie(session_name(), "", time() - 3600, $cookieInfo["path"]);
+                }
+                else if (empty($cookieInfo["secure"]))
+                {
+                    setcookie(session_name(), "", time() - 3600, $cookieInfo["path"], $cookieInfo["domain"]);
+                }
+                else
+                {
+                    setcookie(session_name(), "", time() - 3600, $cookieInfo["path"], $cookieInfo["domain"], $cookieInfo["secure"]);
+                }
+    
+                unset($_COOKIE[session_name()]);
             }
-            else if (empty($cookieInfo["secure"]))
-            {
-                setcookie(session_name(), "", time() - 3600, $cookieInfo["path"], $cookieInfo["domain"]);
-            }
-            else
-            {
-                setcookie(session_name(), "", time() - 3600, $cookieInfo["path"], $cookieInfo["domain"], $cookieInfo["secure"]);
-            }
-
-            unset($_COOKIE[session_name()]);
+            
             @session_destroy();
-
             $this->setAuthenticated(false);
         }
     }
