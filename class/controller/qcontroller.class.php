@@ -425,11 +425,21 @@
          *
          * @param url string Una URL existente
          */
-        function redirectBack($index = -1)
+        function redirectBack($index = -1, $uriSufix = null)
         {
             $user = &User::getInstance();
             $uri  = $user->getHistoryUri($index);
 
+            if (!empty($uriSufix))
+            {
+                if (substr($uriSufix, 0, 1) != "&")
+                {
+                    $uri .= "&";
+                }
+                
+                $uri .= $uriSufix;
+            }
+            
             $this->redirect($uri);
             return;
         }
@@ -437,11 +447,21 @@
         /**
          * Recarga la URL actual
          */
-        function reload()
+        function reload($uriSufix = null)
         {
             $server = &qHttp::getServerVars();
             $uri    = $server->getValue("REQUEST_URI");
 
+            if (!empty($uriSufix))
+            {
+                if (substr($uriSufix, 0, 1) != "&")
+                {
+                    $uri .= "&";
+                }
+                
+                $uri .= $uriSufix;
+            }
+            
             $this->redirect($uri);
             return;
         }

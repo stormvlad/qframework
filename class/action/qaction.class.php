@@ -556,20 +556,20 @@
          *
          * @param index <code>zero o entero negativo</code> Índice de la URL anterior
          */
-        function redirectBack($index = -1)
+        function redirectBack($index = -1, $uriSufix = null)
         {
             $controller = &Controller::getInstance();
-            $controller->redirectBack($index);
+            $controller->redirectBack($index, $uriSufix);
             return;
         }
 
         /**
          * @brief Recarga la URL actual
          */
-        function reload()
+        function reload($uriSufix = null)
         {
             $controller = &Controller::getInstance();
-            $controller->reload();
+            $controller->reload($uriSufix);
             return;
         }
     }
