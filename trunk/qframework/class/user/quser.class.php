@@ -96,7 +96,7 @@
 
             if ($request->getValue("back") == 1)
             {
-                $this->updateHistoryIndex();
+                $this->updateHistoryIndex(-1);
             }
         }
 
@@ -325,9 +325,9 @@
         /**
         * Add function info here
         */
-        function updateHistoryIndex()
+        function updateHistoryIndex($index)
         {
-            $this->_historyIndex--;
+            $this->_historyIndex += $index;
 
             if ($this->_historyIndex < 0)
             {
