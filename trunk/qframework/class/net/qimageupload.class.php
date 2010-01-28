@@ -123,7 +123,7 @@
             $file = $dir . $this->getDestinationFileName();
             $img  = new qImage($file);
 
-            $img->setOutputTemplateFileName("{%n}.thumbnail.{%w}x{%h}.{%e}");
+            $img->setOutputTemplateFileName("{%n}.sized.{%w}x{%h}.{%e}");
             $img->setOutputDirectory($dir);
 
             if (!($outputFileName = $img->generateSizedImage($this->_maxWidth, $this->_maxHeight, false)))

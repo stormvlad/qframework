@@ -258,7 +258,7 @@
         /**
         * Add function info here
         */
-        function generateSizedImage($width, $height, $exact = true)
+        function generateSizedImage($width, $height, $exact = true, $overwrite = true)
         {
             $newSizes  = $this->_calcSizedSizes($this->getWidth(), $this->getHeight(), $width, $height, $exact);
             $newWidth  = $newSizes[0];
@@ -316,21 +316,35 @@
                 $outputFileName = $this->_outputFileName;
             }
             
-            switch ($this->getOutputType())
+            $fileName = $this->getOutputDirectory() . $outputFileName;
+            
+            if (is_file($fileName) && empty($overwrite))
             {
-                case "gif":
-                    imageGif($img, $this->getOutputDirectory() . $outputFileName);
-                    break;
-
-                case "jpeg":
-                    imageJpeg($img, $this->getOutputDirectory() . $outputFileName, $this->getOutputQuality());
-                    break;
-
-                case "png":
-                    imagePng($img, $this->getOutputDirectory() . $outputFileName);
-                    break;
+                // Do nothing. We don't want overwrite ;-)
             }
-
+            else
+            {
+                if (is_file($fileName) && !empty($overwrite))
+                {
+                    unlink($fileName);
+                }
+                
+                switch ($this->getOutputType())
+                {
+                    case "gif":
+                        imageGif($img, $fileName);
+                        break;
+    
+                    case "jpeg":
+                        imageJpeg($img, $fileName, $this->getOutputQuality());
+                        break;
+    
+                    case "png":
+                        imagePng($img, $fileName);
+                        break;
+                }
+            }
+            
             imagedestroy($img);
             return $outputFileName;
         }
