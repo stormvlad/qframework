@@ -871,6 +871,12 @@
             $hour2       = $hour % 12;
             $amPm        = $hour < 12 ? $this->i18n("AM") : $this->i18n("PM");
             $week        = Date_Calc::weekOfYear($day, $month, $year);
+            
+            if (Date_Calc::weekOfYear(1, 1, $year) != 1)
+            {
+                $week++;
+            }
+            
             $year2       = $year % 100;
             $century     = (int) ($year / 100);
             $weekDayNum  = Date_Calc::dayOfWeek($day, $month, $year);
