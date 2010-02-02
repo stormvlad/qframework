@@ -77,6 +77,11 @@
         function _autoSetWeek()
         {
             $this->_week = intVal($this->format("%V"));
+            
+            if ($this->_week > 52)
+            {
+                $this->_week = 1;
+            }
         }
 
         /**
@@ -479,7 +484,14 @@
         function getLastWeekDays($fillFalses = false)
         {
             $weeks = &$this->getTableOfDays($fillFalses);
-            return $weeks[count($weeks) - 1];
+            $ind   = count($weeks) - 1;
+            
+            if (empty($weeks[$ind][0]))
+            {
+                $ind--;
+            }
+            
+            return $weeks[$ind];
         }
 
         /**
@@ -564,7 +576,7 @@
                 $week = $this->getWeek();
             }
             
-            return $week == intVal(strftime("%V"));
+            return $week == intVal($this->format("%V", strftime("%d/%m/%Y")));
         }
         
         /**
