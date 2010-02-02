@@ -670,6 +670,22 @@
         }
         
         /**
+         * Encodes a file with base64 encoding
+         */
+        function encodeBase64($file = NULL)
+        {
+            if (empty($file) && !empty($this->_fileName))
+            {
+                $file = $this->_fileName;
+            }
+            
+            $data   = file_get_contents($file);
+            $result = chunk_split(base64_encode($data), 76, PHP_EOL);
+            
+            return $result;
+        }
+        
+        /**
          * Create an empty file
          */
         function touch($file = null)
