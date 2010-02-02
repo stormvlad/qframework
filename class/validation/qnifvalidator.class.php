@@ -26,12 +26,6 @@
         {
             $value = trim($value);
 
-            if (strlen($value) != 9)
-            {
-                $this->setError(ERROR_VALIDATOR_NIF_FORMAT_WRONG);
-                return false;
-            }
-            
             switch (strtoupper(substr($value,0,1)))
             {
                 case "0":
@@ -61,6 +55,12 @@
         */
         function validateCif($value)
         {
+            if (strlen($value) != 9)
+            {
+                $this->setError(ERROR_VALIDATOR_NIF_FORMAT_WRONG);
+                return false;
+            }
+
             $rule = new qRegExpRule("[a-z][0-9]{7}.", false);
             
             if (!$rule->validate($value))
@@ -108,6 +108,12 @@
         */
         function validateNif($value)
         {
+            if (strlen($value) != 9)
+            {
+                $this->setError(ERROR_VALIDATOR_NIF_FORMAT_WRONG);
+                return false;
+            }
+
             $rule = new qRegExpRule("[0-9]{8}[a-z]", false);
             
             if (!$rule->validate($value))
@@ -138,15 +144,21 @@
         */
         function validateNie($value)
         {
-            $rule = new qRegExpRule("X[0-9]{7}[a-z]", false);
-            
+            if (strlen($value) != 10)
+            {
+                $this->setError(ERROR_VALIDATOR_NIF_FORMAT_WRONG);
+                return false;
+            }
+
+            $rule = new qRegExpRule("X[0-9]{8}[a-z]", false);
+
             if (!$rule->validate($value))
             {
                 $this->setError(ERROR_VALIDATOR_NIF_FORMAT_WRONG);
                 return false;
             }
-            
-            return $this->validateNif("0" . substr($value,1));
+
+            return $this->validateNif(substr($value,1));
         }
     }
 ?>
