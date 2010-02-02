@@ -542,6 +542,32 @@
         }
         
         /**
+        *    Add function info here
+        */
+        function isCurrentMonth($month = null)
+        {
+            if (empty($month))
+            {
+                $month = $this->getMonth();
+            }
+            
+            return $month == intVal(strftime("%m"));
+        }
+        
+        /**
+        *    Add function info here
+        */
+        function isCurrentWeek($week = null)
+        {
+            if (empty($week))
+            {
+                $week = $this->getWeek();
+            }
+            
+            return $week == intVal(strftime("%V"));
+        }
+        
+        /**
          *    Add function info here
          * @private
          */
@@ -724,6 +750,18 @@
             }
 
             return $this->_constructUrl($calendar->getYear(), $calendar->getMonth(), $calendar->getDay());
+        }
+        
+        /**
+        * Add function info here
+        */
+        function getTodayUrl()
+        {
+            $day   = intVal(strftime("%d"));
+            $month = intVal(strftime("%m"));
+            $year  = intVal(strftime("%Y"));
+            
+            return $this->_constructUrl($year, $month, $day);
         }
         
         /**
