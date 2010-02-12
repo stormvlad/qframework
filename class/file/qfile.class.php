@@ -417,8 +417,7 @@
         {
             if (!file_exists($dirName))
             {
-                qFile::mkdir(dirname($dirName));
-                return mkdir($dirName, DEFAULT_FILE_DIRECTORY_UMASK);
+                return mkdir($dirName, DEFAULT_FILE_DIRECTORY_UMASK, true);
             }
        
             return true;
