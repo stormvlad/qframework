@@ -60,7 +60,7 @@
             $response = trim(fgets($fp));
             fclose($fp);
 
-            return ereg(" 200 OK$", $response);
+            return preg_match("/ 200 OK$/", $response);
         }
     }
 ?>

@@ -628,7 +628,7 @@
             $baseUrl = htmlSpecialChars($this->getBaseUrl());
             $month   = sprintf("%02d", $month);
             
-            if (ereg("[?]op=", $baseUrl))
+            if (preg_match("/[?]op=/", $baseUrl))
             {
                 $url = $baseUrl . "&amp;year=" . $year . "&amp;month=" . $month;
 
@@ -657,7 +657,7 @@
         {
             $baseUrl = htmlSpecialChars($this->getBaseUrl());
             
-            if (ereg("[?]op=", $baseUrl))
+            if (preg_match("/[?]op=/", $baseUrl))
             {
                 $url = $baseUrl . "&amp;year=" . $year . "&amp;week=" . $week;
             }

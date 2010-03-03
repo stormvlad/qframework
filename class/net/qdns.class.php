@@ -75,7 +75,7 @@
 
                 while (list($k, $line) = each($output))
                 {
-                    if (eregi("^" . $host, $line))
+                    if (preg_match("/^" . $host . "/i", $line))
                     {
                         return true;
                     }
@@ -134,9 +134,9 @@
 
                 while (list($k, $line) = each($output))
                 {
-                    $regExp = str_replace("%host", $host, DEFAULT_MXRR_REG_EXP);
+                    $regExp = "/" . str_replace("%host", $host, DEFAULT_MXRR_REG_EXP) . "/";
 
-                    if (ereg($regExp, $line, $parts))
+                    if (preg_match($regExp, $line, $parts))
                     {
                         $mxhosts[$parts[1]] = $parts[2];
                     }

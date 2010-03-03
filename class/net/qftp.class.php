@@ -250,7 +250,9 @@
 
                 if (!empty($pattern))
                 {
-                    if ((ereg($pattern, $entry["name"]) && $caseSensitive) || (eregi($pattern, $entry["name"]) && !$caseSensitive))
+                    $pattern = "/" . $pattern . "/";
+                    
+                    if ((preg_match($pattern, $entry["name"]) && $caseSensitive) || (preg_match($pattern . "i", $entry["name"]) && !$caseSensitive))
                     {
                         $add = true;
                     }

@@ -98,12 +98,12 @@
                 return !empty($this->_errors[$key]);
             }
 
-            $pattern = $key;
+            $pattern = "/" . $key . "/";
             $keys    = array_keys($this->_errors);
 
             foreach ($keys as $key)
             {
-                if (ereg($pattern, $key))
+                if (preg_match($pattern, $key))
                 {
                     return true;
                 }

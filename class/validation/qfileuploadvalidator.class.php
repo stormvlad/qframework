@@ -57,7 +57,7 @@
                     $this->_validExtensions[] = strtolower(trim($extension));
                 }
             }
-            else if (is_string($extensions) && ereg("(\\*\\.[^*.|]+)([|,;:]\\*\\.[^*.|]+)*", $extensions))
+            else if (is_string($extensions) && preg_match("/(\\*\\.[^*.|]+)([|,;:]\\*\\.[^*.|]+)*/", $extensions))
             {
                 $this->_validExtensions = array();
                 $extensions = split("[|,;:]", $extensions);
@@ -67,7 +67,7 @@
                     $this->_validExtensions[] = strtolower(substr(trim($extension), 2));
                 }
             }
-            else if (is_string($extensions) && ereg("([^|]+)(|,;:][^|]+)*", $extensions))
+            else if (is_string($extensions) && preg_match("/([^|]+)(|,;:][^|]+)*/", $extensions))
             {
                 $this->_validExtensions = array();
                 $extensions = explode("[|,;:]", $extensions);

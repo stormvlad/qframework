@@ -25,8 +25,9 @@
         function qRegExpRule($regExp, $caseSensitive = DEFAULT_RULE_CASE_SENSITIVE)
         {
             $this->qRule();
-
-            $this->_regExp        = $regExp;
+            
+            $this->setRegExp($regExp);
+            
             $this->_caseSensitive = $caseSensitive;
         }
 
@@ -44,6 +45,11 @@
         function setRegExp($regExp)
         {
             $this->_regExp = $regExp;
+            
+            if (substr($this->_regExp, 0, 1) != "/" || substr($this->_regExp, -1) != "/")
+            {
+                $this->_regExp = "/" . preg_replace("/\\//", "\\\\/", $this->_regExp) . "/";
+            }
         }
 
         /**
@@ -68,12 +74,12 @@
          */
         function validate($value, $field = null)
         {
-            if ($this->_caseSensitive && ereg($this->_regExp, $value))
+            if ($this->_caseSensitive && preg_match($this->_regExp, $value))
             {
                 $this->setError(false);
                 return true;
             }
-            else if (!$this->_caseSensitive && eregi($this->_regExp, $value))
+            else if (!$this->_caseSensitive && preg_match($this->_regExp . "i", $value))
             {
                 $this->setError(false);
                 return true;

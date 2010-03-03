@@ -60,9 +60,9 @@
             switch ($this->_format)
             {
                 case "dd/mm/yyyy":
-                    $regExp = "([0-9]{1,2}).([0-9]{1,2}).([0-9]{4})";
+                    $regExp = "/([0-9]{1,2}).([0-9]{1,2}).([0-9]{4})/";
 
-                    if (!ereg($regExp, $value, $regs))
+                    if (!preg_match($regExp, $value, $regs))
                     {
                         $this->setError(ERROR_RULE_WRONG_FORMAT_VALUE);
                         return false;
@@ -81,9 +81,9 @@
                     break;
 
                 case "mm/dd/yyyy":
-                    $regExp = "([0-9]{1,2}).([0-9]{1,2}).([0-9]{4})";
+                    $regExp = "/([0-9]{1,2}).([0-9]{1,2}).([0-9]{4})/";
 
-                    if (!ereg($regExp, $value, $regs))
+                    if (!preg_match($regExp, $value, $regs))
                     {
                         $this->setError(ERROR_RULE_WRONG_FORMAT_VALUE);
                         return false;
@@ -102,9 +102,9 @@
                     break;
 
                 case "yyyy/mm/dd":
-                    $regExp = "([0-9]{4}).([0-9]{1,2}).([0-9]{1,2})";
+                    $regExp = "/([0-9]{4}).([0-9]{1,2}).([0-9]{1,2})/";
 
-                    if (!ereg($regExp, $value, $regs))
+                    if (!preg_match($regExp, $value, $regs))
                     {
                         $this->setError(ERROR_RULE_WRONG_FORMAT_VALUE);
                         return false;

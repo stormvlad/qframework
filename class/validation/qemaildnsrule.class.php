@@ -63,7 +63,7 @@
             {
                 $out = fgets($connect, 1024);
 
-                if (ereg("^220", $out))
+                if (preg_match("/^220/", $out))
                 {
                     $server = &qHttp::getServerVars();
                     fputs($connect, "HELO " . $server->getValue("HTTP_HOST") . "\r\n");
@@ -78,7 +78,7 @@
                     fputs($connect, "QUIT\r\n");
                     fclose($connect);
 
-                    if (!ereg("^250", $from) || !ereg ("^250", $to))
+                    if (!preg_match("/^250/", $from) || !preg_match("/^250/", $to))
                     {
                          $this->setError(ERROR_RULE_EMAIL_DNS_NOT_PERMITTED);
                          return false;
