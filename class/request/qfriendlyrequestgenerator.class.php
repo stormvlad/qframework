@@ -31,7 +31,7 @@
                 $ret = $this->_dirName . "/";
             }
 
-            return ereg_replace("^/+", "/", $ret);
+            return preg_replace("/^\\/+/", "\\/", $ret);
         }
         
         /**

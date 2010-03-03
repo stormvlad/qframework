@@ -33,7 +33,7 @@
                 $ret = $this->_dirName . "/";
             }
 
-            return ereg_replace("^/+", "/", $ret);
+            return preg_replace("/^\\/+/", "\\/", $ret);
         }
 
         function getIndexUrl($abs = DEFAULT_ABSOLUTE_URL)

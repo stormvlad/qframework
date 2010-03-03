@@ -74,7 +74,7 @@
                 "script"     => basename($server->getValue("PHP_SELF")),
                 "uri"        => $server->getValue("REQUEST_URI"),
                 "queryCount" => $this->_queryCount,
-                "sql"        => ereg_replace("[\t\r\n ]+", " ", trim($sql)),
+                "sql"        => preg_replace("/[\t\r\n ]+/", " ", trim($sql)),
                 "time"       => $seconds);
 
             $this->sendEvent(1, $params);
