@@ -236,7 +236,7 @@
                 }
             }
             
-            if (eregi("([^<]+)<([^>]+)>", $mail->From, $regs))
+            if (preg_match("/([^<]+)<([^>]+)>/i", $mail->From, $regs))
             {
                 $mail->From     = $regs[2];
                 $mail->FromName = trim($regs[1]);
