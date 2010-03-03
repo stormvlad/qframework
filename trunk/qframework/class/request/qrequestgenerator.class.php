@@ -82,7 +82,7 @@
          */
         function getUrl($res, $abs = DEFAULT_ABSOLUTE_URL)
         {
-            return ereg_replace("^/+", "/", $this->getBaseUrl($abs) . $res);
+            return preg_replace("/^\\/+/", "\\/", $this->getBaseUrl($abs) . $res);
         }
 
         /**
