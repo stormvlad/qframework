@@ -41,9 +41,11 @@
 
             if (!empty($pattern))
             {
+                $pattern = "/" . $pattern . "/";
+                
                 foreach ($entries as $entry)
                 {
-                    if ((ereg($pattern, $entry->getName()) && $caseSensitive) || (eregi($pattern, $entry->getName()) && !$caseSensitive))
+                    if ((preg_match($pattern, $entry->getName()) && $caseSensitive) || (preg_match($pattern . "i", $entry->getName()) && !$caseSensitive))
                     {
                         array_push($result, $entry);
                     }

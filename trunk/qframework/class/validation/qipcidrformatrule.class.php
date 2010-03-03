@@ -2,7 +2,7 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qregexprule.class.php");
 
-    define("IP_CIDR_FORMAT_RULE_REG_EXP", "^([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})/([0-9]{1,2})$");
+    define("IP_CIDR_FORMAT_RULE_REG_EXP", "/^([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})/([0-9]{1,2})$/");
     define("ERROR_RULE_IP_CIDR_FORMAT_WRONG", "error_rule_ip_cidr_format_wrong");
 
     /**
@@ -37,7 +37,7 @@
          */
         function validate($value, $field = null)
         {
-            if (!ereg($this->_regExp, $value, $regs))
+            if (!preg_match($this->_regExp, $value, $regs))
             {
                 $this->setError(ERROR_RULE_IP_CIDR_FORMAT_WRONG);
                 return false;

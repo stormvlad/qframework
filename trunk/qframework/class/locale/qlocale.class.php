@@ -758,7 +758,8 @@
                 $regExp .= "|^([0-9]{1,3}([" . $thousandsSeparator . "][0-9]{3})*([" . $decimalSymbol . "][0-9]+)?)$";
             }
             
-            return ereg($regExp, $number);
+            $regExp = "/" . $regExp . "/";
+            return preg_match($regExp, $number);
         }
         
         /**
@@ -897,7 +898,7 @@
             {
                 $tmp    = intVal(substr($offset, 1, 2)) - 1;
                 $tmp    = sprintf("%02s", $tmp);
-                $offset = ereg_replace("([+-])([0-9]{2}):([0-9]{2})", "\\1" . $tmp . ":\\3", $offset);
+                $offset = preg_replace("/([+-])([0-9]{2}):([0-9]{2})/", "\\1" . $tmp . ":\\3", $offset);
             }
 
             $offset2     = $offset;
@@ -973,7 +974,7 @@
             // mejora de la traducción de PHP
             if ($this->getLocaleCode() == "ca_ES")
             {
-                $result = ereg_replace("de ([AEIOUaeiou])", "d'\\1", $result);
+                $result = preg_replace("/de ([AEIOUaeiou])/", "d'\\1", $result);
             }
 
             return $result;

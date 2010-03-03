@@ -242,7 +242,7 @@
             $offset  = $this->getOffset($page);
             $baseUrl = htmlSpecialChars($this->getBaseUrl());
 
-            if (ereg("[?]op=", $baseUrl))
+            if (preg_match("/[?]op=/", $baseUrl))
             {
                 if (empty($offset) && strpos($baseUrl, "init") !== false)
                 {
@@ -275,7 +275,7 @@
         {
             $baseUrl = htmlSpecialChars($this->getBaseUrl());
 
-            if (ereg("[?]op=", $baseUrl))
+            if (preg_match("/[?]op=/", $baseUrl))
             {
                 if (empty($offset) && strpos($baseUrl, "init") !== false)
                 {
