@@ -246,7 +246,7 @@
             $template  = $this->getOutputTemplateFileName();
 
             $template  = str_replace("{%n}", basename($fileName, "." . $extension), $template);
-            $template  = str_replace("{%s}", strtolower(ereg_replace("[^[:alnum:]+]","", basename($fileName, "." . $extension))), $template);
+            $template  = str_replace("{%s}", strtolower(preg_replace("/[^[:alnum:]+]/","", basename($fileName, "." . $extension))), $template);
             $template  = str_replace("{%e}", $extension, $template);
             $template  = str_replace("{%t}", $this->getOutputType(), $template);
             $template  = str_replace("{%w}", $width, $template);
