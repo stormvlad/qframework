@@ -2,7 +2,8 @@
 
     include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/validation/qregexprule.class.php");
 
-    define("EMAIL_FORMAT_RULE_REG_EXP", "^[a-z0-9]+([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,4}$");
+    // define("EMAIL_FORMAT_RULE_REG_EXP", "^[a-z0-9]+([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,4}$");
+    define("EMAIL_FORMAT_RULE_REG_EXP", "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
     define("ERROR_RULE_EMAIL_FORMAT_WRONG", "error_rule_email_format_wrong");
 
     /**
