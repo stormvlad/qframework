@@ -341,34 +341,39 @@
          */
         function update($obj)
         {
-            $fields = $obj->getFields();
-            $sql    = "UPDATE " . $this->_quoteName . $this->_tableName . $this->_quoteName . " SET ";
+            $fields   = $obj->getFields();
+            $idFields = $obj->getIdFields();
+
+            $sql      = "UPDATE " . $this->_quoteName . $this->_tableName . $this->_quoteName . " SET ";
 
             foreach ($fields as $field => $value)
             {
-                if (!empty($value))
+                if (!in_array($field, $idFields))
                 {
-                    $value = qDb::qstr($value);
-                    $sql  .= $this->_quoteName . $field . $this->_quoteName . "='" . $value . "', ";
-                }
-                else if ($obj->hasNullValue($field))
-                {
-                    if ($value === 0 || $value === "0")
+                    if (!empty($value))
                     {
-                        $sql .= $this->_quoteName . $field . $this->_quoteName . "='0', ";
+                        $value = qDb::qstr($value);
+                        $sql  .= $this->_quoteName . $field . $this->_quoteName . "='" . $value . "', ";
                     }
-                    else if ($value === "")
+                    else if ($obj->hasNullValue($field))
                     {
-                        $sql .= $this->_quoteName . $field . $this->_quoteName . "='', ";
+                        if ($value === 0 || $value === "0")
+                        {
+                            $sql .= $this->_quoteName . $field . $this->_quoteName . "='0', ";
+                        }
+                        else if ($value === "")
+                        {
+                            $sql .= $this->_quoteName . $field . $this->_quoteName . "='', ";
+                        }
+                        else if ($value === null)
+                        {
+                            $sql .= $this->_quoteName . $field . $this->_quoteName . "=NULL, ";
+                        }
                     }
-                    else if ($value === null)
+                    else
                     {
-                        $sql .= $this->_quoteName . $field . $this->_quoteName . "=NULL, ";
+                        //$sql .= $this->_quoteName . $field . $this->_quoteName . "='" . $value . "', ";
                     }
-                }
-                else
-                {
-                    //$sql .= $this->_quoteName . $field . $this->_quoteName . "='" . $value . "', ";
                 }
             }
 
