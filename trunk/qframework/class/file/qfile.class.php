@@ -54,6 +54,26 @@
         /**
         * Add function info here
         */
+        function getFileNameWithoutExtension($file = null)
+        {
+            if (empty($file))
+            {
+                $file = $this->_fileName;
+            }
+
+            $ext = qFile::getExtension($file);
+
+            if (!empty($ext))
+            {
+                $file = str_replace("." . $ext, "", $file);
+            }
+
+            return $file;
+        }
+        
+        /**
+        * Add function info here
+        */
         function setFileName($name)
         {
             $this->_fileName = $name;
@@ -453,7 +473,7 @@
         /**
         * Add function info here
         */
-        function getNormalizedSize($decimals = null, $file = null)
+        function getNormalizedSize($file = null, $decimals = null)
         {
             if (empty($file) && !empty($this->_fileName))
             {
@@ -500,7 +520,7 @@
         }
 
         /**
-        *    Add function info here
+        * Add function info here
         */
         function getExtension($file = null)
         {
@@ -520,7 +540,7 @@
         }
 
         /**
-        *    Add function info here
+        * Add function info here
         */
         function getPermissions($file = null)
         {
@@ -576,7 +596,7 @@
         }
 
         /**
-        *    Add function info here
+        * Add function info here
         */
         function getUid($file = null)
         {
@@ -589,7 +609,7 @@
         }
 
         /**
-        *    Add function info here
+        * Add function info here
         */
         function getOwner($file = null)
         {
@@ -603,7 +623,7 @@
         }
 
         /**
-        *    Add function info here
+        * Add function info here
         */
         function getGid($file = null)
         {
@@ -616,7 +636,7 @@
         }
 
         /**
-        *    Add function info here
+        * Add function info here
         */
         function getGroup($file = null)
         {
@@ -630,7 +650,7 @@
         }
 
         /**
-        *    Add function info here
+        * Add function info here
         */
         function getTimeStamp($file = null)
         {
@@ -701,6 +721,19 @@
                 $f->open("w");
                 $f->close();
             }
+        }
+        
+        /**
+         * Check if filename is absolute path
+         */
+        function isAbsolutePath($file = null)
+        {
+            if (empty($file) && !empty($this->_fileName))
+            {
+                $file = $this->_fileName;
+            }
+            
+            return substr($file, 0, 1) == "/";
         }
     }
 ?>

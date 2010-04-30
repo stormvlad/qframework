@@ -100,6 +100,15 @@
         }
 
         /**
+         * Add function info here
+         * 
+         */
+        function removeTo()
+        {
+            $this->_toAddrs = array();
+        }
+        
+        /**
          * Adds a Cc:
          *
          * @param cc The address where we want to Cc this message

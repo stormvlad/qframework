@@ -44,6 +44,8 @@
 
             if (empty($url))
             {
+                include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/net/qhttp.class.php");
+                
                 $server = &qHttp::getServerVars();
                 $url    = $server->getValue("REQUEST_URI");
             }
@@ -154,6 +156,18 @@
         /**
         *    Add function info here
         */
+        function getUri()
+        {
+            $uri  = $this->_path ? $this->_path : "";
+            $uri .= $this->_query ? "?" . $this->_query : "";
+            $uri .= $this->_fragment ? "#" . $this->_fragment : "";
+             
+            return $uri;
+        }
+        
+        /**
+        *    Add function info here
+        */
         function getScheme()
         {
             return $this->_scheme;
@@ -185,6 +199,22 @@
             $this->_glueUrl();
         }
 
+        /**
+        *    Add function info here
+        */
+        function getServer()
+        {
+            return preg_replace("/^(.*)[.]([^.]+[.][^.]+)$/", "\\1", $this->_host);
+        }
+        
+        /**
+        *    Add function info here
+        */
+        function getDomain()
+        {
+            return preg_replace("/^(.*[.])([^.]+[.][^.]+)$/", "\\2", $this->_host);
+        }
+        
         /**
         *    Add function info here
         */

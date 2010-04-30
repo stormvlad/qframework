@@ -158,6 +158,14 @@
         /**
          * Add function info here
          */
+        function isSha1($str)
+        {
+            return preg_match("/^[0-9abcdef]{40}$/i", $str);
+        }
+        
+        /**
+         * Add function info here
+         */
         function cleanArray($items)
         {
             foreach ($items as $key => $value)
@@ -249,6 +257,14 @@
             
             $result = array("exact" => empty($parts[1]), "width" => intVal($parts[2]), "height" => intVal($parts[3]));
             return $result;
+        }
+        
+        /**
+        * Add function info here
+        */
+        function isUrl($str)
+        {
+            return (substr($str, 0, 4) == "http");
         }
     }
 ?>
