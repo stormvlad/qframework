@@ -240,7 +240,7 @@ class Date
             return $this->format($format);
             break;
         case DATE_FORMAT_ISO_EXTENDED_MICROTIME:
-            $format = "%Y-%m-%dT%H:%M:%s";
+            $format = "%Y-%m-%dT%H:%M:%S";
             if ($this->tz->getID() == 'UTC') {
                 $format .= "Z";
             }
