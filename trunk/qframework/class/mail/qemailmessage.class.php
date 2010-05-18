@@ -98,7 +98,7 @@
                 array_push($this->_toAddrs, trim($address));
             }
         }
-
+        
         /**
          * Add function info here
          * 
