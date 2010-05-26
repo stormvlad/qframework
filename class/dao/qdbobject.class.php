@@ -9,7 +9,7 @@
      * @date    06/03/2005 19:36
      * @version 1.0
      * @ingroup dao
-     * @see qDaoGenerator Estas clases pueden generarse automáticamente
+     * @see qDaoGenerator Estas clases pueden generarse automï¿½ticamente
      */
     class qDbObject extends qObject
     {
@@ -169,7 +169,7 @@
             {
                 $this->_fields->setValue($fieldName, $value);
 
-                if ($value === null)
+                if ($value == null)
                 {
                     $this->_nullFields[$fieldName] = true;
                 }
