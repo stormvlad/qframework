@@ -212,6 +212,22 @@
         /**
         * Add function info here
         */
+        function isMsSql()
+        {
+            return $this->getDataProvider() == "mssql";
+        }
+        
+        /**
+        * Add function info here
+        */
+        function isMySql()
+        {
+            return $this->getDataProvider() == "mysql";
+        }
+        
+        /**
+        * Add function info here
+        */
         function getDataProvider()
         {
             return $this->_db->dataProvider;
