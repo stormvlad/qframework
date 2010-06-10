@@ -67,9 +67,25 @@
             $this->_quoteName = $db->_db->nameQuote;
 
             $this->setClause("SELECT", "*");
-            $this->setClause("FROM", $this->_quoteName . $this->_tableName . $this->_quoteName);
+            $this->setClause("FROM", $this->getQuotedTableName());
         }
 
+        /**
+        * Add function info here
+        */
+        function isMsSql()
+        {
+            return $this->_db->isMsSql();
+        }
+        
+        /**
+        * Add function info here
+        */
+        function isMySql()
+        {
+            return $this->_db->isMySql();
+        }
+        
         /**
         * Add function info here
         */
@@ -125,6 +141,21 @@
             $this->_clauses = array();
         }
 
+        /**
+         * Devuelve el nombre de la tabla actual en la base de datos
+         *
+         * @return string Nombre de la tabla
+         */
+        function getQuotedTableName()
+        {
+            if (strpos($this->_tableName, ".") !== false && $this->isMySql())
+            {
+                return str_replace(".", "." . $this->_quoteName, $this->_tableName) . $this->_quoteName;
+            }
+            
+            return $this->_quoteName . $this->_tableName . $this->_quoteName;
+        }
+        
         /**
          * Devuelve el nombre de la tabla actual en la base de datos
          *
@@ -238,7 +269,7 @@
         function getInsertSqlQueryPart1($obj)
         {
             $fields = $obj->getFields();
-            $sql    = "INSERT INTO " . $this->_quoteName . $this->_tableName . $this->_quoteName . " (";
+            $sql    = "INSERT INTO " . $this->getQuotedTableName() . " (";
 
             foreach ($fields as $field => $value)
             {
@@ -343,8 +374,7 @@
         {
             $fields   = $obj->getFields();
             $idFields = $obj->getIdFields();
-
-            $sql      = "UPDATE " . $this->_quoteName . $this->_tableName . $this->_quoteName . " SET ";
+            $sql      = "UPDATE " . $this->getQuotedTableName() . " SET ";
 
             foreach ($fields as $field => $value)
             {
@@ -392,7 +422,7 @@
          */
         function delete($obj)
         {
-            $sql = "DELETE FROM " . $this->_quoteName . $this->_tableName . $this->_quoteName . " WHERE " . $this->_getWhereClause($obj);
+            $sql = "DELETE FROM " . $this->getQuotedTableName() . " WHERE " . $this->_getWhereClause($obj);
             return $this->execute($sql);
         }
 
@@ -579,7 +609,7 @@
         */
         function doDelete($whereClause = null)
         {
-            $sql = "DELETE FROM " . $this->_quoteName . $this->_tableName . $this->_quoteName;
+            $sql = "DELETE FROM " . $this->getQuotedTableName();
 
             if (!empty($whereClause))
             {
