@@ -37,7 +37,7 @@
 
             $this->setOption("timeout", $timeOut);
 
-            if (eregi("^https", $serverUrl))
+            if (strtolower(substr($serverUrl, 0, 5)) == "https")
             {
                 $this->setOption("curl", CURLOPT_VERBOSE, 1);
                 $this->setOption("curl", CURLOPT_SSL_VERIFYPEER, false);

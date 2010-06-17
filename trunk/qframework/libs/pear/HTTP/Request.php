@@ -38,7 +38,7 @@
 //
 // Simple example, (Fetches yahoo.com and displays it):
 //
-// $a = &new HTTP_Request('http://www.yahoo.com/');
+// $a = new HTTP_Request('http://www.yahoo.com/');
 // $a->sendRequest();
 // echo $a->getResponseBody();
 //
@@ -221,7 +221,7 @@ class HTTP_Request {
     */
     function HTTP_Request($url = '', $params = array())
     {
-        $this->_sock           = &new Net_Socket();
+        $this->_sock           = new Net_Socket();
         $this->_method         =  HTTP_REQUEST_METHOD_GET;
         $this->_http           =  HTTP_REQUEST_HTTP_VER_1_1;
         $this->_requestHeaders = array();
@@ -314,7 +314,7 @@ class HTTP_Request {
     */
     function setURL($url)
     {
-        $this->_url = &new Net_URL($url, $this->_useBrackets);
+        $this->_url = new Net_URL($url, $this->_useBrackets);
 
         if (HTTP_REQUEST_HTTP_VER_1_1 == $this->_http) {
             $this->addHeader('Host', $this->_generateHostHeader());
@@ -567,7 +567,7 @@ class HTTP_Request {
         $this->_notify('sentRequest');
 
         // Read the response
-        $this->_response = &new HTTP_Response($this->_sock, $this->_listeners);
+        $this->_response = new HTTP_Response($this->_sock, $this->_listeners);
         if (PEAR::isError($err = $this->_response->process($this->_saveBody && $saveBody)) ) {
             return $err;
         }
@@ -586,7 +586,7 @@ class HTTP_Request {
 
             // Absolute URL
             if (preg_match('/^https?:\/\//i', $redirect)) {
-                $this->_url = &new Net_URL($redirect);
+                $this->_url = new Net_URL($redirect);
                 $this->addHeader('Host', $this->_generateHostHeader());
             // Absolute path
             } elseif ($redirect{0} == '/') {

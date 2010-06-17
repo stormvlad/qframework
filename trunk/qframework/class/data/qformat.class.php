@@ -303,7 +303,7 @@
         {
             include_once(QFRAMEWORK_CLASS_PATH . "qframework/libs/html2text/class.html2text.inc");
 
-            $h2t  = &new html2text($html);
+            $h2t  = new html2text($html);
             $h2t->width = $width;
 
             if (!empty($baseUrl))

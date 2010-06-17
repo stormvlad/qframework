@@ -405,7 +405,7 @@ class mssql_driver_ADOConnection extends ADOConnection
 			{
 				if($offset > $recordset->_numOfRows)
 				{
-					$rs =& new ADORecordSet_empty();
+					$rs = new ADORecordSet_empty();
 					return $rs;
 				}
 

@@ -63,7 +63,7 @@ class SOAP_Transport
             $fault = SOAP_Base_Object::_raiseSoapFault("No Transport class $transport_class");
             return $fault;
         }
-        $t =& new $transport_class($url, $encoding);
+        $t = new $transport_class($url, $encoding);
 
         return $t;
     }

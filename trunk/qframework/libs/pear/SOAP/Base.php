@@ -207,7 +207,7 @@ class SOAP_Base_Object extends PEAR
             if (!$code) {
                 $code = $is_instance ? $this->_myfaultcode : 'Client';
             }
-            $fault =& new SOAP_Fault($str,
+            $fault = new SOAP_Fault($str,
                                      $code,
                                      $actorURI,
                                      $detail,
@@ -507,7 +507,7 @@ class SOAP_Base extends SOAP_Base_Object
 
             $array_type = $array_type_prefix = '';
             if ($numtypes != 1) {
-                $arrayTypeQName =& new QName($arrayType);
+                $arrayTypeQName = new QName($arrayType);
                 $arrayType = $arrayTypeQName->name;
                 $array_types = array();
                 $array_val = null;
@@ -612,8 +612,8 @@ class SOAP_Base extends SOAP_Base_Object
         $xml_attr = '';
         if (count($attributes)) {
             foreach ($attributes as $k => $v) {
-                $kqn =& new QName($k);
-                $vqn =& new QName($v);
+                $kqn = new QName($k);
+                $vqn = new QName($v);
                 $xml_attr .= ' ' . $kqn->fqn() . '="' . $vqn->fqn() . '"';
             }
         }
@@ -728,7 +728,7 @@ class SOAP_Base extends SOAP_Base_Object
                         if ($this->_isBase64($value)) {
                             $type = 'base64Binary';
                         } else {
-                            $dt =& new SOAP_Type_dateTime($value);
+                            $dt = new SOAP_Type_dateTime($value);
                             if ($dt->toUnixtime() != -1) {
                                 $type = 'dateTime';
                             }
@@ -870,7 +870,7 @@ class SOAP_Base extends SOAP_Base_Object
                         }
                     }
                 }
-                $return =& new $classname;
+                $return = new $classname;
             } else {
                 $return = array();
             }
@@ -1041,7 +1041,7 @@ class SOAP_Base extends SOAP_Base_Object
         // See http://www.w3.org/TR/SOAP-attachments
         // Now we have to mime encode the message.
         $params = array('content_type' => 'multipart/related; type=text/xml');
-        $msg =& new Mail_mimePart('', $params);
+        $msg = new Mail_mimePart('', $params);
 
         // Add the xml part.
         $params['content_type'] = 'text/xml';
@@ -1071,7 +1071,7 @@ class SOAP_Base extends SOAP_Base_Object
         // Encode any attachments.
         // See http://search.ietf.org/internet-drafts/draft-nielsen-dime-soap-00.txt
         // Now we have to DIME encode the message
-        $dime =& new Net_DIME_Message();
+        $dime = new Net_DIME_Message();
         $msg = $dime->encodeData($xml, SOAP_ENVELOP, null, NET_DIME_TYPE_URI);
 
         // Add the attachments.
@@ -1102,7 +1102,7 @@ class SOAP_Base extends SOAP_Base_Object
         $params['decode_headers'] = true;
 
         // Lame thing to have to do for decoding.
-        $decoder =& new Mail_mimeDecode($data);
+        $decoder = new Mail_mimeDecode($data);
         $structure = $decoder->decode($params);
 
         if (isset($structure->body)) {
@@ -1149,7 +1149,7 @@ class SOAP_Base extends SOAP_Base_Object
 
         // This SHOULD be moved to the transport layer, e.g. PHP itself should
         // handle parsing DIME ;)
-        $dime =& new Net_DIME_Message();
+        $dime = new Net_DIME_Message();
         $err = $dime->decodeData($data);
         if (PEAR::isError($err)) {
             $this->_raiseSoapFault('Failed to decode the DIME message!', '', '', 'Server');
@@ -1176,7 +1176,7 @@ class SOAP_Base extends SOAP_Base_Object
 
     function __set_type_translation($type, $class = null)
     {
-        $tq =& new QName($type);
+        $tq = new QName($type);
         if (!$class) {
             $class = $tq->name;
         }
