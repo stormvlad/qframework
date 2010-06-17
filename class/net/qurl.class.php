@@ -52,7 +52,7 @@
 
             $url = rawUrlDecode($url);
             
-            if (!eregi("^http[s]?://", $url))
+            if (!preg_match("/^http[s]?:\/\//i", $url))
             {
                 $protocol = "http";
                 $server   = &qHttp::getServerVars();
@@ -73,7 +73,7 @@
                     }
                 }
 
-                if ($server->getValue("HTTPS") == "on" || eregi("^https", $server->getValue("HTTP_REFERER")))
+                if ($server->getValue("HTTPS") == "on" || preg_match("/^https/i", $server->getValue("HTTP_REFERER")))
                 {
                     $protocol = "https";
                 }
