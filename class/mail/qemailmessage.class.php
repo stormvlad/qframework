@@ -124,6 +124,15 @@
         }
 
         /**
+         * Add function info here
+         * 
+         */
+        function removeCc()
+        {
+            $this->_ccAddrs = array();
+        }
+        
+        /**
          * Adds a Bcc address
          *
          * @param bcc The adddress where we want to Bcc
@@ -138,6 +147,15 @@
             }
         }
 
+        /**
+         * Add function info here
+         * 
+         */
+        function removeBcc()
+        {
+            $this->_bccAddrs = array();
+        }
+        
         /**
          * Sets the from address
          *
