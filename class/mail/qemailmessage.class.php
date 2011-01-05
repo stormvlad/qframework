@@ -89,9 +89,9 @@
          *
          * @param to Destination address.
          */
-        function addTo($to)
+        function addTo($to, $delimiter = ",")
         {
-            $addreces = explode(",", $to);
+            $addreces = explode($delimiter, $to);
 
             foreach ($addreces as $address)
             {
