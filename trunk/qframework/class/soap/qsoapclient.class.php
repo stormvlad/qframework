@@ -33,7 +33,7 @@
             $this->_nameSpace  = $nameSpace;
 
             $this->_soapClient = new SOAP_Client($serverUrl);
-            $this->_soapClient->setEncoding($encoding);
+            $this->_soapClient->_encoding = $encoding;
 
             $this->setOption("timeout", $timeOut);
 
