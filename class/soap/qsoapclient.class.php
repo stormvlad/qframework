@@ -90,7 +90,7 @@
         */
         function setEncoding($encoding)
         {
-            $this->_soapClient->setEncoding($encoding);
+            $this->_soapClient->_encoding = $encoding;
         }
 
         /**
