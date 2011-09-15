@@ -181,18 +181,13 @@
         */
         function _calcSizedSizes($width, $height, $maxWidth, $maxHeight, $exact)
         {
-            $ratioWidth  = 1;
-            $ratioHeight = 1;
-
-            if ($width > $maxWidth)
+            if ($width <= $maxWidth || $height <= $maxHeight)
             {
-                $ratioWidth = $maxWidth / $width;
+                return array($maxWidth, $maxHeight);
             }
-
-            if ($height > $maxHeight)
-            {
-                $ratioHeight = $maxHeight / $height;
-            }
+            
+            $ratioWidth  = $maxWidth / $width;
+            $ratioHeight = $maxHeight / $height;
 
             if ($exact)
             {
@@ -258,14 +253,17 @@
         /**
         * Add function info here
         */
-        function generateSizedImage($width, $height, $exact = true, $overwrite = true)
+        function generateSizedImage($width, $height, $exact = true, $overwrite = true, $color = "ffffff")
         {
-            $newSizes  = $this->_calcSizedSizes($this->getWidth(), $this->getHeight(), $width, $height, $exact);
+            $oWidth    = $this->getWidth();
+            $oHeight   = $this->getHeight();
+            $newSizes  = $this->_calcSizedSizes($oWidth, $oHeight, $width, $height, $exact);
             $newWidth  = $newSizes[0];
             $newHeight = $newSizes[1];
             $file      = $this->getFileName();
             $extension = $this->getExtension();
-
+            $hexColor  = hexdec($color); 
+            
             switch ($this->getType())
             {
                 case "gif":
@@ -281,8 +279,20 @@
                     break;
             }
 
-            $img = imageCreateTrueColor($newWidth, $newHeight);
-            imageCopyResampled($img, $src, 0, 0, 0, 0, $newWidth, $newHeight, $this->getWidth(), $this->getHeight());
+            $img = imageCreateTrueColor($newWidth, $newHeight);            
+            imageFill($img, 0, 0, imageColorAllocate($img, 0xFF & ($hexColor >> 0x10), 0xFF & ($hexColor >> 0x8), 0xFF & $hexColor));
+            
+            if ($newWidth > $oWidth && $newHeight > $oHeight)
+            {
+                $x = round(($newWidth - $oWidth) / 2);
+                $y = round(($newHeight - $oHeight) / 2);
+                
+                imageCopyResampled($img, $src, $x, $y, 0, 0, $oWidth, $oHeight, $oWidth, $oHeight);
+            }
+            else
+            {
+                imageCopyResampled($img, $src, 0, 0, 0, 0, $newWidth, $newHeight, $oWidth, $oHeight);
+            }
 
             if ($exact)
             {
@@ -300,6 +310,7 @@
                 }
 
                 $img2 = imageCreateTrueColor($width, $height);
+                imageFill($img2, 0, 0, imageColorAllocate($img2, 0xFF & ($hexColor >> 0x10), 0xFF & ($hexColor >> 0x8), 0xFF & $hexColor));
                 imageCopyResampled($img2, $img, 0, 0, $x, $y, $width, $height, $width, $height);
                 
                 $img       = $img2;
@@ -349,6 +360,9 @@
             return $outputFileName;
         }
 
+        /**
+        * Add function info here
+        */
         function _getImageDetails($fileName)
         {
             if (is_file($fileName) && is_readable($fileName))
