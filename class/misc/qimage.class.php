@@ -181,7 +181,7 @@
         */
         function _calcSizedSizes($width, $height, $maxWidth, $maxHeight, $exact)
         {
-            if ($width <= $maxWidth || $height <= $maxHeight)
+            if ($width <= $maxWidth && $height <= $maxHeight)
             {
                 return array($maxWidth, $maxHeight);
             }
@@ -264,6 +264,7 @@
             $extension = $this->getExtension();
             $hexColor  = hexdec($color); 
             
+            // print $exact . "**" .  $width . "x" . $height . "--" . $oWidth . "x" . $oHeight . "--" . $newWidth . "x" . $newHeight . "****<br />";
             switch ($this->getType())
             {
                 case "gif":
