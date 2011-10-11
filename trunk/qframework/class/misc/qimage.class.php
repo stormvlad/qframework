@@ -264,7 +264,7 @@
             $extension = $this->getExtension();
             $hexColor  = hexdec($color); 
             
-            // print $exact . "**" .  $width . "x" . $height . "--" . $oWidth . "x" . $oHeight . "--" . $newWidth . "x" . $newHeight . "****<br />";
+            
             switch ($this->getType())
             {
                 case "gif":
@@ -283,7 +283,7 @@
             $img = imageCreateTrueColor($newWidth, $newHeight);            
             imageFill($img, 0, 0, imageColorAllocate($img, 0xFF & ($hexColor >> 0x10), 0xFF & ($hexColor >> 0x8), 0xFF & $hexColor));
             
-            if ($newWidth > $oWidth && $newHeight > $oHeight)
+            if ($newWidth >= $oWidth && $newHeight >= $oHeight)
             {
                 $x = round(($newWidth - $oWidth) / 2);
                 $y = round(($newHeight - $oHeight) / 2);
