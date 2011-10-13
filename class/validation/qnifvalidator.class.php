@@ -41,6 +41,8 @@
                     return $this->validateNif($value);
                     break;
                 case "X":
+                case "Y":
+                case "Z":
                     return $this->validateNie($value);
                     break;
                 default:
@@ -144,13 +146,13 @@
         */
         function validateNie($value)
         {
-            if (strlen($value) != 10)
+            if (strlen($value) != 9)
             {
                 $this->setError(ERROR_VALIDATOR_NIF_FORMAT_WRONG);
                 return false;
             }
 
-            $rule = new qRegExpRule("X[0-9]{8}[a-z]", false);
+            $rule = new qRegExpRule("[XYZ][0-9]{7,8}[a-z]", false);
 
             if (!$rule->validate($value))
             {
@@ -158,7 +160,7 @@
                 return false;
             }
 
-            return $this->validateNif(substr($value,1));
+            return $this->validateNif("0" . substr($value,1));
         }
     }
 ?>

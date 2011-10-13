@@ -37,6 +37,12 @@
 
             $this->setOption("timeout", $timeOut);
 
+            if( !function_exists("curl_init") )
+            {
+                trigger_error("CURL Library is missing.", E_USER_ERROR);
+                die;
+            }
+
             if (strtolower(substr($serverUrl, 0, 5)) == "https")
             {
                 $this->setOption("curl", CURLOPT_VERBOSE, 1);
