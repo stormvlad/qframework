@@ -436,7 +436,16 @@
                 }
             }
             
-            return "/";
+            $server  = &qHttp::getServerVars();
+            $phpSelf = basename($server->getValue("PHP_SELF"));
+            $uri     = "/";
+            
+            if ($phpSelf != "index.php")
+            {
+                $uri .= $phpSelf;
+            }
+            
+            return $uri;
         }
 
         function cleanUri($uri)
