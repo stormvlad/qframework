@@ -282,7 +282,7 @@
 
             if (!empty($days))
             {
-                $date->addDays($days); // esborro el +1 aquest 2012 dóna problemes
+                $date->addDays($days); // esborro el +1, aquest 2012 dóna problemes
             }
             
             $this->setDate($date->getYear(), $date->getMonth(), $date->getDay());
