@@ -169,7 +169,7 @@
             {
                 $this->_fields->setValue($fieldName, $value);
 
-                if (empty($value))
+                if ($value == null)
                 {
                     $this->_nullFields[$fieldName] = true;
                 }
@@ -227,14 +227,7 @@
 
             foreach ($row as $key => $value)
             {
-                if ($this->fieldExists($key))
-                {
-                    $this->setValue($key, $value);
-                }
-                else if ($this->outerFieldExists($key))
-                {
-                    $this->_outerFields->setValue($key, $value);
-                }
+                $this->setValue($key, $value);
             }
         }
 
