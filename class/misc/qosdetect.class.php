@@ -34,7 +34,7 @@
          */
         function isWindows()
         {
-            return eregi("win", qOsDetect::getOsString());
+            return preg_match("/win/", qOsDetect::getOsString());
         }
 
         /**
@@ -45,7 +45,7 @@
          */
         function isLinux()
         {
-            return eregi("linux", qOsDetect::getOsString());
+            return preg_match("/linux/", qOsDetect::getOsString());
         }
 
 
@@ -57,7 +57,7 @@
          */
         function isMacOsX()
         {
-            return eregi("mac", qOsDetect::getOsString());
+            return preg_match("/mac/", qOsDetect::getOsString());
         }
     }
 ?>
