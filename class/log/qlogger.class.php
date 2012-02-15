@@ -64,11 +64,13 @@
         {
             if (isset($this->_appenders[$name]))
             {
-                trigger_error("qLogger already has appender '" . $name . "'.", E_USER_WARNING);
-                return;
+                // trigger_error("qLogger already has appender '" . $name . "'.", E_USER_WARNING);
+                // return;
             }
-
-            $this->_appenders[$name] =& $appender;
+            else
+            {            
+                $this->_appenders[$name] =& $appender;
+            }
         }
 
         /**

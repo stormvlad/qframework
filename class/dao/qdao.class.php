@@ -255,7 +255,10 @@
                 return false;
             }
 
-            return $result->RecordCount();
+            $val = $result->RecordCount();
+            $result->Close();
+            
+            return $val;
         }
 
         /**
@@ -529,6 +532,7 @@
                 $items[] = $obj;
             }
 
+            $result->Close();
             return $items;
         }
 
@@ -595,7 +599,8 @@
             }
 
             $row = $result->FetchRow();
-
+            $result->Close();
+            
             if (!isset($row["total"]))
             {
                 return false;
