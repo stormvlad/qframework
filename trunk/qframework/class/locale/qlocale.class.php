@@ -705,7 +705,7 @@
          */
         function formatNumber($number, $decimals = null, $decPoint = null, $thousandsSep = null)
         {
-            if (empty($decimals))
+            if (is_null($decimals))
             {
                 $decimals = is_float($number) ? $this->getCurrencyDecimals() : 0;
             }
