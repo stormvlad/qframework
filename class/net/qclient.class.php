@@ -101,13 +101,5 @@
             $ips = qClient::getIps();
             return $ips[0];
         }
-        
-        /**
-        * Add function info here
-        */
-        function getExternalIp()
-        {
-            return exec("wget -q -O - icanhazip.com");
-        }
     }
 ?>
