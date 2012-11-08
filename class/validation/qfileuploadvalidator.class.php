@@ -60,7 +60,7 @@
             else if (is_string($extensions) && preg_match("/(\\*\\.[^*.|]+)([|,;:]\\*\\.[^*.|]+)*/", $extensions))
             {
                 $this->_validExtensions = array();
-                $extensions = split("[|,;:]", $extensions);
+                $extensions = preg_split("/[|,;:]/", $extensions);
 
                 foreach ($extensions as $extension)
                 {
