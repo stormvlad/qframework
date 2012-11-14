@@ -29,7 +29,7 @@
          * @note No debe llamarse manualmente
          */
         function write($message)
-        {
+        {            
             print $message . "<br/>" . PHP_EOL;
         }
 

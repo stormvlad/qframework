@@ -461,14 +461,17 @@
         */
         function saveUriToHistory($uri = null)
         {
+            $request = &qHttp::getRequestVars();
+            $back    = $request->getValue("back");
+
             if (empty($uri))
             {
                 $server = &qHttp::getServerVars();
                 $uri    = $server->getValue("REQUEST_URI");
             }
 
-            if ($this->excludeUri($uri))
-            {
+            if ($this->excludeUri($uri) || !empty($back))
+            {                
                 return;
             }
             
