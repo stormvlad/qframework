@@ -285,17 +285,26 @@
             
             if ($newWidth >= $oWidth && $newHeight >= $oHeight)
             {
-                $x = round(($newWidth - $oWidth) / 2);
-                $y = round(($newHeight - $oHeight) / 2);
-                
-                imageCopyResampled($img, $src, $x, $y, 0, 0, $oWidth, $oHeight, $oWidth, $oHeight);
+                if (empty($exact))
+                {
+                    $img = imageCreateTrueColor($oWidth, $oHeight);            
+                    imageFill($img, 0, 0, imageColorAllocate($img, 0xFF & ($hexColor >> 0x10), 0xFF & ($hexColor >> 0x8), 0xFF & $hexColor));
+                    imagecopy($img, $src, 0, 0, 0, 0, $oWidth, $oHeight);
+                }
+                else
+                {
+                    $x = round(($newWidth - $oWidth) / 2);
+                    $y = round(($newHeight - $oHeight) / 2);
+                    
+                    imageCopyResampled($img, $src, $x, $y, 0, 0, $oWidth, $oHeight, $oWidth, $oHeight);
+                }
             }
             else
             {
                 imageCopyResampled($img, $src, 0, 0, 0, 0, $newWidth, $newHeight, $oWidth, $oHeight);
             }
 
-            if ($exact)
+            if (!empty($exact))
             {
                 $x = 0;
                 $y = 0;
