@@ -40,6 +40,8 @@
             $historyIndex       = $session->getValue("historyIndex");
             $historySize        = $session->getValue("historySize");
 
+            $bookmarks          = $session->getValue("bookmarks");
+
             if (empty($attributes))
             {
                  $attributes = array();
@@ -63,6 +65,8 @@
             $user->setHistoryIndex($historyIndex);
             $user->setHistorySize($historySize);
             
+            $user->setBookmarks($bookmarks);
+
             return true;
         }
 
@@ -89,6 +93,8 @@
             $session->setValue("historyIndex", $user->getHistoryIndex());
             $session->setValue("historySize", $user->getHistorySize());
             
+            $session->setValue("bookmarks", $user->getBookmarks());
+
             $session->save();
         }
     }

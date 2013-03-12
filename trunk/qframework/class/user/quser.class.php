@@ -51,6 +51,8 @@
         var $_historyIndex;
         var $_historySize;
 
+        var $_bookmarks;
+
         var $_backed;
 
         var $_excludedUriPatterns;
@@ -141,6 +143,8 @@
             $this->_history             = array();
             $this->_historyIndex        = 0;
             $this->_historySize         = DEFAULT_USER_HISTORY_SIZE;
+
+            $this->_bookmarks            = array();
 
             $this->_backed              = false;
 
@@ -448,10 +452,15 @@
             return $uri;
         }
 
+        /**
+        * Add function info here
+        */
         function cleanUri($uri)
         {
             $uri = preg_replace("/(&(amp;)?|[?])back=1(.*)/", "", $uri);
             $uri = preg_replace("/(&(amp;)?|[?])result=[^&]+/", "", $uri);
+            $uri = str_replace("&amp;", "&", $uri);
+            $uri = str_replace("&", "&amp;", $uri);
 
             return $uri;
         }
@@ -475,12 +484,58 @@
                 return;
             }
             
-            $uri  = $this->cleanUri($uri);
+            $uri = $this->cleanUri($uri);
             
             $this->_history[$this->_historyIndex] = $uri;
             $this->_historyIndex = ($this->_historyIndex + 1) % $this->_historySize;
         }
         
+        /**
+        * Add function info here
+        */
+        function &getBookmarks()
+        {
+            return $this->_bookmarks;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setBookmarks(&$bookmarks)
+        {
+            $this->_bookmarks = $bookmarks;
+        }
+
+        /**
+        * Add function info here
+        */
+        function getBookmark($label)
+        {
+            if (empty($this->_bookmarks[$label]))
+            {
+                return false;
+            }
+
+            return $this->_bookmarks[$label];
+        }
+
+        /**
+        * Add function info here
+        */
+        function setBookmark($label, $uri = null, $cleanUri = true)
+        {
+            if (empty($uri))
+            {
+                $server = &qHttp::getServerVars();
+                $uri    = $server->getValue("REQUEST_URI");
+            }
+
+            $uri = $this->cleanUri($uri);
+            $this->_bookmarks[$label] = $uri;
+
+            return $uri;
+        }
+
         /**
         * Add function info here
         */
