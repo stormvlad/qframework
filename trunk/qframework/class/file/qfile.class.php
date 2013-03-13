@@ -735,5 +735,28 @@
             
             return substr($file, 0, 1) == "/";
         }
+
+        /**
+         * Get total count of files (subdirectories included) inside
+         * a directory
+         */
+        function getDirFilesCount($file = null)
+        {
+            if (empty($file) && !empty($this->_fileName))
+            {
+                $file = $this->_fileName;
+            }
+            
+            if (empty($file) || !qFile::isDir($file))
+            {
+                return 0;
+                // trigger_error("'" . $file . "' is not a directory.", E_USER_WARNING);
+                // return;
+            }
+
+            $cmd   = "find " . str_replace(" ", "\\ ", $file) . " -type f | wc -l";
+            $count = exec($cmd);
+            return $count;
+        }
     }
 ?>

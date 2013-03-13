@@ -63,6 +63,23 @@
         /**
         * Add function info here
         */
+        function getEncoding()
+        {
+            return $this->_soapServer->xml_encoding;
+        }
+
+        /**
+        * Add function info here
+        */
+        function setEncoding($encoding)
+        {
+            $this->_soapServer->xml_encoding      = $encoding;
+            $this->_soapServer->response_encoding = $encoding;
+        }
+
+        /**
+        * Add function info here
+        */
         function &getInstance()
         {
             static $soapServer;
