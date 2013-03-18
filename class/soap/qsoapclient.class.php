@@ -162,8 +162,38 @@
         /**
         * Add function info here
         */
+        function getErrorMessage($obj)
+        {
+            if ($this->isError($obj))
+            {
+                if (preg_match("/^([^\\[]+ +\\[[^\\]]+ +\\[[^\\]]+ +)?(.+)/", strip_tags($obj->message), $regs))
+                {
+                    return $regs[2];
+                }
+            }
+
+            return false;
+        }
+
+        /**
+        * Add function info here
+        */
         function call($method, $params)
         {
+            return $this->_soapClient->call($method, $params, $this->_nameSpace);
+        }
+
+        /**
+        * Add function info here
+        */
+        function callAutoMethod($args)
+        {
+            $callers = debug_backtrace();
+            $method  = $callers[1]["function"];
+            $options = array("namespace" => $this->getNameSpace(), "trace" => 1, "debug" => _DEBUG_);
+            $params  = array_merge($args, array($options));
+            $result  = $this->call($method, $params);
+
             return $this->_soapClient->call($method, $params, $this->_nameSpace);
         }
     }
