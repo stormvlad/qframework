@@ -208,6 +208,34 @@
         /**
         * Add function info here
         */
+        function dumpHeadersToStr()
+        {
+            $result  = "-- Sent Headers --<br />" . PHP_EOL;
+            $headers = apache_request_headers();
+
+            foreach ($headers as $key => $header)
+            {
+                $result .= $key . ": " . $header . "<br />" . PHP_EOL;
+            }
+
+            $result .= "<br />" . PHP_EOL;
+    
+            $result .= "-- Received Headers --<br />" . PHP_EOL;
+            $headers = apache_response_headers();
+
+            foreach ($headers as $key => $header)
+            {
+                $result .= $key . ": " . $header . "<br />" . PHP_EOL;
+            }
+
+            $result .= "<br />" . PHP_EOL;
+
+            return $result;
+        }
+
+        /**
+        * Add function info here
+        */
         function dumpStackTraceToStr()
         {
             $result = "-- Backtrace --<br /><i>" . PHP_EOL;
