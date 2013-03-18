@@ -192,9 +192,8 @@
             $method  = $callers[1]["function"];
             $options = array("namespace" => $this->getNameSpace(), "trace" => 1, "debug" => _DEBUG_);
             $params  = array_merge($args, array($options));
-            $result  = $this->call($method, $params);
-
-            return $this->_soapClient->call($method, $params, $this->_nameSpace);
+            
+            return $this->call($method, $params);
         }
     }
 
