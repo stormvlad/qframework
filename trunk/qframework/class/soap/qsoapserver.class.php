@@ -53,8 +53,7 @@
             if ($server->getValue("REQUEST_METHOD") != "POST")
             {
                 trigger_error("Invalid request method. Only request POST method is available.", E_USER_ERROR);
-                return;
-                
+                return;                
             }
 
             $this->_soapServer->service($GLOBALS["HTTP_RAW_POST_DATA"]);
