@@ -740,7 +740,7 @@
          * Get total count of files (subdirectories included) inside
          * a directory
          */
-        function getDirFilesCount($file = null)
+        function getDirFilesCount($file = null, $recursive = true)
         {
             if (empty($file) && !empty($this->_fileName))
             {
@@ -754,7 +754,14 @@
                 // return;
             }
 
-            $cmd   = "find " . str_replace(" ", "\\ ", $file) . " -type f | wc -l";
+            $cmd = "find " . str_replace(" ", "\\ ", $file);
+
+            if (empty($recursive))
+            {
+                $cmd .= " -maxdepth 1";
+            }
+
+            $cmd .= " -type f | wc -l";
             $count = exec($cmd);
             return $count;
         }
