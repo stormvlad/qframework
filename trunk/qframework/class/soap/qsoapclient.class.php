@@ -25,7 +25,7 @@
             if (empty($encoding))
             {
                 include_once(APP_ROOT_PATH . "class/locale/locale.class.php");
-                $locale = &Locale::getInstance();
+                $locale   = &Locale::getInstance();
                 $encoding = $locale->getCharset();
             }
             
