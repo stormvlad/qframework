@@ -765,5 +765,38 @@
             $count = exec($cmd);
             return $count;
         }
+
+        /**
+         * Get previous path
+         */
+        function getPreviousPath($file = null)
+        {
+            if (empty($file) && !empty($this->_fileName))
+            {
+                $file = $this->_fileName;
+            }
+
+            $path = $file;
+
+            if (!empty($path) && $path != "/")
+            {
+                $path = preg_replace("#^/#", "", $path);
+                $path = preg_replace("#/$#", "", $path);
+                $path = str_replace(basename($path), "", $path);
+                $path = preg_replace("#/$#", "", $path);
+            }
+
+            if (substr($file, 0, 1) == "/")
+            {
+                $path = "/" . $path;
+            }
+
+            if (substr($file, -1, 1) == "/" && $path != "/")
+            {
+                $path = $path . "/";
+            }
+
+            return $path;
+        }
     }
 ?>
