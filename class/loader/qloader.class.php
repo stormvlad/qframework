@@ -49,7 +49,7 @@
         function autoSetUrlPattern()
         {
             $path = str_replace("./", "", $this->_path);
-            $this->_urlPattern = "{%proto}://" . $this->_prefix . ".{%domain}/" . $path . "{%file}";
+            $this->_urlPattern = "{%proto}://" . $this->_prefix . ".{%domain}/{%path}" . $path . "{%file}";
         }
         
         /**
@@ -111,17 +111,24 @@
                 $d       = intVal($num);
                 $server  = $url->getServer();
                 $domain  = $url->getDomain();
+                $path    = $url->getPath();
+
+                if (substr($path, 0, 1) == "/")
+                {
+                    $path = substr($path, 1);
+                }
+                
                 $file    = qFile::getBaseName($name);
-                $search  = array("{%proto}", "{%d}", "{%srv}", "{%domain}", "{%file}");
-                $replace = array($proto, $d, $server, $domain, $file);
-    
+                $search  = array("{%proto}", "{%d}", "{%srv}", "{%domain}", "{%path}", "{%file}");
+                $replace = array($proto, $d, $server, $domain, $path, $file);
+
                 $num++;
                 
                 if (empty($this->_loads[$name]))
                 {
                     $this->_loads[$name] = array();
                 }
-                
+
                 $this->_loads[$name]["url"] = str_replace($search, $replace, $this->_urlPattern);
             }
             
@@ -272,7 +279,7 @@
                 }
                 
                 $result = "";
-                $fname  = $this->getFileName($name);
+                $fname  = $this->_path . $name;
                 $fp     = new qFile($fname);
                 $total  = 0;
                 
@@ -332,7 +339,7 @@
                 
                 $this->_loads[$name]["loaded"] = $this->_loads[$name]["loaded"] . " (in this request)";
             }
-            
+            //print "<pre>";print_r($this->_loads);print "</pre>";die;
             return $this->getUrl($name);
         }
         
@@ -383,7 +390,7 @@
         {
             include_once(QFRAMEWORK_CLASS_PATH . "qframework/class/file/qfile.class.php");
                 
-            $fname = $this->getStatsFileName($name);
+            $fname = $this->_path . baseName($this->getStatsFileName($name));
             $file  = new qFile($fname);
             $data  = "<?php" . PHP_EOL . "\$this->_loads['" . $name . "'] = " . var_export($this->_loads[$name], true) . ";" . PHP_EOL . "?>"; 
             
