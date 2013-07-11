@@ -113,9 +113,9 @@
          *
          * @param cc The address where we want to Cc this message
          */
-        function addCc($cc)
+        function addCc($cc, $delimiter = ",")
         {
-            $addreces = explode(",", $cc);
+            $addreces = explode($delimiter, $cc);
 
             foreach ($addreces as $address)
             {
@@ -137,9 +137,9 @@
          *
          * @param bcc The adddress where we want to Bcc
          */
-        function addBcc($bcc)
+        function addBcc($bcc, $delimiter = ",")
         {
-            $addreces = explode(",", $bcc);
+            $addreces = explode($delimiter, $bcc);
 
             foreach ($addreces as $address)
             {
