@@ -411,5 +411,18 @@
             
             return $this->_query;
         }
+
+        /**
+        * Add function info here
+        */
+        function isSemantic($url = null)
+        {
+            if (empty($url))
+            {
+                $url = $this->_url;
+            }
+
+            return strpos($url, "?") === false;
+        }
     }
 ?>
