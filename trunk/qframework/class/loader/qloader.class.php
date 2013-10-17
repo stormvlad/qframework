@@ -111,13 +111,18 @@
                 $d       = intVal($num);
                 $server  = $url->getServer();
                 $domain  = $url->getDomain();
-                $path    = $url->getPath();
-
-                if (substr($path, 0, 1) == "/")
-                {
-                    $path = substr($path, 1);
-                }
+                $path    = "";
                 
+                if (!$url->isSemantic())
+                {
+                    $path = $url->getPath();
+                
+                    if (substr($path, 0, 1) == "/")
+                    {
+                        $path = substr($path, 1);
+                    }
+                }
+
                 $file    = qFile::getBaseName($name);
                 $search  = array("{%proto}", "{%d}", "{%srv}", "{%domain}", "{%path}", "{%file}");
                 $replace = array($proto, $d, $server, $domain, $path, $file);
