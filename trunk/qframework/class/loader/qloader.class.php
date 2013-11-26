@@ -115,7 +115,7 @@
                 
                 if (!$url->isSemantic())
                 {
-                    $path = $url->getPath();
+                    $path = str_replace(array("index.php", "admin.php"), "", $url->getPath());
                 
                     if (substr($path, 0, 1) == "/")
                     {
@@ -344,7 +344,7 @@
                 
                 $this->_loads[$name]["loaded"] = $this->_loads[$name]["loaded"] . " (in this request)";
             }
-            //print "<pre>";print_r($this->_loads);print "</pre>";die;
+            // print "<pre>";print_r($this->_loads);print "</pre>";die;
             return $this->getUrl($name);
         }
         

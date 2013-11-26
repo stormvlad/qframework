@@ -422,7 +422,7 @@
                 $url = $this->_url;
             }
 
-            return strpos($url, "?") === false;
+            return strpos($url, "?") === false && substr($url, -4) != ".php";
         }
     }
 ?>
