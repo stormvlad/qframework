@@ -169,7 +169,13 @@
             $this->sendQueryEvent($sql, $seconds);
 
             $this->_db->SetFetchMode($prevMode);
-            return $result->fields[0];
+
+            if (is_object($result))
+            {
+                return $result->fields[0];
+            }
+
+            return false;
         }
 
         /**
@@ -183,7 +189,12 @@
 
             $this->sendQueryEvent($sql, $seconds);
 
-            return $result->fields;
+            if (is_object($result))
+            {
+                return $result->fields;
+            }
+
+            return false;            
         }
 
         /**
