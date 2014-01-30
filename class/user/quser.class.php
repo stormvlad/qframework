@@ -98,7 +98,7 @@
 
             if ($request->getValue("back") == 1)
             {
-                $this->updateHistoryIndex(-1);
+                $this->updateHistoryIndex();
             }
         }
 
@@ -329,13 +329,35 @@
         /**
         * Add function info here
         */
-        function updateHistoryIndex($index)
+        function updateHistoryIndex($index = null)
         {
-            $this->_historyIndex += $index;
+            if ($index !== null)
+            {                
+                $this->_historyIndex += $index;
 
-            if ($this->_historyIndex < 0)
+                if ($this->_historyIndex < 0)
+                {
+                    $this->_historyIndex = $this->_historySize + $this->_historyIndex;
+                }
+
+                return;
+            }
+
+            $index  = $this->_historyIndex;
+            $server = &qHttp::getServerVars();
+            $uri    = $server->getValue("REQUEST_URI");
+            $count  = 0;
+
+            for ($i = 0; $i < $this->_historySize; $i++)
             {
-                $this->_historyIndex = $this->_historySize + $this->_historyIndex;
+                if (isset($this->_history[$index]) && $this->cmpHistoryUris($this->_history[$index], $uri))
+                {
+                    $this->_historyIndex = $index + 1;
+                }
+                else
+                {
+                    $index--;
+                }
             }
         }
         
