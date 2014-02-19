@@ -73,7 +73,7 @@
                     }
                 }
 
-                if ($server->getValue("HTTPS") == "on" || preg_match("/^https/i", $server->getValue("HTTP_REFERER")))
+                if ($server->getValue("HTTPS") == "on" || preg_match("/^https/i", $url))
                 {
                     $protocol = "https";
                 }
