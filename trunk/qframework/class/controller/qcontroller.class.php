@@ -454,7 +454,7 @@
 
             if (!empty($uriSufix))
             {
-                if (substr($uriSufix, 0, 1) != "&")
+                if (substr($uriSufix, 0, 1) != "&" && substr($uriSufix, 0, 1) != "#")
                 {
                     $uri .= "&";
                 }

@@ -137,7 +137,11 @@
         {
             if (!empty($relative))
             {
-                return baseName($this->_url);
+                $uri  = $this->_path ? $this->_path : "";
+                $uri .= $this->_query ? "?" . $this->_query : "";
+                $uri .= $this->_fragment ? "#" . $this->_fragment : "";
+
+                return $uri;
             }
 
             return $this->_url;
