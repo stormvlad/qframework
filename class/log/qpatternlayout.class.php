@@ -86,10 +86,10 @@
                     // get the date
                     if ($param == null)
                     {
-                        $param = "%d/%m/%Y %H:%M:%S";
+                        $param = "d/m/Y H:i:s";
                     }
 
-                    $data = strftime($param);
+                    $data = date($param);
                     break;
 
                 case "f":
